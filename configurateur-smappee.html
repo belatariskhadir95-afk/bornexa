@@ -76,7 +76,7 @@
   }
 </style>
 </head>
-<body>
+<body data-bornexa-tool="config">
 
 <div class="topbar">
   <div><b>⚡ Configurateur Smappee Infinity</b> <span class="tag">BORNEXA · ASSISTANT D'INGÉNIERIE</span></div>
@@ -196,6 +196,9 @@
 <!-- ════════ DOSSIER IMPRIMABLE ════════ -->
 <div id="dossier" style="max-width:780px;margin:0 auto;padding:24px"></div>
 
+<script src="js/bornexa-sync.js?v=2026-06-28"></script>
+<script src="js/supabase-config.js?v=2026-06-28"></script>
+<script src="js/bornexa-supabase.js?v=2026-06-28"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════
    BASE DE CONNAISSANCES (data-driven, extensible)
@@ -241,9 +244,20 @@ function savePrices(){ const p={}; Object.keys(KB.products).forEach(k=>{p['p_'+k
 const STORE='bornexa-smappee-config-v1';
 let S = { building:'Woning', boards:1, sites:1, phase:'Driefasig', mainA:'', meter:'digital', p1:false,
   meas:[], sc3p:false, split:false, control:0, pulse:0, nilm:false, future:false, conn:'wifi', ev:0, evu:0, sw:0 };
-let measSeq=1;
-(function load(){ try{const x=JSON.parse(localStorage.getItem(STORE)||'null'); if(x){S=Object.assign(S,x); measSeq=(S.meas.reduce((m,c)=>Math.max(m,c.id),0)||0)+1;}}catch(e){} if(!S.meas.length){S.meas=[{id:measSeq++,name:'Hoofdmeting',phases:3,amps:0}];} })();
-function save(){ localStorage.setItem(STORE,JSON.stringify(S)); }
+let measSeq=1, _hadConfig=false;
+(function load(){
+  try{
+    let x = (window.Bornexa && Bornexa.has && Bornexa.has() && Bornexa.get) ? Bornexa.get('config') : null; // priorité : dossier actif (synchronisé cloud)
+    if(!x) x = JSON.parse(localStorage.getItem(STORE)||'null');                                              // sinon : dernier état local (mode autonome)
+    if(x){ S=Object.assign(S,x); _hadConfig=true; }
+  }catch(e){}
+  measSeq=(S.meas.reduce((m,c)=>Math.max(m,c.id),0)||0)+1;
+  if(!S.meas.length){S.meas=[{id:measSeq++,name:'Hoofdmeting',phases:3,amps:0}];}
+})();
+function save(){
+  localStorage.setItem(STORE,JSON.stringify(S));
+  if(window.Bornexa && Bornexa.has && Bornexa.has()){ if(window.__cpush)clearTimeout(window.__cpush); window.__cpush=setTimeout(function(){ try{ Bornexa.put('config', S); }catch(e){} },400); }
+}
 
 /* ══════════════════════════════════════════════════════════════
    MOTEUR DE RÈGLES EXPERT
@@ -499,27 +513,30 @@ function buildSchema(R){
 
 /* ── Import dossier visite-terrain ── */
 function deepFind(obj,key){ let f; (function rec(o){ if(f!==undefined||o==null||typeof o!=='object')return; if(Object.prototype.hasOwnProperty.call(o,key)){f=o[key];return;} for(const k in o){ rec(o[k]); if(f!==undefined)return; } })(obj); return f; }
+function applyVisiteData(j){
+  if(!j) return;
+  const pt=deepFind(j,'projectType'); if(pt) S.building=/Appartement|VME/i.test(pt)?'Copropriété':/Parking/i.test(pt)?'Parking':/Bedrijf|Entreprise/i.test(pt)?'Bureaux':'Woning';
+  const ph=deepFind(j,'phase'); if(ph) S.phase=/Een|Mono/i.test(ph)?'Monofasig':'Driefasig';
+  const amp=deepFind(j,'ampere'); if(amp) S.mainA=amp;
+  const dm=deepFind(j,'digitalMeter'); if(dm) S.meter=/ja|oui|yes/i.test(dm)?'digital':/nee|non|no/i.test(dm)?'mechanical':'unknown';
+  const p1=deepFind(j,'p1Port')||deepFind(j,'enP1'); if(p1&&/ja|oui|yes/i.test(p1)) S.p1=true;
+  S.meas=[{id:measSeq++,name:'Hoofdmeting',phases:S.phase==='Monofasig'?1:3,amps:parseFloat(amp)||0}];
+  const pv=deepFind(j,'enPv')||deepFind(j,'hasSolar'); if(pv&&/ja|oui|yes/i.test(pv)) S.meas.push({id:measSeq++,name:'Zonnepanelen (PV)',phases:3,amps:0});
+  const nc=parseInt(deepFind(j,'enCircuits'))||0; for(let i=0;i<Math.min(nc,12);i++) S.meas.push({id:measSeq++,name:'Meetkring '+(i+1),phases:1,amps:0});
+  const dev=(deepFind(j,'enDevices')||'')+'';
+  if(/warmtepomp|pac|pompe/i.test(dev)) S.meas.push({id:measSeq++,name:'Warmtepomp',phases:3,amps:16});
+  if(/batter/i.test(dev)) S.meas.push({id:measSeq++,name:'Thuisbatterij',phases:1,amps:0});
+  if(/ev|laadpaal|borne|voertuig/i.test(dev)) S.meas.push({id:measSeq++,name:'Laadpaal / EV',phases:1,amps:32});
+  const eM=document.getElementById('i-mainA'); if(eM) eM.value=S.mainA||'';
+  const eMe=document.getElementById('i-meter'); if(eMe) eMe.value=S.meter;
+  const eP=document.getElementById('i-p1'); if(eP) eP.checked=S.p1;
+  chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
+  chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
+  renderMeas(); render(); save();
+}
 function importVisite(file){
   const fr=new FileReader();
-  fr.onload=()=>{ try{ const j=JSON.parse(fr.result);
-    const pt=deepFind(j,'projectType'); if(pt) S.building=/Appartement|VME/i.test(pt)?'Copropriété':/Parking/i.test(pt)?'Parking':/Bedrijf|Entreprise/i.test(pt)?'Bureaux':'Woning';
-    const ph=deepFind(j,'phase'); if(ph) S.phase=/Een|Mono/i.test(ph)?'Monofasig':'Driefasig';
-    const amp=deepFind(j,'ampere'); if(amp) S.mainA=amp;
-    const dm=deepFind(j,'digitalMeter'); if(dm) S.meter=/ja|oui|yes/i.test(dm)?'digital':/nee|non|no/i.test(dm)?'mechanical':'unknown';
-    const p1=deepFind(j,'p1Port')||deepFind(j,'enP1'); if(p1&&/ja|oui|yes/i.test(p1)) S.p1=true;
-    S.meas=[{id:measSeq++,name:'Hoofdmeting',phases:S.phase==='Monofasig'?1:3,amps:parseFloat(amp)||0}];
-    const pv=deepFind(j,'enPv')||deepFind(j,'hasSolar'); if(pv&&/ja|oui|yes/i.test(pv)) S.meas.push({id:measSeq++,name:'Zonnepanelen (PV)',phases:3,amps:0});
-    const nc=parseInt(deepFind(j,'enCircuits'))||0; for(let i=0;i<Math.min(nc,12);i++) S.meas.push({id:measSeq++,name:'Meetkring '+(i+1),phases:1,amps:0});
-    const dev=(deepFind(j,'enDevices')||'')+'';
-    if(/warmtepomp|pac|pompe/i.test(dev)) S.meas.push({id:measSeq++,name:'Warmtepomp',phases:3,amps:16});
-    if(/batter/i.test(dev)) S.meas.push({id:measSeq++,name:'Thuisbatterij',phases:1,amps:0});
-    if(/ev|laadpaal|borne|voertuig/i.test(dev)) S.meas.push({id:measSeq++,name:'Laadpaal / EV',phases:1,amps:32});
-    document.getElementById('i-mainA').value=S.mainA||''; document.getElementById('i-meter').value=S.meter; document.getElementById('i-p1').checked=S.p1;
-    chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
-    chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
-    renderMeas(); render();
-    alert('Dossier de visite importé ✓ — vérifiez les mesures pré-remplies.');
-  }catch(e){ alert('Fichier invalide : '+e.message); } };
+  fr.onload=()=>{ try{ applyVisiteData(JSON.parse(fr.result)); alert('Dossier de visite importé ✓ — vérifiez les mesures pré-remplies.'); }catch(e){ alert('Fichier invalide : '+e.message); } };
   fr.readAsText(file);
 }
 
@@ -532,7 +549,7 @@ function exportCSV(){
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='BOM-smappee-'+Date.now()+'.csv'; a.click();
 }
 
-function resetAll(){ if(!confirm('Réinitialiser la configuration ?'))return; localStorage.removeItem(STORE); location.reload(); }
+function resetAll(){ if(!confirm('Réinitialiser la configuration ?'))return; localStorage.removeItem(STORE); if(window.Bornexa && Bornexa.has && Bornexa.has()){ try{ Bornexa.put('config',{}); }catch(e){} } location.reload(); }
 
 /* ── Init ── */
 chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
@@ -545,6 +562,8 @@ bindNum('i-control','control',true); bindNum('i-pulse','pulse',true);
 bindChk('i-nilm','nilm'); bindChk('i-future','future');
 bindNum('i-ev','ev',true); bindNum('i-evu','evu',true); bindNum('i-switch','sw',true);
 document.getElementById('i-importvisite').addEventListener('change',e=>{ if(e.target.files&&e.target.files[0]) importVisite(e.target.files[0]); e.target.value=''; });
+// Pré-remplissage automatique depuis la visite du dossier actif (si aucune config existante)
+if(!_hadConfig && window.Bornexa && Bornexa.has && Bornexa.has() && Bornexa.get){ try{ const _v=Bornexa.get('visite'); if(_v) applyVisiteData(_v.data||_v); }catch(e){} }
 renderMeas(); renderKB(); render();
 </script>
 </body>

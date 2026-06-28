@@ -489,6 +489,7 @@
             <div class="reco-tile"><div class="lbl">Disjoncteur</div><div class="val" id="r-disj">—</div></div>
             <div class="reco-tile"><div class="lbl">Temps installation</div><div class="val" id="r-hours">—</div></div>
           </div>
+          <div id="smart-checks" class="no-print" style="margin-top:14px"></div>
         </div>
 
         <div class="card">
@@ -2020,8 +2021,50 @@
     const lines = buildQuoteLines(dim);
     renderCalc(dim);
     renderDevis(dim, lines);
+    renderChecks(checkWarnings(dim, lines));
     const bAG = document.getElementById('btnDossierAG'); if (bAG) bAG.style.display = form.laadpark ? '' : 'none';
     if (window.Bornexa && Bornexa.has()) { if (window.__dpush) clearTimeout(window.__dpush); window.__dpush = setTimeout(function(){ try{ Bornexa.put('devis', buildDevisPayload(dim, lines)); }catch(e){} }, 400); }
+  }
+
+  // ── Garde-fous intelligents (vérifs métier non bloquantes, no-print) ──
+  function checkWarnings(dim, lines){
+    const w = [];
+    if (form.energie) return w; // mode énergie : pas de borne
+    const amp = parseFloat(form.ampere) || 0;
+    const mono = form.phase !== 'Driefase';
+    const power = (dim && dim.power) || 0;
+    // 1. Mono serré sans load balancing → risque de surcharge
+    if (!form.laadpark && mono && amp && amp <= 40 && power >= 7.4 && !form.wantLoadBalance) {
+      w.push({lvl:'warn', t:'Raccordement monophasé '+amp+' A serré pour une borne '+power+' kW (≈32 A). Sans load balancing, risque de surcharge / déclenchement du compteur.', fix:'Conseillé : cocher « Load balancing dynamique » (Smart energy).'});
+    }
+    // 2. Calibre triphasé faible
+    if (!mono && amp && amp < 25) {
+      w.push({lvl:'info', t:'Calibre triphasé faible ('+amp+' A) — puissance de borne limitée à '+power+' kW.', fix:'Vérifier le calibre du raccordement.'});
+    }
+    // 3. TVA réduite mais habitation < 10 ans
+    const tva = (typeof effectiveTva === 'function') ? effectiveTva() : null;
+    if (tva != null && tva <= 0.10 && form.buildYear === 'lt10') {
+      w.push({lvl:'warn', t:'TVA réduite ('+Math.round(tva*100)+' %) appliquée mais habitation < 10 ans → la TVA 6 % n\'est en principe PAS applicable (TVA 21 %).', fix:'Vérifier l\'éligibilité : logement ≥ 10 ans + habitation privée.'});
+    }
+    // 4. Calibre non renseigné
+    if (!amp) w.push({lvl:'info', t:'Calibre du raccordement non renseigné — dimensionnement par défaut (40 A).', fix:'Renseigner l\'ampérage du compteur.'});
+    // 5. Coordonnées client incomplètes
+    if (['name','address'].filter(k => !String(form[k]||'').trim()).length)
+      w.push({lvl:'info', t:'Coordonnées client incomplètes (nom / adresse) — requis pour un devis valable.', fix:'Compléter les coordonnées client.'});
+    // 6. Total à 0 → prix manquants
+    const totalHT = (lines||[]).reduce((s,l) => s + (l.qty||1)*(l.puHT||0), 0);
+    if (lines && lines.length && totalHT <= 0)
+      w.push({lvl:'warn', t:'Total HT à 0 € — des prix sont manquants.', fix:'Vérifier les tarifs / le catalogue.'});
+    return w;
+  }
+  function renderChecks(w){
+    const el = document.getElementById('smart-checks'); if (!el) return;
+    if (!w || !w.length){ el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;background:#DCFCE7;border:1px solid #86EFAC;color:#166534;border-radius:10px;padding:9px 13px;font-size:.84rem;font-weight:600">✓ Aucune incohérence détectée</div>'; return; }
+    el.innerHTML = w.map(x => {
+      const warn = x.lvl === 'warn';
+      const bg = warn?'#FEF3C7':'#E0F2FE', bd = warn?'#FCD34D':'#7DD3FC', cl = warn?'#92400E':'#075985', ic = warn?'⚠':'ℹ';
+      return '<div style="background:'+bg+';border:1px solid '+bd+';color:'+cl+';border-radius:10px;padding:10px 13px;font-size:.83rem;margin-bottom:8px;line-height:1.45"><b>'+ic+' '+x.t+'</b>'+(x.fix?'<div style="opacity:.85;margin-top:3px">&rarr; '+x.fix+'</div>':'')+'</div>';
+    }).join('');
   }
 
   // ── Event bindings ──

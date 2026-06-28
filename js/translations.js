@@ -10,7 +10,6 @@ const translations = {
 
     // Footer
     footerAbout: "Over BORNEXA",
-    footerTerms: "Algemene voorwaarden",
     certSrTitle: "Officiële certificaties",
     certIntro: "Officieel gecertificeerd installateur voor",
     certTeslaProg: "Wall Connector Installer",
@@ -632,7 +631,6 @@ const translations = {
 
     // Footer
     footerAbout: "À propos",
-    footerTerms: "CGV",
     certSrTitle: "Certifications officielles",
     certIntro: "Installateur officiellement certifié pour",
     certTeslaProg: "Wall Connector Installer",
