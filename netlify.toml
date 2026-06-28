@@ -3,4 +3,5 @@
 # Netlify gere automatiquement le 404 via /404.html sans config
 
 [build]
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
