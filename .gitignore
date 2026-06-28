@@ -24,3 +24,17 @@ tmp/
 
 # Local agent settings
 .claude/settings.local.json
+
+# Documents internes — NE PAS publier sur le site (restent en local)
+BORNEXA-Plan-Lancement.html
+BORNEXA-Plan-Lancement.pdf
+BORNEXA-CarteVisite-Vistaprint.pdf
+BORNEXA-RECTO-Vistaprint.pdf
+BORNEXA-VERSO-Vistaprint.pdf
+MARKETING-PRELANCEMENT.md
+PROJECT_CONTEXT.md
+VALIDATION-TECHNIQUE.md
+GUIDE-SEARCH-CONSOLE.md
+CLAUDE.md
+annuaires-bornexa.md
+test devis.pdf
