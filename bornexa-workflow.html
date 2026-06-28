@@ -264,6 +264,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 </nav>
 <div class="toast" id="toast"></div>
 
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
 <script>
 "use strict";
 // ════════ BORNEXA Workflow — écosystème unifié ════════
@@ -559,17 +560,17 @@ $('#dFR').addEventListener('click',function(){docLang='fr';$('#dFR').classList.a
 // Dossier manager
 $('#newDossier').addEventListener('click',newDossier);
 $('#dossierSel').addEventListener('change',function(e){openDossier(e.target.value);});
-$('#delDossier').addEventListener('click',function(){ if(!D.meta.dossierId)return; if(!confirm('Supprimer le dossier '+D.meta.dossierId+' ?'))return; delete store.dossiers[D.meta.dossierId]; var ids=Object.keys(store.dossiers); if(ids.length){openDossier(ids[0]);}else{newDossier();} saveStore(); refreshDossierList(); });
+$('#delDossier').addEventListener('click',function(){ if(!D.meta.dossierId)return; BX.confirm('Supprimer le dossier '+D.meta.dossierId+' ?',{title:'Supprimer le dossier',okText:'Supprimer',danger:true}).then(function(ok){ if(!ok)return; delete store.dossiers[D.meta.dossierId]; var ids=Object.keys(store.dossiers); if(ids.length){openDossier(ids[0]);}else{newDossier();} saveStore(); refreshDossierList(); }); });
 
 // Print
 $$('[data-print]').forEach(function(b){ b.addEventListener('click',function(){ var which=b.dataset.print; var sec= which==='10d'?($('.step[data-step="dossier-print"]')):$('.step[data-step="7"]'); if(which==='10d')renderDossier(); else renderDevis(); $$('.step').forEach(function(s){s.classList.remove('printing');}); sec.classList.add('printing'); setTimeout(function(){window.print();sec.classList.remove('printing');},100); }); });
 
 // Export / import JSON
 $('#expJSON').addEventListener('click',function(){ var blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'}); var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='BORNEXA_'+(D.meta.dossierId||'dossier')+'_'+(D.client.name||'').replace(/[^a-zA-Z0-9]+/g,'_')+'.json'; document.body.appendChild(a);a.click();a.remove(); toast('JSON exporté ✓'); });
-$('#impJSON').addEventListener('click',function(){ var j=prompt('Coller le JSON du dossier (sauvegarde, ou export visite/devis) :'); if(!j)return; try{ var p=JSON.parse(j); if(p.meta&&p.client){ D=Object.assign(blankData(),p); }
+$('#impJSON').addEventListener('click',function(){ BX.prompt('Collez le JSON du dossier (sauvegarde, ou export visite/devis) :',{title:'Importer un dossier',multiline:true,okText:'Importer'}).then(function(j){ if(!j)return; try{ var p=JSON.parse(j); if(p.meta&&p.client){ D=Object.assign(blankData(),p); }
   else if(p.schema==='bornexa-visite-v1'&&p.data){ var x=p.data; D.client.name=x.clientName||'';D.client.phone=x.clientPhone||'';D.client.email=x.clientEmail||'';D.client.address=x.clientAddress||'';D.client.buildYear=x.buildYear||'gt10';D.network.phase=x.phase==='Driefase'?'tri':'mono';D.network.ampere=x.ampere||'40';D.network.digitalMeter=x.digitalMeter||'ja';D.network.p1Port=x.p1Port||'ja';D.network.dso=x.dso||'Fluvius';D.network.ean=x.eanNumber||'';D.network.earthing=x.earthing||'ja';D.network.netType=x.netType||'';D.placement.location=x.location||'Garage';D.placement.route=x.cableRoute||'Eenvoudig';D.vehicle.brand=x.vehBrand||'';D.vehicle.model=x.vehModel||'';D.vehicle.acMax=x.vehAcMax||'11';D.vehicle.futureEV=x.futureEV||'nee';D.solar.hasSolar=x.hasSolar||'nee';D.solar.hasBattery=(x.hasBattery&&x.hasBattery!=='nee')?x.hasBattery:'nee';D.needs=x.needs||[];if(x.brandPref&&x.brandPref!=='advies')D.borne.brandPref=x.brandPref; if(x.cableLength){var r=String(x.cableLength).split('-');D.placement.length=r.length===2?Math.round((+r[0]+ +r[1])/2):(parseFloat(x.cableLength)||10);} }
   else { toast('Format non reconnu'); return; }
-  if(!D.meta.dossierId)D.meta.dossierId=newId(); store.dossiers[D.meta.dossierId]=D; store.current=D.meta.dossierId; saveStore(); refreshDossierList(); fillForm(); step=1; showStep(); toast('Importé ✓'); }catch(e){ toast('JSON invalide'); } });
+  if(!D.meta.dossierId)D.meta.dossierId=newId(); store.dossiers[D.meta.dossierId]=D; store.current=D.meta.dossierId; saveStore(); refreshDossierList(); fillForm(); step=1; showStep(); toast('Importé ✓'); }catch(e){ toast('JSON invalide'); } }); });
 
 // ════════ INIT ════════
 loadStore();

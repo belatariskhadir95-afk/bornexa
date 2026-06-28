@@ -256,6 +256,7 @@
   <script src="js/bornexa-sync.js?v=2026-06-28"></script>
   <script src="js/supabase-config.js?v=2026-06-28"></script>
   <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
   <script>
   // ════════════════════════════════════════════
   // BORNEXA — Documents installation (keuringsdossier)
@@ -357,8 +358,8 @@
     return true;
   }
   $('impDevis').addEventListener('click',function(){
-    var j; try{ j=prompt('Coller le JSON du devis (calculateur-interne) :'); }catch(e){return;} if(!j)return;
-    try{ applyDevisPayload(JSON.parse(j)); toast('Devis importé ✓'); }catch(e){ toast('JSON invalide ✗'); }
+    BX.prompt('Collez le JSON du devis (calculateur) :',{title:'Importer le devis',multiline:true,okText:'Importer'}).then(function(j){ if(!j)return;
+      try{ applyDevisPayload(JSON.parse(j)); toast('Devis importé ✓'); }catch(e){ toast('JSON invalide ✗'); } });
   });
   function setDiff(v){ document.querySelectorAll('#diffSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.v===v);}); }
 
@@ -372,11 +373,11 @@
     return true;
   }
   $('impChantier').addEventListener('click',function(){
-    var j; try{ j=prompt('Coller le JSON du chantier (chantier-installation) :'); }catch(e){return;} if(!j)return;
-    try{ applyChantierPayload(JSON.parse(j)); toast('Mesures chantier importées ✓'); }catch(e){ toast('JSON invalide ✗'); }
+    BX.prompt('Collez le JSON du chantier :',{title:'Importer les mesures chantier',multiline:true,okText:'Importer'}).then(function(j){ if(!j)return;
+      try{ applyChantierPayload(JSON.parse(j)); toast('Mesures chantier importées ✓'); }catch(e){ toast('JSON invalide ✗'); } });
   });
 
-  $('resetAll').addEventListener('click',function(){ if(confirm('Effacer toutes les données ?')) location.reload(); });
+  $('resetAll').addEventListener('click',function(){ BX.confirm('Effacer toutes les données ?',{title:'Réinitialiser',okText:'Effacer',danger:true}).then(function(ok){ if(ok) location.reload(); }); });
   $('genAll').addEventListener('click',function(){ regenVisible(); toast('Documents générés ✓'); document.querySelector('.tab[data-tab="uni"]').click(); });
   $('regenUni').addEventListener('click',renderUni);
 
@@ -481,9 +482,9 @@
   function evtXY(ev){ var r=canvas.getBoundingClientRect(); var p=ev.touches?ev.touches[0]:ev; return {x:(p.clientX-r.left)*(canvas.width/r.width), y:(p.clientY-r.top)*(canvas.height/r.height)}; }
   canvas.addEventListener('pointerdown',function(ev){
     if(!state.annot.img)return; ev.preventDefault(); var xy=evtXY(ev);
-    if(state.annot.tool==='path'){ state.annot.cur.push(xy); }
-    else { var label=PINS[state.annot.tool].l; if(state.annot.tool==='note'){ var n=prompt('Note :'); if(n)label=n; else return; } state.annot.items.push({t:state.annot.tool,x:xy.x,y:xy.y,l:label}); }
-    drawAnnot();
+    if(state.annot.tool==='path'){ state.annot.cur.push(xy); drawAnnot(); return; }
+    if(state.annot.tool==='note'){ BX.prompt('Note :',{title:'Annotation'}).then(function(n){ if(!n)return; state.annot.items.push({t:'note',x:xy.x,y:xy.y,l:n}); drawAnnot(); }); return; }
+    var label=PINS[state.annot.tool].l; state.annot.items.push({t:state.annot.tool,x:xy.x,y:xy.y,l:label}); drawAnnot();
   });
   $('pathDone').addEventListener('click',function(){ if(state.annot.cur.length>1)state.annot.paths.push(state.annot.cur); state.annot.cur=[]; drawAnnot(); });
   $('undoAnnot').addEventListener('click',function(){ if(state.annot.cur.length)state.annot.cur.pop(); else if(state.annot.items.length)state.annot.items.pop(); else if(state.annot.paths.length)state.annot.paths.pop(); drawAnnot(); });

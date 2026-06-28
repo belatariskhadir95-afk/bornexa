@@ -199,6 +199,7 @@
 <script src="js/bornexa-sync.js?v=2026-06-28"></script>
 <script src="js/supabase-config.js?v=2026-06-28"></script>
 <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════
    BASE DE CONNAISSANCES (data-driven, extensible)
@@ -536,7 +537,7 @@ function applyVisiteData(j){
 }
 function importVisite(file){
   const fr=new FileReader();
-  fr.onload=()=>{ try{ applyVisiteData(JSON.parse(fr.result)); alert('Dossier de visite importé ✓ — vérifiez les mesures pré-remplies.'); }catch(e){ alert('Fichier invalide : '+e.message); } };
+  fr.onload=()=>{ try{ applyVisiteData(JSON.parse(fr.result)); BX.toast('Dossier de visite importé ✓ — vérifiez les mesures','ok'); }catch(e){ BX.toast('Fichier invalide : '+e.message,'err'); } };
   fr.readAsText(file);
 }
 
@@ -549,7 +550,7 @@ function exportCSV(){
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='BOM-smappee-'+Date.now()+'.csv'; a.click();
 }
 
-function resetAll(){ if(!confirm('Réinitialiser la configuration ?'))return; localStorage.removeItem(STORE); if(window.Bornexa && Bornexa.has && Bornexa.has()){ try{ Bornexa.put('config',{}); }catch(e){} } location.reload(); }
+function resetAll(){ BX.confirm('Réinitialiser la configuration ?',{title:'Réinitialiser',okText:'Réinitialiser',danger:true}).then(function(ok){ if(!ok)return; localStorage.removeItem(STORE); if(window.Bornexa && Bornexa.has && Bornexa.has()){ try{ Bornexa.put('config',{}); }catch(e){} } location.reload(); }); }
 
 /* ── Init ── */
 chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);

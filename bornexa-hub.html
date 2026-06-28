@@ -56,8 +56,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
       <button class="btn btn-o" id="restoreAll">♻ Restaurer une sauvegarde</button>
       <input type="file" id="restoreFile" accept="application/json,.json" style="display:none">
     </div>
-    <p class="flow" style="margin:.4rem 0 0;font-size:.82rem;opacity:.8">⚠ Tes dossiers sont stockés dans <b>ce navigateur</b>. Fais une <b>sauvegarde régulière</b> (et avant de vider le cache ou de changer de PC).</p>
-    <div class="dlist" id="dlist"></div>
+    <p class="flow" style="margin:.4rem 0 0;font-size:.82rem;opacity:.8">☁ Connecté : vos dossiers sont <b>synchronisés dans le cloud</b> et accessibles sur tous vos appareils. Hors connexion, ils restent stockés localement — une <b>sauvegarde</b> reste prudente avant de vider le cache.</p>
+    <div id="kpibar" style="display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 0"></div>
+    <input id="dsearch" type="search" placeholder="🔍 Rechercher (nom, n° de dossier, état)…" style="width:100%;font-size:16px;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;margin:10px 0 0;font-family:inherit;color:var(--text)">
+    <div class="dlist" id="dlist" style="margin-top:10px"></div>
   </div>
 
   <div class="card" id="activeCard" style="display:none">
@@ -86,6 +88,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 <script src="js/bornexa-sync.js?v=2026-06-28"></script>
 <script src="js/supabase-config.js?v=2026-06-28"></script>
 <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
 <script>
 var $=function(s){return document.querySelector(s);};
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -94,9 +97,16 @@ function fmtDate(t){try{return new Date(t).toLocaleDateString('fr-BE');}catch(e)
 var STATUS={Nouveau:'',Visite:'s1',Devis:'s2',Chantier:'s3',Documents:'s4'};
 
 function render(){
-  var list=Bornexa.list(), cur=Bornexa.currentId();
+  var all=Bornexa.list(), cur=Bornexa.currentId();
+  // KPI par état
+  var counts={}; all.forEach(function(d){ var s=d.status||'Nouveau'; counts[s]=(counts[s]||0)+1; });
+  var order=['Nouveau','Visite','Devis','Chantier','Documents'];
+  var kb=$('#kpibar'); if(kb) kb.innerHTML='<span class="pill" style="background:var(--navy);color:#fff">'+all.length+' dossier'+(all.length>1?'s':'')+'</span>'+order.filter(function(s){return counts[s];}).map(function(s){ return '<span class="pill '+(STATUS[s]||'')+'">'+counts[s]+' · '+s+'</span>'; }).join('');
+  // recherche
+  var q=(($('#dsearch')||{}).value||'').toLowerCase().trim();
+  var list=q?all.filter(function(d){ return ((d.name||'')+' '+(d.id||'')+' '+(d.status||'')).toLowerCase().indexOf(q)>=0; }):all;
   var el=$('#dlist');
-  if(!list.length){ el.innerHTML='<div class="empty">Aucun dossier. Cliquez sur « + Nouveau dossier ».</div>'; }
+  if(!list.length){ el.innerHTML='<div class="empty">'+(all.length?'Aucun dossier ne correspond.':'Aucun dossier. Cliquez sur « + Nouveau dossier ».')+'</div>'; }
   else el.innerHTML=list.map(function(d){
     return '<div class="drow '+(d.id===cur?'active':'')+'"><div class="meta"><div class="nm">'+esc(d.name||'(sans nom)')+'</div><div class="id">'+esc(d.id)+' · maj '+fmtDate(d.updated)+'</div></div>'
       +'<span class="pill '+(STATUS[d.status]||'')+'">'+esc(d.status||'Nouveau')+'</span>'
@@ -120,16 +130,16 @@ function renderSummary(a){
   $('#summary').innerHTML=rows.map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('');
 }
 
-$('#newD').addEventListener('click',function(){ var n=prompt('Nom du client / dossier :'); var id=Bornexa.create(n||''); toast('Dossier '+id+' créé'); render(); });
+$('#newD').addEventListener('click',function(){ BX.prompt('Nom du client / dossier :',{title:'Nouveau dossier',placeholder:'ex. Sofie Yserbyt'}).then(function(n){ if(n==null)return; var id=Bornexa.create(n||''); toast('Dossier '+id+' créé'); render(); }); });
 $('#dlist').addEventListener('click',function(e){
   var t=e.target.closest('button'); if(!t)return;
   if(t.dataset.open){ Bornexa.setCurrent(t.dataset.open); render(); }
-  else if(t.dataset.ren){ var d=Bornexa.list().filter(function(x){return x.id===t.dataset.ren;})[0]; var n=prompt('Nom :', d?d.name:''); if(n!=null){Bornexa.rename(t.dataset.ren,n);render();} }
+  else if(t.dataset.ren){ var d=Bornexa.list().filter(function(x){return x.id===t.dataset.ren;})[0]; var rid=t.dataset.ren; BX.prompt('Nom du dossier :',{title:'Renommer',default:d?d.name:''}).then(function(n){ if(n!=null){Bornexa.rename(rid,n);render();} }); }
   else if(t.dataset.dup){ var id=Bornexa.duplicate(t.dataset.dup); toast('Dupliqué : '+id); render(); }
-  else if(t.dataset.del){ if(confirm('Supprimer ce dossier ?')){Bornexa.del(t.dataset.del);render();} }
+  else if(t.dataset.del){ var did=t.dataset.del; BX.confirm('Supprimer définitivement ce dossier ?',{title:'Supprimer le dossier',okText:'Supprimer',danger:true}).then(function(ok){ if(ok){Bornexa.del(did);render();} }); }
 });
 $('#expD').addEventListener('click',function(){ var a=Bornexa.active(); if(!a)return; var blob=new Blob([JSON.stringify(a,null,2)],{type:'application/json'}); var x=document.createElement('a'); x.href=URL.createObjectURL(blob); x.download='BORNEXA_dossier_'+a.id+'_'+((a.name||'').replace(/[^a-zA-Z0-9]+/g,'_'))+'.json'; document.body.appendChild(x);x.click();x.remove(); toast('Dossier exporté ✓'); });
-$('#impD').addEventListener('click',function(){ var j=prompt('Coller le JSON du dossier (sauvegarde) :'); if(!j)return; try{ var o=JSON.parse(j); var id=Bornexa.importDossier(o); toast('Importé : '+id); render(); }catch(e){ toast('JSON invalide'); } });
+$('#impD').addEventListener('click',function(){ BX.prompt('Collez le JSON du dossier (sauvegarde) :',{title:'Importer un dossier',multiline:true,placeholder:'{ ... }',okText:'Importer'}).then(function(j){ if(!j)return; try{ var o=JSON.parse(j); var id=Bornexa.importDossier(o); toast('Importé : '+id); render(); }catch(e){ toast('JSON invalide'); } }); });
 
 // Sauvegarde COMPLÈTE (tous les dossiers) → fichier téléchargé
 $('#backupAll').addEventListener('click',function(){
@@ -145,14 +155,15 @@ $('#restoreAll').addEventListener('click',function(){ $('#restoreFile').click();
 $('#restoreFile').addEventListener('change',function(e){
   var f=e.target.files&&e.target.files[0]; if(!f)return;
   var r=new FileReader();
-  r.onload=function(){ try{
-    var o=JSON.parse(r.result);
-    var mode = confirm('REMPLACER tous les dossiers actuels par la sauvegarde ?\n\nOK = Remplacer (efface les dossiers actuels)\nAnnuler = Fusionner (ajoute sans effacer)') ? 'replace' : 'merge';
-    var n=Bornexa.importAll(o, mode); Bornexa.reload(); toast(n+' dossier(s) restauré(s) ✓'); render();
-  }catch(err){ toast('Fichier de sauvegarde invalide'); } };
+  r.onload=function(){ var o; try{ o=JSON.parse(r.result); }catch(err){ toast('Fichier de sauvegarde invalide'); return; }
+    BX.confirm('Remplacer = efface les dossiers actuels.\nFusionner = ajoute sans effacer.',{title:'Restaurer la sauvegarde',okText:'Remplacer',cancelText:'Fusionner'}).then(function(replace){
+      var n=Bornexa.importAll(o, replace?'replace':'merge'); Bornexa.reload(); toast(n+' dossier(s) restauré(s) ✓'); render();
+    });
+  };
   r.readAsText(f); e.target.value='';
 });
 
+var _ds=$('#dsearch'); if(_ds) _ds.addEventListener('input', render);
 render();
 document.addEventListener('bornexa:synced', render); // rafraîchit la liste après une synchro Supabase
 </script>

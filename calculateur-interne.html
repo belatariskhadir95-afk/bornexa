@@ -699,6 +699,7 @@
   <script src="js/bornexa-sync.js?v=2026-06-28"></script>
   <script src="js/supabase-config.js?v=2026-06-28"></script>
   <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
   <script>
   // ════════════════════════════════════════════
   // BORNEXA Calculateur interne — logic
@@ -2182,17 +2183,19 @@
     } catch (e) { return false; }
   }
   document.getElementById('btnImport').addEventListener('click', () => {
-    let json;
-    try { json = prompt('Coller le JSON exporté depuis visite-terrain.html :'); } catch (e) { return; }
-    if (!json) return;
-    try { showToast(applyVisitePayload(JSON.parse(json)) ? 'Import OK ✓ (options auto-cochées)' : 'JSON invalide ✗'); }
-    catch (e) { showToast('JSON invalide ✗'); }
+    BX.prompt('Collez le JSON exporté depuis la visite terrain :',{title:'Importer la visite',multiline:true,okText:'Importer'}).then((json) => {
+      if (!json) return;
+      try { showToast(applyVisitePayload(JSON.parse(json)) ? 'Import OK ✓ (options auto-cochées)' : 'JSON invalide ✗'); }
+      catch (e) { showToast('JSON invalide ✗'); }
+    });
   });
 
   document.getElementById('btnReset').addEventListener('click', () => {
-    if (!confirm('Effacer toutes les données du formulaire ?')) return;
-    localStorage.removeItem(formKey());
-    location.reload();
+    BX.confirm('Effacer toutes les données du formulaire ?',{title:'Réinitialiser',okText:'Effacer',danger:true}).then((ok) => {
+      if (!ok) return;
+      localStorage.removeItem(formKey());
+      location.reload();
+    });
   });
 
   // ── Print ──
@@ -2339,7 +2342,7 @@ ul.cmp{margin:6px 0 0;padding-left:18px} ul.cmp li{margin-bottom:5px}
     const d = computeLaadparkDim();
     const html = buildDossierAG(d, lines);
     const w = window.open('', '_blank');
-    if (!w){ alert(quoteLang === 'nl' ? 'Sta pop-ups toe om het dossier te openen.' : 'Autorisez les pop-ups pour ouvrir le dossier.'); return; }
+    if (!w){ BX.toast(quoteLang === 'nl' ? 'Sta pop-ups toe om het dossier te openen.' : 'Autorisez les pop-ups pour ouvrir le dossier.','err'); return; }
     w.document.open(); w.document.write(html); w.document.close(); w.focus();
     setTimeout(() => { try { w.print(); } catch(e){} }, 500);
   }
@@ -2410,19 +2413,22 @@ ul.cmp{margin:6px 0 0;padding-left:18px} ul.cmp li{margin-bottom:5px}
     document.body.appendChild(a); a.click(); a.remove();
   });
   document.getElementById('btnImportTarifs').addEventListener('click', () => {
-    const json = prompt('Coller le JSON tarifs :');
-    if (!json) return;
-    try {
-      const t = JSON.parse(json);
-      if (!t.bornes) throw new Error();
-      tarifs = t; saveTarifs(); renderTariffs(); bindTariffEditors(); update();
-      showToast('Tarifs importés ✓');
-    } catch (e) { showToast('JSON invalide ✗'); }
+    BX.prompt('Collez le JSON des tarifs :',{title:'Importer les tarifs',multiline:true,okText:'Importer'}).then((json) => {
+      if (!json) return;
+      try {
+        const t = JSON.parse(json);
+        if (!t.bornes) throw new Error();
+        tarifs = t; saveTarifs(); renderTariffs(); bindTariffEditors(); update();
+        showToast('Tarifs importés ✓');
+      } catch (e) { showToast('JSON invalide ✗'); }
+    });
   });
   document.getElementById('btnResetTarifs').addEventListener('click', () => {
-    if (!confirm('Restaurer les tarifs par défaut ?')) return;
-    tarifs = JSON.parse(JSON.stringify(DEFAULT_TARIFS));
-    saveTarifs(); renderTariffs(); bindTariffEditors(); update();
+    BX.confirm('Restaurer les tarifs par défaut ?',{title:'Restaurer les tarifs',okText:'Restaurer',danger:true}).then((ok) => {
+      if (!ok) return;
+      tarifs = JSON.parse(JSON.stringify(DEFAULT_TARIFS));
+      saveTarifs(); renderTariffs(); bindTariffEditors(); update();
+    });
   });
 
   // ── Init ──

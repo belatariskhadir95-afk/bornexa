@@ -223,6 +223,7 @@
   <script src="js/bornexa-sync.js?v=2026-06-28"></script>
   <script src="js/supabase-config.js?v=2026-06-28"></script>
   <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
   <script>
   // ════════════════════════════════════════
   // BORNEXA Werfgids installatie — bilingue NL/FR
@@ -649,11 +650,11 @@
     }catch(e){ return false; }
   }
   document.getElementById('btnImportDevis').addEventListener('click', ()=>{
-    let json;
-    try{ json = prompt(lang==='nl' ? 'Plak de JSON van de offerte (calculateur):' : 'Coller le JSON du devis (calculateur) :'); }catch(e){ return; }
-    if (!json) return;
-    try{ showToast(applyDevisToChantier(JSON.parse(json)) ? (lang==='nl'?'Offerte geïmporteerd ✓':'Devis importé ✓') : (lang==='nl'?'Ongeldige JSON ✗':'JSON invalide ✗')); }
-    catch(e){ showToast(lang==='nl'?'Ongeldige JSON ✗':'JSON invalide ✗'); }
+    BX.prompt(lang==='nl' ? 'Plak de JSON van de offerte (calculateur):' : 'Coller le JSON du devis (calculateur) :',{title:lang==='nl'?'Offerte importeren':'Importer le devis',multiline:true,okText:lang==='nl'?'Importeren':'Importer'}).then((json)=>{
+      if (!json) return;
+      try{ showToast(applyDevisToChantier(JSON.parse(json)) ? (lang==='nl'?'Offerte geïmporteerd ✓':'Devis importé ✓') : (lang==='nl'?'Ongeldige JSON ✗':'JSON invalide ✗')); }
+      catch(e){ showToast(lang==='nl'?'Ongeldige JSON ✗':'JSON invalide ✗'); }
+    });
   });
 
   function renderContext(){
@@ -858,9 +859,11 @@
 
   // ── Reset ──
   document.getElementById('btnReset').addEventListener('click', () => {
-    if (!confirm(lang==='nl' ? 'Alle werfgegevens wissen?' : 'Effacer toutes les données du chantier ?')) return;
-    localStorage.removeItem(chantierKey());
-    location.reload();
+    BX.confirm(lang==='nl' ? 'Alle werfgegevens wissen?' : 'Effacer toutes les données du chantier ?',{title:lang==='nl'?'Wissen':'Réinitialiser',okText:lang==='nl'?'Wissen':'Effacer',danger:true}).then((ok) => {
+      if (!ok) return;
+      localStorage.removeItem(chantierKey());
+      location.reload();
+    });
   });
 
   // ── Export ──

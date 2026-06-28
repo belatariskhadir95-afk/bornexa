@@ -888,6 +888,7 @@
   <script src="js/bornexa-sync.js?v=2026-06-28"></script>
   <script src="js/supabase-config.js?v=2026-06-28"></script>
   <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
   <script>
   // ── State ──
   const STORAGE_KEY = 'bornexa-visite-v1';
@@ -1237,9 +1238,11 @@
     location.href = 'mailto:info@bornexa.be?subject='+subject+'&body='+body;
   });
   document.getElementById('btnReset').addEventListener('click', ()=>{
-    if (!confirm(state.lang==='nl'?'Nieuwe visite starten? Huidige gegevens worden gewist.':'Démarrer une nouvelle visite ? Les données actuelles seront effacées.')) return;
-    localStorage.removeItem(visiteKey());
-    location.reload();
+    BX.confirm(state.lang==='nl'?'Nieuwe visite starten? Huidige gegevens worden gewist.':'Démarrer une nouvelle visite ? Les données actuelles seront effacées.',{title:state.lang==='nl'?'Nieuwe visite':'Nouvelle visite',okText:state.lang==='nl'?'Starten':'Démarrer',danger:true}).then((ok)=>{
+      if (!ok) return;
+      localStorage.removeItem(visiteKey());
+      location.reload();
+    });
   });
 
   // ── Timer ──
