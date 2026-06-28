@@ -1,0 +1,39 @@
+{
+  "name": "BORNEXA - Laadpaal & Wallbox Installateur",
+  "short_name": "BORNEXA",
+  "description": "Erkend laadpaal & wallbox installateur in Vlaams-Brabant en Brussel. Tesla Wall Connector, Wallbox, Smappee gecertificeerd.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0C1018",
+  "theme_color": "#00C896",
+  "lang": "nl-BE",
+  "categories": ["business", "utilities"],
+  "icons": [
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

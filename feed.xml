@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>BORNEXA – Laadpaal &amp; Wallbox Blog</title>
+    <link>https://www.bornexa.be/blog</link>
+    <atom:link href="https://www.bornexa.be/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Erkend laadpaal &amp; wallbox installateur in Vlaams-Brabant en Brussel. Artikels over installatie, kostprijs, normen, premies en smart charging.</description>
+    <language>nl-BE</language>
+    <copyright>© BORNEXA 2026</copyright>
+    <lastBuildDate>Wed, 03 Jun 2026 12:00:00 +0200</lastBuildDate>
+    <generator>BORNEXA</generator>
+    <image>
+      <url>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</url>
+      <title>BORNEXA</title>
+      <link>https://www.bornexa.be/</link>
+    </image>
+
+    <item>
+      <title>Zonnepanelen-laden en load balancing: welk merk kiezen in Belgie?</title>
+      <link>https://www.bornexa.be/blog-recharge-solaire-load-balancing</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-recharge-solaire-load-balancing</guid>
+      <pubDate>Thu, 05 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Smart energy</category>
+      <category>Solar</category>
+      <category>Load balancing</category>
+      <description>Wallbox WALL-MTR-P1PORT, Smappee Connect of Tesla Powerwall? Vergelijkende gids voor surplus-laden met zonnepanelen en dynamisch load balancing met het Belgische P1-poort.</description>
+    </item>
+
+    <item>
+      <title>Zonnepanelen-laden en load balancing: welk merk kiezen in Belgie?</title>
+      <link>https://www.bornexa.be/blog-recharge-solaire-load-balancing</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-recharge-solaire-load-balancing</guid>
+      <pubDate>Thu, 05 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Smart Charging</category>
+      <category>Zonnepanelen</category>
+      <category>P1 poort</category>
+      <description>Vergelijking Wallbox (WALL-MTR-P1PORT), Smappee Connect en Tesla voor load balancing en surplus zonnepanelen-laden in Belgie. P1 poort, native ondersteuning, eerlijke gids 2026.</description>
+    </item>
+
+    <item>
+      <title>Differentieel Type A of Type B voor uw laadpaal? Wat zegt de Belgische norm in 2026</title>
+      <link>https://www.bornexa.be/blog-type-a-type-b-differentiel</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-type-a-type-b-differentiel</guid>
+      <pubDate>Wed, 04 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Veiligheid</category>
+      <category>NBN HD 60364-7-722</category>
+      <category>IEC 62955</category>
+      <description>Type A 30 mA + RDC-DD borne ou Type B ? NBN HD 60364-7-722 reconnait les deux. Pour les bornes Tesla, Wallbox et Smappee, le Type A suffit et economise EUR 100-150 sans perte de securite.</description>
+    </item>
+
+    <item>
+      <title>Pourquoi la qualite d'une installation de borne de recharge est essentielle pour votre securite</title>
+      <link>https://www.bornexa.be/blog-securite-installation</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-securite-installation</guid>
+      <pubDate>Tue, 03 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Veiligheid</category>
+      <category>RGIE / AREI</category>
+      <description>Dimensionnement cables, protections, serrage, conformite RGIE, qualite materiel. Pourquoi une installation conforme est essentielle pour la securite de votre borne de recharge.</description>
+    </item>
+
+    <item>
+      <title>Kostprijs laadpaal 2026 : eerlijke prijsgids</title>
+      <link>https://www.bornexa.be/blog-couts-laadpaal-2026</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-couts-laadpaal-2026</guid>
+      <pubDate>Tue, 03 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Prix</category>
+      <category>2026</category>
+      <description>Eerlijke prijsgids voor laadpaal-installatie in 2026 : gemiddelde kostprijs (1.100 - 1.900 EUR), samenstelling, factoren die de prijs beinvloeden en hoe besparen.</description>
+    </item>
+
+    <item>
+      <title>Fluvius en uw laadpaal in 2026 : meldingsplicht, aansluiting en kosten</title>
+      <link>https://www.bornexa.be/fluvius-premie-laadpaal</link>
+      <guid isPermaLink="true">https://www.bornexa.be/fluvius-premie-laadpaal</guid>
+      <pubDate>Mon, 02 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Reglementering</category>
+      <category>Fluvius</category>
+      <description>Wat is de rol van Fluvius in 2026 voor uw laadpaal ? Meldingsplicht, verzwaring, aansluittarieven, en waarom er geen Fluvius premie meer bestaat.</description>
+    </item>
+
+    <item>
+      <title>Prime borne de recharge Bruxelles 2026 : ce qui existe et ce qui n'existe plus</title>
+      <link>https://www.bornexa.be/prime-borne-recharge-bruxelles</link>
+      <guid isPermaLink="true">https://www.bornexa.be/prime-borne-recharge-bruxelles</guid>
+      <pubDate>Mon, 02 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Reglementering</category>
+      <category>Bruxelles</category>
+      <description>Pas de prime directe particuliers en 2026 a Bruxelles. TVA 6%, prime utilitaire B2B, copropriete : ce qui existe vraiment.</description>
+    </item>
+
+    <item>
+      <title>Borne de recharge en appartement / VME en 2026 : vos droits et la procedure</title>
+      <link>https://www.bornexa.be/blog-appartement</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-appartement</guid>
+      <pubDate>Mon, 02 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Copropriete</category>
+      <description>Loi du 18 juin 2018 : tout copropritaire a le droit d'installer une borne. Procedure technique, notification syndic, compteur individuel ou systeme partage.</description>
+    </item>
+
+    <item>
+      <title>Solar + EV : recharger votre voiture electrique avec vos panneaux</title>
+      <link>https://www.bornexa.be/blog-solar</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-solar</guid>
+      <pubDate>Wed, 14 May 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Solar</category>
+      <description>Comment integrer une borne de recharge avec vos panneaux photovoltaiques. Modulation, surplus, smart charging.</description>
+    </item>
+
+    <item>
+      <title>Bornes de recharge pour entreprise : guide 2026</title>
+      <link>https://www.bornexa.be/blog-business</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-business</guid>
+      <pubDate>Mon, 02 Jun 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>B2B</category>
+      <description>Bornes flotte, deduction fiscale, load balancing, OCPP, facturation par utilisateur.</description>
+    </item>
+
+    <item>
+      <title>Tesla : quelle borne choisir pour Model 3 / Y / S / X ?</title>
+      <link>https://www.bornexa.be/blog-tesla</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-tesla</guid>
+      <pubDate>Wed, 14 May 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Tesla</category>
+      <description>Tesla Wall Connector Gen 3, integration app, configuration Wi-Fi, alternatives Wallbox et Smappee.</description>
+    </item>
+
+    <item>
+      <title>Economie de la recharge a domicile vs station publique</title>
+      <link>https://www.bornexa.be/blog-economie</link>
+      <guid isPermaLink="true">https://www.bornexa.be/blog-economie</guid>
+      <pubDate>Wed, 14 May 2026 09:00:00 +0200</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <category>Economie</category>
+      <description>Cout par kWh, tarif de nuit, tarif heures creuses, ROI d'une borne a domicile.</description>
+    </item>
+
+  </channel>
+</rss>

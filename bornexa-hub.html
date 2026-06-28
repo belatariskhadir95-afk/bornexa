@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00C896">
+<meta name="robots" content="noindex, nofollow">
+<title>BORNEXA Hub — dossiers clients</title>
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<style>
+:root{--primary:#00C896;--primary-dark:#009E76;--primary-light:#E0FBF4;--navy:#0B1E3C;--dark:#0C1018;--bg:#F6F8FB;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--r:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.5}
+.topbar{background:linear-gradient(135deg,var(--navy),var(--dark));color:#fff;padding:13px 18px;display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--primary)}
+.topbar svg{width:32px;height:32px}.topbar b{font-weight:800;font-size:1rem}.topbar span{display:block;font-size:.7rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.card h2{font-size:1rem;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.btn{padding:10px 16px;border-radius:10px;font-weight:700;font-size:.88rem;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.btn-p{background:var(--primary);color:var(--navy);box-shadow:0 4px 14px rgba(0,200,150,.28)}.btn-p:hover{background:var(--primary-dark);color:#fff}
+.btn-o{background:#fff;color:var(--navy);border:1.5px solid var(--border)}.btn-o:hover{border-color:var(--primary)}
+.btn-g{background:#F1F5F9;color:var(--text)}.btn-sm{padding:6px 11px;font-size:.78rem}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.dlist{display:flex;flex-direction:column;gap:8px}
+.drow{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;flex-wrap:wrap}
+.drow.active{border-color:var(--primary);background:var(--primary-light)}
+.drow .nm{font-weight:800;color:var(--navy)}.drow .id{font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.drow .meta{flex:1;min-width:160px}
+.pill{font-size:.7rem;font-weight:800;padding:3px 9px;border-radius:999px;background:#F1F5F9;color:var(--muted)}
+.pill.s1{background:#E0F2FE;color:#075985}.pill.s2{background:var(--primary-light);color:var(--primary-dark)}.pill.s3{background:#FEF3C7;color:#92400E}.pill.s4{background:#DCFCE7;color:#166534}
+.drow .acts{display:flex;gap:5px;flex-wrap:wrap}
+.launch{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:6px}@media(max-width:560px){.launch{grid-template-columns:1fr}}
+.launch a{display:flex;flex-direction:column;gap:3px;padding:16px;border:1.5px solid var(--border);border-radius:12px;text-decoration:none;color:var(--navy);background:#fff;transition:all .15s}
+.launch a:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,200,150,.12)}
+.launch a b{font-size:1rem;display:flex;align-items:center;gap:8px}.launch a span{font-size:.8rem;color:var(--muted)}
+.launch a .step{font-size:.68rem;font-weight:800;color:var(--primary-dark);text-transform:uppercase;letter-spacing:.5px}
+.summary dl{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:.88rem}.summary dt{color:var(--muted)}.summary dd{font-weight:700;text-align:right}
+.empty{text-align:center;color:var(--muted);padding:30px 10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:100}.toast.show{opacity:1}
+.flow{font-size:.8rem;color:var(--muted);margin-top:10px;line-height:1.6}
+</style>
+</head>
+<body data-bornexa-tool="hub">
+<header class="topbar">
+  <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="h" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#h)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
+  <div><b>BORNEXA Hub</b><span>Dossiers clients · workflow unifié</span></div>
+</header>
+<div class="wrap">
+
+  <div class="card">
+    <h2>📁 Dossiers</h2>
+    <div class="toolbar">
+      <button class="btn btn-p" id="newD">+ Nouveau dossier</button>
+      <button class="btn btn-o" id="impD">📥 Importer un dossier (JSON)</button>
+      <button class="btn btn-o" id="backupAll">💾 Sauvegarder TOUS les dossiers</button>
+      <button class="btn btn-o" id="restoreAll">♻ Restaurer une sauvegarde</button>
+      <input type="file" id="restoreFile" accept="application/json,.json" style="display:none">
+    </div>
+    <p class="flow" style="margin:.4rem 0 0;font-size:.82rem;opacity:.8">⚠ Tes dossiers sont stockés dans <b>ce navigateur</b>. Fais une <b>sauvegarde régulière</b> (et avant de vider le cache ou de changer de PC).</p>
+    <div class="dlist" id="dlist"></div>
+  </div>
+
+  <div class="card" id="activeCard" style="display:none">
+    <h2>🚀 Dossier actif — <span id="activeName" style="color:var(--primary-dark)"></span></h2>
+    <p class="flow">Ouvre un outil : il sera <b>pré-rempli automatiquement</b> à partir du dossier. Ordre conseillé : Visite → Calculateur/Devis → Chantier → Documents. <b>Aucun copier-coller.</b></p>
+    <div class="launch">
+      <a href="visite-terrain"><span class="step">Étape 1</span><b>📋 Visite terrain</b><span>Relevé sur place, photos, technique</span></a>
+      <a href="calculateur-interne"><span class="step">Étapes 2-3</span><b>🧮 Calculateur &amp; Devis</b><span>Calcul, tarifs, devis complet + signatures</span></a>
+      <a href="chantier-installation"><span class="step">Étape 4</span><b>🔧 Chantier (installation)</b><span>Checklist complète + mesures RGIE</span></a>
+      <a href="documenten-installatie"><span class="step">Étape 5</span><b>📄 Documents / contrôle</b><span>Unifilaire, plan de position, dossier</span></a>
+      <a href="configurateur-smappee"><span class="step">Énergie</span><b>⚡ Configurateur Smappee Infinity</b><span>Dimensionnement expert · BOM · dossier technique</span></a>
+    </div>
+    <div style="margin-top:16px"><h2 style="font-size:.9rem">Résumé</h2><div class="summary"><dl id="summary"></dl></div></div>
+    <div class="toolbar" style="margin-top:14px">
+      <button class="btn btn-o btn-sm" id="expD">💾 Exporter ce dossier (sauvegarde)</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>ℹ️ Comment ça marche</h2>
+    <p class="flow">Chaque outil reste <b>complet</b> (tarifs, devis signable, chantier détaillé, documents). Le hub leur partage un <b>dossier unique</b> : ce que tu saisis dans la visite alimente le calculateur, puis le chantier, puis les documents — automatiquement. Pour passer d'une tablette au bureau : <b>Exporter ce dossier</b> puis <b>Importer un dossier</b> (1 clic, pas de champ à recopier).</p>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+<script src="js/bornexa-sync.js?v=2026-06-28"></script>
+<script src="js/supabase-config.js?v=2026-06-28"></script>
+<script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script>
+var $=function(s){return document.querySelector(s);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1700);}
+function fmtDate(t){try{return new Date(t).toLocaleDateString('fr-BE');}catch(e){return '';}}
+var STATUS={Nouveau:'',Visite:'s1',Devis:'s2',Chantier:'s3',Documents:'s4'};
+
+function render(){
+  var list=Bornexa.list(), cur=Bornexa.currentId();
+  var el=$('#dlist');
+  if(!list.length){ el.innerHTML='<div class="empty">Aucun dossier. Cliquez sur « + Nouveau dossier ».</div>'; }
+  else el.innerHTML=list.map(function(d){
+    return '<div class="drow '+(d.id===cur?'active':'')+'"><div class="meta"><div class="nm">'+esc(d.name||'(sans nom)')+'</div><div class="id">'+esc(d.id)+' · maj '+fmtDate(d.updated)+'</div></div>'
+      +'<span class="pill '+(STATUS[d.status]||'')+'">'+esc(d.status||'Nouveau')+'</span>'
+      +'<div class="acts">'+(d.id===cur?'<span class="pill s2">actif</span>':'<button class="btn btn-p btn-sm" data-open="'+d.id+'">Ouvrir</button>')
+      +'<button class="btn btn-o btn-sm" data-ren="'+d.id+'">Renommer</button><button class="btn btn-o btn-sm" data-dup="'+d.id+'">Dupliquer</button><button class="btn btn-g btn-sm" data-del="'+d.id+'">🗑</button></div></div>';
+  }).join('');
+  // active card
+  var a=Bornexa.active();
+  $('#activeCard').style.display=a?'block':'none';
+  if(a){ $('#activeName').textContent=a.id+(a.name?' · '+a.name:''); renderSummary(a); }
+}
+function renderSummary(a){
+  var rows=[]; var v=a.visite&&a.visite.data, d=a.devis, c=a.chantier;
+  rows.push(['Client', (v&&v.clientName)||(d&&d.client&&d.client.name)||a.name||'—']);
+  rows.push(['Adresse', (v&&v.clientAddress)||(d&&d.client&&d.client.address)||'—']);
+  if(d&&d.dimensioning){rows.push(['Borne', d.dimensioning.chargerName||'—']);rows.push(['Puissance',(d.dimensioning.power||'?')+' kW']);}
+  if(d&&d.smartEnergy)rows.push(['Load balancing', d.smartEnergy.loadBalance?('Oui ('+(d.smartEnergy.moduleRef||'')+')'):'Non']);
+  if(d&&d.ttc!=null)rows.push(['Total TTC','€ '+Number(d.ttc).toLocaleString('fr-BE',{minimumFractionDigits:2,maximumFractionDigits:2})]);
+  if(c&&c.measures){var m=c.measures,e=m.earthOhm&&m.earthOhm.value;if(e)rows.push(['Terre mesurée',e+' Ω']);}
+  rows.push(['État', a.status||'Nouveau']);
+  $('#summary').innerHTML=rows.map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('');
+}
+
+$('#newD').addEventListener('click',function(){ var n=prompt('Nom du client / dossier :'); var id=Bornexa.create(n||''); toast('Dossier '+id+' créé'); render(); });
+$('#dlist').addEventListener('click',function(e){
+  var t=e.target.closest('button'); if(!t)return;
+  if(t.dataset.open){ Bornexa.setCurrent(t.dataset.open); render(); }
+  else if(t.dataset.ren){ var d=Bornexa.list().filter(function(x){return x.id===t.dataset.ren;})[0]; var n=prompt('Nom :', d?d.name:''); if(n!=null){Bornexa.rename(t.dataset.ren,n);render();} }
+  else if(t.dataset.dup){ var id=Bornexa.duplicate(t.dataset.dup); toast('Dupliqué : '+id); render(); }
+  else if(t.dataset.del){ if(confirm('Supprimer ce dossier ?')){Bornexa.del(t.dataset.del);render();} }
+});
+$('#expD').addEventListener('click',function(){ var a=Bornexa.active(); if(!a)return; var blob=new Blob([JSON.stringify(a,null,2)],{type:'application/json'}); var x=document.createElement('a'); x.href=URL.createObjectURL(blob); x.download='BORNEXA_dossier_'+a.id+'_'+((a.name||'').replace(/[^a-zA-Z0-9]+/g,'_'))+'.json'; document.body.appendChild(x);x.click();x.remove(); toast('Dossier exporté ✓'); });
+$('#impD').addEventListener('click',function(){ var j=prompt('Coller le JSON du dossier (sauvegarde) :'); if(!j)return; try{ var o=JSON.parse(j); var id=Bornexa.importDossier(o); toast('Importé : '+id); render(); }catch(e){ toast('JSON invalide'); } });
+
+// Sauvegarde COMPLÈTE (tous les dossiers) → fichier téléchargé
+$('#backupAll').addEventListener('click',function(){
+  var all=Bornexa.exportAll(); var n=Object.keys(all.dossiers||{}).length;
+  if(!n){ toast('Aucun dossier à sauvegarder'); return; }
+  var blob=new Blob([JSON.stringify(all,null,2)],{type:'application/json'});
+  var d=new Date(), stamp=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  var x=document.createElement('a'); x.href=URL.createObjectURL(blob); x.download='BORNEXA_sauvegarde_'+n+'-dossiers_'+stamp+'.json';
+  document.body.appendChild(x);x.click();x.remove(); toast(n+' dossier(s) sauvegardé(s) ✓');
+});
+// Restauration depuis un fichier de sauvegarde
+$('#restoreAll').addEventListener('click',function(){ $('#restoreFile').click(); });
+$('#restoreFile').addEventListener('change',function(e){
+  var f=e.target.files&&e.target.files[0]; if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){ try{
+    var o=JSON.parse(r.result);
+    var mode = confirm('REMPLACER tous les dossiers actuels par la sauvegarde ?\n\nOK = Remplacer (efface les dossiers actuels)\nAnnuler = Fusionner (ajoute sans effacer)') ? 'replace' : 'merge';
+    var n=Bornexa.importAll(o, mode); Bornexa.reload(); toast(n+' dossier(s) restauré(s) ✓'); render();
+  }catch(err){ toast('Fichier de sauvegarde invalide'); } };
+  r.readAsText(f); e.target.value='';
+});
+
+render();
+document.addEventListener('bornexa:synced', render); // rafraîchit la liste après une synchro Supabase
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <title data-fr="Page introuvable – BORNEXA">Pagina niet gevonden – BORNEXA</title>
+  <meta name="robots" content="noindex, follow">
+  <meta property="og:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+  <meta property="og:image:alt" content="BORNEXA - Erkend Laadpaal & Wallbox Installateur">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
+  <link rel="stylesheet" href="css/style.css?v=2026-06-28">
+  <style>
+    .err-section {
+      min-height: 80vh; display: flex; align-items: center; justify-content: center;
+      background: var(--dark); color: var(--light); text-align: center; padding: 3rem 1.5rem;
+    }
+    .err-inner { max-width: 520px; }
+    .err-code {
+      font-size: clamp(5rem, 18vw, 9rem); font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--primary) 0%, #7dc514 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 0;
+    }
+    .err-inner h1 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin: .5rem 0 1rem; color: var(--light); }
+    .err-inner p { color: rgba(255,255,255,.5); font-size: .96rem; line-height: 1.7; margin-bottom: 2rem; }
+    .err-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body data-page="404">
+
+  <!-- ── Navigation ── -->
+  <nav id="nav" class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+      <div class="nav-links">
+        <a href="/" data-key="navHome">Home</a>
+        <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'énergie">Energiebeheer</a>
+        <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+        <a href="faq">FAQ</a>
+        <a href="blog" data-key="navBlog">Blog</a>
+        <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+        <button class="btn-lang" id="lang-btn">FR</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="/" data-key="navHome">Home</a>
+      <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'énergie">Energiebeheer</a>
+      <a href="faq">FAQ</a>
+      <a href="blog" data-key="navBlog">Blog</a>
+      <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+      <button class="btn-lang" id="lang-btn-mobile">FR</button>
+    </div>
+  </nav>
+
+  <!-- ── NL Content ── -->
+  <section id="err-nl" class="err-section">
+    <div class="err-inner">
+      <div class="err-code">404</div>
+      <h1>Pagina niet gevonden</h1>
+      <p>De pagina die u zoekt bestaat niet (meer) of werd verplaatst. Gebruik de navigatie om terug te gaan.</p>
+      <div class="err-actions">
+        <a href="/" class="btn btn-primary">← Homepage</a>
+        <a href="devis" class="btn btn-outline">Gratis offerte aanvragen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FR Content ── -->
+  <section id="err-fr" class="err-section" style="display:none">
+    <div class="err-inner">
+      <div class="err-code">404</div>
+      <h1>Page introuvable</h1>
+      <p>La page que vous recherchez n'existe pas (plus) ou a été déplacée. Utilisez la navigation pour revenir en arrière.</p>
+      <div class="err-actions">
+        <a href="/" class="btn btn-primary">← Page d'accueil</a>
+        <a href="devis" class="btn btn-outline">Demander un devis gratuit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" height="44" loading="lazy"></a>
+          <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
+          <div class="footer-certs" aria-label="Officiële certificaties">
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Certified</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Partner</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> Installer</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerServices">Diensten</h4>
+          <ul class="footer-links">
+            <li><a href="services#residential" data-key="footerService1">Laadpaal thuis</a></li>
+            <li><a href="services#business" data-key="footerService2">Laadpaal bedrijf</a></li>
+            <li><a href="services#tesla" data-key="footerService3">Tesla Wall Connector</a></li>
+            <li><a href="services#smart" data-key="footerService4">Smart Charging</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerContact">Contact</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <span data-key="footerPhone">+32 489 24 77 60</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span data-key="footerEmail">info@bornexa.be</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-key="footerRights">© 2026 BORNEXA. Alle rechten voorbehouden.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy" data-key="footerPrivacy">Privacybeleid</a>
+          <a href="algemene-voorwaarden" data-key="footerTerms">Algemene voorwaarden</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="js/translations.js?v=2026-06-28"></script>
+  <script defer src="js/lang.js?v=2026-06-28"></script>
+  <script src="js/main.js?v=2026-06-28"></script>
+  <script>
+    (function () {
+      function switchErrLang() {
+        var l = document.documentElement.lang || 'nl';
+        var nl = document.getElementById('err-nl');
+        var fr = document.getElementById('err-fr');
+        if (nl && fr) { nl.style.display = l === 'nl' ? '' : 'none'; fr.style.display = l === 'fr' ? '' : 'none'; }
+      }
+      switchErrLang();
+      new MutationObserver(function (m) {
+        m.forEach(function (mut) { if (mut.attributeName === 'lang') switchErrLang(); });
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    })();
+  </script>
+</body>
+</html>

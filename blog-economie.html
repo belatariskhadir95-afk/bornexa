@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <title data-fr="Recharge électrique vs essence : combien économisez-vous vraiment ? | BORNEXA">Elektrisch rijden vs benzine: hoeveel bespaart u echt? | BORNEXA</title>
+  <meta name="description" content="Vergelijk de kosten van elektrisch rijden met benzine en diesel in België. Ontdek hoeveel u bespaart met thuis laden, dal-tarieven, smart charging en zonnepanelen." data-fr="Comparez les coûts du véhicule électrique vs essence/diesel en Belgique. Découvrez vos économies avec la recharge à domicile, les heures creuses, le smart charging et les panneaux solaires.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.bornexa.be/blog-economie">
+  <link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-economie">
+  <link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-economie">
+  <meta property="og:title" content="Elektrisch rijden vs benzine: hoeveel bespaart u echt? | BORNEXA">
+  <meta property="og:description" content="Vergelijk de kosten van elektrisch rijden met benzine en diesel in België. Ontdek hoeveel u bespaart met thuis laden.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.bornexa.be/blog-economie">
+  <meta property="og:locale" content="nl_BE">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Elektrisch rijden vs benzine: hoeveel bespaart u echt?",
+    "description": "Vergelijk de kosten van elektrisch rijden met benzine en diesel in België. Thuis laden, dal-tarieven, smart charging en zonnepanelen.",
+    "datePublished": "2026-05-14",
+    "dateModified": "2026-05-14",
+    "author":{"@id":"https://www.bornexa.be/#business"},
+    "publisher":{"@id":"https://www.bornexa.be/#business"},
+    "mainEntityOfPage": "https://www.bornexa.be/blog-economie",
+    "image": "https://www.bornexa.be/images/logo-bornexa.svg"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hoeveel kost het om een elektrische auto thuis op te laden in België?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Met een gemiddeld dagtarief van ±€0,30/kWh kost een volle laadbeurt (60 kWh) ±€18. Op dal-tarief (±€0,20/kWh) daalt dit naar ±€12. Met zonnepanelen kan de kost zelfs naar €0 dalen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is elektrisch rijden goedkoper dan benzine in België?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja. Bij 15.000 km/jaar bedragen de brandstofkosten voor een benzinewagen ±€2.100 (€1,75/l, 8l/100km). Voor een elektrisch voertuig thuis is dat ±€900 op dagtarief of ±€600 op dal-tarief. Het verschil loopt op tot €1.500/jaar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Wat is het dal-tarief voor elektriciteit in België?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Het dal-tarief geldt 's nachts (doorgaans 22u–06u) en in het weekend. De prijs ligt ±33% lager dan het piektarief, gemiddeld rond €0,20/kWh tegenover €0,30/kWh overdag. Een slimme laadpaal laadt automatisch op het goedkoopste moment."
+        }
+      }
+    ]
+  }
+  </script>
+  <meta property="og:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+  <meta property="og:image:alt" content="BORNEXA - Erkend Laadpaal & Wallbox Installateur">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
+  <link rel="stylesheet" href="css/style.css?v=2026-06-28">
+  <style>
+    /* ── Post layout ── */
+    .post-hero{padding:5.5rem 0 3.5rem;background:linear-gradient(135deg,#0C1018 0%,#141C28 60%,#0A1420 100%);color:#fff;position:relative;overflow:hidden}
+    .post-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 80% 40%,rgba(0,200,150,.13) 0%,transparent 65%);pointer-events:none}
+    .post-hero .container{position:relative;z-index:1}
+    .post-hero h1{font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.22;margin-bottom:1rem}
+    .post-meta{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.875rem;opacity:.7;margin-top:.75rem}
+    .breadcrumb{font-size:.8rem;opacity:.55;margin-bottom:1.25rem}
+    .breadcrumb a{color:inherit;text-decoration:none;transition:opacity .15s}
+    .breadcrumb a:hover{opacity:1}
+
+    /* ── Reading progress bar ── */
+    .progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--primary);z-index:9999;transition:width .1s linear;width:0}
+
+    /* ── Article layout ── */
+    .post-layout{display:grid;grid-template-columns:1fr 300px;gap:3rem;align-items:start;margin-top:3rem}
+    @media(max-width:900px){.post-layout{grid-template-columns:1fr}.post-sidebar{order:-1}}
+
+    /* ── Article body ── */
+    .post-body h2{font-size:1.45rem;margin:2.5rem 0 .85rem;color:var(--text);padding-top:.5rem}
+    .post-body h3{font-size:1.1rem;margin:1.75rem 0 .5rem;color:var(--text)}
+    .post-body p{margin-bottom:1.1rem;line-height:1.8;color:#4B5563}
+    .post-body ul,.post-body ol{margin:.75rem 0 1.25rem 1.5rem;color:#4B5563;line-height:1.8}
+    .post-body li{margin-bottom:.4rem}
+    .post-body strong{color:var(--text)}
+    .post-body a{color:var(--primary);text-decoration:none;font-weight:600}
+    .post-body a:hover{text-decoration:underline}
+
+    /* ── Key stats grid ── */
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.75rem 0}
+    @media(max-width:640px){.stats-grid{grid-template-columns:1fr 1fr}}
+    .stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.25rem;text-align:center;transition:border-color .2s,transform .2s}
+    .stat-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+    .stat-card .num{font-size:1.8rem;font-weight:800;color:var(--primary);line-height:1}
+    .stat-card .lbl{font-size:.78rem;color:var(--text-muted);margin-top:.35rem;line-height:1.4}
+
+    /* ── Comparison table ── */
+    .compare-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.92rem}
+    .compare-table th{background:var(--dark);color:#fff;padding:12px 16px;text-align:left;font-size:.82rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+    .compare-table td{padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text)}
+    .compare-table tr:last-child td{border-bottom:none}
+    .compare-table tr:nth-child(even) td{background:var(--bg)}
+    .compare-table .val-green{color:var(--primary);font-weight:700}
+    .compare-table .val-red{color:#EF4444;font-weight:600}
+    @media(max-width:600px){.compare-table{font-size:.82rem}.compare-table th,.compare-table td{padding:9px 10px}}
+
+    /* ── Highlight / info boxes ── */
+    .highlight-box{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin:1.75rem 0}
+    .highlight-box strong{color:var(--primary-dark)}
+    .warning-box{background:#FFF7ED;border-left:4px solid #F59E0B;border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin:1.75rem 0}
+    .warning-box strong{color:#92400E}
+
+    /* ── Inline CTA ── */
+    .inline-cta{background:linear-gradient(135deg,var(--dark) 0%,var(--dark2) 100%);color:#fff;border-radius:var(--r-xl);padding:2rem 2.25rem;margin:2.5rem 0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+    .inline-cta h3{font-size:1.1rem;margin-bottom:.35rem;color:#fff}
+    .inline-cta p{font-size:.875rem;opacity:.75;margin:0}
+    @media(max-width:640px){.inline-cta{flex-direction:column;align-items:flex-start}}
+
+    /* ── Sticky sidebar ── */
+    .sticky-card{position:sticky;top:100px;background:var(--dark);color:#fff;border-radius:var(--r-xl);padding:2rem}
+    .sticky-card h3{font-size:1.05rem;margin-bottom:.85rem;color:#fff}
+    .sticky-card p{font-size:.875rem;opacity:.78;margin-bottom:1.25rem;line-height:1.65}
+    .sticky-card .btn{display:block;text-align:center;margin-bottom:.75rem}
+    .related-links{margin-top:2rem}
+    .related-links h4{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;opacity:.5;margin-bottom:.75rem;color:#fff}
+    .related-links a{display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:var(--primary);text-decoration:none;padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,.07);transition:gap .15s}
+    .related-links a::before{content:'→';flex-shrink:0}
+    .related-links a:hover{gap:.75rem}
+    .related-links a:last-child{border-bottom:none}
+
+    /* ── Savings calculator visual ── */
+    .savings-scenario{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+    @media(max-width:600px){.savings-scenario{grid-template-columns:1fr}}
+    .scenario-card{border-radius:var(--r-lg);padding:1.5rem;border:2px solid}
+    .scenario-card.gas{border-color:#EF4444;background:#FEF2F2}
+    .scenario-card.ev{border-color:var(--primary);background:var(--primary-light)}
+    .scenario-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+    .scenario-card.gas .scenario-label{color:#EF4444}
+    .scenario-card.ev .scenario-label{color:var(--primary-dark)}
+    .scenario-price{font-size:2rem;font-weight:800;line-height:1}
+    .scenario-card.gas .scenario-price{color:#DC2626}
+    .scenario-card.ev .scenario-price{color:var(--primary-dark)}
+    .scenario-desc{font-size:.82rem;color:var(--text-muted);margin-top:.4rem}
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progress-bar"></div>
+
+  <!-- ── Navigation ── -->
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+      <div class="nav-links">
+        <a href="/" data-key="navHome">Home</a>
+        <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+        <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+        <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+        <a href="faq">FAQ</a>
+        <a href="blog" aria-current="page" data-key="navBlog">Blog</a>
+        <a href="devis" class="nav-cta">Offerte aanvragen</a>
+        <button class="btn-lang" id="lang-btn">FR</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+      <a href="/" data-key="navHome">Home</a>
+      <a href="services" data-key="navServices">Diensten</a>
+      <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+      <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+      <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+      <a href="faq">FAQ</a>
+      <a href="blog" aria-current="page" data-key="navBlog">Blog</a>
+      <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+      <button class="btn-lang" id="lang-btn-mobile">FR</button>
+    </div>
+  </nav>
+
+  <!-- ── NL Hero ── -->
+  <header class="post-hero" id="hero-nl">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a> ›
+        <a href="blog">Blog</a> ›
+        <span style="color:var(--primary)">Kosten &amp; Besparingen</span>
+      </div>
+      <div class="badge">&#128200; Economische analyse · Mei 2026</div>
+      <h1>Elektrisch rijden vs benzine:<br>hoeveel bespaart u echt?</h1>
+      <div class="post-meta">
+        <span>&#9997; BORNEXA</span>
+        <span>&#128197; 14 mei 2026</span>
+        <span>&#9203; 9 min leestijd</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── FR Hero ── -->
+  <header class="post-hero" id="hero-fr" style="display:none">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">Home</a> ›
+        <a href="blog">Blog</a> ›
+        <span style="color:var(--primary)">Coûts &amp; Économies</span>
+      </div>
+      <div class="badge">&#128200; Analyse économique · Mai 2026</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.25;margin-bottom:1rem">Voiture électrique vs essence :<br>combien économisez-vous vraiment ?</h2>
+      <div class="post-meta">
+        <span>&#9997; BORNEXA</span>
+        <span>&#128197; 14 mai 2026</span>
+        <span>&#9203; 9 min de lecture</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="post-layout">
+
+          <!-- ── Main content ── -->
+          <div>
+
+            <!-- ═══ NL CONTENT ═══ -->
+            <article class="post-body" id="content-nl">
+
+              <p>De prijs aan de pomp schommelt voortdurend, maar één ding staat vast: <strong>elektrisch rijden is structureel goedkoper dan rijden op benzine of diesel in België</strong>. Niet alleen voor het milieu — ook voor uw portemonnee. In dit artikel zetten we alle cijfers naast elkaar, zodat u zelf kunt berekenen wat u concreet bespaart.</p>
+
+              <!-- Key stats -->
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="num">€1.500</div>
+                  <div class="lbl">Gemiddelde jaarlijkse besparing op brandstof bij 15.000 km</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">3,5×</div>
+                  <div class="lbl">Goedkoper per km bij thuis laden op dal-tarief vs benzine (€1,75/l)</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">€0</div>
+                  <div class="lbl">Brandstofkost mogelijk met zonnepanelen + smart charging</div>
+                </div>
+              </div>
+
+              <h2>Een volle tank vs een volle batterij: de echte prijs</h2>
+              <p>Om de vergelijking eerlijk te maken, nemen we een realistisch voorbeeld: een middenklasse benzinewagen met een verbruik van <strong>8 liter per 100 km</strong>, versus een elektrisch voertuig (EV) met een verbruik van <strong>20 kWh per 100 km</strong>.</p>
+
+              <div class="savings-scenario">
+                <div class="scenario-card gas">
+                  <div class="scenario-label">Benzinewagen</div>
+                  <div class="scenario-price">€79</div>
+                  <div class="scenario-desc">Volle tank 45 liter · €1,75/l<br>Goed voor ±560 km</div>
+                </div>
+                <div class="scenario-card ev">
+                  <div class="scenario-label">Elektrisch voertuig</div>
+                  <div class="scenario-price">€18</div>
+                  <div class="scenario-desc">Volle lading 60 kWh · €0,30/kWh<br>Goed voor ±300–400 km</div>
+                </div>
+              </div>
+
+              <p>Per rijkilometer betaalt u met benzine <strong>±€0,140/km</strong>. Met een EV die thuis laadt op het dagtarief betaalt u <strong>±€0,060/km</strong> — bijna 2,5× goedkoper. Op het voordelige dal-tarief 's nachts daalt dit zelfs naar <strong>±€0,040/km</strong>, ofwel 3,5× goedkoper.</p>
+
+              <!-- Comparison table -->
+              <h2>Kostenvergelijking: 15.000 km per jaar</h2>
+              <p>Onderstaande tabel toont de realistische jaarlijkse brandstofkosten op basis van een gemiddeld Belgisch rijgedrag van 15.000 km/jaar.</p>
+
+              <div style="overflow-x:auto">
+                <table class="compare-table">
+                  <thead>
+                    <tr>
+                      <th>Situatie</th>
+                      <th>Prijs per km</th>
+                      <th>Jaarlijkse kost</th>
+                      <th>Besparing vs benzine</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Benzine (8l/100km · €1,75/l)</td>
+                      <td class="val-red">€0,140</td>
+                      <td class="val-red">€2.100</td>
+                      <td>—</td>
+                    </tr>
+                    <tr>
+                      <td>Diesel (6,5l/100km · €1,85/l)</td>
+                      <td class="val-red">€0,120</td>
+                      <td class="val-red">€1.800</td>
+                      <td>—</td>
+                    </tr>
+                    <tr>
+                      <td>EV – dagtarief (€0,30/kWh)</td>
+                      <td>€0,060</td>
+                      <td>€900</td>
+                      <td class="val-green">±€1.200 vs benzine</td>
+                    </tr>
+                    <tr>
+                      <td>EV – dal-tarief (€0,20/kWh)</td>
+                      <td>€0,040</td>
+                      <td>€600</td>
+                      <td class="val-green">±€1.500 vs benzine</td>
+                    </tr>
+                    <tr>
+                      <td>EV – zonnepanelen (€0,10/kWh gem.)</td>
+                      <td>€0,020</td>
+                      <td>€300</td>
+                      <td class="val-green">±€1.800 vs benzine</td>
+                    </tr>
+                    <tr>
+                      <td>EV – volledig zonne-overschot</td>
+                      <td>€0,00</td>
+                      <td><strong>€0</strong></td>
+                      <td class="val-green">€2.100 vs benzine</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="highlight-box">
+                <strong>Let op:</strong> Deze cijfers zijn gebaseerd op gemiddelde Belgische brandstof- en elektriciteitsprijzen in 2026. Bij hogere benzineprijzen (wat historisch regelmatig voorkomt) valt het voordeel van de EV nog groter uit.
+              </div>
+
+              <h2>Dal-tarieven: laden wanneer stroom het goedkoopst is</h2>
+              <p>In België geldt een <strong>dag-/nachtmeter</strong> (of digitale meter met uurregistratie) waarmee u kunt profiteren van lagere elektriciteitstarieven buiten de piekuren. Het dal-tarief is doorgaans actief:</p>
+              <ul>
+                <li>Elke nacht van <strong>22u00 tot 06u00</strong></li>
+                <li>In het weekend (vrijdagavond t.e.m. maandagochtend bij sommige contracten)</li>
+              </ul>
+              <p>Een slimme laadpaal — zoals de <a href="smappee">Smappee EV One</a>, de nieuwe <a href="wallbox">Wallbox Pulsar Max (2024)</a> of de klassieke Wallbox Pulsar Plus — kan u programmeren om automatisch op te laden zodra het dal-tarief ingaat. U hoeft daar 's avonds niet aan te denken.</p>
+
+              <div class="inline-cta">
+                <div>
+                  <h3>Wilt u profiteren van dal-tarieven?</h3>
+                  <p>BORNEXA installeert slimme laadpalen die automatisch laden op het goedkoopste tarief.</p>
+                </div>
+                <a href="devis" class="btn btn-primary">Gratis offerte</a>
+              </div>
+
+              <h2>Vaste vs variabele contracten: de prijs van onzekerheid</h2>
+              <p>Een van de meest onderschatte voordelen van elektrisch rijden is <strong>prijsstabiliteit</strong>. Benzine- en dieselprijzen zijn direct gekoppeld aan de wereldmarkt voor ruwe olie. Die prijs kan in enkele weken tijd met 20–40% stijgen door geopolitieke spanningen, productiebesluiten van OPEC+ of speculatie.</p>
+              <p>Elektriciteitsprijzen zijn ook variabel, maar u kunt zich veel eenvoudiger beschermen:</p>
+              <ul>
+                <li><strong>Vaste energiecontracten</strong>: uw kWh-prijs ligt voor 1 of 2 jaar vast. Geen verrassingen.</li>
+                <li><strong>Dynamische contracten</strong>: u betaalt de actuele beursprijs, maar kunt slim laden wanneer die het laagst is (doorgaans 's nachts of bij hoge zonne-energieproductie).</li>
+                <li><strong>Zonnepanelen</strong>: u produceert uw eigen stroom en bent gedeeltelijk onafhankelijk van de netprijs.</li>
+              </ul>
+              <p>Een benzinewagen heeft geen van deze opties. U betaalt altijd de prijs van dat moment aan de pomp.</p>
+
+              <div class="warning-box">
+                <strong>Historisch feit:</strong> Tussen 2021 en 2022 steeg de benzineprijs in België van ±€1,40 naar ±€2,20 per liter (+57%). Elektrisch rijders zagen hun laadkost nauwelijks stijgen. Met een vast elektriciteitscontract betaalde u exact hetzelfde als het jaar ervoor.
+              </div>
+
+              <h2>Zonnepanelen: de ultieme brandstofkost van €0</h2>
+              <p>Als u al zonnepanelen heeft — of plant te installeren — opent zich een unieke mogelijkheid: <strong>uw elektrische auto opladen met gratis eigen energie</strong>. Via <a href="blog-solar">smart charging met zonnepanelen</a> detecteert uw laadpaal automatisch wanneer uw panelen meer produceren dan uw woning verbruikt, en laadt uw auto op met dat overschot.</p>
+              <p>In de praktijk betekent dit dat u in de zomermaanden een groot deel van uw ritten gratis kunt rijden. Gemiddeld produceren zonnepanelen in België voldoende overschot om een EV 8.000–12.000 km per jaar gratis te laden — afhankelijk van de capaciteit van uw installatie.</p>
+
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="num">8.000 km</div>
+                  <div class="lbl">Gemiddeld gratis laadbare km's per jaar met 6 kWp zonnepanelen</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">€480</div>
+                  <div class="lbl">Extra jaarlijkse besparing op elektriciteit (vs dagtarief)</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">2–3 jr</div>
+                  <div class="lbl">Extra terugverdientijd smart charging module</div>
+                </div>
+              </div>
+
+              <h2>Smart charging: laden op het perfecte moment</h2>
+              <p><strong>Smart charging</strong> is meer dan alleen zonne-energie benutten. Een slimme laadpaal optimaliseert uw laadprofiel op basis van meerdere factoren:</p>
+              <ul>
+                <li><strong>Energietarief</strong>: laadt automatisch wanneer uw kWh-prijs het laagst is</li>
+                <li><strong>Zonne-overschot</strong>: geeft prioriteit aan eigen geproduceerde energie</li>
+                <li><strong>Netcapaciteit</strong>: bewaakt uw hoofdzekering en voorkomt overbelasting</li>
+                <li><strong>Laaddoelstelling</strong>: u stelt in wanneer de auto vol moet zijn (bv. voor 7u00), de laadpaal berekent zelf het optimale schema</li>
+              </ul>
+              <p>Het resultaat: uw auto staat altijd vol klaar wanneer u hem nodig heeft, aan de laagst mogelijke kost — zonder dat u er iets voor hoeft te doen.</p>
+
+              <h2>Nachtladen: de eenvoudigste manier om te besparen</h2>
+              <p>Zelfs zonder zonnepanelen of geavanceerde smart charging kunt u al significant besparen door uw EV <strong>'s nachts op te laden</strong>. De meeste Belgen rijden overdag en laden 's nachts — precies wanneer het elektriciteitsnet het minst belast is en het dal-tarief actief is.</p>
+              <p>In de praktijk werkt dit als volgt:</p>
+              <ol>
+                <li>U komt thuis en sluit uw auto aan op uw thuislader</li>
+                <li>Uw slimme laadpaal wacht tot het dal-tarief ingaat (22u00)</li>
+                <li>De auto laadt rustig op terwijl u slaapt</li>
+                <li>'s Ochtends staat hij vol — aan ±35% goedkopere stroom</li>
+              </ol>
+              <p>Dit vraagt geen enkele aanpassing aan uw dagelijkse routine. U hoeft enkel één keer uw laadpaal te programmeren.</p>
+
+              <h2>Langetermijnbesparingen: verder kijken dan brandstof</h2>
+              <p>De economische voordelen van elektrisch rijden stoppen niet bij de brandstofkost. Ook op onderhoud bespaart u structureel:</p>
+              <ul>
+                <li>Geen olieverversing (±€150–250/jaar)</li>
+                <li>Geen uitlaat, geen roetfilter, geen katalysator</li>
+                <li>Regeneratief remmen spaart uw remschijven en -blokken</li>
+                <li>Minder slijtage door eenvoudiger aandrijving (geen versnellingsbak)</li>
+              </ul>
+              <p>Tel bij 15.000 km per jaar alle besparingen op: <strong>brandstof (±€1.500) + onderhoud (±€400) = ruim €1.900/jaar</strong>. Dat is meer dan €150 per maand terug in uw portemonnee.</p>
+
+              <h2>De eigen laadpaal thuis: rendabel en comfortabel</h2>
+              <p>Openbare laadpalen zijn handig onderweg, maar <strong>thuis laden is tot 3× goedkoper</strong> dan snelladen aan een publiek laadstation. De meeste publieke laadpalen rekenen €0,40–€0,65/kWh aan — twee tot drie keer de thuisprijs.</p>
+              <p>Een eigen laadpaal thuis biedt:</p>
+              <ul>
+                <li><strong>Kostencontrole</strong>: u weet altijd exact wat u betaalt per kWh</li>
+                <li><strong>Comfort</strong>: geen omritten naar een laadstation — gewoon inpluggen bij thuiskomst</li>
+                <li><strong>Snelheid</strong>: een 11 kW wallbox laadt een EV met 60 kWh in ±6 uur op — perfect voor nachtladen</li>
+                <li><strong>Smart features</strong>: energiebeheer, zonne-integratie, app-bediening</li>
+                <li><strong>Waardestijging</strong>: een laadpaal verhoogt de verkoopwaarde van uw woning</li>
+              </ul>
+
+              <div class="inline-cta">
+                <div>
+                  <h3>Bereken uw persoonlijke besparing</h3>
+                  <p>BORNEXA bezorgt u een gratis analyse op maat — inclusief berekening van uw terugverdientijd.</p>
+                </div>
+                <a href="devis" class="btn btn-primary">Offerte aanvragen</a>
+              </div>
+
+              <h2>Veelgestelde vragen</h2>
+              <div class="faq-list" style="margin-top:1rem">
+                <div class="faq-item">
+                  <button class="faq-q">Hoeveel kost het om een elektrische auto thuis op te laden in België?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Met een gemiddeld dagtarief van ±€0,30/kWh kost een volle laadbeurt (60 kWh) ±€18. Op dal-tarief (±€0,20/kWh) daalt dit naar ±€12. Met zonnepanelen kan de kost zelfs naar €0 dalen. Ter vergelijking: een volle tank benzine (45 l) kost gemiddeld €79.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Is elektrisch rijden goedkoper dan benzine in België?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Ja, structureel wel. Bij 15.000 km/jaar bedragen de brandstofkosten voor een benzinewagen ±€2.100 (€1,75/l, 8l/100km). Voor een EV thuis is dat ±€900 op dagtarief of ±€600 op dal-tarief. Het verschil loopt op tot meer dan €1.500/jaar.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Wat is het dal-tarief voor elektriciteit in België?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Het dal-tarief geldt 's nachts (doorgaans 22u–06u) en in het weekend. De prijs ligt ±35% lager dan het piektarief, gemiddeld rond €0,18–0,20/kWh. Een slimme laadpaal laadt automatisch op het goedkoopste moment zonder dat u er iets voor hoeft te doen.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Wat kost een eigen laadpaal thuis?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Een complete installatie — laadpaal + elektrische aanpassingen + keuring — kost gemiddeld €1.200–€2.000 afhankelijk van uw woning en het type laadpaal. Met een besparing van ±€1.500/jaar op brandstof verdient u dit terug in minder dan 2 jaar. BORNEXA bezorgt u een gratis offerte op maat.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Kan ik mijn EV gratis laden met zonnepanelen?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Ja. Via smart charging laadt uw EV automatisch op met uw zonne-overschot. In de zomermaanden kunt u vaak 80–100% van uw ritten gratis rijden. Gemiddeld bespaart u met 6 kWp panelen nog eens €400–600/jaar extra op uw elektriciteitskost.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Is thuis laden goedkoper dan openbaar laden?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Ja, significant. Publieke laadpalen rekenen €0,40–€0,65/kWh aan. Thuis betaalt u €0,20–0,30/kWh. Dat is 2 à 3 keer goedkoper. Snelladers (DC) zijn nóg duurder en kosten tot €0,79/kWh. Thuis laden op dal-tarief is de goedkoopste manier om uw EV op te laden.</div>
+                </div>
+              </div>
+
+            </article>
+
+            <!-- ═══ FR CONTENT ═══ -->
+            <article class="post-body" id="content-fr" style="display:none">
+
+              <p>Le prix à la pompe fluctue constamment, mais une chose est certaine : <strong>conduire électrique est structurellement moins cher qu'utiliser de l'essence ou du diesel en Belgique</strong>. Pas seulement pour l'environnement — aussi pour votre portefeuille. Cet article compare tous les chiffres pour que vous puissiez calculer vos économies concrètes.</p>
+
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="num">1.500 €</div>
+                  <div class="lbl">Économie annuelle moyenne sur le carburant à 15 000 km/an</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">3,5×</div>
+                  <div class="lbl">Moins cher par km en rechargeant à domicile aux heures creuses vs essence (€1,75/l)</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">0 €</div>
+                  <div class="lbl">Coût carburant possible avec panneaux solaires + smart charging</div>
+                </div>
+              </div>
+
+              <h2>Un plein vs une charge complète : le vrai prix</h2>
+              <p>Pour comparer équitablement, prenons un exemple réaliste : une voiture essence de gamme moyenne consommant <strong>8 litres aux 100 km</strong>, face à un véhicule électrique (VE) consommant <strong>20 kWh aux 100 km</strong>.</p>
+
+              <div class="savings-scenario">
+                <div class="scenario-card gas">
+                  <div class="scenario-label">Voiture essence</div>
+                  <div class="scenario-price">79 €</div>
+                  <div class="scenario-desc">Plein 45 litres · 1,75 €/l<br>Autonomie ±560 km</div>
+                </div>
+                <div class="scenario-card ev">
+                  <div class="scenario-label">Véhicule électrique</div>
+                  <div class="scenario-price">18 €</div>
+                  <div class="scenario-desc">Charge complète 60 kWh · 0,30 €/kWh<br>Autonomie ±300–400 km</div>
+                </div>
+              </div>
+
+              <p>Par kilomètre, vous payez en essence <strong>±0,140 €/km</strong>. Avec un VE rechargé à domicile au tarif normal, c'est <strong>±0,060 €/km</strong> — près de 2,5 fois moins cher. Aux heures creuses la nuit, ce chiffre descend à <strong>±0,040 €/km</strong>, soit 3,5 fois moins cher.</p>
+
+              <h2>Comparatif de coûts : 15 000 km par an</h2>
+              <p>Le tableau suivant présente les coûts annuels réalistes sur la base d'un comportement de conduite moyen belge de 15 000 km/an.</p>
+
+              <div style="overflow-x:auto">
+                <table class="compare-table">
+                  <thead>
+                    <tr>
+                      <th>Situation</th>
+                      <th>Prix par km</th>
+                      <th>Coût annuel</th>
+                      <th>Économie vs essence</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Essence (8l/100km · 1,75 €/l)</td>
+                      <td class="val-red">0,140 €</td>
+                      <td class="val-red">2 100 €</td>
+                      <td>—</td>
+                    </tr>
+                    <tr>
+                      <td>Diesel (6,5l/100km · 1,85 €/l)</td>
+                      <td class="val-red">0,120 €</td>
+                      <td class="val-red">1 800 €</td>
+                      <td>—</td>
+                    </tr>
+                    <tr>
+                      <td>VE – tarif normal (0,30 €/kWh)</td>
+                      <td>0,060 €</td>
+                      <td>900 €</td>
+                      <td class="val-green">±1 200 € vs essence</td>
+                    </tr>
+                    <tr>
+                      <td>VE – heures creuses (0,20 €/kWh)</td>
+                      <td>0,040 €</td>
+                      <td>600 €</td>
+                      <td class="val-green">±1 500 € vs essence</td>
+                    </tr>
+                    <tr>
+                      <td>VE – panneaux solaires (0,10 €/kWh moy.)</td>
+                      <td>0,020 €</td>
+                      <td>300 €</td>
+                      <td class="val-green">±1 800 € vs essence</td>
+                    </tr>
+                    <tr>
+                      <td>VE – surplus solaire total</td>
+                      <td>0,00 €</td>
+                      <td><strong>0 €</strong></td>
+                      <td class="val-green">2 100 € vs essence</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="highlight-box">
+                <strong>Remarque :</strong> Ces chiffres sont basés sur les prix moyens belges du carburant et de l'électricité en 2026. Lors de pics de prix du pétrole (phénomène historiquement fréquent), l'avantage du VE est encore plus important.
+              </div>
+
+              <h2>Heures creuses : recharger quand l'électricité est la moins chère</h2>
+              <p>En Belgique, le <strong>compteur bihoraire</strong> (ou compteur numérique avec enregistrement horaire) vous permet de bénéficier de tarifs électriques plus bas en dehors des heures de pointe. Le tarif nuit est généralement actif :</p>
+              <ul>
+                <li>Chaque nuit de <strong>22h00 à 06h00</strong></li>
+                <li>Le week-end (selon les contrats)</li>
+              </ul>
+              <p>Une borne intelligente — comme le <a href="smappee">Smappee EV One</a>, la nouvelle <a href="wallbox">Wallbox Pulsar Max (2024)</a> ou la classique Wallbox Pulsar Plus — peut être programmée pour recharger automatiquement dès l'activation du tarif nuit. Vous n'avez plus à y penser.</p>
+
+              <div class="inline-cta">
+                <div>
+                  <h3>Profiter des heures creuses ?</h3>
+                  <p>BORNEXA installe des bornes intelligentes qui rechargent automatiquement au tarif le plus avantageux.</p>
+                </div>
+                <a href="devis" class="btn btn-primary">Devis gratuit</a>
+              </div>
+
+              <h2>Contrats fixes vs variables : le prix de l'incertitude</h2>
+              <p>L'un des avantages les plus sous-estimés du véhicule électrique est la <strong>stabilité des prix</strong>. Les prix de l'essence et du diesel sont directement liés au marché mondial du pétrole brut. Ce prix peut augmenter de 20 à 40 % en quelques semaines à cause de tensions géopolitiques, de décisions de l'OPEP+ ou de la spéculation.</p>
+              <p>Les prix de l'électricité sont aussi variables, mais vous pouvez vous en protéger bien plus facilement :</p>
+              <ul>
+                <li><strong>Contrats fixes</strong> : votre prix au kWh est bloqué pour 1 ou 2 ans. Aucune mauvaise surprise.</li>
+                <li><strong>Contrats dynamiques</strong> : vous payez le prix de bourse en temps réel, mais vous pouvez recharger intelligemment quand ce prix est au plus bas.</li>
+                <li><strong>Panneaux solaires</strong> : vous produisez votre propre électricité et êtes partiellement indépendant du réseau.</li>
+              </ul>
+              <p>Une voiture à essence n'offre aucune de ces options. Vous payez toujours le prix du moment à la pompe.</p>
+
+              <div class="warning-box">
+                <strong>Fait historique :</strong> Entre 2021 et 2022, le prix de l'essence en Belgique est passé de ±1,40 € à ±2,20 € par litre (+57 %). Les conducteurs de VE ont à peine vu leur coût de recharge augmenter. Avec un contrat d'électricité fixe, ils payaient exactement le même prix que l'année précédente.
+              </div>
+
+              <h2>Panneaux solaires : l'ultime coût carburant de 0 €</h2>
+              <p>Si vous avez déjà des panneaux solaires — ou si vous prévoyez d'en installer — une opportunité unique s'offre à vous : <strong>recharger votre voiture électrique avec votre propre énergie gratuite</strong>. Via le <a href="blog-solar">smart charging avec panneaux solaires</a>, votre borne détecte automatiquement quand vos panneaux produisent plus que votre maison ne consomme, et recharge votre voiture avec cet excédent.</p>
+              <p>En pratique, cela signifie qu'en été, vous pouvez rouler gratuitement sur une grande partie de vos trajets. En moyenne, des panneaux solaires en Belgique produisent suffisamment d'excédent pour recharger gratuitement un VE sur 8 000 à 12 000 km par an.</p>
+
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="num">8 000 km</div>
+                  <div class="lbl">km rechargeables gratuitement par an avec 6 kWc de panneaux</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">480 €</div>
+                  <div class="lbl">Économie supplémentaire annuelle sur l'électricité (vs tarif jour)</div>
+                </div>
+                <div class="stat-card">
+                  <div class="num">2–3 ans</div>
+                  <div class="lbl">Retour sur investissement du module smart charging</div>
+                </div>
+              </div>
+
+              <h2>Smart charging : recharger au moment parfait</h2>
+              <p>Le <strong>smart charging</strong> va au-delà de l'utilisation de l'énergie solaire. Une borne intelligente optimise votre profil de charge selon plusieurs facteurs :</p>
+              <ul>
+                <li><strong>Tarif énergétique</strong> : recharge automatiquement quand le kWh est le moins cher</li>
+                <li><strong>Surplus solaire</strong> : donne la priorité à l'énergie produite sur place</li>
+                <li><strong>Capacité réseau</strong> : surveille votre disjoncteur principal et évite les surcharges</li>
+                <li><strong>Objectif de charge</strong> : vous définissez quand la voiture doit être pleine (ex. avant 7h00), la borne calcule elle-même le calendrier optimal</li>
+              </ul>
+
+              <h2>Recharge nocturne : la façon la plus simple d'économiser</h2>
+              <p>Même sans panneaux solaires, vous pouvez économiser significativement en rechargeant votre VE <strong>la nuit</strong>. La plupart des Belges conduisent la journée et rechargent la nuit — précisément quand le réseau électrique est le moins chargé et le tarif nuit est actif.</p>
+              <ol>
+                <li>Vous rentrez chez vous et branchez votre voiture</li>
+                <li>Votre borne intelligente attend l'activation du tarif nuit (22h00)</li>
+                <li>La voiture se recharge tranquillement pendant votre sommeil</li>
+                <li>Le matin, elle est pleine — à ±35 % moins cher</li>
+              </ol>
+
+              <h2>Économies à long terme : au-delà du carburant</h2>
+              <p>Les avantages économiques du véhicule électrique ne s'arrêtent pas au carburant. L'entretien est aussi structurellement moins coûteux :</p>
+              <ul>
+                <li>Pas de vidange d'huile (±150–250 €/an)</li>
+                <li>Pas d'échappement, de filtre à particules, de catalyseur</li>
+                <li>Le freinage régénératif préserve les disques et plaquettes</li>
+                <li>Moins d'usure grâce à la transmission simplifiée</li>
+              </ul>
+              <p>À 15 000 km/an, cumulez toutes les économies : <strong>carburant (±1 500 €) + entretien (±400 €) = plus de 1 900 €/an</strong>. C'est plus de 150 € par mois qui restent dans votre portefeuille.</p>
+
+              <h2>La borne à domicile : rentable et confortable</h2>
+              <p>Les bornes publiques sont pratiques en déplacement, mais <strong>recharger à domicile est jusqu'à 3 fois moins cher</strong> qu'une charge rapide sur une borne publique. Les bornes publiques facturent généralement 0,40–0,65 €/kWh — deux à trois fois le prix domestique.</p>
+              <ul>
+                <li><strong>Maîtrise des coûts</strong> : vous savez toujours exactement ce que vous payez par kWh</li>
+                <li><strong>Confort</strong> : pas de détour — il suffit de brancher en rentrant</li>
+                <li><strong>Vitesse</strong> : une wallbox 11 kW charge un VE de 60 kWh en ±6h</li>
+                <li><strong>Fonctions intelligentes</strong> : gestion de l'énergie, intégration solaire, contrôle via app</li>
+                <li><strong>Plus-value immobilière</strong> : une borne augmente la valeur de votre bien</li>
+              </ul>
+
+              <div class="inline-cta">
+                <div>
+                  <h3>Calculez vos économies personnelles</h3>
+                  <p>BORNEXA vous fournit une analyse gratuite sur mesure — avec calcul de votre retour sur investissement.</p>
+                </div>
+                <a href="devis" class="btn btn-primary">Demander un devis</a>
+              </div>
+
+              <h2>Questions fréquentes</h2>
+              <div class="faq-list" style="margin-top:1rem">
+                <div class="faq-item">
+                  <button class="faq-q">Combien coûte la recharge d'une voiture électrique à domicile en Belgique ?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Au tarif moyen de ±0,30 €/kWh, une charge complète (60 kWh) coûte ±18 €. Au tarif nuit (±0,20 €/kWh), cela descend à ±12 €. Avec des panneaux solaires, le coût peut être réduit à 0 €. À comparer à un plein d'essence (45 l) à environ 79 €.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">La voiture électrique est-elle moins chère que l'essence en Belgique ?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Oui, structurellement. À 15 000 km/an, les coûts carburant d'une voiture essence s'élèvent à ±2 100 € (1,75 €/l, 8l/100km). Pour un VE rechargé à domicile, c'est ±900 € au tarif normal ou ±600 € aux heures creuses. La différence peut dépasser 1 500 €/an.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Qu'est-ce que le tarif heures creuses pour l'électricité en Belgique ?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Le tarif heures creuses s'applique la nuit (généralement 22h–06h) et le week-end. Le prix est ±35% inférieur au tarif heures pleines, autour de 0,18–0,20 €/kWh en moyenne. Une borne intelligente recharge automatiquement au moment le moins cher.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Combien coûte une borne de recharge à domicile ?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Une installation complète — borne + adaptations électriques + certification — coûte en moyenne 1 200–2 000 € selon votre logement et le type de borne. Avec une économie de ±1 500 €/an sur le carburant, le retour sur investissement est inférieur à 2 ans. BORNEXA vous remet un devis gratuit et sans engagement.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">Puis-je recharger mon VE gratuitement avec des panneaux solaires ?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Oui. Grâce au smart charging, votre VE se recharge automatiquement avec votre surplus solaire. En été, vous pouvez souvent rouler gratuitement sur 80 à 100 % de vos trajets. Avec 6 kWc de panneaux, vous économisez en moyenne 400 à 600 € supplémentaires par an sur votre facture d'électricité.</div>
+                </div>
+                <div class="faq-item">
+                  <button class="faq-q">La recharge à domicile est-elle moins chère que les bornes publiques ?<span class="faq-icon">+</span></button>
+                  <div class="faq-a">Oui, significativement. Les bornes publiques facturent 0,40–0,65 €/kWh. À domicile, vous payez 0,20–0,30 €/kWh. C'est 2 à 3 fois moins cher. Les chargeurs rapides (DC) sont encore plus onéreux, jusqu'à 0,79 €/kWh. La recharge nocturne à domicile est de loin la moins chère.</div>
+                </div>
+              </div>
+
+            </article>
+          </div>
+
+          <!-- ── Sidebar ── -->
+          <aside class="post-sidebar">
+            <div class="sticky-card">
+              <h3 id="sidebar-title">Vraag een gratis offerte aan</h3>
+              <p id="sidebar-desc">BORNEXA installeert slimme laadpalen in Boortmeerbeek en omgeving. Offerte binnen 24u.</p>
+              <a href="devis" class="btn btn-primary" id="sidebar-cta">Offerte aanvragen</a>
+              <a href="tel:+32489247760" class="btn btn-outline">&#128222; +32 489 24 77 60</a>
+              <div class="related-links">
+                <h4 id="sidebar-related">Gerelateerde artikelen</h4>
+                <a href="blog-solar" id="rel1">Smart charging met zonnepanelen</a>
+                <a href="blog-boortmeerbeek" id="rel2">Laadpaal installeren in Boortmeerbeek</a>
+                <a href="blog-tesla" id="rel3">Tesla Wall Connector vs andere laadpalen</a>
+                <a href="services" id="rel4">Onze diensten</a>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── Bottom CTA ── -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2 id="cta-h">Klaar om te besparen?</h2>
+          <p id="cta-p">BORNEXA installeert uw laadpaal en bespaart u tot €1.900/jaar. Offerte binnen 24u.</p>
+        </div>
+        <div class="cta-banner-actions">
+          <a href="devis" class="btn btn-dark" id="cta-btn">Offerte aanvragen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" height="44" loading="lazy"></a>
+          <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
+          <div class="footer-certs" aria-label="Officiële certificaties">
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Certified</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Partner</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> Installer</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerServices">Diensten</h4>
+          <ul class="footer-links">
+            <li><a href="services#residential" data-key="footerService1">Laadpaal thuis</a></li>
+            <li><a href="services#business" data-key="footerService2">Laadpaal bedrijf</a></li>
+            <li><a href="services#tesla" data-key="footerService3">Tesla Wall Connector</a></li>
+            <li><a href="services#smart" data-key="footerService4">Smart Charging</a></li>
+            <li><a href="services#solar" data-key="footerService5">Zonnepanelen integratie</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerContact">Contact</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <span data-key="footerPhone">+32 489 24 77 60</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span data-key="footerEmail">info@bornexa.be</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span data-key="footerAddress">Boortmeerbeek, België</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-key="footerRights">© 2026 BORNEXA. Alle rechten voorbehouden.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy" data-key="footerPrivacy">Privacybeleid</a>
+          <a href="algemene-voorwaarden" data-key="footerTerms">Algemene voorwaarden</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="js/translations.js?v=2026-06-28"></script>
+  <script defer src="js/lang.js?v=2026-06-28"></script>
+  <script src="js/main.js?v=2026-06-28"></script>
+  <script>
+    /* Reading progress bar */
+    (function() {
+      var bar = document.getElementById('progress-bar');
+      window.addEventListener('scroll', function() {
+        var doc = document.documentElement;
+        var scrolled = doc.scrollTop || document.body.scrollTop;
+        var total = doc.scrollHeight - doc.clientHeight;
+        bar.style.width = (total > 0 ? (scrolled / total * 100) : 0) + '%';
+      }, {passive: true});
+    })();
+
+    /* Language switch for article content */
+    (function() {
+      var elems = {
+        heroNl: document.getElementById('hero-nl'),
+        heroFr: document.getElementById('hero-fr'),
+        contentNl: document.getElementById('content-nl'),
+        contentFr: document.getElementById('content-fr')
+      };
+
+      var nl = {
+        sidebarTitle: 'Vraag een gratis offerte aan',
+        sidebarDesc: 'BORNEXA installeert slimme laadpalen in Boortmeerbeek en omgeving. Offerte binnen 24u.',
+        sidebarCta: 'Offerte aanvragen',
+        sidebarRelated: 'Gerelateerde artikelen',
+        rel1: 'Smart charging met zonnepanelen',
+        rel2: 'Laadpaal installeren in Boortmeerbeek',
+        rel3: 'Tesla Wall Connector vs andere laadpalen',
+        rel4: 'Onze diensten',
+        ctaH: 'Klaar om te besparen?',
+        ctaP: 'BORNEXA installeert uw laadpaal en bespaart u tot €1.900/jaar. Offerte binnen 24u.',
+        ctaBtn: 'Offerte aanvragen'
+      };
+
+      var fr = {
+        sidebarTitle: 'Demandez un devis gratuit',
+        sidebarDesc: 'BORNEXA installe des bornes intelligentes à Boortmeerbeek. Devis sous 24h.',
+        sidebarCta: 'Demander un devis',
+        sidebarRelated: 'Articles liés',
+        rel1: 'Smart charging avec panneaux solaires',
+        rel2: 'Borne de recharge à Boortmeerbeek',
+        rel3: 'Tesla Wall Connector vs autres bornes',
+        rel4: 'Nos services',
+        ctaH: 'Prêt à économiser ?',
+        ctaP: 'BORNEXA installe votre borne et vous fait économiser jusqu\'à 1 900 €/an. Devis sous 24h.',
+        ctaBtn: 'Demander un devis'
+      };
+
+      function applyLang() {
+        var isFr = document.documentElement.lang === 'fr';
+        var t = isFr ? fr : nl;
+
+        elems.heroNl.style.display = isFr ? 'none' : '';
+        elems.heroFr.style.display = isFr ? '' : 'none';
+        elems.contentNl.style.display = isFr ? 'none' : '';
+        elems.contentFr.style.display = isFr ? '' : 'none';
+
+        document.getElementById('sidebar-title').textContent = t.sidebarTitle;
+        document.getElementById('sidebar-desc').textContent = t.sidebarDesc;
+        document.getElementById('sidebar-cta').textContent = t.sidebarCta;
+        document.getElementById('sidebar-related').textContent = t.sidebarRelated;
+        document.getElementById('rel1').textContent = t.rel1;
+        document.getElementById('rel2').textContent = t.rel2;
+        document.getElementById('rel3').textContent = t.rel3;
+        document.getElementById('rel4').textContent = t.rel4;
+        document.getElementById('cta-h').textContent = t.ctaH;
+        document.getElementById('cta-p').textContent = t.ctaP;
+        document.getElementById('cta-btn').textContent = t.ctaBtn;
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        applyLang();
+        new MutationObserver(applyLang)
+          .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+      });
+    })();
+  </script>
+</body>
+</html>

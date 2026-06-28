@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;}
+  @page{size:88mm 58mm;margin:0;}
+  html,body{width:88mm;height:58mm;overflow:hidden;}
+
+  .card{
+    width:88mm;height:58mm;
+    position:relative;overflow:hidden;
+    background:#0C1018;
+  }
+
+  /* Fond grille subtile */
+  .card::before{
+    content:'';
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(0,200,150,.018)1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,200,150,.018)1px,transparent 1px);
+    background-size:5.5mm 5.5mm;
+    pointer-events:none;
+  }
+
+  /* Barre verte top */
+  .top-bar{
+    position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,#1ADBA8 0%,#009E76 60%,rgba(0,158,118,0) 100%);
+  }
+
+  /* Lueur coin bas-droit */
+  .glow{
+    position:absolute;bottom:-28mm;right:-18mm;
+    width:60mm;height:60mm;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,200,150,.06),transparent 65%);
+    pointer-events:none;
+  }
+
+  /* Ligne basse déco */
+  .bottom-glow{
+    position:absolute;bottom:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent 0%,rgba(0,200,150,.25) 40%,transparent 100%);
+  }
+
+  /* Contacts */
+  .contacts{
+    position:absolute;
+    top:50%;left:7.5mm;
+    transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:4.8mm;
+  }
+  .row{display:flex;align-items:center;gap:2.8mm;}
+  .ico{color:#00C896;flex-shrink:0;display:block;}
+  .txt{
+    font-family:'Inter',Arial,sans-serif;
+    font-size:7px;color:#CBD5E1;letter-spacing:.25px;line-height:1;
+  }
+  .txt.main{font-weight:600;color:#ffffff;font-size:7.8px;letter-spacing:.1px;}
+
+  /* QR code */
+  .qr-wrap{
+    position:absolute;right:7.5mm;top:50%;
+    transform:translateY(-50%);
+    background:#ffffff;
+    padding:2mm;border-radius:2mm;
+    width:18.5mm;height:18.5mm;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:1.5mm;
+  }
+  .qr-wrap img{width:14mm;height:14mm;display:block;}
+  .qr-label{
+    font-family:'Inter',Arial,sans-serif;
+    font-size:4px;letter-spacing:1.2px;text-transform:uppercase;
+    color:#94A3B8;line-height:1;
+  }
+
+  /* Brand micro */
+  .brand{
+    position:absolute;bottom:4.5mm;left:7.5mm;
+    font-family:'Space Grotesk','Arial',sans-serif;
+    font-size:5px;font-weight:600;letter-spacing:2px;
+    color:rgba(255,255,255,.1);text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="top-bar"></div>
+  <div class="glow"></div>
+  <div class="bottom-glow"></div>
+
+  <div class="contacts">
+    <!-- Téléphone -->
+    <div class="row">
+      <svg class="ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5 19.79 19.79 0 01.22 5.18 2 2 0 012.18 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 10.09a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      <span class="txt main">0489 24 77 60</span>
+    </div>
+    <!-- Email -->
+    <div class="row">
+      <svg class="ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      <span class="txt">info@bornexa.be</span>
+    </div>
+    <!-- Web -->
+    <div class="row">
+      <svg class="ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
+      </svg>
+      <span class="txt">bornexa.be</span>
+    </div>
+  </div>
+
+  <!-- QR code haute résolution -->
+  <div class="qr-wrap">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://bornexa.be/devis.html&bgcolor=ffffff&color=0C1018&margin=3&qzone=1&format=png" alt="QR Bornexa"/>
+    <div class="qr-label">Devis gratuit</div>
+  </div>
+
+  <div class="brand">BORNEXA · EV Installateur</div>
+</div>
+</body>
+</html>

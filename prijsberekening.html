@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <title data-fr="Combien coûte une borne de recharge ? Calculez votre prix | BORNEXA">Wat kost een laadpaal? Bereken uw prijs in 1 minuut | BORNEXA</title>
+  <meta name="description" content="Bereken meteen een eerlijke prijsindicatie voor uw laadpaal of wallbox in Vlaams-Brabant en Brussel. All-in richtprijs (BTW 6%) voor Tesla, Wallbox en Smappee. Definitieve vaste prijs na gratis plaatsbezoek." data-fr="Calculez tout de suite une estimation honnête du prix de votre borne de recharge en Brabant flamand et à Bruxelles. Fourchette all-in (TVA 6%) pour Tesla, Wallbox et Smappee. Prix fixe définitif après visite gratuite.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.bornexa.be/prijsberekening">
+  <link rel="alternate" hreflang="nl" href="https://www.bornexa.be/prijsberekening">
+  <link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/prijsberekening">
+
+  <meta property="og:title" content="Wat kost een laadpaal? Bereken uw prijs | BORNEXA">
+  <meta property="og:description" content="Eerlijke prijsindicatie voor uw laadpaal in 1 minuut. Tesla, Wallbox, Smappee. All-in BTW 6%. Vaste prijs na gratis plaatsbezoek.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.bornexa.be/prijsberekening">
+  <meta property="og:locale" content="nl_BE">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "BORNEXA Laadpaal prijscalculator",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://www.bornexa.be/prijsberekening",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+        "provider": { "@id": "https://www.bornexa.be/#business" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Hoeveel kost een laadpaal installeren in 2026?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Een standaard thuisinstallatie kost all-in tussen ongeveer €1.100 en €1.900 (BTW 6% onder voorwaarden). De prijs hangt af van het merk, de fase (mono of driefase), de kabellengte, de doorvoer en eventuele opties zoals load balancing of zonne-integratie. BORNEXA geeft een vaste prijs na een gratis plaatsbezoek." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is deze prijsberekening bindend?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Nee, het is een eerlijke richtprijs op basis van uw antwoorden. De definitieve vaste prijs krijgt u in een offerte na een gratis plaatsbezoek, waarbij we uw meterkast, kabeltraject en specifieke situatie controleren. Wat op de offerte staat, is wat u betaalt — geen verborgen kosten." }
+          },
+          {
+            "@type": "Question",
+            "name": "Wat is inbegrepen in de prijs?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Bij BORNEXA is steeds inbegrepen: levering en plaatsing van de laadpaal, dedicated beveiliging (differentieel Type A 30 mA + automaat curve C), kabel en bedrading, configuratie van de app, inbedrijfstelling, elektrisch plan en het AREI/RGIE keuringsattest. Plus 2 jaar installatiegarantie." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <meta property="og:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+  <meta property="og:image:alt" content="BORNEXA - Laadpaal prijs berekenen">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
+  <link rel="stylesheet" href="css/style.css?v=2026-06-28">
+  <style>
+    .calc{max-width:760px;margin:0 auto}
+    .calc-card{background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:20px;padding:28px 26px;box-shadow:0 4px 24px rgba(0,0,0,.05)}
+    .calc-q{margin-bottom:22px}
+    .calc-q > label{display:block;font-weight:700;font-size:1rem;margin-bottom:10px;color:var(--dark,#0B1E3C)}
+    .calc-opts{display:flex;flex-wrap:wrap;gap:8px}
+    .calc-opt{flex:1 1 auto;min-width:120px}
+    .calc-opt input{position:absolute;opacity:0;pointer-events:none}
+    .calc-opt span{display:block;text-align:center;padding:12px 14px;border:1.5px solid var(--border,#E2E8F0);border-radius:12px;cursor:pointer;font-weight:600;font-size:.92rem;transition:all .15s;background:#fff;color:#0B1E3C}
+    .calc-opt input:checked + span{border-color:#00C896;background:#E0FBF4;box-shadow:0 4px 14px rgba(0,200,150,.18)}
+    .calc-opt span:hover{border-color:#00C896}
+    .calc-check{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--border,#E2E8F0);border-radius:12px;cursor:pointer;font-weight:600;font-size:.92rem;margin-bottom:8px}
+    .calc-check input{width:20px;height:20px;accent-color:#00C896}
+    .calc-check.on{border-color:#00C896;background:#E0FBF4}
+    .calc-result{margin-top:8px;background:linear-gradient(135deg,#0B1E3C,#0C1018);color:#fff;border-radius:20px;padding:28px 26px;text-align:center;display:none}
+    .calc-result.show{display:block;animation:fadeUp .3s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .calc-result .lbl{font-size:.8rem;letter-spacing:1.2px;text-transform:uppercase;color:#1ADBA8;font-weight:800}
+    .calc-result .range{font-size:2.2rem;font-weight:800;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+    .calc-result .sub{font-size:.86rem;color:rgba(255,255,255,.7);line-height:1.5;max-width:460px;margin:6px auto 0}
+    .calc-result .incl{text-align:left;background:rgba(255,255,255,.06);border-radius:12px;padding:14px 16px;margin:18px auto 0;max-width:480px;font-size:.86rem;line-height:1.6}
+    .calc-result .incl b{color:#1ADBA8}
+    .calc-cta{display:inline-flex;align-items:center;gap:8px;background:#00C896;color:#0B1E3C;font-weight:800;padding:14px 26px;border-radius:12px;text-decoration:none;margin-top:18px;box-shadow:0 6px 20px rgba(0,200,150,.32)}
+    .calc-cta:hover{background:#1ADBA8}
+    .calc-disclaim{font-size:.82rem;color:var(--muted,#64748B);text-align:center;margin-top:14px}
+  </style>
+</head>
+<body data-page="tool">
+
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+      <div class="nav-links">
+        <a href="/" data-key="navHome">Home</a>
+        <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+        <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+        <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+        <a href="faq">FAQ</a>
+        <a href="blog" data-key="navBlog">Blog</a>
+        <a href="devis" class="nav-cta">Offerte aanvragen</a>
+        <button class="btn-lang" id="lang-btn">FR</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+      <a href="/" data-key="navHome">Home</a>
+      <a href="services" data-key="navServices">Diensten</a>
+      <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+      <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+      <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+      <a href="faq">FAQ</a>
+      <a href="blog" data-key="navBlog">Blog</a>
+      <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+      <button class="btn-lang" id="lang-btn-mobile">FR</button>
+    </div>
+  </nav>
+
+  <header class="page-hero" role="banner">
+    <div class="page-hero-bg" aria-hidden="true"></div>
+    <div class="container">
+      <nav class="page-breadcrumb" aria-label="Breadcrumb"><a href="/" data-key="navHome">Home</a><span class="sep">›</span><span data-nl="Prijsberekening" data-fr="Calcul du prix">Prijsberekening</span></nav>
+      <div class="badge" data-nl="Gratis &amp; vrijblijvend" data-fr="Gratuit &amp; sans engagement">Gratis &amp; vrijblijvend</div>
+      <h1 data-nl="Wat kost een laadpaal? Bereken uw prijs in 1 minuut" data-fr="Combien coûte une borne de recharge ? Calculez votre prix en 1 minute">Wat kost een laadpaal? Bereken uw prijs in 1 minuut</h1>
+      <p data-nl="Beantwoord 4 korte vragen en krijg meteen een eerlijke richtprijs (all-in, BTW 6%). De definitieve vaste prijs volgt na een gratis plaatsbezoek — geen verborgen kosten." data-fr="Répondez à 4 questions courtes et obtenez tout de suite une estimation honnête (all-in, TVA 6%). Le prix fixe définitif suit après une visite gratuite — sans frais cachés.">Beantwoord 4 korte vragen en krijg meteen een eerlijke richtprijs (all-in, BTW 6%). De definitieve vaste prijs volgt na een gratis plaatsbezoek — geen verborgen kosten.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="calc">
+          <div class="calc-card">
+
+            <div class="calc-q">
+              <label data-nl="1. Welk merk heeft uw voorkeur?" data-fr="1. Quelle marque préférez-vous ?">1. Welk merk heeft uw voorkeur?</label>
+              <div class="calc-opts" data-group="brand">
+                <label class="calc-opt"><input type="radio" name="brand" value="advies" checked><span data-nl="Advies" data-fr="Conseil">Advies</span></label>
+                <label class="calc-opt"><input type="radio" name="brand" value="wallbox"><span>Wallbox</span></label>
+                <label class="calc-opt"><input type="radio" name="brand" value="tesla"><span>Tesla</span></label>
+                <label class="calc-opt"><input type="radio" name="brand" value="smappee"><span>Smappee</span></label>
+              </div>
+            </div>
+
+            <div class="calc-q">
+              <label data-nl="2. Welke aansluiting heeft u?" data-fr="2. Quel raccordement avez-vous ?">2. Welke aansluiting heeft u?</label>
+              <div class="calc-opts" data-group="phase">
+                <label class="calc-opt"><input type="radio" name="phase" value="mono" checked><span data-nl="Monofase 7,4 kW" data-fr="Monophasé 7,4 kW">Monofase 7,4 kW</span></label>
+                <label class="calc-opt"><input type="radio" name="phase" value="tri11"><span data-nl="Driefase 11 kW" data-fr="Triphasé 11 kW">Driefase 11 kW</span></label>
+                <label class="calc-opt"><input type="radio" name="phase" value="tri22"><span data-nl="Driefase 22 kW" data-fr="Triphasé 22 kW">Driefase 22 kW</span></label>
+              </div>
+            </div>
+
+            <div class="calc-q">
+              <label data-nl="3. Afstand meterkast → laadpaal?" data-fr="3. Distance tableau → borne ?">3. Afstand meterkast → laadpaal?</label>
+              <div class="calc-opts" data-group="dist">
+                <label class="calc-opt"><input type="radio" name="dist" value="s" checked><span data-nl="&lt; 5 m" data-fr="&lt; 5 m">&lt; 5 m</span></label>
+                <label class="calc-opt"><input type="radio" name="dist" value="m"><span>5–10 m</span></label>
+                <label class="calc-opt"><input type="radio" name="dist" value="l"><span>10–20 m</span></label>
+                <label class="calc-opt"><input type="radio" name="dist" value="xl"><span data-nl="&gt; 20 m" data-fr="&gt; 20 m">&gt; 20 m</span></label>
+              </div>
+            </div>
+
+            <div class="calc-q">
+              <label data-nl="4. Hoe verloopt de kabel?" data-fr="4. Comment passe le câble ?">4. Hoe verloopt de kabel?</label>
+              <div class="calc-opts" data-group="route">
+                <label class="calc-opt"><input type="radio" name="route" value="easy" checked><span data-nl="Eenvoudig (goot)" data-fr="Facile (goulotte)">Eenvoudig</span></label>
+                <label class="calc-opt"><input type="radio" name="route" value="med"><span data-nl="Boring/plafond" data-fr="Percement/plafond">Boring/plafond</span></label>
+                <label class="calc-opt"><input type="radio" name="route" value="hard"><span data-nl="Sleuf/gevel" data-fr="Tranchée/façade">Sleuf/gevel</span></label>
+              </div>
+            </div>
+
+            <div class="calc-q">
+              <label data-nl="Extra opties (optioneel)" data-fr="Options supplémentaires (optionnel)">Extra opties (optioneel)</label>
+              <label class="calc-check"><input type="checkbox" id="opt-solar"><span data-nl="Laden op zonnepanelen / load balancing (P1-module)" data-fr="Recharge solaire / load balancing (module P1)">Laden op zonnepanelen / load balancing (P1-module)</span></label>
+              <label class="calc-check"><input type="checkbox" id="opt-2ev"><span data-nl="2e elektrische wagen voorzien (voorbekabeling)" data-fr="2e véhicule électrique prévu (précâblage)">2e elektrische wagen voorzien (voorbekabeling)</span></label>
+            </div>
+
+            <button class="btn btn-primary" id="calcBtn" style="width:100%;justify-content:center;padding:15px;font-size:1rem" data-nl="Bereken mijn richtprijs" data-fr="Calculer mon estimation">Bereken mijn richtprijs</button>
+          </div>
+
+          <div class="calc-result" id="calcResult" aria-live="polite">
+            <div class="lbl" data-nl="Uw richtprijs (all-in, BTW 6%)" data-fr="Votre estimation (all-in, TVA 6%)">Uw richtprijs (all-in, BTW 6%)</div>
+            <div class="range" id="calcRange">—</div>
+            <div class="sub" id="calcNote"></div>
+            <div class="incl">
+              <span data-nl="Altijd inbegrepen:" data-fr="Toujours inclus :"><b data-nl="Altijd inbegrepen:" data-fr="Toujours inclus :">Altijd inbegrepen:</b></span>
+              <span data-nl=" levering &amp; plaatsing · beveiliging Type A + automaat · kabel · app-configuratie · inbedrijfstelling · elektrisch plan · AREI-keuring · 2 jaar garantie." data-fr=" fourniture &amp; pose · protection Type A + disjoncteur · câble · configuration app · mise en service · plan électrique · contrôle RGIE · 2 ans de garantie."> levering &amp; plaatsing · beveiliging Type A + automaat · kabel · app-configuratie · inbedrijfstelling · elektrisch plan · AREI-keuring · 2 jaar garantie.</span>
+            </div>
+            <a href="devis" class="calc-cta" data-nl="Vraag uw exacte vaste prijs →" data-fr="Demandez votre prix fixe exact →">Vraag uw exacte vaste prijs →</a>
+            <div class="calc-disclaim" data-nl="Richtprijs op basis van uw antwoorden. Definitieve vaste prijs na gratis plaatsbezoek." data-fr="Estimation basée sur vos réponses. Prix fixe définitif après visite gratuite.">Richtprijs op basis van uw antwoorden. Definitieve vaste prijs na gratis plaatsbezoek.</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-bg">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 data-nl="Wat bepaalt de prijs van uw laadpaal?" data-fr="Qu'est-ce qui détermine le prix de votre borne ?">Wat bepaalt de prijs van uw laadpaal?</h2>
+          <p data-nl="Een eerlijke laadpaalprijs hangt van enkele concrete factoren af. Bij BORNEXA krijgt u een vaste prijs zonder verrassingen." data-fr="Un prix honnête dépend de quelques facteurs concrets. Chez BORNEXA, vous recevez un prix fixe sans surprise.">Een eerlijke laadpaalprijs hangt van enkele concrete factoren af. Bij BORNEXA krijgt u een vaste prijs zonder verrassingen.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card reveal delay-1">
+            <div class="why-num" aria-hidden="true">01</div>
+            <h3 data-nl="Merk &amp; vermogen" data-fr="Marque &amp; puissance">Merk &amp; vermogen</h3>
+            <p data-nl="Een monofase 7,4 kW wallbox is goedkoper dan een driefase 22 kW toestel. Tesla, Wallbox en Smappee hebben elk hun prijsklasse — wij adviseren wat écht bij u past." data-fr="Une wallbox monophasée 7,4 kW est moins chère qu'un appareil triphasé 22 kW. Tesla, Wallbox et Smappee ont chacun leur gamme — nous conseillons ce qui vous convient vraiment.">Een monofase 7,4 kW wallbox is goedkoper dan een driefase 22 kW toestel. Tesla, Wallbox en Smappee hebben elk hun prijsklasse — wij adviseren wat écht bij u past.</p>
+          </div>
+          <div class="why-card reveal delay-2">
+            <div class="why-num" aria-hidden="true">02</div>
+            <h3 data-nl="Kabellengte &amp; doorvoer" data-fr="Longueur de câble &amp; passage">Kabellengte &amp; doorvoer</h3>
+            <p data-nl="Hoe verder de laadpaal van de meterkast, hoe meer kabel en werk. Een sleuf of gevelboring kost meer dan een eenvoudige goot. Wij meten dit exact tijdens het plaatsbezoek." data-fr="Plus la borne est éloignée du tableau, plus il faut de câble et de travail. Une tranchée ou un percement de façade coûte plus qu'une simple goulotte. Nous mesurons cela à la visite.">Hoe verder de laadpaal van de meterkast, hoe meer kabel en werk. Een sleuf of gevelboring kost meer dan een eenvoudige goot. Wij meten dit exact tijdens het plaatsbezoek.</p>
+          </div>
+          <div class="why-card reveal delay-3">
+            <div class="why-num" aria-hidden="true">03</div>
+            <h3 data-nl="Smart &amp; zonne-opties" data-fr="Options smart &amp; solaire">Smart &amp; zonne-opties</h3>
+            <p data-nl="Wilt u laden op uw zonne-overschot of dynamisch load balancing? Dan komt er een P1-module bij (Wallbox of Smappee). BORNEXA toont dit altijd duidelijk op de offerte." data-fr="Vous voulez charger sur votre surplus solaire ou un load balancing dynamique ? Un module P1 s'ajoute (Wallbox ou Smappee). BORNEXA le montre toujours clairement sur le devis.">Wilt u laden op uw zonne-overschot of dynamisch load balancing? Dan komt er een P1-module bij (Wallbox of Smappee). BORNEXA toont dit altijd duidelijk op de offerte.</p>
+          </div>
+          <div class="why-card reveal delay-4">
+            <div class="why-num" aria-hidden="true">04</div>
+            <h3 data-nl="Geen verborgen kosten" data-fr="Pas de frais cachés">Geen verborgen kosten</h3>
+            <p data-nl="AREI-keuring, app-configuratie, plan en beveiliging zitten áltijd in onze prijs. Type B differentieel rekenen we niet onnodig aan — onze laadpalen hebben al RDC-DD (IEC 62955)." data-fr="Le contrôle RGIE, la configuration app, le plan et la protection sont toujours dans notre prix. Nous ne facturons pas de Type B inutile — nos bornes ont déjà le RDC-DD (IEC 62955).">AREI-keuring, app-configuratie, plan en beveiliging zitten áltijd in onze prijs. Type B differentieel rekenen we niet onnodig aan — onze laadpalen hebben al RDC-DD (IEC 62955).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2 class="reveal" data-nl="Klaar voor uw exacte vaste prijs?" data-fr="Prêt pour votre prix fixe exact ?">Klaar voor uw exacte vaste prijs?</h2>
+      <p class="reveal delay-1" data-nl="Gratis plaatsbezoek en offerte binnen 24 uur. Antwoord van Belkounani zelf." data-fr="Visite gratuite et devis sous 24 heures. Réponse de Belkounani lui-même.">Gratis plaatsbezoek en offerte binnen 24 uur. Antwoord van Belkounani zelf.</p>
+      <a href="devis" class="btn btn-outline reveal delay-2" data-nl="Gratis offerte aanvragen" data-fr="Demander un devis gratuit">Gratis offerte aanvragen</a>
+    </div>
+  </section>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+          <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
+          <div class="footer-certs" aria-label="Officiële certificaties">
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Certified</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Partner</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> Installer</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-nl="Snel naar" data-fr="Accès rapide">Snel naar</h4>
+          <ul class="footer-links">
+            <li><a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'énergie">Energiebeheer</a></li>
+            <li><a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a></li>
+            <li><a href="simulator" data-nl="Besparing simulator" data-fr="Simulateur d'économies">Besparing simulator</a></li>
+            <li><a href="regios" data-nl="Regio's" data-fr="Régions">Regio's</a></li>
+            <li><a href="faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerContact">Contact</h4>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span data-key="footerPhone">+32 489 24 77 60</span></div>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-key="footerEmail">info@bornexa.be</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-key="footerRights">© 2026 BORNEXA. Alle rechten voorbehouden.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy" data-key="footerPrivacy">Privacybeleid</a>
+          <a href="algemene-voorwaarden" data-key="footerTerms">Algemene voorwaarden</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  // ── Richtprijs-calculator (eerlijke fourchette, geen exacte prijs) ──
+  (function () {
+    var lang = function(){ return document.documentElement.lang === 'fr' ? 'fr' : 'nl'; };
+    // Basisbereik per merk (all-in, BTW 6%) — afgestemd op BORNEXA tarieven
+    var BRAND = {
+      advies:  [1100, 1700],
+      wallbox: [1100, 1900],
+      tesla:   [1100, 1700],
+      smappee: [1300, 2100]
+    };
+    function val(name){ var el = document.querySelector('input[name="'+name+'"]:checked'); return el ? el.value : null; }
+    function compute(){
+      var b = val('brand') || 'advies';
+      var lo = BRAND[b][0], hi = BRAND[b][1];
+      // Fase / vermogen
+      var ph = val('phase');
+      if (ph === 'tri11'){ lo += 100; hi += 200; }
+      else if (ph === 'tri22'){ lo += 250; hi += 400; }
+      // Afstand
+      var d = val('dist');
+      if (d === 'm'){ lo += 40; hi += 120; }
+      else if (d === 'l'){ lo += 120; hi += 280; }
+      else if (d === 'xl'){ lo += 250; hi += 480; }
+      // Doorvoer
+      var r = val('route');
+      if (r === 'med'){ lo += 80; hi += 220; }
+      else if (r === 'hard'){ lo += 250; hi += 550; }
+      // Opties
+      if (document.getElementById('opt-solar').checked){ lo += 250; hi += 420; }
+      if (document.getElementById('opt-2ev').checked){ lo += 120; hi += 300; }
+      // Afronden op 50
+      lo = Math.round(lo/50)*50; hi = Math.round(hi/50)*50;
+      return [lo, hi, b, ph];
+    }
+    function fmt(n){ return '€ ' + n.toLocaleString('nl-BE'); }
+    function render(){
+      var c = compute(), lo = c[0], hi = c[1], b = c[2], ph = c[3];
+      document.getElementById('calcRange').textContent = fmt(lo) + ' – ' + fmt(hi);
+      var note = '';
+      if (b === 'tesla' && document.getElementById('opt-solar').checked){
+        note = (lang()==='fr')
+          ? 'Note : le Tesla Wall Connector seul ne gère pas la recharge solaire/load balancing maison. Nous vous conseillerons plutôt un Wallbox ou Smappee.'
+          : 'Let op: een Tesla Wall Connector alleen regelt geen zonne-/load balancing thuis. Wij adviseren dan eerder een Wallbox of Smappee.';
+      } else {
+        note = (lang()==='fr')
+          ? 'Estimation indicative pour une installation résidentielle conforme RGIE.'
+          : 'Indicatieve richtprijs voor een AREI-conforme thuisinstallatie.';
+      }
+      document.getElementById('calcNote').textContent = note;
+      var res = document.getElementById('calcResult');
+      res.classList.add('show');
+      res.scrollIntoView({ behavior:'smooth', block:'nearest' });
+    }
+    document.getElementById('calcBtn').addEventListener('click', render);
+    // Visuele toggle voor checkboxes
+    document.querySelectorAll('.calc-check input').forEach(function(cb){
+      var sync = function(){ cb.closest('.calc-check').classList.toggle('on', cb.checked); };
+      cb.addEventListener('change', sync); sync();
+    });
+  })();
+  </script>
+  <script defer src="js/translations.js?v=2026-06-28"></script>
+  <script defer src="js/lang.js?v=2026-06-28"></script>
+  <script src="js/main.js?v=2026-06-28"></script>
+</body>
+</html>

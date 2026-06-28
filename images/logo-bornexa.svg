@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 90" width="400" height="90" role="img" aria-label="BORNEXA – Laadpaal Installateur">
+  <title>BORNEXA</title>
+
+<defs>
+    <linearGradient id="hg" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#1ADBA8"/>
+      <stop offset="100%" stop-color="#009E76"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Flat-top hexagon, center (45,45), circumradius 40 -->
+  <polygon points="85,45 65,80 25,80 5,45 25,10 65,10" fill="url(#hg)"/>
+
+  <!-- Lightning bolt — shadow -->
+  <polygon points="56,13 29,47 41,47 26,77 67,43 52,43"
+    fill="rgba(0,40,25,0.22)" transform="translate(1,2)"/>
+  <!-- Lightning bolt — white -->
+  <polygon points="56,13 29,47 41,47 26,77 67,43 52,43" fill="#fff"/>
+
+  <!-- Wordmark -->
+  <text x="100" y="52"
+    font-family="'Space Grotesk','Inter','Arial Black',Arial,sans-serif"
+    font-weight="700" font-size="36" letter-spacing="2" fill="#fff">BORNEXA</text>
+
+  <!-- Tagline -->
+  <text x="101" y="70"
+    font-family="'Inter',Arial,sans-serif"
+    font-weight="400" font-size="10.5" letter-spacing="3.8" fill="#00C896">LAADPAAL INSTALLATEUR</text>
+</svg>

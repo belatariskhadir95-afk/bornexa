@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <title data-fr="Blog &amp; Conseils | BORNEXA – Experts Bornes de Recharge">Blog &amp; Advies | BORNEXA – Laadpaal Experts</title>
+  <meta name="description" content="Expert advies over laadpalen, smart charging en elektrisch rijden. Alles wat u moet weten over laadpaal installatie in Boortmeerbeek, Mechelen, Brussel en Leuven." data-fr="Conseils d'experts sur les bornes de recharge, smart charging et mobilité électrique. Tout sur l'installation de bornes à Boortmeerbeek, Malines, Bruxelles et Louvain.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.bornexa.be/blog">
+  <link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog">
+  <link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog">
+  <meta property="og:title" content="Blog &amp; Advies | BORNEXA – Laadpaal Experts">
+  <meta property="og:description" content="Expert advies over laadpalen, smart charging en elektrisch rijden in België.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+  <meta property="og:image:alt" content="BORNEXA Blog - Laadpaal Experts & Advies">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": "https://www.bornexa.be/blog#webpage",
+    "url": "https://www.bornexa.be/blog",
+    "name": "Blog & Advies | BORNEXA – Laadpaal Experts",
+    "description": "Expert advies over laadpalen, smart charging en elektrisch rijden in België.",
+    "inLanguage": ["nl-BE", "fr-BE"],
+    "isPartOf": { "@id": "https://www.bornexa.be/#website" },
+    "about": { "@id": "https://www.bornexa.be/#business" },
+    "publisher": { "@id": "https://www.bornexa.be/#business" }
+  }
+  </script>
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
+  <link rel="stylesheet" href="css/style.css?v=2026-06-28">
+  <style>
+    /* ── Blog page enhancements ── */
+    .blog-hero-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-top:2rem}
+    .blog-hero-stat{display:flex;flex-direction:column}
+    .blog-hero-stat .val{font-size:1.6rem;font-weight:800;color:var(--primary);line-height:1}
+    .blog-hero-stat .lbl{font-size:.75rem;color:rgba(255,255,255,.55);margin-top:.2rem;letter-spacing:.03em}
+
+    /* ── Featured article (first/latest) ── */
+    .blog-featured{
+      display:grid;grid-template-columns:1fr 1fr;gap:0;
+      background:var(--dark2);border-radius:var(--r-xl);overflow:hidden;
+      border:1px solid rgba(255,255,255,.06);
+      transition:transform var(--t-base),box-shadow var(--t-base);
+      margin-bottom:3rem;
+    }
+    .blog-featured:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.18)}
+    @media(max-width:768px){.blog-featured{grid-template-columns:1fr}}
+    .blog-featured-visual{
+      background:linear-gradient(135deg,#0C1018 0%,#141C28 100%);
+      display:flex;align-items:center;justify-content:center;
+      min-height:280px;position:relative;overflow:hidden;
+    }
+    .blog-featured-visual::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(0,200,150,.15) 0%,transparent 70%);
+    }
+    .blog-featured-icon{
+      width:96px;height:96px;border-radius:var(--r-xl);
+      background:rgba(0,200,150,.15);border:1px solid rgba(0,200,150,.25);
+      display:flex;align-items:center;justify-content:center;position:relative;z-index:1;
+    }
+    .blog-featured-icon svg{width:48px;height:48px;stroke:var(--primary);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .blog-featured-new{
+      position:absolute;top:1.25rem;left:1.25rem;z-index:2;
+      background:var(--primary);color:var(--dark);
+      font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      padding:.3rem .75rem;border-radius:var(--r-full);
+    }
+    .blog-featured-body{padding:2.5rem;display:flex;flex-direction:column;justify-content:center}
+    .blog-featured-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+    .blog-featured-body .blog-card-meta{font-size:.82rem;color:rgba(255,255,255,.45);margin-bottom:.85rem}
+    .blog-featured-body h2{font-size:clamp(1.25rem,2.5vw,1.65rem);color:#fff;margin-bottom:.85rem;line-height:1.3}
+    .blog-featured-body p{color:rgba(255,255,255,.6);font-size:.93rem;line-height:1.7;margin-bottom:1.5rem}
+    .blog-featured-body .blog-read-more{color:var(--primary)}
+
+    /* ── Category filter ── */
+    .blog-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+    .filter-btn{
+      padding:.5rem 1.1rem;border-radius:var(--r-full);font-size:.82rem;font-weight:600;
+      border:1.5px solid var(--border);background:var(--light);color:var(--text-muted);
+      cursor:pointer;transition:all var(--t-fast);
+    }
+    .filter-btn:hover,.filter-btn.active{background:var(--primary);color:var(--dark);border-color:var(--primary)}
+
+    /* ── Premium blog grid ── */
+    .blog-grid-premium{display:grid;grid-template-columns:repeat(2,1fr);gap:1.75rem}
+    @media(max-width:768px){.blog-grid-premium{grid-template-columns:1fr}}
+
+    .blog-card-premium{
+      background:var(--light);border:1px solid var(--border);border-radius:var(--r-xl);
+      overflow:hidden;transition:transform var(--t-base),box-shadow var(--t-base),border-color var(--t-base);
+      display:flex;flex-direction:column;
+    }
+    .blog-card-premium:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.1);border-color:var(--primary)}
+    .blog-card-thumb{
+      height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+    }
+    .blog-card-thumb .thumb-icon{
+      width:72px;height:72px;border-radius:var(--r-lg);
+      display:flex;align-items:center;justify-content:center;
+      position:relative;z-index:1;
+    }
+    .blog-card-thumb .thumb-icon svg{width:36px;height:36px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    /* Colour themes per article */
+    .thumb-install{background:linear-gradient(135deg,#E0FBF4,#B2F5EA);color:var(--primary-dark)}
+    .thumb-install .thumb-icon{background:var(--primary-light);color:var(--primary-dark)}
+    .thumb-bg-install{background:linear-gradient(135deg,#F0FDF4,#DCFCE7)}
+    .thumb-tesla{background:linear-gradient(135deg,#FEE2E2,#FECACA)}
+    .thumb-tesla .thumb-icon{background:#FEE2E2;color:#DC2626}
+    .thumb-bg-tesla{background:linear-gradient(135deg,#FFF5F5,#FEE2E2)}
+    .thumb-solar{background:linear-gradient(135deg,#FEF9C3,#FEF08A)}
+    .thumb-solar .thumb-icon{background:#FEF9C3;color:#CA8A04}
+    .thumb-bg-solar{background:linear-gradient(135deg,#FFFBEB,#FEF9C3)}
+    .thumb-apt{background:linear-gradient(135deg,#EDE9FE,#DDD6FE)}
+    .thumb-apt .thumb-icon{background:#EDE9FE;color:#7C3AED}
+    .thumb-bg-apt{background:linear-gradient(135deg,#F5F3FF,#EDE9FE)}
+    .thumb-business{background:linear-gradient(135deg,#DBEAFE,#BFDBFE)}
+    .thumb-business .thumb-icon{background:#DBEAFE;color:#1D4ED8}
+    .thumb-bg-business{background:linear-gradient(135deg,#EFF6FF,#DBEAFE)}
+
+    .blog-card-tag-row{position:absolute;bottom:.75rem;left:.75rem;display:flex;gap:.4rem;flex-wrap:wrap}
+    .blog-card-body-premium{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+    .blog-card-body-premium .meta{font-size:.78rem;color:var(--text-muted);margin-bottom:.6rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+    .blog-card-body-premium h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem;line-height:1.4;color:var(--text)}
+    .blog-card-body-premium p{font-size:.87rem;color:var(--text-muted);line-height:1.7;flex:1;margin-bottom:1rem}
+    .read-more-link{display:inline-flex;align-items:center;gap:.4rem;color:var(--primary);font-size:.88rem;font-weight:700;margin-top:auto;transition:gap var(--t-fast)}
+    .read-more-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform var(--t-fast)}
+    .blog-card-premium:hover .read-more-link{gap:.6rem}
+    .blog-card-premium:hover .read-more-link svg{transform:translateX(3px)}
+
+    /* ── SEO local block ── */
+    .seo-block{max-width:820px;margin:4rem auto 0;padding:2.5rem 2.75rem;background:var(--bg);border-radius:var(--r-xl);border:1px solid var(--border)}
+    .seo-block h2{font-size:1.3rem;margin-bottom:1rem;color:var(--text)}
+    .seo-block p{color:var(--text-muted);font-size:.93rem;line-height:1.75;margin-bottom:.85rem}
+    .seo-block p:last-child{margin-bottom:0}
+  </style>
+</head>
+<body data-page="blog">
+
+  <!-- ── Navigation ── -->
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+      <div class="nav-links">
+        <a href="/" data-key="navHome">Home</a>
+        <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+        <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+        <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+        <a href="faq">FAQ</a>
+        <a href="blog" aria-current="page" data-key="navBlog">Blog</a>
+        <a href="devis" class="nav-cta">Offerte aanvragen</a>
+        <button class="btn-lang" id="lang-btn">FR</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+      <a href="/" data-key="navHome">Home</a>
+      <a href="services" data-key="navServices">Diensten</a>
+      <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+      <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+      <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+      <a href="faq">FAQ</a>
+      <a href="blog" aria-current="page" data-key="navBlog">Blog</a>
+      <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+      <button class="btn-lang" id="lang-btn-mobile">FR</button>
+    </div>
+  </nav>
+
+  <!-- ── Page Hero ── -->
+  <header class="page-hero" role="banner">
+    <div class="page-hero-bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="badge" data-key="blogHeroBadge">Expert Advies</div>
+      <h1 data-key="blogHeroTitle">Blog &amp; Advies</h1>
+      <p data-key="blogHeroSubtitle">Alles wat u moet weten over laadpalen, smart charging en elektrisch rijden.</p>
+      <div class="blog-hero-stats">
+        <div class="blog-hero-stat">
+          <span class="val">9</span>
+          <span class="lbl" data-key="blogStatArticles">Artikelen</span>
+        </div>
+        <div class="blog-hero-stat">
+          <span class="val">NL/FR</span>
+          <span class="lbl" data-key="blogStatLang">Tweetalig</span>
+        </div>
+        <div class="blog-hero-stat">
+          <span class="val">2026</span>
+          <span class="lbl" data-key="blogStatUpdated">Bijgewerkt</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" aria-label="Blog artikelen">
+      <div class="container">
+
+        <!-- ── Featured article – Economie (newest) ── -->
+        <article class="blog-featured reveal" itemscope itemtype="https://schema.org/BlogPosting">
+          <div class="blog-featured-visual">
+            <div class="blog-featured-new" data-key="blogFeaturedNew">Nieuw</div>
+            <div class="blog-featured-icon">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+          </div>
+          <div class="blog-featured-body">
+            <div class="blog-featured-tags">
+              <span class="blog-tag" data-key="blogTag6">Besparingen</span>
+              <span class="blog-tag" data-key="blogTag4">Smart Charging</span>
+            </div>
+            <div class="blog-card-meta">
+              <time itemprop="datePublished" datetime="2026-05-14" data-key="blog5Date">14 mei 2026</time>
+              &nbsp;·&nbsp;
+              <span>9 <span data-key="blogMinRead">min leestijd</span></span>
+            </div>
+            <h2 itemprop="headline" data-key="blog5Title">Elektrisch rijden vs benzine: hoeveel bespaart u echt?</h2>
+            <p itemprop="description" data-key="blog5Excerpt">Vergelijk de kosten van elektrisch rijden met benzine en diesel in België. Thuis laden, dal-tarieven, smart charging en zonnepanelen: alles wat u moet weten.</p>
+            <a href="blog-economie" class="blog-read-more" data-key="blogReadMore">
+              Lees artikel
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- ── Category filter ── -->
+        <div class="blog-filter reveal">
+          <button class="filter-btn active" data-filter="all" data-key="blogFilterAll">Alle artikelen</button>
+          <button class="filter-btn" data-filter="installatie" data-key="blogFilterInstall">Installatie</button>
+          <button class="filter-btn" data-filter="besparing" data-key="blogFilterSave">Besparingen</button>
+          <button class="filter-btn" data-filter="smart" data-key="blogFilterSmart">Smart Charging</button>
+          <button class="filter-btn" data-filter="tesla" data-key="blogFilterTesla">Tesla</button>
+        </div>
+
+        <!-- ── 4 article cards ── -->
+        <div class="blog-grid-premium">
+
+          <!-- Article – Capaciteitstarief / energie (2026-06-25) -->
+          <article class="blog-card-premium reveal" data-categories="besparing smart" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-solar">
+              <div class="thumb-icon thumb-solar">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-nl="Besparen" data-fr="Économies">Besparen</span>
+                <span class="blog-tag" data-nl="Energiebeheer" data-fr="Énergie">Energiebeheer</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-06-25">25 juni 2026</time>
+                <span>6 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-nl="Capaciteitstarief: zo verlaagt u uw maandpiek en bespaart u" data-fr="Tarif capacitaire : réduisez votre pic mensuel et économisez">Capaciteitstarief: zo verlaagt u uw maandpiek en bespaart u</h3>
+              <p itemprop="description" data-nl="Sinds 2023 betaalt u in Vlaanderen voor uw maandpiek. Ontdek wat het capaciteitstarief is en hoe u uw factuur verlaagt — ook zonder elektrische wagen." data-fr="Depuis 2023, vous payez en Flandre pour votre pic mensuel. Découvrez ce qu'est le tarif capacitaire et comment réduire votre facture — même sans voiture électrique.">Sinds 2023 betaalt u in Vlaanderen voor uw maandpiek. Ontdek wat het capaciteitstarief is en hoe u uw factuur verlaagt — ook zonder elektrische wagen.</p>
+              <a href="blog-capaciteitstarief" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article – Energieverslinders (2026-06-25) -->
+          <article class="blog-card-premium reveal delay-1" data-categories="besparing" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-business">
+              <div class="thumb-icon thumb-business">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-nl="Besparen" data-fr="Économies">Besparen</span>
+                <span class="blog-tag" data-nl="Energiebeheer" data-fr="Énergie">Energiebeheer</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-06-25">25 juni 2026</time>
+                <span>5 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-nl="Welke toestellen verbruiken stiekem het meest?" data-fr="Quels appareils consomment le plus discrètement ?">Welke toestellen verbruiken stiekem het meest?</h3>
+              <p itemprop="description" data-nl="Sluipverbruik, een oude diepvries of de boiler: ontdek welke toestellen uw factuur opdrijven en hoe monitoring ze blootlegt." data-fr="Veille, vieux congélateur ou boiler : découvrez quels appareils gonflent votre facture et comment le monitoring les révèle.">Sluipverbruik, een oude diepvries of de boiler: ontdek welke toestellen uw factuur opdrijven en hoe monitoring ze blootlegt.</p>
+              <a href="blog-energievreters" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article – Zonne-autoconsumptie (2026-06-25) -->
+          <article class="blog-card-premium reveal delay-2" data-categories="smart besparing" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-solar">
+              <div class="thumb-icon thumb-solar">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-nl="Zonnepanelen" data-fr="Photovoltaïque">Zonnepanelen</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-06-25">25 juni 2026</time>
+                <span>6 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-nl="Zonnepanelen zonder terugdraaiende teller: haal er het maximum uit" data-fr="Panneaux sans compteur inversé : tirez-en le maximum">Zonnepanelen zonder terugdraaiende teller: haal er het maximum uit</h3>
+              <p itemprop="description" data-nl="De terugdraaiende teller is weg. Ontdek 5 manieren om uw zonne-autoconsumptie te maximaliseren met Smappee Infinity." data-fr="Le compteur inversé a disparu. Découvrez 5 façons de maximiser votre autoconsommation solaire avec Smappee Infinity.">De terugdraaiende teller is weg. Ontdek 5 manieren om uw zonne-autoconsumptie te maximaliseren met Smappee Infinity.</p>
+              <a href="blog-zonne-autoconsumptie" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article – Tesla -->
+          <article class="blog-card-premium reveal delay-2" data-categories="tesla" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-tesla">
+              <div class="thumb-icon thumb-tesla">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-key="blogTag2">Tesla</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-02-02" data-key="blog2Date">2 februari 2026</time>
+                <span>8 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-key="blog2Title">Tesla Wall Connector vs. andere laadpalen: welke kiest u?</h3>
+              <p itemprop="description" data-key="blog2Excerpt">De Tesla Wall Connector is de referentie voor Tesla-rijders, maar hoe verhoudt hij zich tot andere merken? Een eerlijke vergelijking.</p>
+              <a href="blog-tesla" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 3 – Solar -->
+          <article class="blog-card-premium reveal delay-3" data-categories="smart besparing" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-solar">
+              <div class="thumb-icon thumb-solar">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-key="blogTag3">Zonnepanelen</span>
+                <span class="blog-tag" data-key="blogTag4">Smart Charging</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-03-18" data-key="blog3Date">18 maart 2026</time>
+                <span>7 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-key="blog3Title">Smart charging met zonnepanelen: laad gratis uw elektrische auto op</h3>
+              <p itemprop="description" data-key="blog3Excerpt">Wanneer combineert u uw laadpaal met zonnepanelen, kunt u uw auto volledig groen en gratis opladen. Lees hoe het werkt in de Belgische context.</p>
+              <a href="blog-solar" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 5 – Business/Bedrijf -->
+          <article class="blog-card-premium reveal delay-1" data-categories="installatie besparing" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-business">
+              <div class="thumb-icon thumb-business">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-key="blogTag7">Bedrijf</span>
+                <span class="blog-tag" data-key="blogTag8">Premies</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-04-05" data-key="blog6Date">5 april 2026</time>
+                <span>7 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-key="blog6Title">Laadpaal voor uw bedrijf: premies en regelgeving in België</h3>
+              <p itemprop="description" data-key="blog6Excerpt">Ontdek de fiscale voordelen, BTW-regels en de actuele regelgeving voor bedrijfslaadpalen in België. BORNEXA helpt u uw wagenpark elektrificeren.</p>
+              <a href="blog-business" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 6 – Appartement -->
+          <article class="blog-card-premium reveal delay-4" data-categories="installatie" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-apt">
+              <div class="thumb-icon thumb-apt">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-key="blogTag5">Appartement &amp; VME</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-02-01" data-key="blog4Date">1 februari 2026</time>
+                <span>6 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-key="blog4Title">Laadpaal in een appartement of VME: uw rechten en de procedure in 2026</h3>
+              <p itemprop="description" data-key="blog4Excerpt">Als eigenaar in een mede-eigendom heeft u het recht om een laadpaal te laten installeren. Ontdek de procedure, uw rechten en de beste technische oplossingen.</p>
+              <a href="blog-appartement" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 8 – Kostprijs laadpaal 2026 -->
+          <article class="blog-card-premium reveal delay-1" data-categories="besparing installatie" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-business">
+              <div class="thumb-icon thumb-business">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-nl="Prijs" data-fr="Prix">Prijs</span>
+                <span class="blog-tag" data-nl="2026" data-fr="2026">2026</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-06-03" data-nl="3 juni 2026" data-fr="3 juin 2026">3 juni 2026</time>
+                <span>8 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-nl="Wat kost een laadpaal-installatie in 2026? Volledige prijsgids" data-fr="Combien coûte une borne de recharge en 2026 ? Guide prix complet">Wat kost een laadpaal-installatie in 2026? Volledige prijsgids</h3>
+              <p itemprop="description" data-nl="Eerlijke prijsgids voor laadpaal-installatie in 2026: gemiddelde kostprijs, samenstelling, factoren die de prijs beïnvloeden en hoe besparen. Indicatieve prijzen Wallbox, Tesla en Smappee." data-fr="Guide prix honnête pour l'installation d'une borne de recharge en 2026 : coût moyen, composition, facteurs qui influencent et comment économiser.">Eerlijke prijsgids voor laadpaal-installatie in 2026: gemiddelde kostprijs, samenstelling, factoren die de prijs beïnvloeden en hoe besparen.</p>
+              <a href="blog-couts-laadpaal-2026" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 7 – Veiligheid &amp; kwaliteit installatie -->
+          <article class="blog-card-premium reveal delay-2" data-categories="installatie" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-install">
+              <div class="thumb-icon thumb-install">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-12V5l8-3 8 3v5c0 7.5-8 12-8 12z"/><path d="M9 12l2 2 4-4"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-nl="Veiligheid" data-fr="Sécurité">Veiligheid</span>
+                <span class="blog-tag" data-nl="AREI" data-fr="RGIE">AREI</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-06-03" data-nl="3 juni 2026" data-fr="3 juin 2026">3 juni 2026</time>
+                <span>9 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-nl="Waarom de kwaliteit van uw laadpaal-installatie essentieel is voor uw veiligheid" data-fr="Pourquoi la qualité d'installation d'une borne est essentielle pour votre sécurité">Waarom de kwaliteit van uw laadpaal-installatie essentieel is voor uw veiligheid</h3>
+              <p itemprop="description" data-nl="Een laadpaal vraagt vele uren hoog vermogen van uw installatie. Ontdek wat een veilige en duurzame installatie kenmerkt: dimensionering, correcte differentieelkeuze, AREI-conformiteit en ervaring." data-fr="Une borne sollicite votre installation pendant des heures à haute puissance. Découvrez ce qui caractérise une installation sûre et durable : dimensionnement, choix correct du différentiel, conformité RGIE et expérience.">Een laadpaal vraagt vele uren hoog vermogen van uw installatie. Ontdek wat een veilige en duurzame installatie kenmerkt: dimensionering, correcte differentieelkeuze, AREI-conformiteit en ervaring.</p>
+              <a href="blog-securite-installation" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 10 – Recharge solaire & load balancing (2026-06-05) -->
+          <article class="blog-card-premium reveal" data-categories="smart" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-solar">
+              <div class="thumb-icon thumb-solar">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-nl="Solar" data-fr="Solar">Solar</span>
+                <span class="blog-tag" data-nl="P1-poort" data-fr="Port P1">P1-poort</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-06-05" data-nl="5 juni 2026" data-fr="5 juin 2026">5 juni 2026</time>
+                <span>10 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-nl="Zonnepanelen-laden &amp; load balancing: welk merk kiezen in België?" data-fr="Recharge solaire &amp; load balancing : quelle marque choisir en Belgique ?">Zonnepanelen-laden &amp; load balancing: welk merk kiezen in België?</h3>
+              <p itemprop="description" data-nl="Wallbox + WALL-MTR-P1PORT, Smappee + Connect, of Tesla + Powerwall? Vergelijking voor het Belgische context met P1-poort van de digitale meter." data-fr="Wallbox + WALL-MTR-P1PORT, Smappee + Connect ou Tesla + Powerwall ? Comparatif pour le contexte belge avec le port P1 du compteur digital.">Wallbox + WALL-MTR-P1PORT, Smappee + Connect, of Tesla + Powerwall? Vergelijking voor het Belgische context met P1-poort van de digitale meter.</p>
+              <a href="blog-recharge-solaire-load-balancing" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 9 – Type A vs Type B differentieel (2026-06-04) -->
+          <article class="blog-card-premium reveal delay-3" data-categories="installatie" itemscope itemtype="https://schema.org/BlogPosting">
+            <div class="blog-card-thumb thumb-bg-install">
+              <div class="thumb-icon thumb-install">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div class="blog-card-tag-row">
+                <span class="blog-tag" data-nl="Norm" data-fr="Norme">Norm</span>
+                <span class="blog-tag" data-nl="Type A vs B" data-fr="Type A vs B">Type A vs B</span>
+              </div>
+            </div>
+            <div class="blog-card-body-premium">
+              <div class="meta">
+                <time itemprop="datePublished" datetime="2026-06-04" data-nl="4 juni 2026" data-fr="4 juin 2026">4 juni 2026</time>
+                <span>8 <span data-key="blogMinRead">min leestijd</span></span>
+              </div>
+              <h3 itemprop="headline" data-nl="Differentieel Type A of Type B voor uw laadpaal? Wat zegt de Belgische norm in 2026" data-fr="Différentiel Type A ou Type B pour votre borne ? Ce que dit la norme belge en 2026">Differentieel Type A of Type B voor uw laadpaal? Wat zegt de Belgische norm in 2026</h3>
+              <p itemprop="description" data-nl="NBN HD 60364-7-722 erkent twee oplossingen. Voor Tesla, Wallbox en Smappee volstaat Type A 30 mA dankzij de geïntegreerde RDC-DD (IEC 62955). Bespaar €100-150 zonder veiligheidsverlies." data-fr="NBN HD 60364-7-722 reconnaît deux solutions. Pour Tesla, Wallbox et Smappee, un Type A 30 mA suffit grâce au RDC-DD intégré (IEC 62955). Économisez €100-150 sans perte de sécurité.">NBN HD 60364-7-722 erkent twee oplossingen. Voor Tesla, Wallbox en Smappee volstaat Type A 30 mA dankzij de geïntegreerde RDC-DD (IEC 62955). Bespaar €100-150 zonder veiligheidsverlies.</p>
+              <a href="blog-type-a-type-b-differentiel" class="read-more-link" data-key="blogReadMore">
+                Lees artikel
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- ── SEO text block ── -->
+        <div class="seo-block reveal">
+          <h2 data-key="blogSeoTitle">Laadpaal installateur voor Boortmeerbeek en Vlaams-Brabant</h2>
+          <p data-key="blogSeoP1">BORNEXA is uw lokale specialist voor de installatie van laadpalen in <strong>Boortmeerbeek</strong> en omgeving. Of u nu in <strong>Hever, Schiplaken, Rijmenam, Haacht, Kampenhout, Hofstade, Zemst, Elewijt, Eppegem, Keerbergen, Bonheiden, Muizen, Tildonk of Tremelo</strong> woont of werkt — wij zijn er snel bij.</p>
+          <p data-key="blogSeoP2">Naast onze thuisbasis in <strong>Vlaams-Brabant</strong> zijn wij ook actief in <strong>Brussel, Mechelen en Leuven</strong> voor zowel particulieren als bedrijven.</p>
+          <p data-key="blogSeoP3">Heeft u vragen of wilt u een vrijblijvende offerte? <a href="devis" style="color:var(--primary); font-weight:600;">Contacteer ons vandaag nog</a>.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ── CTA ── -->
+  <section class="cta-banner" aria-labelledby="cta-title">
+    <div class="container">
+      <h2 id="cta-title" class="reveal" data-key="ctaTitle">Klaar om te laden?</h2>
+      <p class="reveal delay-1" data-key="ctaSubtitle">Vraag vandaag nog uw gratis offerte aan. Antwoord binnen 24 uur.</p>
+      <a href="devis" class="btn btn-outline reveal delay-2" data-key="ctaBtn">Gratis offerte aanvragen</a>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+          <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
+          <div class="footer-certs" aria-label="Officiële certificaties">
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Certified</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Partner</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> Installer</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerServices">Diensten</h4>
+          <ul class="footer-links">
+            <li><a href="services#residential" data-key="footerService1">Laadpaal thuis</a></li>
+            <li><a href="services#business" data-key="footerService2">Laadpaal bedrijf</a></li>
+            <li><a href="services#tesla" data-key="footerService3">Tesla Wall Connector</a></li>
+            <li><a href="services#smart" data-key="footerService4">Smart Charging</a></li>
+            <li><a href="services#solar" data-key="footerService5">Zonnepanelen integratie</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerContact">Contact</h4>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <span data-key="footerPhone">+32 489 24 77 60</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span data-key="footerEmail">info@bornexa.be</span>
+          </div>
+          <div class="footer-contact-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span data-key="footerAddress">Boortmeerbeek, België</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-key="footerRights">© 2026 BORNEXA. Alle rechten voorbehouden.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy" data-key="footerPrivacy">Privacybeleid</a>
+          <a href="algemene-voorwaarden" data-key="footerTerms">Algemene voorwaarden</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="js/translations.js?v=2026-06-28"></script>
+  <script defer src="js/lang.js?v=2026-06-28"></script>
+  <script src="js/main.js?v=2026-06-28"></script>
+  <script>
+    /* Category filter */
+    (function() {
+      var btns = document.querySelectorAll('.filter-btn');
+      var cards = document.querySelectorAll('.blog-card-premium');
+      btns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          btns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var f = btn.dataset.filter;
+          cards.forEach(function(c) {
+            var cats = c.dataset.categories || '';
+            c.style.display = (f === 'all' || cats.indexOf(f) > -1) ? '' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

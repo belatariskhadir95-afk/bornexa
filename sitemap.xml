@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Core pages -->
+  <url>
+    <loc>https://www.bornexa.be/</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>BORNEXA Wallbox en Tesla Wall Connector op oprit</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/services</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/services"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>BORNEXA EV charging installation services</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-bedrijfswagen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-bedrijfswagen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-bedrijfswagen"/>
+    <lastmod>2026-06-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/contact</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/contact"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/devis</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/devis"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/devis"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/faq</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/faq"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-installation-cable.jpg</image:loc>
+      <image:caption>FAQ laadpaal installatie</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>BORNEXA EV blog en gidsen</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/over-bornexa</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/over-bornexa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/over-bornexa"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/regios</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/regios"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/regios"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/garantie-sav</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/garantie-sav"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/garantie-sav"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-installation-cable.jpg</image:loc>
+      <image:caption>Garantie SAV laadpaal</image:caption>
+    </image:image>
+  </url>
+
+  <!-- SEO tools -->
+  <url>
+    <loc>https://www.bornexa.be/simulator</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/simulator"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/simulator"/>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/comparateur</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/comparateur"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/comparateur"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.bornexa.be/prijsberekening</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/prijsberekening"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/prijsberekening"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Brand pages -->
+  <url>
+    <loc>https://www.bornexa.be/tesla</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/tesla"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/tesla"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>Tesla Wall Connector installateur</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/wallbox</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/wallbox"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/wallbox"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-wallbox-installation.jpg</image:loc>
+      <image:caption>Wallbox Pulsar Max installatie</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/smappee</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/smappee"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/smappee"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-tableau-electrique.jpg</image:loc>
+      <image:caption>Smappee EV met tableau electrique</image:caption>
+    </image:image>
+  </url>
+
+  <!-- B2B / Entreprise -->
+  <url>
+    <loc>https://www.bornexa.be/borne-entreprise</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-entreprise"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-entreprise"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>Laadpalen voor bedrijven en vloot</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Guides -->
+  <url>
+    <loc>https://www.bornexa.be/fluvius-premie-laadpaal</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/fluvius-premie-laadpaal"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/fluvius-premie-laadpaal"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-tableau-electrique.jpg</image:loc>
+      <image:caption>Fluvius laadpaal 2026</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/prime-borne-recharge-bruxelles</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/prime-borne-recharge-bruxelles"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/prime-borne-recharge-bruxelles?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/prime-borne-recharge-bruxelles"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-installation-conduit.jpg</image:loc>
+      <image:caption>Prime borne recharge Bruxelles 2026</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/gids-p1-poort-activeren</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/gids-p1-poort-activeren"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/gids-p1-poort-activeren"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/gids-laadpaal-zekering-kabel</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/gids-laadpaal-zekering-kabel"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/gids-laadpaal-zekering-kabel"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog articles -->
+  <url>
+    <loc>https://www.bornexa.be/blog-economie</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-economie"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-economie"/>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-tesla</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-tesla"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-tesla"/>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-solar</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-solar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-solar"/>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-appartement</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-appartement"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-appartement"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-business</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-business"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-business"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-securite-installation</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-securite-installation"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-securite-installation"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-tableau-electrique.jpg</image:loc>
+      <image:caption>Veiligheid laadpaal installatie</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-recharge-solaire-load-balancing</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-recharge-solaire-load-balancing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-recharge-solaire-load-balancing"/>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-type-a-type-b-differentiel</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-type-a-type-b-differentiel"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-type-a-type-b-differentiel"/>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-couts-laadpaal-2026</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-couts-laadpaal-2026"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-couts-laadpaal-2026"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>Kostprijs laadpaal 2026</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Local pages NL - Vlaams-Brabant + omgeving -->
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-boortmeerbeek</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-boortmeerbeek"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-boortmeerbeek"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>Laadpaal installateur Boortmeerbeek</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-bruxelles</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-bruxelles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-bruxelles"/>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-mechelen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-mechelen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-mechelen"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-leuven</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-leuven"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-leuven"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-zemst</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-zemst"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-zemst"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-haacht</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-haacht"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-haacht"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-kampenhout</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-kampenhout"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-kampenhout"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-keerbergen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-keerbergen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-keerbergen"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-tremelo</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-tremelo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-tremelo"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-rotselaar</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-rotselaar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-rotselaar"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-vilvoorde</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-vilvoorde"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-vilvoorde"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-lier</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-lier"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-lier"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-aarschot</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-aarschot"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-aarschot"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-bonheiden</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-bonheiden"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-bonheiden"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-sint-katelijne-waver</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-sint-katelijne-waver"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-sint-katelijne-waver"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-diest</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-diest"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-diest"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-overijse</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-overijse"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-overijse"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-herent</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-herent"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-herent"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-holsbeek</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-holsbeek"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-holsbeek"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-begijnendijk</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-begijnendijk"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-begijnendijk"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-tervuren</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-tervuren"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-tervuren"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-tesla-model-y</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-tesla-model-y"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-tesla-model-y"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-tesla-model-3</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-tesla-model-3"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-tesla-model-3"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Local pages NL - Hageland / oostelijk Vlaams-Brabant (2026-06-06) -->
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-tienen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-tienen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-tienen"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-boutersem</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-boutersem"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-boutersem"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-zoutleeuw</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-zoutleeuw"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-zoutleeuw"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-landen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-landen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-landen"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-lubbeek</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-lubbeek"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-lubbeek"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-bierbeek</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-bierbeek"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-bierbeek"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-kortenberg</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-kortenberg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-kortenberg"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Local pages FR - Bruxelles + périphérie -->
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-uccle</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-uccle"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-uccle?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-uccle"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
+      <image:caption>Borne de recharge Uccle</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-auderghem</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-auderghem"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-auderghem?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-auderghem"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-woluwe-saint-pierre</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-woluwe-saint-pierre"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-woluwe-saint-pierre?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-woluwe-saint-pierre"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-woluwe-saint-lambert</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-woluwe-saint-lambert"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-woluwe-saint-lambert?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-woluwe-saint-lambert"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-ixelles</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-ixelles"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-ixelles?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-ixelles"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-etterbeek</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-etterbeek"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-etterbeek?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-etterbeek"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-watermael-boitsfort</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-watermael-boitsfort"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-watermael-boitsfort?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-watermael-boitsfort"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-wezembeek-oppem</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-wezembeek-oppem"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-wezembeek-oppem?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-wezembeek-oppem"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-kraainem</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-kraainem"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-kraainem?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-kraainem"/>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-saint-gilles</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-saint-gilles"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-saint-gilles?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-saint-gilles"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-schaerbeek</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-schaerbeek"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-schaerbeek?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-schaerbeek"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-forest</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-forest"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-forest?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-forest"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/borne-recharge-jette</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-jette"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-jette?lang=nl"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-jette"/>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Diensten / product landing -->
+  <url>
+    <loc>https://www.bornexa.be/installation-borne-fournie-client</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/installation-borne-fournie-client"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/installation-borne-fournie-client"/>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/prise-renforcee-green-up</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/prise-renforcee-green-up"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/prise-renforcee-green-up"/>
+    <lastmod>2026-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/reparation-borne-recharge</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/reparation-borne-recharge"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/reparation-borne-recharge"/>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-appartement</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-appartement"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-appartement"/>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/simulateur-copropriete</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/simulateur-copropriete"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/simulateur-copropriete"/>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Slim energiebeheer / Smappee Infinity (2026-06-25) -->
+  <url>
+    <loc>https://www.bornexa.be/slim-energiebeheer</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/slim-energiebeheer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/slim-energiebeheer"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/smappee-infinity</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/smappee-infinity"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/smappee-infinity"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/capaciteitstarief-verlagen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/capaciteitstarief-verlagen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/capaciteitstarief-verlagen"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/energiemonitoring-woning</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/energiemonitoring-woning"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/energiemonitoring-woning"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/energiemonitoring-bedrijf</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/energiemonitoring-bedrijf"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/energiemonitoring-bedrijf"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zonnepanelen-optimaliseren</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zonnepanelen-optimaliseren"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zonnepanelen-optimaliseren"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/energie-audit</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/energie-audit"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/energie-audit"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/smart-building</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/smart-building"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/smart-building"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/energie-opvolging</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/energie-opvolging"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/energie-opvolging"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-capaciteitstarief</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-capaciteitstarief"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-capaciteitstarief"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-energievreters</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-energievreters"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-energievreters"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-zonne-autoconsumptie</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-zonne-autoconsumptie"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-zonne-autoconsumptie"/>
+    <lastmod>2026-06-25</lastmod><changefreq>monthly</changefreq><priority>0.6</priority>
+  </url>
+
+  <!-- Glossary / GEO-IA reference -->
+  <url>
+    <loc>https://www.bornexa.be/glossaire-borne-recharge</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/glossaire-borne-recharge"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/glossaire-borne-recharge"/>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Legal -->
+  <url>
+    <loc>https://www.bornexa.be/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/privacy"/>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/algemene-voorwaarden</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/algemene-voorwaarden"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/algemene-voorwaarden"/>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.fluvius.be)",
+      "PowerShell(& \"$PWD\\\\scripts\\\\build-calculateur.ps1\")",
+      "PowerShell(Get-Process -Name EXCEL -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(\"Excel processes cleared\")",
+      "PowerShell(Get-Item visite-terrain.html, calculateur-interne.html, blog-type-a-type-b-differentiel.html, blog-securite-installation.html, llms.txt | Select-Object Name, @{N='KB';E={'{0:N1}' -f \\($_.Length/1024\\)}}, LastWriteTime | Format-Table -AutoSize)",
+      "WebSearch",
+      "WebFetch(domain:www.wallconnect.be)",
+      "WebFetch(domain:brever.be)",
+      "WebFetch(domain:trustlocal.be)",
+      "WebFetch(domain:advancedenergy.be)",
+      "WebFetch(domain:support.smappee.com)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Admin\\.claude\\projects\\c--Users-Admin-Desktop-BORNEXA-SEO\\memory"
+    ]
+  }
+}

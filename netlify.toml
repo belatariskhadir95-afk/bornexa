@@ -1,0 +1,6 @@
+# Note: Cache-Control headers sont definis dans _headers (priorite)
+# Ce fichier reste minimal car _headers gere tout
+# Netlify gere automatiquement le 404 via /404.html sans config
+
+[build]
+  publish = "."

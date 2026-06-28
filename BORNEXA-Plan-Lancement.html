@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+<title>BORNEXA – Plan de lancement & croissance</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box;
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;}
+
+  :root{
+    --primary:#00C896;
+    --primary-dark:#009E76;
+    --dark:#0C1018;
+    --dark2:#141820;
+    --gray:#64748B;
+    --light:#F6F8FB;
+    --text:#1E293B;
+    --border:#E2E8F0;
+    --warn:#F59E0B;
+    --danger:#EF4444;
+    --success:#10B981;
+  }
+
+  @page{size:A4;margin:12mm 14mm 14mm 14mm;}
+  html,body{font-family:'Inter',Arial,sans-serif;font-size:9.5px;color:var(--text);background:#fff;line-height:1.55;}
+
+  /* ── COVER PAGE ── */
+  .cover{
+    width:100%;height:277mm;
+    background:var(--dark);
+    position:relative;overflow:hidden;
+    display:flex;flex-direction:column;
+    justify-content:flex-end;
+    page-break-after:always;
+  }
+  .cover::before{
+    content:'';position:absolute;inset:0;
+    background-image:linear-gradient(rgba(0,200,150,.018)1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,.018)1px,transparent 1px);
+    background-size:8mm 8mm;
+  }
+  .cover-glow{position:absolute;top:-60mm;right:-40mm;width:150mm;height:150mm;border-radius:50%;background:radial-gradient(circle,rgba(0,200,150,.1),transparent 65%);pointer-events:none;}
+  .cover-glow2{position:absolute;bottom:-40mm;left:-20mm;width:100mm;height:100mm;border-radius:50%;background:radial-gradient(circle,rgba(26,219,168,.05),transparent 65%);pointer-events:none;}
+  .cover-bar{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#1ADBA8,#009E76 60%,transparent);}
+  .cover-content{position:relative;z-index:2;padding:16mm 16mm 14mm;}
+  .cover-logo{display:flex;align-items:center;gap:5mm;margin-bottom:18mm;}
+  .cover-logo-hex{width:18mm;height:18mm;}
+  .cover-logo-text{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:#fff;letter-spacing:2px;}
+  .cover-logo-sub{font-family:'Inter',sans-serif;font-size:8px;font-weight:400;color:var(--primary);letter-spacing:3.5px;text-transform:uppercase;margin-top:2px;}
+  .cover-title{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:5mm;}
+  .cover-title span{color:var(--primary);}
+  .cover-subtitle{font-size:12px;font-weight:400;color:rgba(255,255,255,.6);margin-bottom:14mm;letter-spacing:.5px;}
+  .cover-meta{display:flex;gap:8mm;flex-wrap:wrap;}
+  .cover-pill{background:rgba(0,200,150,.12);border:1px solid rgba(0,200,150,.25);border-radius:20px;padding:3px 10px;font-size:8px;color:var(--primary);font-weight:500;letter-spacing:.5px;}
+  .cover-bottom{position:relative;z-index:2;padding:5mm 16mm;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;}
+  .cover-date{font-size:8px;color:rgba(255,255,255,.4);}
+  .cover-conf{font-size:8px;color:rgba(255,255,255,.25);letter-spacing:1px;text-transform:uppercase;}
+
+  /* ── TOC ── */
+  .toc-page{page-break-after:always;padding:10mm 4mm;}
+  .toc-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:8mm;padding-bottom:4mm;border-bottom:2px solid var(--primary);}
+  .toc-section{margin-bottom:3mm;}
+  .toc-item{display:flex;justify-content:space-between;align-items:baseline;padding:2.5mm 0;border-bottom:1px dotted var(--border);}
+  .toc-item-main{font-weight:600;font-size:10px;color:var(--dark);}
+  .toc-item-sub{font-weight:400;font-size:9px;color:var(--gray);padding-left:4mm;}
+  .toc-page-num{font-size:9px;color:var(--primary);font-weight:600;min-width:8mm;text-align:right;}
+  .toc-badge{display:inline-block;background:var(--primary);color:#fff;font-size:7px;font-weight:700;border-radius:3px;padding:1px 5px;margin-right:3mm;}
+
+  /* ── SECTION PAGES ── */
+  .section{page-break-before:always;padding:2mm 4mm 4mm;}
+  .section:first-of-type{page-break-before:auto;}
+
+  .section-header{
+    background:var(--dark);color:#fff;
+    padding:8mm 8mm 6mm;
+    margin:0 -4mm 6mm;
+    position:relative;overflow:hidden;
+  }
+  .section-header::before{
+    content:'';position:absolute;inset:0;
+    background-image:linear-gradient(rgba(0,200,150,.025)1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,.025)1px,transparent 1px);
+    background-size:6mm 6mm;
+  }
+  .section-header-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--primary-dark) 60%,transparent);}
+  .section-num{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:var(--primary);letter-spacing:2px;text-transform:uppercase;margin-bottom:2mm;position:relative;z-index:1;}
+  .section-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:#fff;position:relative;z-index:1;line-height:1.2;}
+  .section-desc{font-size:9px;color:rgba(255,255,255,.6);margin-top:2mm;position:relative;z-index:1;}
+
+  /* ── TYPOGRAPHY ── */
+  h2{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--dark);margin:6mm 0 3mm;padding-bottom:2mm;border-bottom:2px solid var(--primary);}
+  h3{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:var(--dark);margin:5mm 0 2.5mm;}
+  h4{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:var(--dark);margin:4mm 0 2mm;}
+  p{font-size:9.5px;margin-bottom:3mm;color:var(--text);}
+  ul,ol{padding-left:5mm;margin-bottom:3mm;}
+  li{font-size:9.5px;margin-bottom:1.5mm;}
+  strong{font-weight:700;}
+
+  /* ── TABLES ── */
+  table{width:100%;border-collapse:collapse;margin:3mm 0 4mm;font-size:9px;}
+  th{background:var(--dark);color:#fff;padding:3mm 3.5mm;text-align:left;font-weight:600;font-size:8.5px;letter-spacing:.3px;}
+  td{padding:2.5mm 3.5mm;border-bottom:1px solid var(--border);vertical-align:top;}
+  tr:nth-child(even) td{background:#F8FAFC;}
+  tr:hover td{background:#F0FDF9;}
+  .td-center{text-align:center;}
+  .td-right{text-align:right;}
+  .td-bold{font-weight:700;}
+  .td-green{color:var(--success);font-weight:700;}
+  .td-primary{color:var(--primary);font-weight:700;}
+
+  /* ── CARDS & BOXES ── */
+  .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0;}
+  .card-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3mm;margin:3mm 0;}
+  .card{border:1px solid var(--border);border-radius:4px;padding:4mm;background:#fff;}
+  .card-green{border-left:3px solid var(--primary);background:#F0FDF9;}
+  .card-dark{background:var(--dark);color:#fff;border:none;}
+  .card-dark h4{color:var(--primary);}
+  .card-dark p,.card-dark li{color:rgba(255,255,255,.8);}
+  .card-warn{border-left:3px solid var(--warn);background:#FFFBEB;}
+  .card-danger{border-left:3px solid var(--danger);background:#FEF2F2;}
+  .card-success{border-left:3px solid var(--success);background:#F0FDF9;}
+
+  .decision-box{
+    background:var(--dark2);border:1px solid rgba(0,200,150,.3);
+    border-radius:5px;padding:5mm;margin:4mm 0;
+  }
+  .decision-box-title{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3mm;}
+  .decision-item{display:flex;gap:3mm;margin-bottom:2.5mm;align-items:flex-start;}
+  .decision-num{background:var(--primary);color:var(--dark);font-size:8px;font-weight:800;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+  .decision-text{font-size:9px;color:rgba(255,255,255,.85);}
+  .decision-text strong{color:#fff;}
+
+  .actions-box{
+    background:linear-gradient(135deg,#F0FDF9,#fff);
+    border:1px solid rgba(0,200,150,.4);border-radius:5px;
+    padding:5mm;margin:4mm 0;
+  }
+  .actions-title{font-size:9px;font-weight:700;color:var(--primary-dark);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3mm;}
+  .action-item{display:flex;gap:3mm;margin-bottom:2mm;align-items:flex-start;}
+  .action-num{background:var(--primary);color:#fff;font-size:7.5px;font-weight:700;border-radius:2px;padding:1px 5px;flex-shrink:0;margin-top:1px;}
+  .action-text{font-size:9px;color:var(--text);}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin:3mm 0;}
+  .kpi-card{border:1px solid var(--border);border-radius:4px;padding:4mm 3mm;text-align:center;background:#fff;}
+  .kpi-val{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--primary);}
+  .kpi-label{font-size:7.5px;color:var(--gray);margin-top:1mm;line-height:1.3;}
+
+  .score-box{display:flex;gap:3mm;margin:3mm 0;flex-wrap:wrap;}
+  .score-item{flex:1;min-width:30mm;border:1px solid var(--border);border-radius:4px;padding:3mm;text-align:center;}
+  .score-val{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;}
+  .score-val.high{color:var(--primary);}
+  .score-val.mid{color:var(--warn);}
+  .score-val.low{color:var(--danger);}
+  .score-label{font-size:8px;color:var(--gray);margin-top:1mm;}
+
+  .checklist{list-style:none;padding:0;margin:2mm 0;}
+  .checklist li{display:flex;gap:2.5mm;align-items:flex-start;padding:2mm 0;border-bottom:1px solid #F1F5F9;font-size:9px;}
+  .checklist li::before{content:'☐';color:var(--primary);font-size:11px;flex-shrink:0;line-height:1;}
+  .checklist li.done::before{content:'✓';color:var(--success);}
+
+  .badge{display:inline-block;padding:1px 6px;border-radius:10px;font-size:7.5px;font-weight:600;}
+  .badge-green{background:#DCFCE7;color:#15803D;}
+  .badge-orange{background:#FEF3C7;color:#92400E;}
+  .badge-red{background:#FEE2E2;color:#991B1B;}
+  .badge-blue{background:#DBEAFE;color:#1E40AF;}
+
+  .stars{color:#F59E0B;font-size:11px;letter-spacing:1px;}
+
+  .timeline{margin:3mm 0;}
+  .timeline-item{display:flex;gap:3mm;margin-bottom:3mm;align-items:flex-start;}
+  .timeline-dot{width:8mm;min-width:8mm;height:8mm;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:var(--dark);flex-shrink:0;}
+  .timeline-content{flex:1;background:var(--light);border-radius:4px;padding:3mm 4mm;border-left:3px solid var(--primary);}
+  .timeline-week{font-size:8px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1px;}
+  .timeline-title{font-size:10px;font-weight:700;color:var(--dark);margin:1mm 0;}
+  .timeline-desc{font-size:8.5px;color:var(--gray);}
+
+  .offer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm;margin:3mm 0;}
+  .offer-card{border:2px solid var(--border);border-radius:6px;overflow:hidden;}
+  .offer-card.featured{border-color:var(--primary);}
+  .offer-header{padding:4mm;background:#F8FAFC;}
+  .offer-header.featured{background:var(--dark);}
+  .offer-name{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--dark);}
+  .offer-header.featured .offer-name{color:#fff;}
+  .offer-tag{font-size:7.5px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:1px;}
+  .offer-price{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--primary);margin:2mm 0 0;}
+  .offer-price-sub{font-size:7.5px;color:var(--gray);}
+  .offer-body{padding:4mm;}
+  .offer-feature{display:flex;gap:2mm;align-items:flex-start;margin-bottom:2mm;font-size:8.5px;}
+  .offer-feature-icon{color:var(--primary);font-size:9px;flex-shrink:0;margin-top:1px;}
+
+  .fin-table{width:100%;}
+  .fin-scenario{background:var(--dark);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;padding:2.5mm 3.5mm;}
+  .fin-scenario.prudent{background:#374151;}
+  .fin-scenario.realiste{background:#1a3a2a;}
+  .fin-scenario.ambitieux{background:#0C1018;}
+
+  /* ── ROADMAP ── */
+  .roadmap{margin:3mm 0;}
+  .roadmap-month{margin-bottom:4mm;}
+  .roadmap-month-header{display:flex;align-items:center;gap:3mm;margin-bottom:2mm;}
+  .roadmap-month-dot{width:10mm;height:5mm;background:var(--primary);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;color:var(--dark);}
+  .roadmap-month-name{font-weight:700;font-size:10px;color:var(--dark);}
+  .roadmap-items{padding-left:13mm;}
+  .roadmap-item{font-size:8.5px;color:var(--text);padding:1.5mm 0;border-bottom:1px dotted var(--border);display:flex;justify-content:space-between;}
+  .roadmap-item-tag{font-size:7.5px;font-weight:600;color:var(--primary);}
+
+  /* ── PRIORITY SECTION ── */
+  .priority-grid{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0;}
+  .priority-item{display:flex;gap:3mm;align-items:flex-start;padding:3mm;border:1px solid var(--border);border-radius:4px;background:#fff;}
+  .priority-rank{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--primary);line-height:1;min-width:10mm;}
+  .priority-text{flex:1;}
+  .priority-title{font-size:9px;font-weight:700;color:var(--dark);}
+  .priority-sub{font-size:8px;color:var(--gray);margin-top:1mm;}
+
+  /* ── FOOTER ── */
+  .page-footer{
+    position:fixed;bottom:5mm;left:14mm;right:14mm;
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid var(--border);padding-top:2mm;
+  }
+  .footer-brand{font-size:8px;color:var(--gray);}
+  .footer-brand span{color:var(--primary);font-weight:600;}
+  .footer-conf{font-size:7.5px;color:var(--border);letter-spacing:.5px;}
+
+  /* ── SEPARATORS ── */
+  .sep{height:1px;background:linear-gradient(90deg,var(--primary),transparent);margin:4mm 0;}
+  .sep-light{height:1px;background:var(--border);margin:3mm 0;}
+
+  .no-break{page-break-inside:avoid;}
+  .page-break{page-break-before:always;}
+
+  .highlight{background:rgba(0,200,150,.1);border-left:3px solid var(--primary);padding:2mm 4mm;margin:2mm 0;border-radius:0 4px 4px 0;}
+  .highlight p{margin:0;font-size:9px;}
+
+  .note{background:#FFF7ED;border-left:3px solid var(--warn);padding:2mm 4mm;margin:2mm 0;border-radius:0 4px 4px 0;}
+  .note p{margin:0;font-size:8.5px;color:#92400E;}
+
+  .critical{background:#FEF2F2;border:1px solid #FECACA;border-radius:4px;padding:3mm 4mm;margin:2mm 0;}
+  .critical-title{font-size:9px;font-weight:700;color:#B91C1C;text-transform:uppercase;letter-spacing:1px;margin-bottom:1.5mm;}
+  .critical p{margin:0;font-size:9px;color:#7F1D1D;}
+
+  /* col layout */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:5mm;}
+  .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3mm;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE DE GARDE
+═══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-glow"></div>
+  <div class="cover-glow2"></div>
+  <div class="cover-bar"></div>
+
+  <div class="cover-content">
+    <div class="cover-logo">
+      <svg class="cover-logo-hex" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90">
+        <defs><linearGradient id="hg" x1="10%" y1="0%" x2="90%" y2="100%"><stop offset="0%" stop-color="#1ADBA8"/><stop offset="100%" stop-color="#009E76"/></linearGradient></defs>
+        <polygon points="85,45 65,80 25,80 5,45 25,10 65,10" fill="url(#hg)"/>
+        <polygon points="56,13 29,47 41,47 26,77 67,43 52,43" fill="rgba(0,40,25,0.2)" transform="translate(1,2)"/>
+        <polygon points="56,13 29,47 41,47 26,77 67,43 52,43" fill="#ffffff"/>
+      </svg>
+      <div>
+        <div class="cover-logo-text">BORNEXA</div>
+        <div class="cover-logo-sub">Laadpaal Installateur · Belgique</div>
+      </div>
+    </div>
+
+    <div class="cover-title">Plan de lancement<br>&amp; <span>croissance</span></div>
+    <div class="cover-subtitle">Document stratégique confidentiel — Juillet–Décembre 2026</div>
+
+    <div class="cover-meta">
+      <div class="cover-pill">Audit stratégique</div>
+      <div class="cover-pill">Plan 90 jours</div>
+      <div class="cover-pill">Acquisition clients</div>
+      <div class="cover-pill">Offres & positionnement</div>
+      <div class="cover-pill">Projections financières</div>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-date">Établi le 27 mai 2026 · Version 1.0</div>
+    <div class="cover-conf">CONFIDENTIEL · USAGE INTERNE</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TABLE DES MATIÈRES
+═══════════════════════════════════════════════ -->
+<div class="toc-page">
+  <div class="toc-title">Sommaire</div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main"><span class="toc-badge">1</span>Audit Stratégique Complet</span>
+      <span class="toc-page-num">3</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">Forces, Faiblesses, Risques, Opportunités</span>
+      <span class="toc-page-num">3</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">Top 10 priorités · 5 décisions critiques · Note globale</span>
+      <span class="toc-page-num">4</span>
+    </div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main"><span class="toc-badge">2</span>Plan d'exécution 90 jours</span>
+      <span class="toc-page-num">5</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">Semaine par semaine · Actions quotidiennes · KPI · Budget</span>
+      <span class="toc-page-num">5</span>
+    </div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main"><span class="toc-badge">2B</span>Validation Google Business &amp; Visibilité locale 30 jours</span>
+      <span class="toc-page-num">7</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">Checklist · Erreurs à éviter · Plan sans Google Maps</span>
+      <span class="toc-page-num">7</span>
+    </div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main"><span class="toc-badge">3</span>Acquisition des 10 premiers clients</span>
+      <span class="toc-page-num">9</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">20 méthodes classées · Scripts commerciaux · Plan 30 jours</span>
+      <span class="toc-page-num">9</span>
+    </div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main"><span class="toc-badge">4</span>Audit du site web bornexa.be</span>
+      <span class="toc-page-num">11</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">Scores · Blocages · Structure idéale · Modifications prioritaires</span>
+      <span class="toc-page-num">11</span>
+    </div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main"><span class="toc-badge">5</span>Offres et positionnement</span>
+      <span class="toc-page-num">12</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">Essentiel / Confort / Premium · Stratégie d'ancrage · Prix</span>
+      <span class="toc-page-num">12</span>
+    </div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main"><span class="toc-badge">6</span>Projections financières Juillet–Décembre 2026</span>
+      <span class="toc-page-num">13</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">3 scénarios · CA · Marges · Coûts · Indicateurs de survie</span>
+      <span class="toc-page-num">13</span>
+    </div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-item">
+      <span class="toc-item-main">Feuille de route finale &amp; Priorités 30 jours</span>
+      <span class="toc-page-num">15</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-item-sub">Actions dès demain · Roadmap mensuelle · Checklist de lancement</span>
+      <span class="toc-page-num">15</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉTAPE 1 — AUDIT STRATÉGIQUE
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-bar"></div>
+    <div class="section-num">Étape 1</div>
+    <div class="section-title">Audit Stratégique Complet</div>
+    <div class="section-desc">Analyse investisseur — Forces · Faiblesses · Risques · Opportunités</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>✅ Forces</h3>
+      <table>
+        <tr><th>Force</th><th>Impact</th></tr>
+        <tr><td>Site web professionnel bilingue NL/FR</td><td><span class="badge badge-green">Élevé</span></td></tr>
+        <tr><td>Ticket moyen 800–1 800€</td><td><span class="badge badge-green">Élevé</span></td></tr>
+        <tr><td>Marché en croissance explosive (+30% VE/an)</td><td><span class="badge badge-green">Élevé</span></td></tr>
+        <tr><td>Service technique = barrière DIY impossible</td><td><span class="badge badge-green">Élevé</span></td></tr>
+        <tr><td>Zone géographique définie (14 communes)</td><td><span class="badge badge-green">Moyen</span></td></tr>
+        <tr><td>Subventions Fluvius = urgence client naturelle</td><td><span class="badge badge-green">Élevé</span></td></tr>
+        <tr><td>Branding premium différenciant</td><td><span class="badge badge-green">Moyen</span></td></tr>
+      </table>
+    </div>
+    <div>
+      <h3>❌ Faiblesses critiques</h3>
+      <div class="critical no-break">
+        <div class="critical-title">⚠ Point critique — Statut légal</div>
+        <p>Installation bornes = RGIE obligatoire + contrôle organisme agréé (Vinçotte/Apave) + notification Fluvius + RC Pro. Sans ça : activité illégale.</p>
+      </div>
+      <table style="margin-top:2mm;">
+        <tr><th>Faiblesse</th><th>Sévérité</th></tr>
+        <tr><td>Zéro avis / preuve sociale</td><td><span class="badge badge-red">Critique</span></td></tr>
+        <tr><td>Google Business non validée</td><td><span class="badge badge-red">Critique</span></td></tr>
+        <tr><td>Aucun partenariat concessionnaire</td><td><span class="badge badge-orange">Fort</span></td></tr>
+        <tr><td>Pas de prix affichés sur le site</td><td><span class="badge badge-orange">Fort</span></td></tr>
+        <tr><td>Pas de photos d'installations réelles</td><td><span class="badge badge-orange">Fort</span></td></tr>
+        <tr><td>Budget acquisition non défini</td><td><span class="badge badge-orange">Moyen</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:3mm;">
+    <div>
+      <h3>⚡ Opportunités</h3>
+      <table>
+        <tr><th>Opportunité</th><th>Horizon</th></tr>
+        <tr><td>Programme installateur Tesla/Smappee/Wallbox → leads gratuits</td><td><span class="badge badge-blue">Immédiat</span></td></tr>
+        <tr><td>SEO local peu exploité dans ta zone</td><td><span class="badge badge-blue">3–6 mois</span></td></tr>
+        <tr><td>170 000 VE vendus en Belgique en 2024 → chaque acheteur = prospect</td><td><span class="badge badge-green">Permanent</span></td></tr>
+        <tr><td>Obligation EPBD 2026–2027 pour immeubles</td><td><span class="badge badge-orange">12 mois</span></td></tr>
+        <tr><td>Marché B2B sous-exploité localement</td><td><span class="badge badge-orange">6–12 mois</span></td></tr>
+      </table>
+    </div>
+    <div>
+      <h3>🔴 Risques</h3>
+      <table>
+        <tr><th>Risque</th><th>Impact</th></tr>
+        <tr><td>Cercle vicieux : 0 client → 0 avis → 0 client</td><td><span class="badge badge-red">Fatal</span></td></tr>
+        <tr><td>Validation Google Business retardée 2–8 semaines</td><td><span class="badge badge-orange">Fort</span></td></tr>
+        <tr><td>Cash flow tendu (cycle 3–6 semaines)</td><td><span class="badge badge-orange">Moyen</span></td></tr>
+        <tr><td>Mauvais premier avis public</td><td><span class="badge badge-red">Critique</span></td></tr>
+        <tr><td>Concurrent établi avec 15+ avis Maps</td><td><span class="badge badge-orange">Moyen</span></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section no-break">
+  <h2>Top 10 Priorités Absolues</h2>
+  <div class="priority-grid">
+    <div class="priority-item"><div class="priority-rank">1</div><div class="priority-text"><div class="priority-title">Confirmer RGIE + RC Pro + structure légale</div><div class="priority-sub">Délai max : immédiatement</div></div></div>
+    <div class="priority-item"><div class="priority-rank">2</div><div class="priority-text"><div class="priority-title">Valider et compléter Google Business Profile à 100%</div><div class="priority-sub">Délai max : cette semaine</div></div></div>
+    <div class="priority-item"><div class="priority-rank">3</div><div class="priority-text"><div class="priority-title">Obtenir 5 premiers avis Google (famille/amis/proches)</div><div class="priority-sub">Délai max : semaines 1–2</div></div></div>
+    <div class="priority-item"><div class="priority-rank">4</div><div class="priority-text"><div class="priority-title">Rejoindre programme installateur Tesla + Smappee</div><div class="priority-sub">Délai max : semaines 1–2</div></div></div>
+    <div class="priority-item"><div class="priority-rank">5</div><div class="priority-text"><div class="priority-title">Démarcher 5 concessionnaires VE locaux</div><div class="priority-sub">Délai max : semaine 2–3</div></div></div>
+    <div class="priority-item"><div class="priority-rank">6</div><div class="priority-text"><div class="priority-title">Photographier chaque chantier (avant/pendant/après)</div><div class="priority-sub">Permanent — dès la 1ère installation</div></div></div>
+    <div class="priority-item"><div class="priority-rank">7</div><div class="priority-text"><div class="priority-title">Ajouter fourchette de prix sur le site</div><div class="priority-sub">Délai max : cette semaine</div></div></div>
+    <div class="priority-item"><div class="priority-rank">8</div><div class="priority-text"><div class="priority-title">Rejoindre groupes Facebook locaux (10+ groupes)</div><div class="priority-sub">Délai max : semaine 1</div></div></div>
+    <div class="priority-item"><div class="priority-rank">9</div><div class="priority-text"><div class="priority-title">Créer Google Sheet de suivi des leads</div><div class="priority-sub">Délai max : aujourd'hui</div></div></div>
+    <div class="priority-item"><div class="priority-rank">10</div><div class="priority-text"><div class="priority-title">Définir budget mensuel acquisition (min 200€/mois)</div><div class="priority-sub">Délai max : cette semaine</div></div></div>
+  </div>
+
+  <div class="decision-box no-break" style="margin-top:5mm;">
+    <div class="decision-box-title">⚡ 5 Décisions critiques à prendre maintenant</div>
+    <div class="decision-item"><div class="decision-num">1</div><div class="decision-text"><strong>Statut légal ?</strong> As-tu le RGIE en ordre ? Structure légale (indépendant/SRL) enregistrée à la BCE ?</div></div>
+    <div class="decision-item"><div class="decision-num">2</div><div class="decision-text"><strong>Adresse Google Business ?</strong> Adresse physique vérifiable ou zone de service uniquement ? — impacte la stratégie de validation</div></div>
+    <div class="decision-item"><div class="decision-num">3</div><div class="decision-text"><strong>Budget mensuel acquisition ?</strong> 0€ = croissance très lente. 200–500€/mois = traction possible en 4–8 semaines</div></div>
+    <div class="decision-item"><div class="decision-num">4</div><div class="decision-text"><strong>Borne incluse ou installation uniquement ?</strong> Cela change ta marge, ta proposition de valeur et tes arguments commerciaux</div></div>
+    <div class="decision-item"><div class="decision-num">5</div><div class="decision-text"><strong>Objectif juillet minimum ?</strong> 4 installations = survie · 8 = confort · 12 = ambitieux</div></div>
+  </div>
+
+  <div class="kpi-grid" style="margin-top:4mm;">
+    <div class="kpi-card"><div class="kpi-val">6,5</div><div class="kpi-label">Note globale /10<br>(marché excellent,<br>fondations à compléter)</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:var(--warn);">MOD.</div><div class="kpi-label">Niveau de risque<br>(opérationnel, pas<br>stratégique)</div></div>
+    <div class="kpi-card"><div class="kpi-val">60K€</div><div class="kpi-label">CA atteignable<br>Jul–Déc 2026<br>(scénario réaliste)</div></div>
+    <div class="kpi-card"><div class="kpi-val">&lt;8 sem</div><div class="kpi-label">Délai pour le<br>premier client payant<br>si plan exécuté</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉTAPE 2 — PLAN 90 JOURS
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">Étape 2</div>
+    <div class="section-title">Plan d'exécution 90 jours</div>
+    <div class="section-desc">Semaine par semaine · Actions · KPI · Budget · Outils</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item no-break">
+      <div class="timeline-dot">S1</div>
+      <div class="timeline-content">
+        <div class="timeline-week">Semaine 1 — 26 mai – 1er juin</div>
+        <div class="timeline-title">Fondations légales &amp; techniques</div>
+        <div class="timeline-desc">Impact : <strong>Critique</strong> · Difficulté : Moyenne · Temps : 10–15h</div>
+        <table style="margin-top:2mm;">
+          <tr><th>Action</th><th>Temps</th></tr>
+          <tr><td>Confirmer RGIE, RC Pro, numéro BCE actif</td><td>2h</td></tr>
+          <tr><td>Compléter Google Business à 100% + lancer validation</td><td>1h</td></tr>
+          <tr><td>Ajouter fourchette de prix sur le site ("à partir de 449€")</td><td>1h</td></tr>
+          <tr><td>Créer Google Sheet suivi leads (5 colonnes)</td><td>30 min</td></tr>
+          <tr><td>Rejoindre 10–15 groupes Facebook locaux</td><td>2h</td></tr>
+          <tr><td>S'inscrire programme installateur Tesla + Smappee + Wallbox</td><td>2h</td></tr>
+          <tr><td>Envoyer message à 10 contacts pour préparer les 5 premiers avis</td><td>1h</td></tr>
+          <tr><td>Configurer WhatsApp Business (réponse auto + horaires)</td><td>30 min</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:2mm;"><p><strong>KPI S1 :</strong> Statut légal confirmé ✓ · Google Business validation lancée ✓ · 3 programmes installateur demandés ✓</p></div>
+      </div>
+    </div>
+
+    <div class="timeline-item no-break">
+      <div class="timeline-dot">S2</div>
+      <div class="timeline-content">
+        <div class="timeline-week">Semaine 2 — 2–8 juin</div>
+        <div class="timeline-title">Réseau social &amp; premiers partenariats</div>
+        <div class="timeline-desc">Impact : Élevé · Difficulté : Faible · Temps : 8–12h</div>
+        <table style="margin-top:2mm;">
+          <tr><th>Action</th><th>Temps</th></tr>
+          <tr><td>Créer page Facebook Business BORNEXA complète</td><td>1h</td></tr>
+          <tr><td>Identifier 5 concessionnaires VE dans 30km + envoyer email partenariat</td><td>3h</td></tr>
+          <tr><td>Demander 3 avis Google à famille/amis (lien direct)</td><td>30 min</td></tr>
+          <tr><td>Créer profil Goudengids.be, Livios.be, Bing Places</td><td>2h</td></tr>
+          <tr><td>Créer profil LinkedIn BORNEXA + connecter avec professionnels locaux</td><td>1h</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="timeline-item no-break">
+      <div class="timeline-dot">S3</div>
+      <div class="timeline-content">
+        <div class="timeline-week">Semaine 3 — 9–15 juin</div>
+        <div class="timeline-title">Premiers contacts chauds &amp; offre de lancement</div>
+        <div class="timeline-desc">Impact : Très élevé · Difficulté : Moyenne · Temps : 10–15h</div>
+        <table style="margin-top:2mm;">
+          <tr><th>Action</th><th>Temps</th></tr>
+          <tr><td>Relancer 5 concessionnaires par téléphone</td><td>1h</td></tr>
+          <tr><td>Visiter 2 concessionnaires en personne (carte de visite + dossier)</td><td>2h</td></tr>
+          <tr><td>Posts éducatifs dans les groupes Facebook locaux</td><td>2h</td></tr>
+          <tr><td>Créer offre de lancement limitée (449€ pour 3 premiers clients)</td><td>1h</td></tr>
+          <tr><td>Publier l'offre sur Facebook + WhatsApp status</td><td>30 min</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:2mm;"><p><strong>KPI S3 :</strong> 2 concessionnaires visités ✓ · Offre de lancement publiée ✓ · Premier lead entrant dans le Sheet ✓</p></div>
+      </div>
+    </div>
+
+    <div class="timeline-item no-break">
+      <div class="timeline-dot">S4</div>
+      <div class="timeline-content">
+        <div class="timeline-week">Semaine 4 — 16–22 juin</div>
+        <div class="timeline-title">Activation publicité payante locale</div>
+        <div class="timeline-desc">Impact : Très élevé · Budget : 140€ · Temps : 6–8h</div>
+        <table style="margin-top:2mm;">
+          <tr><th>Canal</th><th>Budget/jour</th><th>Format</th><th>Objectif</th></tr>
+          <tr><td>Facebook Ads</td><td>5€/jour</td><td>Image + texte + CTA WhatsApp</td><td>Messages/leads</td></tr>
+          <tr><td>Google Ads Search</td><td>5€/jour</td><td>Texte : "laadpaal installateur [commune]"</td><td>Clics → site</td></tr>
+        </table>
+        <p style="margin-top:2mm;font-size:8.5px;">Ciblage Facebook : 28–58 ans, propriétaires maison, rayon 25km, intérêts Tesla / VE / Wallbox</p>
+        <div class="highlight"><p><strong>KPI S4 :</strong> Premières campagnes actives ✓ · Coût par lead &lt; 30€ ✓ · 5 leads dans le Sheet ✓</p></div>
+      </div>
+    </div>
+
+    <div class="timeline-item no-break">
+      <div class="timeline-dot">S5</div>
+      <div class="timeline-content">
+        <div class="timeline-week">Semaines 5–6 — 23 juin – 6 juillet</div>
+        <div class="timeline-title">⭐ Premières installations — Objectif 3 clients payants avant le 10 juillet</div>
+        <div class="timeline-desc">Processus à respecter pour chaque lead :</div>
+        <table style="margin-top:2mm;">
+          <tr><th>Étape</th><th>Règle</th></tr>
+          <tr><td>Réponse au lead</td><td><strong>&lt; 2h maximum</strong> — la rapidité est le facteur #1</td></tr>
+          <tr><td>Visite préalable</td><td>Gratuite + proposée systématiquement → engagement créé</td></tr>
+          <tr><td>Devis</td><td>Envoyé dans les <strong>24h</strong> après la visite</td></tr>
+          <tr><td>Acompte</td><td><strong>30%</strong> à la signature — protège le cash flow</td></tr>
+          <tr><td>Photos chantier</td><td>Avant + pendant + après — OBLIGATOIRE</td></tr>
+          <tr><td>Avis Google</td><td>Lien envoyé par WhatsApp le jour de la fin des travaux</td></tr>
+        </table>
+        <div class="highlight" style="margin-top:2mm;"><p><strong>KPI S5–6 :</strong> 3 clients signés ✓ · 3 photos publiées ✓ · 3 avis Google reçus ✓</p></div>
+      </div>
+    </div>
+
+    <div class="timeline-item no-break">
+      <div class="timeline-dot">S12</div>
+      <div class="timeline-content">
+        <div class="timeline-week">Semaines 7–12 — juillet–août</div>
+        <div class="timeline-title">Montée en puissance → 8–12 installations/mois</div>
+        <div class="timeline-desc">Augmenter les budgets Ads · Systématiser les process · Activer partenariats confirmés · Commencer prospection B2B · Envisager sous-traitance si débordé</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3 style="margin-top:5mm;">Budget total conseillé — 90 jours</h3>
+  <table>
+    <tr><th>Poste</th><th>Mensuel</th><th>Total 3 mois</th></tr>
+    <tr><td>Facebook Ads</td><td>150–300€</td><td>450–900€</td></tr>
+    <tr><td>Google Ads Search</td><td>150–300€</td><td>450–900€</td></tr>
+    <tr><td>Cartes de visite + supports</td><td>15€</td><td>50€</td></tr>
+    <tr><td class="td-bold">Total minimum</td><td class="td-bold">~330€</td><td class="td-bold">~1 000€</td></tr>
+    <tr><td class="td-bold td-primary">Total recommandé</td><td class="td-bold td-primary">~600€</td><td class="td-bold td-primary">~1 800€</td></tr>
+  </table>
+
+  <h3 style="margin-top:4mm;">Outils gratuits essentiels</h3>
+  <div class="card-grid-3">
+    <div class="card card-green"><strong>Google Business</strong><br><span style="font-size:8px;color:var(--gray);">Présence locale Maps</span></div>
+    <div class="card card-green"><strong>Google Sheet</strong><br><span style="font-size:8px;color:var(--gray);">Suivi leads CRM simple</span></div>
+    <div class="card card-green"><strong>WhatsApp Business</strong><br><span style="font-size:8px;color:var(--gray);">Com client + réponse auto</span></div>
+    <div class="card card-green"><strong>Facebook Business Suite</strong><br><span style="font-size:8px;color:var(--gray);">Page + Ads + stats</span></div>
+    <div class="card card-green"><strong>Canva (gratuit)</strong><br><span style="font-size:8px;color:var(--gray);">Visuels réseaux sociaux</span></div>
+    <div class="card card-green"><strong>Cal.com (gratuit)</strong><br><span style="font-size:8px;color:var(--gray);">Calendrier RDV en ligne</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉTAPE 2B — GOOGLE BUSINESS
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">Étape 2B</div>
+    <div class="section-title">Validation Google Business</div>
+    <div class="section-desc">Checklist · Erreurs à éviter · Visibilité locale sans Maps</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>Checklist avant validation</h3>
+      <ul class="checklist">
+        <li>Nom exact : <strong>BORNEXA</strong> (sans descripteurs)</li>
+        <li>Catégorie principale : "Service d'installation électrique"</li>
+        <li>Catégorie secondaire : "Bornes de recharge VE"</li>
+        <li>Adresse cohérente avec le KBO/BCE</li>
+        <li>Numéro +32 identique au site web</li>
+        <li>URL : https://www.bornexa.be (exactement)</li>
+        <li>Horaires complets remplis</li>
+        <li>Zone de service : toutes les communes desservies</li>
+        <li>Description 750 caractères avec mots-clés locaux</li>
+        <li>5+ photos uploadées</li>
+        <li>Services listés explicitement</li>
+        <li>5 Q&amp;A ajoutées manuellement</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Erreurs qui déclenchent un refus</h3>
+      <div class="card card-danger" style="margin-bottom:2mm;">
+        <strong>Nom incohérent</strong> entre Google, site et KBO → refus automatique
+      </div>
+      <div class="card card-danger" style="margin-bottom:2mm;">
+        <strong>Adresse non vérifiable</strong> ou boîte postale → vérification supplémentaire
+      </div>
+      <div class="card card-danger" style="margin-bottom:2mm;">
+        <strong>Nouveau compte Gmail</strong> (&lt;6 mois) → signal suspect
+      </div>
+      <div class="card card-warn" style="margin-bottom:2mm;">
+        <strong>Fiche en doublon</strong> → suspension possible
+      </div>
+      <h3 style="margin-top:3mm;">Méthodes de validation</h3>
+      <table>
+        <tr><th>Méthode</th><th>Délai</th></tr>
+        <tr><td>SMS / Appel téléphonique</td><td><strong>Immédiat</strong></td></tr>
+        <tr><td>Vidéo en direct (agent Google)</td><td>1–3 jours</td></tr>
+        <tr><td>E-mail vérifié</td><td>24–48h</td></tr>
+        <tr><td>Carte postale (code PIN)</td><td>5–14 jours</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3>Plan de visibilité 30 jours sans Google Maps</h3>
+  <table>
+    <tr><th>Semaine</th><th>Canal</th><th>Action</th><th>Impact</th></tr>
+    <tr><td><strong>S1</strong></td><td>Annuaires</td><td>Goudengids.be, Livios.be, Bing Places, Apple Maps</td><td><span class="badge badge-green">Élevé</span></td></tr>
+    <tr><td><strong>S2</strong></td><td>Facebook</td><td>Page Business + posts dans 10+ groupes locaux</td><td><span class="badge badge-red">Très élevé</span></td></tr>
+    <tr><td><strong>S2</strong></td><td>Réseau perso</td><td>50 messages WhatsApp personnels (script entourage)</td><td><span class="badge badge-red">Très élevé</span></td></tr>
+    <tr><td><strong>S3</strong></td><td>Partenariats</td><td>5 concessionnaires VE contactés + 3 électriciens</td><td><span class="badge badge-green">Élevé</span></td></tr>
+    <tr><td><strong>S4</strong></td><td>Pub payante</td><td>Facebook Ads 5€/jour ciblage local</td><td><span class="badge badge-green">Élevé</span></td></tr>
+  </table>
+
+  <h3 style="margin-top:4mm;">Comment demander un avis Google (légalement)</h3>
+  <div class="card card-green no-break">
+    <p><strong>Message WhatsApp à envoyer le jour de la fin des travaux :</strong></p>
+    <p style="font-style:italic;background:#fff;padding:3mm;border-radius:3px;margin-top:2mm;border-left:3px solid var(--primary);">"Bonjour [Prénom], merci encore pour votre confiance ! Votre borne est opérationnelle. Si vous avez une minute, un avis Google m'aiderait énormément à développer BORNEXA. Voici le lien direct : [lien]. Pas d'obligation bien sûr — merci encore !"</p>
+    <p style="font-size:8.5px;margin:0;"><strong>Taux de réponse moyen :</strong> 70–80% si envoyé dans les 2h après fin des travaux, 20% si envoyé le lendemain.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉTAPE 3 — ACQUISITION
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">Étape 3</div>
+    <div class="section-title">Acquisition des 10 premiers clients</div>
+    <div class="section-desc">20 méthodes classées · Scripts · Plan 30 jours</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <h3>Classement des 20 méthodes d'acquisition</h3>
+  <table>
+    <tr><th>#</th><th>Méthode</th><th>Coût</th><th>Rapidité</th><th>ROI</th></tr>
+    <tr style="background:#F0FDF9;"><td class="td-bold td-primary">1</td><td><strong>Entourage personnel + messages directs</strong></td><td class="td-green">0€</td><td class="td-bold">★★★★★</td><td class="td-bold td-primary">★★★★★</td></tr>
+    <tr style="background:#F0FDF9;"><td class="td-bold td-primary">2</td><td><strong>Groupes Facebook locaux</strong></td><td class="td-green">0€</td><td class="td-bold">★★★★☆</td><td class="td-bold td-primary">★★★★★</td></tr>
+    <tr style="background:#F0FDF9;"><td class="td-bold td-primary">3</td><td><strong>Partenariat concessionnaire VE</strong></td><td class="td-green">0€</td><td class="td-bold">★★★☆☆</td><td class="td-bold td-primary">★★★★★</td></tr>
+    <tr><td>4</td><td>Google Business (Maps)</td><td>0€</td><td>★★★★☆</td><td>★★★★★</td></tr>
+    <tr><td>5</td><td>Programme installateur Tesla</td><td>0€</td><td>★★★☆☆</td><td>★★★★★</td></tr>
+    <tr><td>6</td><td>Programme installateur Smappee</td><td>0€</td><td>★★★☆☆</td><td>★★★★☆</td></tr>
+    <tr><td>7</td><td>Facebook Ads ciblées locales</td><td>150–300€/mois</td><td>★★★★☆</td><td>★★★★☆</td></tr>
+    <tr><td>8</td><td>Google Ads Search local</td><td>150–300€/mois</td><td>★★★★☆</td><td>★★★★☆</td></tr>
+    <tr><td>9</td><td>SEO local (blog articles)</td><td>0€</td><td>★★☆☆☆</td><td>★★★★★</td></tr>
+    <tr><td>10</td><td>Partenariat installateur solaire</td><td>0€</td><td>★★★☆☆</td><td>★★★★☆</td></tr>
+    <tr><td>11</td><td>Programme de parrainage (50€/filleul)</td><td>~100€/client</td><td>★★★☆☆</td><td>★★★★★</td></tr>
+    <tr><td>12</td><td>Prospection terrain (porte-à-porte ciblé VE visibles)</td><td>0€</td><td>★★★★☆</td><td>★★★☆☆</td></tr>
+    <tr><td>13</td><td>Annuaires locaux (Goudengids etc.)</td><td>0€</td><td>★★☆☆☆</td><td>★★★☆☆</td></tr>
+    <tr><td>14</td><td>Partenariat électricien local</td><td>0€</td><td>★★★☆☆</td><td>★★★★☆</td></tr>
+    <tr><td>15</td><td>LinkedIn (réseau local professionnel)</td><td>0€</td><td>★★☆☆☆</td><td>★★★☆☆</td></tr>
+    <tr><td>16</td><td>Flyers quartiers résidentiels</td><td>50–100€</td><td>★★★☆☆</td><td>★★☆☆☆</td></tr>
+    <tr><td>17</td><td>Partenariat courtier immobilier</td><td>0€</td><td>★★☆☆☆</td><td>★★★☆☆</td></tr>
+    <tr><td>18</td><td>Forums VE belges (GoingElectric.be)</td><td>0€</td><td>★★☆☆☆</td><td>★★★☆☆</td></tr>
+    <tr><td>19</td><td>Instagram avant/après</td><td>0€</td><td>★★☆☆☆</td><td>★★★☆☆</td></tr>
+    <tr><td>20</td><td>Partenariat syndic copropriété</td><td>0€</td><td>★☆☆☆☆</td><td>★★★★☆ (moyen terme)</td></tr>
+  </table>
+
+  <h3 style="margin-top:4mm;">Scripts commerciaux — Les 3 méthodes prioritaires</h3>
+
+  <div class="card card-green no-break" style="margin-bottom:3mm;">
+    <h4>Méthode 1 — Message entourage (WhatsApp)</h4>
+    <p style="font-style:italic;background:#fff;padding:3mm;border-radius:3px;border-left:3px solid var(--primary);">"Salut [Prénom] ! Je viens de lancer BORNEXA, mon entreprise d'installation de bornes de recharge à Boortmeerbeek. J'ai une offre de lancement à prix réduit pour les 5 premiers clients. Est-ce que tu connais quelqu'un qui vient d'acheter une VE ou qui galère encore à charger chez lui ? Une mise en relation me serait super utile. Merci d'avance !"</p>
+    <p style="margin:0;font-size:8.5px;"><strong>Résultat attendu :</strong> 50 messages → 2–3 leads qualifiés</p>
+  </div>
+
+  <div class="card card-green no-break" style="margin-bottom:3mm;">
+    <h4>Méthode 3 — Script téléphonique concessionnaire</h4>
+    <p style="font-style:italic;background:#fff;padding:3mm;border-radius:3px;border-left:3px solid var(--primary);">"Bonjour, je cherche à parler au responsable commercial. Je suis [Prénom] de BORNEXA, installateur certifié de bornes de recharge. J'appelle pour proposer un partenariat simple : quand un de vos clients achète un VE, vous lui recommandez BORNEXA pour l'installation. On s'occupe de tout — installation, Fluvius, mise en service. En échange, un service clé en main pour vos clients. Est-ce que vous avez 10 minutes cette semaine ?"</p>
+    <p style="margin:0;font-size:8.5px;"><strong>Résultat attendu :</strong> 1–2 partenariats signés = 2–5 leads/mois chacun</p>
+  </div>
+
+  <div class="card card-green no-break">
+    <h4>Méthode 2 — Post Facebook groupe local</h4>
+    <p style="font-style:italic;background:#fff;padding:3mm;border-radius:3px;border-left:3px solid var(--primary);">"Bonjour ! Je suis [Prénom], installateur certifié de bornes de recharge basé à Boortmeerbeek. Je viens de lancer BORNEXA. Offre de lancement : installation à prix découverte pour les 3 premiers clients de la région. Si vous avez une VE et une question sur l'installation d'une borne chez vous — posez-la ici ou en MP, je réponds à tout. Sans engagement."</p>
+    <p style="margin:0;font-size:8.5px;"><strong>Règle :</strong> Toujours attendre 1 semaine de présence active dans le groupe avant de poster. Commencer par répondre aux questions existantes sur les VE.</p>
+  </div>
+
+  <h3 style="margin-top:4mm;">Plan acquisition 30 jours</h3>
+  <table>
+    <tr><th>Semaine</th><th>Focus</th><th>Actions clés</th><th>Leads visés</th></tr>
+    <tr><td><strong>S1</strong></td><td>Entourage + Groupes FB</td><td>50 messages perso + 10 groupes rejoints</td><td>3–5</td></tr>
+    <tr><td><strong>S2</strong></td><td>Concessionnaires + Ads</td><td>5 emails + 2 visites + Facebook Ads démarrées</td><td>5–8</td></tr>
+    <tr><td><strong>S3</strong></td><td>Conversion + Partenaires</td><td>Relances + visites préalables + devis envoyés</td><td>5–8</td></tr>
+    <tr><td><strong>S4</strong></td><td>Premières installations</td><td>2–3 installations + avis Google demandés</td><td>3–5 bonus</td></tr>
+    <tr class="td-bold"><td colspan="3"><strong>Objectif 30 jours</strong></td><td class="td-primary"><strong>15–25 leads · 3–5 clients signés</strong></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉTAPE 4 — AUDIT SITE WEB
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">Étape 4</div>
+    <div class="section-title">Audit du site web bornexa.be</div>
+    <div class="section-desc">Analyse comme un client réel · Scores · Blocages · Modifications prioritaires</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <div class="score-box no-break">
+    <div class="score-item"><div class="score-val mid">5</div><div class="score-label">Conversion /10<br>Beau mais manque<br>prix + avis + certifs</div></div>
+    <div class="score-item"><div class="score-val low">4</div><div class="score-label">Confiance /10<br>Zéro preuve sociale =<br>blocage fort</div></div>
+    <div class="score-item"><div class="score-val high">7</div><div class="score-label">Clarté /10<br>Messages clairs,<br>FAQ utile</div></div>
+    <div class="score-item"><div class="score-val high">8,5</div><div class="score-label">Premium /10<br>Excellent design,<br>différenciant</div></div>
+  </div>
+
+  <div class="two-col" style="margin-top:3mm;">
+    <div>
+      <h3>✅ Ce qui donne confiance</h3>
+      <ul>
+        <li>Design premium moderne, différenciant visuellement</li>
+        <li>Bilingue NL/FR automatique</li>
+        <li>Pages locales (14 communes) → "Ils connaissent ma région"</li>
+        <li>Pages marques (Tesla, Wallbox, Smappee) → expertise</li>
+        <li>FAQ complète avec Schema.org</li>
+        <li>Formulaire devis opérationnel</li>
+        <li>Numéro de téléphone + WhatsApp visibles</li>
+        <li>Simulateur d'économies et comparateur</li>
+      </ul>
+    </div>
+    <div>
+      <h3>❌ Ce qui fait fuir (à corriger)</h3>
+      <table>
+        <tr><th>Problème</th><th>Urgence</th></tr>
+        <tr><td>Aucune photo d'installation réelle</td><td><span class="badge badge-red">Critique</span></td></tr>
+        <tr><td>Zéro avis client visible</td><td><span class="badge badge-red">Critique</span></td></tr>
+        <tr><td>Pas de prix ni fourchette affichés</td><td><span class="badge badge-red">Critique</span></td></tr>
+        <tr><td>Pas de certifications RGIE visible</td><td><span class="badge badge-orange">Fort</span></td></tr>
+        <tr><td>Pas de mention RC Pro</td><td><span class="badge badge-orange">Fort</span></td></tr>
+        <tr><td>Pas de section "Nos réalisations"</td><td><span class="badge badge-orange">Moyen</span></td></tr>
+        <tr><td>Formulaire devis trop complexe en 1er contact</td><td><span class="badge badge-orange">Moyen</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3 style="margin-top:3mm;">Modifications prioritaires</h3>
+  <table>
+    <tr><th>Priorité</th><th>Modification</th><th>Impact</th><th>Délai</th></tr>
+    <tr style="background:#FEF2F2;"><td><span class="badge badge-red">1</span></td><td>Ajouter "Installation à partir de 449€" dans le héro</td><td>+20–30% leads</td><td>Cette semaine</td></tr>
+    <tr style="background:#FEF2F2;"><td><span class="badge badge-red">2</span></td><td>Ajouter badges RGIE + RC Pro dans le footer</td><td>+15% confiance</td><td>Cette semaine</td></tr>
+    <tr style="background:#FFFBEB;"><td><span class="badge badge-orange">3</span></td><td>Intégrer widget Google Reviews (dès 3 avis)</td><td>+25% conversion</td><td>Semaine 3–4</td></tr>
+    <tr style="background:#FFFBEB;"><td><span class="badge badge-orange">4</span></td><td>Créer section "Nos réalisations" avec photos</td><td>+20% confiance</td><td>1ère installation</td></tr>
+    <tr><td><span class="badge badge-blue">5</span></td><td>Page "Nos formules" avec les 3 offres en colonnes</td><td>+15% valeur client</td><td>Semaine 2–3</td></tr>
+    <tr><td><span class="badge badge-blue">6</span></td><td>Bouton "Estimation rapide par WhatsApp" visible</td><td>+10% contacts</td><td>Semaine 2</td></tr>
+  </table>
+
+  <h3 style="margin-top:4mm;">Structure idéale de la page d'accueil</h3>
+  <div class="card-grid" style="gap:2mm;">
+    <div class="card" style="border-left:3px solid var(--primary);"><strong>1. HÉRO</strong><br><span style="font-size:8.5px;">H1 avec commune · "À partir de 449€" · 2 CTA · Badge RGIE</span></div>
+    <div class="card" style="border-left:3px solid var(--primary);"><strong>2. RÉASSURANCE 3 POINTS</strong><br><span style="font-size:8.5px;">Certifié RGIE · Réponse 24h · TVA 6% conditions incluse</span></div>
+    <div class="card" style="border-left:3px solid var(--primary);"><strong>3. PORTFOLIO PHOTOS</strong><br><span style="font-size:8.5px;">6 photos avant/après · Commune + type de borne</span></div>
+    <div class="card" style="border-left:3px solid var(--primary);"><strong>4. NOS OFFRES (3 colonnes)</strong><br><span style="font-size:8.5px;">Essentiel / Confort ⭐ / Premium avec prix indicatifs</span></div>
+    <div class="card" style="border-left:3px solid var(--primary);"><strong>5. TÉMOIGNAGES GOOGLE</strong><br><span style="font-size:8.5px;">Avis avec étoiles, prénom et ville</span></div>
+    <div class="card" style="border-left:3px solid var(--primary);"><strong>6. FAQ + FORMULAIRE DEVIS</strong><br><span style="font-size:8.5px;">Existant — déjà bien structuré</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉTAPE 5 — OFFRES
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">Étape 5</div>
+    <div class="section-title">Offres &amp; Positionnement</div>
+    <div class="section-desc">3 formules · Stratégie d'ancrage psychologique · Prix indicatifs</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <div class="offer-grid no-break">
+    <div class="offer-card">
+      <div class="offer-header">
+        <div class="offer-tag">Pour les autonomes</div>
+        <div class="offer-name">Essentiel</div>
+        <div class="offer-price">449€ – 649€</div>
+        <div class="offer-price-sub">installation uniquement · borne fournie par le client</div>
+      </div>
+      <div class="offer-body">
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Visite préalable gratuite</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Installation professionnelle</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Mise en service</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Attestation RGIE</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Notification Fluvius</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Garantie travaux <strong>2 ans</strong></div>
+        <div class="offer-feature"><span style="color:var(--danger);">✗</span> Borne non incluse</div>
+        <div style="margin-top:3mm;padding:2mm;background:#F8FAFC;border-radius:3px;font-size:8px;color:var(--gray);">
+          <strong>Upsells :</strong> Parafoudre +89€ · Câble type 2 +79€ · Config app +49€
+        </div>
+      </div>
+    </div>
+
+    <div class="offer-card featured">
+      <div class="offer-header featured">
+        <div class="offer-tag">⭐ Le plus populaire</div>
+        <div class="offer-name" style="color:#fff;">Confort</div>
+        <div class="offer-price">999€ – 1 299€</div>
+        <div class="offer-price-sub" style="color:rgba(255,255,255,.6);">tout inclus · borne 7,4kW + installation</div>
+      </div>
+      <div class="offer-body">
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Conseil personnalisé</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> <strong>Borne 7,4kW incluse</strong> (Wallbox ou Smappee)</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Câble type 2 inclus</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Installation + mise en service</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Configuration app smartphone</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Attestation RGIE + Fluvius</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Garantie complète <strong>3 ans</strong></div>
+        <div style="margin-top:3mm;padding:2mm;background:#F0FDF9;border-radius:3px;font-size:8px;color:var(--text);">
+          <strong>Upsells :</strong> Upgrade 11/22kW +150€ · Smart charging +99€ · Extension garantie 5 ans +149€
+        </div>
+      </div>
+    </div>
+
+    <div class="offer-card">
+      <div class="offer-header">
+        <div class="offer-tag">Pour les exigeants</div>
+        <div class="offer-name">Premium</div>
+        <div class="offer-price">1 799€ – 2 499€</div>
+        <div class="offer-price-sub">expérience complète · borne 22kW ou Tesla WC</div>
+      </div>
+      <div class="offer-body">
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Audit électrique complet</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> <strong>Borne 22kW ou Tesla Wall Connector</strong></div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Installation premium finitions soignées</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Smart charging + intégration zonnepanelen</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Monitoring consommation activé</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Visite contrôle à 12 mois offerte</div>
+        <div class="offer-feature"><span class="offer-feature-icon">✓</span> Garantie complète <strong>5 ans</strong></div>
+        <div style="margin-top:3mm;padding:2mm;background:#F8FAFC;border-radius:3px;font-size:8px;color:var(--gray);">
+          <strong>Upsells :</strong> Contrat maintenance 99€/an · Préparation backup +199€
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight no-break" style="margin-top:4mm;">
+    <p><strong>Stratégie d'ancrage — Pourquoi mettre le CONFORT au centre :</strong> La présence du Premium rend le Confort "raisonnable". L'Essentiel crée un plancher psychologique. 60–70% des clients choisissent l'offre du milieu. Le Confort inclut la borne → marge supplémentaire de 200–350€ sur le matériel en plus de la main d'œuvre.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉTAPE 6 — PROJECTIONS FINANCIÈRES
+═══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">Étape 6</div>
+    <div class="section-title">Projections financières Juillet–Décembre 2026</div>
+    <div class="section-desc">3 scénarios · CA · Marges · Charges · Résultats nets</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <h3>Hypothèses de base</h3>
+  <div class="card-grid-3 no-break" style="margin-bottom:4mm;">
+    <div class="card card-green"><strong>Revenu moyen / installation</strong><br><span style="font-size:18px;font-weight:700;color:var(--primary);">~1 000€</span><br><span style="font-size:8px;color:var(--gray);">40% Essentiel · 45% Confort · 15% Premium</span></div>
+    <div class="card card-green"><strong>Coûts variables</strong><br><span style="font-size:18px;font-weight:700;color:var(--primary);">~150€</span><br><span style="font-size:8px;color:var(--gray);">Matériaux + consommables par installation</span></div>
+    <div class="card card-green"><strong>Charges fixes</strong><br><span style="font-size:18px;font-weight:700;color:var(--primary);">~1 400€</span><br><span style="font-size:8px;color:var(--gray);">Véhicule + assurance + outils + admin/mois</span></div>
+  </div>
+
+  <h3>Scénario 1 — Prudent</h3>
+  <p style="font-size:8.5px;color:var(--gray);margin-bottom:2mm;">Démarrage lent, 1–2 concessionnaires contactés, Google Business validée tard.</p>
+  <table>
+    <tr><th>Mois</th><th class="td-center">Installations</th><th class="td-right">CA brut</th><th class="td-right">Marge brute</th><th class="td-right">Charges tot.</th><th class="td-right td-bold">Résultat net</th></tr>
+    <tr><td>Juillet</td><td class="td-center">2</td><td class="td-right">2 000€</td><td class="td-right">1 700€</td><td class="td-right">1 700€</td><td class="td-right td-bold" style="color:var(--warn);">0€</td></tr>
+    <tr><td>Août</td><td class="td-center">3</td><td class="td-right">3 000€</td><td class="td-right">2 550€</td><td class="td-right">1 700€</td><td class="td-right td-bold td-green">850€</td></tr>
+    <tr><td>Septembre</td><td class="td-center">5</td><td class="td-right">5 000€</td><td class="td-right">4 250€</td><td class="td-right">1 700€</td><td class="td-right td-bold td-green">2 550€</td></tr>
+    <tr><td>Octobre</td><td class="td-center">6</td><td class="td-right">6 000€</td><td class="td-right">5 100€</td><td class="td-right">1 700€</td><td class="td-right td-bold td-green">3 400€</td></tr>
+    <tr><td>Novembre</td><td class="td-center">6</td><td class="td-right">6 000€</td><td class="td-right">5 100€</td><td class="td-right">1 700€</td><td class="td-right td-bold td-green">3 400€</td></tr>
+    <tr><td>Décembre</td><td class="td-center">5</td><td class="td-right">5 000€</td><td class="td-right">4 250€</td><td class="td-right">1 600€</td><td class="td-right td-bold td-green">2 650€</td></tr>
+    <tr style="background:var(--dark);color:#fff;"><td><strong>TOTAL</strong></td><td class="td-center td-bold">27</td><td class="td-right td-bold">27 000€</td><td class="td-right td-bold">22 950€</td><td class="td-right td-bold">10 100€</td><td class="td-right td-bold" style="color:var(--primary);">~12 850€</td></tr>
+  </table>
+
+  <h3 style="margin-top:4mm;">Scénario 2 — Réaliste ⭐</h3>
+  <p style="font-size:8.5px;color:var(--gray);margin-bottom:2mm;">Plan exécuté à 70%, Google Business validée S3, 1–2 partenariats concessionnaires, Ads 10€/jour.</p>
+  <table>
+    <tr><th>Mois</th><th class="td-center">Installations</th><th class="td-right">CA brut</th><th class="td-right">Marge brute</th><th class="td-right">Charges tot.</th><th class="td-right td-bold">Résultat net</th></tr>
+    <tr><td>Juillet</td><td class="td-center">4</td><td class="td-right">4 000€</td><td class="td-right">3 400€</td><td class="td-right">1 800€</td><td class="td-right td-bold td-green">1 600€</td></tr>
+    <tr><td>Août</td><td class="td-center">8</td><td class="td-right">8 000€</td><td class="td-right">6 800€</td><td class="td-right">1 800€</td><td class="td-right td-bold td-green">5 000€</td></tr>
+    <tr><td>Septembre</td><td class="td-center">11</td><td class="td-right">11 000€</td><td class="td-right">9 350€</td><td class="td-right">1 800€</td><td class="td-right td-bold td-green">7 550€</td></tr>
+    <tr><td>Octobre</td><td class="td-center">13</td><td class="td-right">13 000€</td><td class="td-right">11 050€</td><td class="td-right">1 800€</td><td class="td-right td-bold td-green">9 250€</td></tr>
+    <tr><td>Novembre</td><td class="td-center">13</td><td class="td-right">13 000€</td><td class="td-right">11 050€</td><td class="td-right">1 800€</td><td class="td-right td-bold td-green">9 250€</td></tr>
+    <tr><td>Décembre</td><td class="td-center">11</td><td class="td-right">11 000€</td><td class="td-right">9 350€</td><td class="td-right">1 700€</td><td class="td-right td-bold td-green">7 650€</td></tr>
+    <tr style="background:#1a3a2a;color:#fff;"><td><strong>TOTAL</strong></td><td class="td-center td-bold">60</td><td class="td-right td-bold">60 000€</td><td class="td-right td-bold">51 000€</td><td class="td-right td-bold">10 700€</td><td class="td-right td-bold" style="color:#6ee7b7;">~40 300€</td></tr>
+  </table>
+
+  <h3 style="margin-top:4mm;">Scénario 3 — Ambitieux</h3>
+  <p style="font-size:8.5px;color:var(--gray);margin-bottom:2mm;">Plan à 100%, 3–4 partenariats concessionnaires, Google Maps forte (15+ avis), sous-traitance partielle dès septembre.</p>
+  <table>
+    <tr><th>Mois</th><th class="td-center">Installations</th><th class="td-right">CA brut</th><th class="td-right">Marge brute</th><th class="td-right">Charges tot.</th><th class="td-right td-bold">Résultat net</th></tr>
+    <tr><td>Juillet</td><td class="td-center">7</td><td class="td-right">7 000€</td><td class="td-right">5 950€</td><td class="td-right">1 900€</td><td class="td-right td-bold td-green">4 050€</td></tr>
+    <tr><td>Août</td><td class="td-center">13</td><td class="td-right">13 000€</td><td class="td-right">11 050€</td><td class="td-right">1 900€</td><td class="td-right td-bold td-green">9 150€</td></tr>
+    <tr><td>Septembre</td><td class="td-center">18</td><td class="td-right">18 000€</td><td class="td-right">15 300€</td><td class="td-right">2 500€</td><td class="td-right td-bold td-green">12 800€</td></tr>
+    <tr><td>Octobre</td><td class="td-center">20</td><td class="td-right">20 000€</td><td class="td-right">17 000€</td><td class="td-right">2 500€</td><td class="td-right td-bold td-green">14 500€</td></tr>
+    <tr><td>Novembre</td><td class="td-center">20</td><td class="td-right">20 000€</td><td class="td-right">17 000€</td><td class="td-right">2 500€</td><td class="td-right td-bold td-green">14 500€</td></tr>
+    <tr><td>Décembre</td><td class="td-center">17</td><td class="td-right">17 000€</td><td class="td-right">14 450€</td><td class="td-right">2 400€</td><td class="td-right td-bold td-green">12 050€</td></tr>
+    <tr style="background:var(--dark);color:#fff;"><td><strong>TOTAL</strong></td><td class="td-center td-bold">95</td><td class="td-right td-bold">95 000€</td><td class="td-right td-bold">80 750€</td><td class="td-right td-bold">13 700€</td><td class="td-right td-bold" style="color:var(--primary);">~67 050€</td></tr>
+  </table>
+
+  <div class="note no-break" style="margin-top:3mm;">
+    <p><strong>⚠ Important :</strong> Ces montants sont des revenus d'activité avant impôts et cotisations sociales. En Belgique : indépendant en personne physique ≈ 30–40% de précompte + cotisations sociales. SRL ≈ 20% impôt des sociétés. Consulter un comptable pour optimiser la structure dès le départ.</p>
+  </div>
+
+  <h3 style="margin-top:4mm;">Indicateurs à surveiller chaque semaine</h3>
+  <table>
+    <tr><th>Indicateur</th><th>Objectif réaliste</th><th>Alerte si</th></tr>
+    <tr><td>Leads entrants / semaine</td><td>8–10</td><td>&lt; 4 pendant 2 semaines</td></tr>
+    <tr><td>Devis envoyés / semaine</td><td>4–6</td><td>&lt; 2 pendant 2 semaines</td></tr>
+    <tr><td>Taux conversion devis → signé</td><td>≥ 45%</td><td>&lt; 30%</td></tr>
+    <tr><td>Coût par lead (Ads)</td><td>&lt; 25€</td><td>&gt; 50€</td></tr>
+    <tr><td>Délai de réponse aux leads</td><td>&lt; 2h</td><td>&gt; 24h</td></tr>
+    <tr><td>Avis Google / semaine</td><td>+2</td><td>0 pendant 2 semaines</td></tr>
+    <tr><td style="font-weight:700;">CA facturé / mois</td><td style="font-weight:700;">≥ 8 000€ (réaliste)</td><td style="color:var(--danger);font-weight:700;">&lt; 4 500€ en septembre</td></tr>
+  </table>
+
+  <div class="critical no-break" style="margin-top:3mm;">
+    <div class="critical-title">Seuil de survie mensuel</div>
+    <p>Charges fixes (1 400€) + acquisition (300€) + revenu personnel minimum (2 000€) = <strong>besoin minimum 4 500€/mois = 4–5 installations.</strong> En dessous, tu travailles à perte. C'est ton plancher absolu.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     FEUILLE DE ROUTE FINALE
+═══════════════════════════════════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">Document final</div>
+    <div class="section-title">Feuille de route &amp; Priorités 30 jours</div>
+    <div class="section-desc">Actions dès demain · Checklist de lancement · Roadmap mensuelle</div>
+    <div class="section-header-bar"></div>
+  </div>
+
+  <h2>Actions dès demain matin — 10 étapes dans l'ordre</h2>
+
+  <div class="decision-box no-break">
+    <div class="decision-box-title">Mes 10 prochaines actions dans l'ordre exact</div>
+    <div class="decision-item"><div class="decision-num">1</div><div class="decision-text"><strong>Confirmer RGIE + RC Pro + BCE enregistré.</strong> Si manque → prendre RDV aujourd'hui.</div></div>
+    <div class="decision-item"><div class="decision-num">2</div><div class="decision-text"><strong>Ouvrir Google Business ce soir</strong> → compléter à 100% → lancer la procédure de validation (SMS ou carte postale).</div></div>
+    <div class="decision-item"><div class="decision-num">3</div><div class="decision-text"><strong>Créer le Google Sheet de suivi leads</strong> (5 colonnes : Nom / Téléphone / Source / Statut / Note de suivi).</div></div>
+    <div class="decision-item"><div class="decision-num">4</div><div class="decision-text"><strong>Envoyer 20 messages WhatsApp personnels</strong> à des contacts avec le script de l'entourage.</div></div>
+    <div class="decision-item"><div class="decision-num">5</div><div class="decision-text"><strong>Rejoindre 10 groupes Facebook locaux</strong> (Boortmeerbeek, Haacht, Zemst, Mechelen, Leuven et environs).</div></div>
+    <div class="decision-item"><div class="decision-num">6</div><div class="decision-text"><strong>Ajouter "Installation à partir de 449€"</strong> sur la page d'accueil du site.</div></div>
+    <div class="decision-item"><div class="decision-num">7</div><div class="decision-text"><strong>S'inscrire programme installateur Tesla</strong> (tesla.com) + Smappee (smappee.com/partner).</div></div>
+    <div class="decision-item"><div class="decision-num">8</div><div class="decision-text"><strong>Identifier 5 concessionnaires VE locaux</strong> + rédiger l'email partenariat → envoyer demain.</div></div>
+    <div class="decision-item"><div class="decision-num">9</div><div class="decision-text"><strong>Configurer WhatsApp Business</strong> (message d'accueil automatique + horaires de disponibilité).</div></div>
+    <div class="decision-item"><div class="decision-num">10</div><div class="decision-text"><strong>Prendre RDV avec un comptable belge</strong> spécialisé indépendants/PME cette semaine.</div></div>
+  </div>
+
+  <h2 style="margin-top:6mm;">Roadmap mensuelle — Juillet à Décembre 2026</h2>
+  <div class="roadmap">
+    <div class="roadmap-month no-break">
+      <div class="roadmap-month-header"><div class="roadmap-month-dot">JUIN</div><div class="roadmap-month-name">Juin — Mise en place &amp; Premiers leads</div></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><span>Fondations légales confirmées</span><span class="roadmap-item-tag">Sem 1</span></div>
+        <div class="roadmap-item"><span>Google Business validation lancée</span><span class="roadmap-item-tag">Sem 1</span></div>
+        <div class="roadmap-item"><span>Facebook Business actif + 3 premiers posts</span><span class="roadmap-item-tag">Sem 2</span></div>
+        <div class="roadmap-item"><span>5 emails concessionnaires envoyés</span><span class="roadmap-item-tag">Sem 2</span></div>
+        <div class="roadmap-item"><span>Facebook Ads 5€/jour lancée</span><span class="roadmap-item-tag">Sem 3</span></div>
+        <div class="roadmap-item"><span>3 premiers avis Google obtenus</span><span class="roadmap-item-tag">Sem 3–4</span></div>
+        <div class="roadmap-item"><span>10–15 leads dans le Google Sheet</span><span class="roadmap-item-tag">Fin juin</span></div>
+      </div>
+    </div>
+
+    <div class="roadmap-month no-break">
+      <div class="roadmap-month-header"><div class="roadmap-month-dot" style="background:#1ADBA8;">JUIL</div><div class="roadmap-month-name">Juillet — Premiers clients payants</div></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><span>Objectif : 4–7 installations facturées</span><span class="roadmap-item-tag">★★★</span></div>
+        <div class="roadmap-item"><span>Répondre à tous leads en &lt;2h</span><span class="roadmap-item-tag">Permanent</span></div>
+        <div class="roadmap-item"><span>Photographier chaque chantier</span><span class="roadmap-item-tag">Permanent</span></div>
+        <div class="roadmap-item"><span>Demander avis Google après chaque installation</span><span class="roadmap-item-tag">Permanent</span></div>
+        <div class="roadmap-item"><span>5+ avis Google au total</span><span class="roadmap-item-tag">Fin juillet</span></div>
+        <div class="roadmap-item"><span>Section "Réalisations" live sur le site</span><span class="roadmap-item-tag">Fin juillet</span></div>
+      </div>
+    </div>
+
+    <div class="roadmap-month no-break">
+      <div class="roadmap-month-header"><div class="roadmap-month-dot" style="background:#009E76;">AOÛT</div><div class="roadmap-month-name">Août — Montée en puissance</div></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><span>Objectif : 8–13 installations</span><span class="roadmap-item-tag">★★★</span></div>
+        <div class="roadmap-item"><span>Ads Facebook augmentées : 10€/jour</span><span class="roadmap-item-tag">Sem 1</span></div>
+        <div class="roadmap-item"><span>1–2 partenariats concessionnaires actifs</span><span class="roadmap-item-tag">Sem 1</span></div>
+        <div class="roadmap-item"><span>Page "Nos formules" live sur le site</span><span class="roadmap-item-tag">Sem 2</span></div>
+        <div class="roadmap-item"><span>10+ avis Google Maps</span><span class="roadmap-item-tag">Fin août</span></div>
+      </div>
+    </div>
+
+    <div class="roadmap-month no-break">
+      <div class="roadmap-month-header"><div class="roadmap-month-dot" style="background:#065F46;">SEP–DÉC</div><div class="roadmap-month-name">Septembre–Décembre — Régime de croisière &amp; Structuration</div></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><span>Objectif : 10–20 installations/mois selon scénario</span><span class="roadmap-item-tag">★★★★</span></div>
+        <div class="roadmap-item"><span>Systématiser les process (checklist chantier, template devis)</span><span class="roadmap-item-tag">Sep</span></div>
+        <div class="roadmap-item"><span>Commencer prospection B2B (PME locales avec flotte VE)</span><span class="roadmap-item-tag">Oct</span></div>
+        <div class="roadmap-item"><span>Si &gt;15 installations/mois : évaluer sous-traitance ou premier employé</span><span class="roadmap-item-tag">Oct–Nov</span></div>
+        <div class="roadmap-item"><span>15+ avis Google Maps</span><span class="roadmap-item-tag">Oct</span></div>
+        <div class="roadmap-item"><span>Témoignages vidéo des meilleurs clients</span><span class="roadmap-item-tag">Nov</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:6mm;">Checklist de lancement complète</h2>
+  <div class="two-col">
+    <div>
+      <h3>Légal &amp; Administratif</h3>
+      <ul class="checklist">
+        <li>Certification RGIE confirmée</li>
+        <li>Assurance RC Pro travaux électriques active</li>
+        <li>Structure légale enregistrée à la BCE</li>
+        <li>Numéro de TVA actif</li>
+        <li>Compte bancaire professionnel ouvert</li>
+        <li>Comptable mandaté</li>
+        <li>Contrat type de prestation rédigé</li>
+        <li>Template de devis professionnel créé</li>
+      </ul>
+
+      <h3 style="margin-top:3mm;">Site web</h3>
+      <ul class="checklist">
+        <li>Fourchette de prix ajoutée dans le héro</li>
+        <li>Badge RGIE + RC Pro dans le footer</li>
+        <li>Section "Nos formules" créée (3 offres)</li>
+        <li>Section "Réalisations" prête (dès 1ère install.)</li>
+        <li>Widget avis Google intégré</li>
+        <li>Calendrier de RDV en ligne (Cal.com)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Acquisition &amp; Visibilité</h3>
+      <ul class="checklist">
+        <li>Google Business validée et optimisée</li>
+        <li>Page Facebook Business créée et active</li>
+        <li>5 premiers avis Google obtenus</li>
+        <li>Inscrit programme installateur Tesla</li>
+        <li>Inscrit programme installateur Smappee</li>
+        <li>Profil Goudengids.be + Livios.be créés</li>
+        <li>10+ groupes Facebook locaux rejoints</li>
+        <li>Google Sheet suivi leads opérationnel</li>
+        <li>WhatsApp Business configuré (réponse auto)</li>
+        <li>Facebook Ads active (5€/jour minimum)</li>
+      </ul>
+
+      <h3 style="margin-top:3mm;">Partenariats</h3>
+      <ul class="checklist">
+        <li>5 concessionnaires VE contactés</li>
+        <li>2 concessionnaires visités en personne</li>
+        <li>1 partenariat concessionnaire signé</li>
+        <li>1 partenariat électricien local (renvois mutuels)</li>
+        <li>1 partenariat installateur solaire</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="decision-box no-break" style="margin-top:5mm;">
+    <div class="decision-box-title">⚡ Si tu ne fais qu'une seule chose aujourd'hui</div>
+    <div class="decision-item"><div class="decision-num">→</div><div class="decision-text" style="font-size:11px;"><strong>Envoie 20 messages WhatsApp à ton réseau.</strong> C'est gratuit, prend 1h, et peut te donner ton premier client cette semaine. Tout le reste vient après.</div></div>
+  </div>
+
+  <div style="margin-top:8mm;padding:5mm;background:var(--dark);border-radius:6px;text-align:center;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:2mm;">Le marché est là. Les clients ont besoin de toi. Il reste à aller les chercher.</div>
+    <div style="font-size:9px;color:rgba(255,255,255,.5);">BORNEXA — Plan de lancement &amp; croissance · Établi le 27 mai 2026</div>
+    <div style="margin-top:3mm;display:flex;justify-content:center;gap:5mm;">
+      <div style="font-size:8px;color:var(--primary);">bornexa.be</div>
+      <div style="font-size:8px;color:rgba(255,255,255,.3);">·</div>
+      <div style="font-size:8px;color:var(--primary);">info@bornexa.be</div>
+      <div style="font-size:8px;color:rgba(255,255,255,.3);">·</div>
+      <div style="font-size:8px;color:var(--primary);">+32 489 24 77 60</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

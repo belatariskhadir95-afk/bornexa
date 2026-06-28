@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Configurateur Smappee Infinity — BORNEXA</title>
+<style>
+  :root{--navy:#0B1E3C;--green:#00C896;--green2:#1ADBA8;--bg:#f3f6f9;--card:#fff;--border:#e2e8f0;--muted:#64748b;--text:#0f172a;--warn:#F59E0B;--err:#dc3545;--ok:#00C896}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14.5px}
+  .topbar{background:var(--navy);color:#fff;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+  .topbar b{font-size:1.05rem;letter-spacing:.5px}
+  .topbar .tag{color:var(--green2);font-size:.78rem;letter-spacing:2px}
+  .topbar button,.topbar .impbtn{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:.82rem;margin-left:8px;display:inline-block}
+  .topbar button:hover,.topbar .impbtn:hover{background:rgba(255,255,255,.2)}
+  .schema-wrap{overflow-x:auto}
+  .schema-wrap svg{display:block;max-width:100%;height:auto}
+  .wrap{display:grid;grid-template-columns:1fr 420px;gap:18px;max-width:1280px;margin:18px auto;padding:0 18px;align-items:start}
+  @media(max-width:980px){.wrap{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+  .card h2{font-size:1.05rem;margin:0 0 4px;color:var(--navy)}
+  .card .sub{color:var(--muted);font-size:.86rem;margin:0 0 14px}
+  .seclabel{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:1px;color:var(--green);text-transform:uppercase;margin-bottom:6px}
+  label.fl{display:block;font-weight:600;font-size:.88rem;margin:10px 0 5px}
+  input[type=text],input[type=number],select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.92rem;background:#fff;color:var(--text)}
+  input:focus,select:focus{outline:none;border-color:var(--green)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .chip{border:1.5px solid var(--border);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:.85rem;background:#fff;user-select:none}
+  .chip.on{background:var(--green);border-color:var(--green);color:var(--navy);font-weight:700}
+  .toggle{display:flex;align-items:center;gap:9px;margin:8px 0;cursor:pointer;font-size:.9rem}
+  .toggle input{width:auto}
+  .qline{display:grid;grid-template-columns:1fr 90px 90px 70px 30px;gap:8px;align-items:center;margin-bottom:8px}
+  .qline .ph{display:flex;gap:4px}
+  .qline .ph b{flex:1;text-align:center;border:1.5px solid var(--border);border-radius:7px;padding:7px 0;cursor:pointer;font-size:.8rem;background:#fff}
+  .qline .ph b.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .qline .del{background:none;border:none;color:var(--err);cursor:pointer;font-size:1.1rem}
+  .addbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .addbtns button{background:#eef6f2;border:1px solid #cfeae0;color:#0b6b50;border-radius:8px;padding:7px 11px;cursor:pointer;font-size:.82rem}
+  .addbtns button:hover{background:#e0f3ec}
+  .btn{background:var(--green);color:var(--navy);border:none;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer;font-size:.95rem}
+  .btn:hover{filter:brightness(1.05)}
+  .btn-ghost{background:#fff;border:1.5px solid var(--border);color:var(--navy);font-weight:600}
+  /* Right panel */
+  .panel{position:sticky;top:78px}
+  .conf{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .conf .ring{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.95rem;flex-shrink:0}
+  .conf small{color:var(--muted);font-size:.82rem}
+  .warns{margin:0 0 12px}
+  .warn-row{display:flex;gap:8px;padding:8px 10px;border-radius:9px;margin-bottom:6px;font-size:.84rem;line-height:1.45}
+  .warn-row.err{background:#fdecec;color:#9b1c1c}
+  .warn-row.warn{background:#fff7e6;color:#92610a}
+  .warn-row.ok{background:#e9f9f3;color:#0b6b50}
+  .bom{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:6px}
+  .bom th{background:var(--navy);color:#fff;text-align:left;padding:7px 9px;font-size:.76rem}
+  .bom td{padding:7px 9px;border-bottom:1px solid #eef2f6;vertical-align:top}
+  .bom td.r{text-align:right;white-space:nowrap}
+  .bom tr.tot td{font-weight:800;border-top:2px solid var(--navy)}
+  .why{font-size:.82rem;color:var(--muted);line-height:1.5;margin-top:4px}
+  .why b{color:var(--navy)}
+  details.kb{margin-top:8px}
+  details.kb summary{cursor:pointer;font-weight:700;color:var(--navy);font-size:.9rem}
+  .kbrow{display:grid;grid-template-columns:1fr 90px 90px;gap:6px;align-items:center;margin:5px 0;font-size:.82rem}
+  .kbrow input{padding:6px 8px;font-size:.82rem}
+  .hidden{display:none}
+  .muted{color:var(--muted)}
+  /* Print dossier */
+  #dossier{display:none}
+  @media print{
+    body{background:#fff}
+    .topbar,.wrap > div:first-child,.panel .actions,.no-print{display:none !important}
+    .wrap{display:block;max-width:none}
+    #dossier{display:block !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><b>⚡ Configurateur Smappee Infinity</b> <span class="tag">BORNEXA · ASSISTANT D'INGÉNIERIE</span></div>
+  <div class="no-print">
+    <label class="impbtn" title="Importer un dossier de visite terrain (JSON)">📥 Visite<input type="file" id="i-importvisite" accept=".json,application/json" style="display:none"></label>
+    <button onclick="exportCSV()">📦 BOM CSV</button>
+    <button onclick="resetAll()">↺ Reset</button>
+    <button onclick="buildDossier();window.print()">🖨 Dossier PDF</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- ════════ FORMULAIRE ════════ -->
+  <div>
+    <div class="card">
+      <span class="seclabel">1 · Projet</span>
+      <h2>Type de projet</h2>
+      <p class="sub">Le configurateur adapte ses questions et ses limites selon le contexte.</p>
+      <div class="chips" id="ch-building"></div>
+      <div class="grid2" style="margin-top:12px">
+        <div><label class="fl">Nombre de tableaux électriques</label><input type="number" id="i-boards" min="1" step="1" value="1"></div>
+        <div><label class="fl">Nombre de bâtiments / sites</label><input type="number" id="i-sites" min="1" step="1" value="1"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="seclabel">2 · Raccordement</span>
+      <h2>Alimentation &amp; compteur</h2>
+      <label class="fl">Type de raccordement principal</label>
+      <div class="chips" id="ch-phase"></div>
+      <div class="grid2" style="margin-top:10px">
+        <div><label class="fl">Calibre disjoncteur principal (A)</label><input type="number" id="i-mainA" min="0" step="1" placeholder="ex. 40 / 63 / 250"></div>
+        <div><label class="fl">Compteur</label>
+          <select id="i-meter"><option value="digital">Compteur digital (P1 dispo)</option><option value="mechanical">Compteur mécanique</option><option value="unknown">Inconnu</option></select>
+        </div>
+      </div>
+      <label class="toggle" style="margin-top:10px"><input type="checkbox" id="i-p1"> Ajouter le module P1 (lecture compteur digital)</label>
+    </div>
+
+    <div class="card">
+      <span class="seclabel">3 · Mesures</span>
+      <h2>Que faut-il mesurer ?</h2>
+      <p class="sub">Chaque circuit = une mesure. Un circuit triphasé = 3 mesures (3 CT, ou 1 Solid Core 3-phase).</p>
+      <div id="meas-list"></div>
+      <div class="addbtns">
+        <button onclick="addMeas('Hoofdmeting',3,0)">+ Mesure principale</button>
+        <button onclick="addMeas('Zonnepanelen (PV)',3,0)">+ PV / onduleur</button>
+        <button onclick="addMeas('Laadpaal / EV',1,32)">+ Borne EV</button>
+        <button onclick="addMeas('Warmtepomp',3,16)">+ Pompe à chaleur</button>
+        <button onclick="addMeas('Thuisbatterij',1,0)">+ Batterie</button>
+        <button onclick="addMeas('Verdeelkring / afdeling',1,0)">+ Circuit / département</button>
+        <button onclick="addMeas('Huurder / unit',1,0)">+ Locataire / unité</button>
+      </div>
+      <label class="toggle" style="margin-top:12px"><input type="checkbox" id="i-sc3p"> Privilégier le <b style="margin:0 4px">Solid Core 3-Phase CT</b> pour les circuits triphasés (compact)</label>
+      <label class="toggle"><input type="checkbox" id="i-split"> Installation existante → CT split-core (sans coupure)</label>
+    </div>
+
+    <div class="card">
+      <span class="seclabel">4 · Pilotage &amp; I/O</span>
+      <h2>Contrôle &amp; entrées</h2>
+      <div class="grid2">
+        <div><label class="fl">Charges à piloter (boiler, PAC, borne…)</label><input type="number" id="i-control" min="0" step="1" value="0"></div>
+        <div><label class="fl">Compteurs à impulsions (gaz, eau…)</label><input type="number" id="i-pulse" min="0" step="1" value="0"></div>
+      </div>
+      <label class="toggle" style="margin-top:10px"><input type="checkbox" id="i-nilm"> Détection d'appareils (NILM) souhaitée</label>
+      <label class="toggle"><input type="checkbox" id="i-future"> Prévoir une extension future (marge mesures/pilotage)</label>
+    </div>
+
+    <div class="card">
+      <span class="seclabel">5 · Connectivité &amp; EV</span>
+      <h2>Réseau &amp; bornes</h2>
+      <label class="fl">Connexion internet sur place</label>
+      <div class="chips" id="ch-conn"></div>
+      <div class="grid3" style="margin-top:12px">
+        <div><label class="fl">Bornes EV Wall/One</label><input type="number" id="i-ev" min="0" step="1" value="0"></div>
+        <div><label class="fl">Bornes EV Ultra</label><input type="number" id="i-evu" min="0" step="1" value="0"></div>
+        <div><label class="fl">Smappee Switch (prises)</label><input type="number" id="i-switch" min="0" step="1" value="0"></div>
+      </div>
+    </div>
+
+    <details class="kb card no-print" id="kb-editor">
+      <summary>⚙ Références &amp; prix (à compléter avec ton catalogue partenaire)</summary>
+      <p class="muted" style="font-size:.82rem;margin:8px 0">Les prix saisis ici sont enregistrés localement et utilisés dans le dossier. Réfs = à remplacer par tes SKU Smappee réels.</p>
+      <div id="kb-rows"></div>
+    </details>
+  </div>
+
+  <!-- ════════ PANNEAU LIVE ════════ -->
+  <div>
+    <div class="panel">
+      <div class="card">
+        <div class="conf">
+          <div class="ring" id="conf-ring">—</div>
+          <div><b id="conf-label">Niveau de confiance</b><br><small id="conf-note">Complétez le formulaire…</small></div>
+        </div>
+        <div class="warns" id="warns"></div>
+      </div>
+      <div class="card">
+        <h2 style="margin-bottom:8px">Matériel recommandé</h2>
+        <table class="bom"><thead><tr><th>Réf</th><th>Module</th><th class="r">Qté</th><th class="r">€ HT</th></tr></thead><tbody id="bom-body"></tbody></table>
+        <div class="actions no-print" style="margin-top:14px;display:flex;gap:8px">
+          <button class="btn" style="flex:1" onclick="buildDossier();window.print()">🖨 Générer le dossier</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2 style="margin-bottom:8px">Schéma logique</h2>
+        <div class="schema-wrap" id="schema"></div>
+      </div>
+      <div class="card">
+        <h2 style="margin-bottom:8px">Justifications</h2>
+        <div class="why" id="why"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ DOSSIER IMPRIMABLE ════════ -->
+<div id="dossier" style="max-width:780px;margin:0 auto;padding:24px"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   BASE DE CONNAISSANCES (data-driven, extensible)
+   Ajouter un produit Smappee = ajouter une entrée ici. Aucune règle codée en dur.
+   ══════════════════════════════════════════════════════════════ */
+const KB = {
+  limits:{ ctPerHub:4, hubsPerLoc:7, measPerLoc:28, hubDaisyM:100, busM:500, maxOutput:10, maxInput:10, relaysPerOutput:2, inputsPerInput:4 },
+  // Gateways
+  products:{
+    powerbox:{ref:'INF-POWERBOX', name:'Smappee Infinity Power Box', role:'Cœur · tension + alimentation', price:102},
+    genius:  {ref:'INF-GENIUS',   name:'Smappee Genius', role:'Passerelle · contrôle + automatisation + NILM', price:269},
+    connect: {ref:'INF-CONNECT',  name:'Smappee Connect', role:'Passerelle · monitoring seul', price:160},
+    cthub:   {ref:'INF-CTHUB',    name:'Smappee CT Hub', role:'Mesure · jusqu’à 4 capteurs', price:81},
+    sc3p:    {ref:'INF-SC3P',     name:'Solid Core 3-Phase CT', role:'Mesure 3φ compacte (=3 mesures)', price:75},
+    output:  {ref:'INF-OUTPUT',   name:'Smappee Output module', role:'Pilotage · 2 relais', price:95},
+    input:   {ref:'INF-INPUT',    name:'Smappee Input module', role:'I/O · 4 entrées impulsions', price:95},
+    p1:      {ref:'INF-P1',       name:'Smappee P1 module', role:'Lecture compteur digital', price:180},
+    g4g:     {ref:'INF-4G',       name:'Smappee 4G module', role:'Connectivité mobile', price:120},
+    sw:      {ref:'INF-SWITCH',   name:'Smappee Switch', role:'Prise/relais pilotable', price:60},
+    evwall:  {ref:'EV-WALL',      name:'Smappee EV Wall / One', role:'Borne de recharge', price:850},
+    evultra: {ref:'EV-ULTRA',     name:'Smappee EV Ultra', role:'Borne 22 kW avancée', price:1500}
+  },
+  // Capteurs de courant (triés par calibre) — type: solid | split | rogowski
+  cts:[
+    {ref:'CT-50',   amps:50,   type:'solid',    price:23},
+    {ref:'CT-100',  amps:100,  type:'solid',    price:33},
+    {ref:'CT-200',  amps:200,  type:'split',    price:46},
+    {ref:'CT-400',  amps:400,  type:'split',    price:79},
+    {ref:'ROG-400', amps:400,  type:'rogowski', price:95},
+    {ref:'ROG-1600',amps:1600, type:'rogowski', price:130}
+  ]
+};
+const PRICE_KEY='bornexa-smappee-kb-prices-v1';
+(function loadPrices(){ try{const p=JSON.parse(localStorage.getItem(PRICE_KEY)||'{}');
+  Object.keys(KB.products).forEach(k=>{if(p['p_'+k]!=null)KB.products[k].price=p['p_'+k];if(p['r_'+k])KB.products[k].ref=p['r_'+k];});
+  KB.cts.forEach(c=>{if(p['p_'+c.ref]!=null)c.price=p['p_'+c.ref];});
+}catch(e){} })();
+function savePrices(){ const p={}; Object.keys(KB.products).forEach(k=>{p['p_'+k]=KB.products[k].price;p['r_'+k]=KB.products[k].ref;}); KB.cts.forEach(c=>p['p_'+c.ref]=c.price); localStorage.setItem(PRICE_KEY,JSON.stringify(p)); }
+
+/* ══════════════════════════════════════════════════════════════
+   ÉTAT
+   ══════════════════════════════════════════════════════════════ */
+const STORE='bornexa-smappee-config-v1';
+let S = { building:'Woning', boards:1, sites:1, phase:'Driefasig', mainA:'', meter:'digital', p1:false,
+  meas:[], sc3p:false, split:false, control:0, pulse:0, nilm:false, future:false, conn:'wifi', ev:0, evu:0, sw:0 };
+let measSeq=1;
+(function load(){ try{const x=JSON.parse(localStorage.getItem(STORE)||'null'); if(x){S=Object.assign(S,x); measSeq=(S.meas.reduce((m,c)=>Math.max(m,c.id),0)||0)+1;}}catch(e){} if(!S.meas.length){S.meas=[{id:measSeq++,name:'Hoofdmeting',phases:3,amps:0}];} })();
+function save(){ localStorage.setItem(STORE,JSON.stringify(S)); }
+
+/* ══════════════════════════════════════════════════════════════
+   MOTEUR DE RÈGLES EXPERT
+   Passe 1 élimination · 2 complétion (questions) · 3 sélection · 4 justification
+   ══════════════════════════════════════════════════════════════ */
+function pickCT(amps){
+  const want = (parseFloat(amps)||0);
+  const prefSplit = S.split;
+  let pool = KB.cts.slice().sort((a,b)=>a.amps-b.amps);
+  // calibre >= besoin (marge incluse par l'installateur via le calibre disjoncteur)
+  let cand = pool.filter(c=>c.amps>=Math.max(want,1));
+  if(!cand.length) cand=[pool[pool.length-1]];
+  // type: gros calibre -> rogowski ; rétrofit -> split si dispo ; sinon le plus petit calibre suffisant
+  let best;
+  if(want>400){ best = cand.find(c=>c.type==='rogowski') || cand[0]; }
+  else if(prefSplit){ best = cand.find(c=>c.type==='split') || cand[0]; }
+  else { best = cand[0]; }
+  return best;
+}
+
+function engine(){
+  const L=KB.limits, why=[], warns=[], assumptions=[];
+  let confidence=100;
+  const margin = S.future ? 1 : 0;
+
+  // ── Mesures → canaux ──
+  let channels=0, sc3pUnits=0, ctList={}; // ctList: ref -> qty
+  S.meas.forEach(m=>{
+    const ph = m.phases===3?3:1;
+    channels += ph;
+    if(m.phases===3 && S.sc3p){ sc3pUnits++; }
+    else {
+      const ct=pickCT(m.amps);
+      ctList[ct.ref]=(ctList[ct.ref]||0)+ph;
+      if((parseFloat(m.amps)||0)===0){ assumptions.push('Calibre CT estimé pour « '+m.name+' » (ampérage non renseigné → '+ct.ref+').'); confidence-=4; }
+    }
+  });
+  if(margin){ channels=Math.ceil(channels*1.25); why.push('<b>Marge extension :</b> +25% de mesures provisionnées (extension future cochée).'); }
+
+  // ── Plafonds & multi-gateway (Passe 1) ──
+  const needGenius = (S.control>0) || S.nilm || (S.pulse>0);
+  let locations = Math.max(1, S.sites, Math.ceil(channels / L.measPerLoc));
+  const multigw = locations>1;
+
+  // ── Conflits (élimination) ──
+  if(multigw && S.pulse>0){ warns.push({c:'err',t:'Input modules (comptage impulsions) <b>incompatibles avec le multi-gateway</b>. Réduisez les mesures sous 28/site, ou supprimez le comptage impulsions.'}); confidence-=15; }
+  if(multigw && S.nilm){ warns.push({c:'warn',t:'NILM (détection d’appareils) <b>indisponible en multi-gateway</b>. Le NILM sera désactivé.'}); confidence-=5; }
+
+  // ── CT Hubs (Passe 3) ──
+  const totalCtChannels = Object.values(ctList).reduce((s,n)=>s+n,0);
+  const hubs = Math.ceil(totalCtChannels / L.ctPerHub);
+  const hubsPerLoc = Math.ceil(hubs / locations);
+  if(hubsPerLoc > L.hubsPerLoc){ warns.push({c:'err',t:'Trop de CT Hubs par site ('+hubsPerLoc+' > '+L.hubsPerLoc+'). Passez en multi-gateway ou réduisez les mesures.'}); confidence-=15; }
+
+  // ── Gateways (Passe 3 + justification) ──
+  let geniusQty=0, connectQty=0;
+  if(multigw){
+    geniusQty=1; connectQty=locations-1;
+    why.push('<b>Multi-gateway ('+locations+' sites) :</b> '+channels+' mesures > '+L.measPerLoc+'/site. Parent = 1 Genius (obligatoire), enfants = '+connectQty+' Connect.');
+  } else if(needGenius){
+    geniusQty=1;
+    const r=[]; if(S.control>0)r.push('pilotage local'); if(S.pulse>0)r.push('comptage impulsions (Input module = Genius requis)'); if(S.nilm)r.push('NILM');
+    why.push('<b>Genius :</b> requis pour '+r.join(', ')+'.');
+  } else {
+    connectQty=1;
+    why.push('<b>Connect :</b> monitoring seul, aucun pilotage/contrôle local nécessaire → solution la plus économique.');
+  }
+
+  // ── Power Box (1/site) ──
+  const powerbox=locations;
+  why.push('<b>Power Box ×'+powerbox+' :</b> 1 par site (point de tension unique).');
+
+  // ── Output / Input modules ──
+  const ctrl = S.control + (margin? Math.ceil(S.control*0.25):0);
+  let outputQty = ctrl>0 ? Math.ceil(ctrl / L.relaysPerOutput) : 0;
+  if(outputQty>L.maxOutput){ warns.push({c:'err',t:'Trop de points de pilotage ('+ctrl+'). Max '+(L.maxOutput*L.relaysPerOutput)+' relais ('+L.maxOutput+' Output modules).'}); outputQty=L.maxOutput; confidence-=8; }
+  if(outputQty>0) why.push('<b>Output module ×'+outputQty+' :</b> '+ctrl+' charge(s) à piloter ÷ '+L.relaysPerOutput+' relais/module.');
+
+  let inputQty = S.pulse>0 ? Math.ceil(S.pulse / L.inputsPerInput) : 0;
+  if(inputQty>L.maxInput){ warns.push({c:'err',t:'Trop de compteurs à impulsions. Max '+(L.maxInput*L.inputsPerInput)+' entrées.'}); inputQty=L.maxInput; confidence-=8; }
+  if(multigw) inputQty=0; // incompatible
+  if(inputQty>0) why.push('<b>Input module ×'+inputQty+' :</b> '+S.pulse+' compteur(s) impulsions ÷ '+L.inputsPerInput+' entrées/module (nécessite Genius).');
+
+  // ── CT Hub justification ──
+  if(hubs>0) why.push('<b>CT Hub ×'+hubs+' :</b> '+totalCtChannels+' mesure(s) sur capteurs ÷ '+L.ctPerHub+' par hub.');
+  if(sc3pUnits>0) why.push('<b>Solid Core 3-Phase CT ×'+sc3pUnits+' :</b> circuits triphasés mesurés en compact (1 unité = 3 mesures).');
+
+  // ── Connectivité ──
+  const g4g = S.conn==='4g' ? geniusQty||1 : 0;
+  if(g4g>0) why.push('<b>Module 4G ×'+g4g+' :</b> pas de réseau filaire/Wi-Fi fiable sur place.');
+
+  // ── Détection d'oublis (Passe 2 — questions auto) ──
+  const hasPV = S.meas.some(m=>/pv|zonne|onduleur|solar/i.test(m.name));
+  if(hasPV && S.control===0){ warns.push({c:'warn',t:'PV détecté mais <b>aucun pilotage</b> : ajoutez un Output module pour charger boiler/EV sur le surplus solaire (autoconsommation).'}); confidence-=3; }
+  if(S.meter==='mechanical'){ warns.push({c:'warn',t:'Compteur mécanique → pas de P1. La mesure se fait via les CT (Power Box + CT Hub). OK.'}); }
+  if(S.meter==='unknown'){ warns.push({c:'warn',t:'Type de compteur inconnu → à confirmer en visite.'}); assumptions.push('Type de compteur supposé digital.'); confidence-=4; }
+  if((parseFloat(S.mainA)||0)===0){ assumptions.push('Calibre disjoncteur principal non renseigné → dimensionnement CT principal estimé.'); confidence-=4; }
+  if(S.meas.length<=1){ warns.push({c:'warn',t:'1 seule mesure : pensez à ajouter PV / EV / pompe à chaleur / circuits clés pour un vrai monitoring.'}); }
+
+  // ── Confiance plancher ──
+  confidence=Math.max(20,Math.min(100,confidence));
+  if(warns.filter(w=>w.c==='err').length) confidence=Math.min(confidence,55);
+
+  // ── BOM ──
+  const P=KB.products, bom=[];
+  const add=(prod,qty)=>{ if(qty>0) bom.push({ref:prod.ref,name:prod.name,qty:qty,price:prod.price||0}); };
+  add(P.powerbox,powerbox); add(P.genius,geniusQty); add(P.connect,connectQty);
+  add(P.cthub,hubs); add(P.sc3p,sc3pUnits);
+  Object.keys(ctList).forEach(ref=>{ const c=KB.cts.find(x=>x.ref===ref); bom.push({ref:ref,name:'CT '+c.amps+'A '+c.type,qty:ctList[ref],price:c.price||0}); });
+  add(P.output,outputQty); add(P.input,inputQty);
+  if(S.p1) add(P.p1,1);
+  add(P.g4g,g4g); add(P.sw,parseInt(S.sw)||0);
+  add(P.evwall,parseInt(S.ev)||0); add(P.evultra,parseInt(S.evu)||0);
+
+  return {bom,why,warns,assumptions,confidence,channels,hubs,locations,multigw,geniusQty,connectQty,sc3pUnits,ctList};
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RENDU
+   ══════════════════════════════════════════════════════════════ */
+function eur(n){ return '€ '+(Math.round((n||0)*100)/100).toLocaleString('fr-BE',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function render(){
+  const R=engine();
+  // BOM
+  let total=0;
+  document.getElementById('bom-body').innerHTML = R.bom.map(l=>{ const sub=(l.qty*l.price); total+=sub;
+    return `<tr><td>${l.ref}</td><td>${l.name}</td><td class="r">${l.qty}</td><td class="r">${l.price?eur(sub):'—'}</td></tr>`;
+  }).join('') + `<tr class="tot"><td colspan="3">Total HT estimé</td><td class="r">${total?eur(total):'à compléter'}</td></tr>`;
+  // Confiance
+  const ring=document.getElementById('conf-ring');
+  const col = R.confidence>=80?'#00C896':R.confidence>=55?'#F59E0B':'#dc3545';
+  ring.style.background=col; ring.textContent=R.confidence+'%';
+  document.getElementById('conf-label').textContent = R.confidence>=80?'Confiance élevée':R.confidence>=55?'Confiance moyenne':'À vérifier';
+  document.getElementById('conf-note').textContent = R.assumptions.length? R.assumptions.length+' hypothèse(s) — voir dossier' : 'Dimensionnement complet';
+  // Warnings
+  const ico={err:'✕',warn:'⚠',ok:'✓'};
+  document.getElementById('warns').innerHTML = R.warns.length? R.warns.map(w=>`<div class="warn-row ${w.c}"><b>${ico[w.c]}</b><span>${w.t}</span></div>`).join('') : `<div class="warn-row ok"><b>✓</b><span>Aucune incohérence détectée.</span></div>`;
+  // Why
+  document.getElementById('why').innerHTML = R.why.map(w=>'• '+w).join('<br>');
+  // Schéma logique
+  document.getElementById('schema').innerHTML = buildSchema(R);
+  save();
+  return R;
+}
+
+/* ── Dossier imprimable ── */
+function buildDossier(){
+  const R=engine(); let total=0; R.bom.forEach(l=>total+=l.qty*l.price);
+  const rows = R.bom.map(l=>`<tr><td>${l.ref}</td><td>${l.name}</td><td style="text-align:right">${l.qty}</td><td style="text-align:right">${l.price?eur(l.qty*l.price):'—'}</td></tr>`).join('');
+  const measRows = S.meas.map(m=>`<li>${m.name} — ${m.phases===3?'triphasé (3 mesures)':'monophasé'}${m.amps?(' · '+m.amps+'A'):''}</li>`).join('');
+  const col = R.confidence>=80?'#00C896':R.confidence>=55?'#F59E0B':'#dc3545';
+  document.getElementById('dossier').innerHTML = `
+    <div style="border-bottom:3px solid #0B1E3C;padding-bottom:10px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-end">
+      <div><div style="font-size:1.5rem;font-weight:900;color:#0B1E3C">BORNEXA</div><div style="color:#00C896;font-size:.8rem;letter-spacing:1px">DOSSIER TECHNIQUE · SMAPPEE INFINITY</div></div>
+      <div style="text-align:right;font-size:.82rem;color:#555">${new Date().toLocaleDateString('fr-BE')}<br><span style="display:inline-block;background:${col};color:#fff;padding:2px 10px;border-radius:999px;font-weight:700;margin-top:4px">Confiance ${R.confidence}%</span></div>
+    </div>
+    <h2 style="color:#0B1E3C;font-size:1.1rem;margin:14px 0 4px">1. Résumé du projet</h2>
+    <p style="font-size:.9rem;line-height:1.6;margin:0">Type : <b>${S.building}</b> · ${S.sites} site(s) · ${S.boards} tableau(x) · raccordement <b>${S.phase}</b>${S.mainA?(' ('+S.mainA+'A)'):''} · compteur ${S.meter}.<br>
+    Architecture : <b>${R.multigw?('multi-gateway — '+R.locations+' sites'):(R.geniusQty?'Genius (single-gateway)':'Connect (monitoring)')}</b> · ${R.channels} mesure(s) · ${R.hubs} CT Hub(s)${R.sc3pUnits?(' + '+R.sc3pUnits+' Solid Core 3φ'):''}.</p>
+    <h2 style="color:#0B1E3C;font-size:1.1rem;margin:16px 0 4px">2. Mesures prévues</h2>
+    <ul style="font-size:.88rem;line-height:1.5;margin:4px 0 0 18px">${measRows}</ul>
+    <h2 style="color:#0B1E3C;font-size:1.1rem;margin:16px 0 4px">3. Schéma logique de l'installation</h2>
+    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:8px">${buildSchema(R)}</div>
+    <h2 style="color:#0B1E3C;font-size:1.1rem;margin:16px 0 4px">4. Liste de matériel (BOM)</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:.86rem"><thead><tr style="background:#0B1E3C;color:#fff"><th style="text-align:left;padding:6px 8px">Réf</th><th style="text-align:left;padding:6px 8px">Module</th><th style="text-align:right;padding:6px 8px">Qté</th><th style="text-align:right;padding:6px 8px">€ HT</th></tr></thead><tbody>${rows}<tr style="font-weight:800;border-top:2px solid #0B1E3C"><td colspan="3" style="padding:6px 8px">Total HT estimé</td><td style="text-align:right;padding:6px 8px">${total?eur(total):'à compléter'}</td></tr></tbody></table>
+    <h2 style="color:#0B1E3C;font-size:1.1rem;margin:16px 0 4px">5. Justifications techniques</h2>
+    <div style="font-size:.85rem;line-height:1.6;color:#333">${R.why.map(w=>'• '+w).join('<br>')}</div>
+    <h2 style="color:#0B1E3C;font-size:1.1rem;margin:16px 0 4px">6. Points d'attention</h2>
+    <div style="font-size:.85rem;line-height:1.6">${R.warns.length?R.warns.map(w=>'• '+w.t).join('<br>'):'Aucun.'}</div>
+    <h2 style="color:#0B1E3C;font-size:1.1rem;margin:16px 0 4px">7. Hypothèses &amp; niveau de confiance</h2>
+    <div style="font-size:.85rem;line-height:1.6">Confiance : <b>${R.confidence}%</b>.<br>${R.assumptions.length?('Hypothèses faute d’infos :<br>• '+R.assumptions.join('<br>• ')):'Aucune hypothèse — toutes les données nécessaires sont renseignées.'}</div>
+    <p style="margin-top:18px;border-top:1px solid #ddd;padding-top:10px;font-size:.78rem;color:#888">Dossier indicatif généré par le configurateur BORNEXA · à confirmer par l'installateur certifié Smappee. Limites appliquées : 4 CT/hub · 7 hubs · 28 mesures/site · 10 Output · 10 Input · Input=Genius · NILM=single-gateway.</p>`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UI : chips, mesures, KB editor, bindings
+   ══════════════════════════════════════════════════════════════ */
+function chipGroup(elId, field, opts){
+  const el=document.getElementById(elId);
+  el.innerHTML=opts.map(o=>`<div class="chip ${S[field]===o?'on':''}" data-v="${o}">${o}</div>`).join('');
+  el.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{ S[field]=c.dataset.v; chipGroup(elId,field,opts); render(); }));
+}
+function renderMeas(){
+  const el=document.getElementById('meas-list');
+  el.innerHTML=S.meas.map(m=>`<div class="qline" data-id="${m.id}">
+    <input type="text" value="${m.name.replace(/"/g,'&quot;')}" data-k="name">
+    <div class="ph"><b class="${m.phases===1?'on':''}" data-ph="1">1φ</b><b class="${m.phases===3?'on':''}" data-ph="3">3φ</b></div>
+    <input type="number" value="${m.amps||''}" placeholder="A" data-k="amps">
+    <span class="muted" style="font-size:.78rem;text-align:center">${m.phases===3?'3 mes.':'1 mes.'}</span>
+    <button class="del" title="Supprimer">✕</button>
+  </div>`).join('');
+  el.querySelectorAll('.qline').forEach(row=>{
+    const id=+row.dataset.id, m=S.meas.find(x=>x.id===id);
+    row.querySelector('[data-k="name"]').addEventListener('input',e=>{m.name=e.target.value;save();});
+    row.querySelector('[data-k="amps"]').addEventListener('input',e=>{m.amps=e.target.value;render();});
+    row.querySelectorAll('[data-ph]').forEach(b=>b.addEventListener('click',()=>{m.phases=+b.dataset.ph;renderMeas();render();}));
+    row.querySelector('.del').addEventListener('click',()=>{S.meas=S.meas.filter(x=>x.id!==id);renderMeas();render();});
+  });
+}
+function addMeas(name,phases,amps){ S.meas.push({id:measSeq++,name:name,phases:phases,amps:amps||0}); renderMeas(); render(); }
+
+function renderKB(){
+  const el=document.getElementById('kb-rows'); let h='';
+  Object.keys(KB.products).forEach(k=>{const p=KB.products[k];
+    h+=`<div class="kbrow"><span>${p.name}</span><input data-pk="${k}" data-t="ref" value="${p.ref}"><input data-pk="${k}" data-t="price" type="number" value="${p.price}" placeholder="€"></div>`;});
+  KB.cts.forEach(c=>{ h+=`<div class="kbrow"><span>CT ${c.amps}A ${c.type}</span><input value="${c.ref}" disabled><input data-ct="${c.ref}" type="number" value="${c.price}" placeholder="€"></div>`;});
+  el.innerHTML=h;
+  el.querySelectorAll('[data-pk]').forEach(inp=>inp.addEventListener('input',e=>{const k=e.target.dataset.pk,t=e.target.dataset.t; if(t==='price')KB.products[k].price=parseFloat(e.target.value)||0; else KB.products[k].ref=e.target.value; savePrices(); render();}));
+  el.querySelectorAll('[data-ct]').forEach(inp=>inp.addEventListener('input',e=>{const c=KB.cts.find(x=>x.ref===e.target.dataset.ct); c.price=parseFloat(e.target.value)||0; savePrices(); render();}));
+}
+
+function bindNum(id,field,isInt){ const el=document.getElementById(id); el.value=S[field]; el.addEventListener('input',e=>{ S[field]= isInt?(parseInt(e.target.value)||0):e.target.value; render(); }); }
+function bindChk(id,field){ const el=document.getElementById(id); el.checked=!!S[field]; el.addEventListener('change',e=>{S[field]=e.target.checked; if(field==='sc3p')renderMeas(); render();}); }
+function bindSel(id,field){ const el=document.getElementById(id); el.value=S[field]; el.addEventListener('change',e=>{S[field]=e.target.value; render();}); }
+
+/* ── Schéma logique (SVG) ── */
+function buildSchema(R){
+  const navy='#0B1E3C',green='#00C896',greenL='#1ADBA8',light='#eef6f2',border='#94a3b8',txt='#0B1E3C';
+  const box=(x,y,w,h,fill,stroke,lines)=>{ const dark=(fill===navy);
+    let t=lines.map((l,i)=>`<text x="${x+w/2}" y="${y+h/2-(lines.length-1)*8+i*16+4}" text-anchor="middle" font-size="${i===0?12:11}" font-weight="${i===0?700:400}" fill="${dark?'#fff':txt}">${l}</text>`).join('');
+    return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>${t}`; };
+  const line=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${border}" stroke-width="2"/>`;
+  const W=700;
+  let totCT=Object.values(R.ctList).reduce((s,n)=>s+n,0), hubFills=[], rem=totCT;
+  for(let i=0;i<R.hubs;i++){ const k=Math.min(4,rem); hubFills.push(k); rem-=k; }
+  const hubTop=192,hubH=44,hubGap=9;
+  const leftBottom=hubTop+R.hubs*(hubH+hubGap)+(R.sc3pUnits?(hubH+hubGap):0);
+  const H=Math.max(360,leftBottom+34);
+  const gwX=300,gwY=20,gwW=160,gwH=54,pbX=300,pbY=110,pbW=160,pbH=48,cmX=40,cmY=110,cmW=180,cmH=48,cloudX=560,cloudY=26,cloudW=120,cloudH=44,oX=500;
+  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Arial,sans-serif">`;
+  s+=line(gwX+gwW,gwY+gwH/2,cloudX,cloudY+cloudH/2);
+  s+=line(pbX+pbW/2,pbY,gwX+gwW/2,gwY+gwH);
+  s+=line(cmX+cmW,cmY+cmH/2,pbX,pbY+pbH/2);
+  hubFills.forEach((k,i)=>{ const y=hubTop+i*(hubH+hubGap); s+=line(cmX+cmW,y+hubH/2,pbX,pbY+pbH/2); });
+  if(R.sc3pUnits){ const y=hubTop+R.hubs*(hubH+hubGap); s+=line(cmX+cmW,y+hubH/2,pbX,pbY+pbH/2); }
+  if(R.outputQty||R.inputQty) s+=line(gwX+gwW,gwY+gwH/2+18,oX,133);
+  s+=box(cloudX,cloudY,cloudW,cloudH,'#f1f5f9',border,['Smappee Cloud']);
+  const gwLabel=R.geniusQty?('Genius'+(R.geniusQty>1?' ×'+R.geniusQty:'')):('Connect'+(R.connectQty>1?' ×'+R.connectQty:''));
+  s+=box(gwX,gwY,gwW,gwH,navy,navy,['Gateway',gwLabel]);
+  s+=box(pbX,pbY,pbW,pbH,light,green,['Power Box','×'+R.locations]);
+  s+=box(cmX,cmY,cmW,cmH,'#fff',border,['Compteur',S.meter==='digital'?('digital'+(S.p1?' + P1':'')):S.meter]);
+  hubFills.forEach((k,i)=>{ const y=hubTop+i*(hubH+hubGap); s+=box(cmX,y,cmW,hubH,'#fff',green,['CT Hub '+(i+1),k+' capteur(s)']); });
+  if(R.sc3pUnits){ const y=hubTop+R.hubs*(hubH+hubGap); s+=box(cmX,y,cmW,hubH,'#fff',green,['Solid Core 3φ','×'+R.sc3pUnits]); }
+  let cy=110;
+  if(R.outputQty){ s+=box(oX,cy,180,44,light,greenL,['Output ×'+R.outputQty,S.control+' charge(s)']); cy+=54; }
+  if(R.inputQty){ s+=box(oX,cy,180,44,'#fff',border,['Input ×'+R.inputQty,S.pulse+' impulsion(s)']); cy+=54; }
+  const evTot=(parseInt(S.ev)||0)+(parseInt(S.evu)||0); if(evTot){ s+=box(oX,cy,180,44,'#fff',border,['Bornes EV','×'+evTot]); cy+=54; }
+  if(parseInt(S.sw)||0){ s+=box(oX,cy,180,44,'#fff',border,['Switch','×'+(parseInt(S.sw)||0)]); }
+  if(R.multigw) s+=`<rect x="20" y="${H-28}" width="${W-40}" height="22" rx="6" fill="#fff7e6" stroke="#F59E0B"/><text x="${W/2}" y="${H-13}" text-anchor="middle" font-size="11" fill="#92610a">Multi-gateway : ${R.locations} sites (1 Genius parent + ${R.connectQty} Connect) — schéma = 1 site représentatif</text>`;
+  s+='</svg>'; return s;
+}
+
+/* ── Import dossier visite-terrain ── */
+function deepFind(obj,key){ let f; (function rec(o){ if(f!==undefined||o==null||typeof o!=='object')return; if(Object.prototype.hasOwnProperty.call(o,key)){f=o[key];return;} for(const k in o){ rec(o[k]); if(f!==undefined)return; } })(obj); return f; }
+function importVisite(file){
+  const fr=new FileReader();
+  fr.onload=()=>{ try{ const j=JSON.parse(fr.result);
+    const pt=deepFind(j,'projectType'); if(pt) S.building=/Appartement|VME/i.test(pt)?'Copropriété':/Parking/i.test(pt)?'Parking':/Bedrijf|Entreprise/i.test(pt)?'Bureaux':'Woning';
+    const ph=deepFind(j,'phase'); if(ph) S.phase=/Een|Mono/i.test(ph)?'Monofasig':'Driefasig';
+    const amp=deepFind(j,'ampere'); if(amp) S.mainA=amp;
+    const dm=deepFind(j,'digitalMeter'); if(dm) S.meter=/ja|oui|yes/i.test(dm)?'digital':/nee|non|no/i.test(dm)?'mechanical':'unknown';
+    const p1=deepFind(j,'p1Port')||deepFind(j,'enP1'); if(p1&&/ja|oui|yes/i.test(p1)) S.p1=true;
+    S.meas=[{id:measSeq++,name:'Hoofdmeting',phases:S.phase==='Monofasig'?1:3,amps:parseFloat(amp)||0}];
+    const pv=deepFind(j,'enPv')||deepFind(j,'hasSolar'); if(pv&&/ja|oui|yes/i.test(pv)) S.meas.push({id:measSeq++,name:'Zonnepanelen (PV)',phases:3,amps:0});
+    const nc=parseInt(deepFind(j,'enCircuits'))||0; for(let i=0;i<Math.min(nc,12);i++) S.meas.push({id:measSeq++,name:'Meetkring '+(i+1),phases:1,amps:0});
+    const dev=(deepFind(j,'enDevices')||'')+'';
+    if(/warmtepomp|pac|pompe/i.test(dev)) S.meas.push({id:measSeq++,name:'Warmtepomp',phases:3,amps:16});
+    if(/batter/i.test(dev)) S.meas.push({id:measSeq++,name:'Thuisbatterij',phases:1,amps:0});
+    if(/ev|laadpaal|borne|voertuig/i.test(dev)) S.meas.push({id:measSeq++,name:'Laadpaal / EV',phases:1,amps:32});
+    document.getElementById('i-mainA').value=S.mainA||''; document.getElementById('i-meter').value=S.meter; document.getElementById('i-p1').checked=S.p1;
+    chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
+    chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
+    renderMeas(); render();
+    alert('Dossier de visite importé ✓ — vérifiez les mesures pré-remplies.');
+  }catch(e){ alert('Fichier invalide : '+e.message); } };
+  fr.readAsText(file);
+}
+
+/* ── Export BOM CSV ── */
+function exportCSV(){
+  const R=engine(), rows=[['Ref','Module','Qte','PU_HT','Total_HT']];
+  R.bom.forEach(l=>rows.push([l.ref,l.name,l.qty,l.price,(l.qty*l.price).toFixed(2)]));
+  const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='BOM-smappee-'+Date.now()+'.csv'; a.click();
+}
+
+function resetAll(){ if(!confirm('Réinitialiser la configuration ?'))return; localStorage.removeItem(STORE); location.reload(); }
+
+/* ── Init ── */
+chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
+chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
+chipGroup('ch-conn','conn',['wifi','ethernet','4g']);
+bindNum('i-boards','boards',true); bindNum('i-sites','sites',true);
+bindNum('i-mainA','mainA',false); bindSel('i-meter','meter'); bindChk('i-p1','p1');
+bindChk('i-sc3p','sc3p'); bindChk('i-split','split');
+bindNum('i-control','control',true); bindNum('i-pulse','pulse',true);
+bindChk('i-nilm','nilm'); bindChk('i-future','future');
+bindNum('i-ev','ev',true); bindNum('i-evu','evu',true); bindNum('i-switch','sw',true);
+document.getElementById('i-importvisite').addEventListener('change',e=>{ if(e.target.files&&e.target.files[0]) importVisite(e.target.files[0]); e.target.value=''; });
+renderMeas(); renderKB(); render();
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+# Security headers - all routes
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://api.emailjs.com https://*.supabase.co wss://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /.netlify/functions/csp-report; report-to csp-endpoint
+  Report-To: {"group":"csp-endpoint","max_age":10886400,"endpoints":[{"url":"/.netlify/functions/csp-report"}]}
+
+# Print/internal pages - noindex
+/carte-visite-bornexa.html
+  X-Robots-Tag: noindex, nofollow
+/bornexa-carte-print.html
+  X-Robots-Tag: noindex, nofollow
+/print-recto.html
+  X-Robots-Tag: noindex, nofollow
+/print-verso.html
+  X-Robots-Tag: noindex, nofollow
+/BORNEXA-Plan-Lancement.html
+  X-Robots-Tag: noindex, nofollow
+
+# Internal tools (BORNEXA staff only) - noindex hard
+/visite-terrain
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/visite-terrain.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/calculateur-interne
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/calculateur-interne.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/chantier-installation
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/chantier-installation.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/documenten-installatie
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/documenten-installatie.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/bornexa-workflow
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/bornexa-workflow.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/bornexa-hub
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/bornexa-hub.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+
+# Cache-Control - static assets immutable
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache-Control - HTML revalidate
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+/
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Manifest
+/manifest.json
+  Cache-Control: public, max-age=86400
+  Content-Type: application/manifest+json
+
+# Sitemap
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8

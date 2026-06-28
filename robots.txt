@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+Disallow: /carte-visite-bornexa.html
+Disallow: /bornexa-carte-print.html
+Disallow: /print-recto.html
+Disallow: /print-verso.html
+Disallow: /BORNEXA-Plan-Lancement.html
+
+# Internal tools (BORNEXA staff only)
+Disallow: /visite-terrain
+Disallow: /visite-terrain.html
+Disallow: /calculateur-interne
+Disallow: /calculateur-interne.html
+Disallow: /calc
+Disallow: /visite
+Disallow: /chantier
+Disallow: /chantier-installation
+Disallow: /chantier-installation.html
+Disallow: /documenten-installatie
+Disallow: /documenten-installatie.html
+Disallow: /documenten
+Disallow: /documents
+Disallow: /bornexa-workflow
+Disallow: /bornexa-workflow.html
+Disallow: /workflow
+Disallow: /outil-bornexa
+Disallow: /bornexa-hub
+Disallow: /bornexa-hub.html
+Disallow: /hub
+Disallow: /dossiers
+
+Sitemap: https://www.bornexa.be/sitemap.xml
+# RSS feed
+# https://www.bornexa.be/feed.xml

@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#00C896">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Fiche visite terrain — BORNEXA</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <style>
+    :root{
+      --primary:#00C896; --primary-dark:#009E76; --primary-light:#E0FBF4;
+      --dark:#0B1E3C; --dark2:#0C1018; --light:#fff; --bg:#F6F8FB;
+      --text:#0F172A; --muted:#64748B; --border:#E2E8F0; --danger:#EF4444;
+      --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:28px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;font-size:16px;line-height:1.5;overscroll-behavior-y:contain}
+    body{min-height:100vh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+
+    /* ── Top bar ── */
+    .topbar{background:linear-gradient(135deg,#0B1E3C 0%,#0C1018 100%);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+    .topbar svg.logo-hex{width:36px;height:36px;flex-shrink:0}
+    .topbar-text{flex:1;min-width:0}
+    .topbar-title{font-weight:800;font-size:1.02rem;letter-spacing:.3px}
+    .topbar-sub{font-size:.74rem;color:rgba(255,255,255,.6);letter-spacing:.5px;text-transform:uppercase}
+    .lang-toggle{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:7px 14px;border-radius:999px;font-weight:700;font-size:.78rem;letter-spacing:.5px;cursor:pointer;transition:all .15s}
+    .lang-toggle:hover,.lang-toggle:active{background:var(--primary);color:#0B1E3C;border-color:var(--primary)}
+
+    /* ── Progress ── */
+    .progress-wrap{background:#fff;padding:14px 20px;border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:49}
+    .progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.82rem;color:var(--muted)}
+    .progress-meta strong{color:var(--primary-dark);font-weight:800}
+    .progress-bar{height:5px;background:var(--border);border-radius:999px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary) 0%,var(--primary-dark) 100%);border-radius:999px;transition:width .35s cubic-bezier(.4,0,.2,1);width:0%}
+
+    /* ── Steps ── */
+    .main{flex:1;padding:20px 16px 100px;max-width:760px;margin:0 auto;width:100%}
+    .step{display:none;animation:fadeIn .25s ease-out}
+    .step.active{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .step-label{color:var(--primary-dark);font-size:.74rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:8px;display:inline-flex;align-items:center;gap:7px}
+    .step-label::before{content:'';display:inline-block;width:7px;height:7px;background:var(--primary);border-radius:50%}
+    .step h2{font-size:1.4rem;font-weight:800;color:var(--dark);margin-bottom:6px;line-height:1.25}
+    .step-sub{color:var(--muted);font-size:.94rem;margin-bottom:22px}
+
+    /* ── Aide NL : phrases à dire au client ── */
+    .hint{margin:-8px 0 20px;padding:14px 16px 14px 18px;background:linear-gradient(180deg,rgba(0,200,150,.07) 0%,rgba(0,200,150,.04) 100%);border-left:3px solid var(--primary);border-radius:0 var(--r-md) var(--r-md) 0;font-size:.88rem}
+    .hint-title{font-weight:800;color:var(--primary-dark);margin-bottom:10px;font-size:.7rem;letter-spacing:1.4px;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .hint-title button{background:transparent;border:none;color:var(--primary-dark);font-size:.92rem;cursor:pointer;padding:2px 6px;border-radius:6px;opacity:.6}
+    .hint-title button:active{opacity:1;background:rgba(0,200,150,.12)}
+    .hint ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+    .hint li{padding-left:22px;position:relative}
+    .hint li::before{content:'🗣️';position:absolute;left:0;top:1px;font-size:.9rem}
+    .hint .nl{display:block;color:var(--dark);font-weight:600;line-height:1.4}
+    .hint .fr{display:block;color:var(--muted);font-size:.78rem;font-style:italic;margin-top:2px;line-height:1.35}
+    .hint.collapsed ul{display:none}
+    .hint.collapsed{padding-bottom:14px}
+
+    /* ── Form ── */
+    .field{margin-bottom:18px}
+    .field-label{display:block;font-weight:700;font-size:.92rem;margin-bottom:8px;color:var(--text)}
+    .field-help{font-size:.78rem;color:var(--muted);margin-top:6px}
+    .field-required::after{content:' *';color:var(--danger)}
+    input[type=text],input[type=tel],input[type=email],input[type=number],textarea,select{
+      width:100%;padding:14px 16px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:1rem;color:var(--text);outline:none;transition:all .15s;font-family:inherit
+    }
+    input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.15)}
+    textarea{min-height:90px;resize:vertical}
+    select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748B' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;padding-right:42px}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:480px){.grid-2{grid-template-columns:1fr}}
+
+    /* ── Choice cards (tap-friendly) ── */
+    .chip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .chip-grid.three{grid-template-columns:repeat(3,1fr)}
+    .chip-grid.four{grid-template-columns:repeat(2,1fr)}
+    @media(min-width:640px){.chip-grid.four{grid-template-columns:repeat(4,1fr)}}
+    .chip{background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);padding:18px 14px;text-align:center;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:88px;justify-content:center;user-select:none;position:relative}
+    .chip:active{transform:scale(.97)}
+    .chip.selected{background:var(--primary-light);border-color:var(--primary);box-shadow:0 4px 14px rgba(0,200,150,.18)}
+    .chip.selected::after{content:'✓';position:absolute;top:6px;right:8px;color:var(--primary-dark);font-weight:800;font-size:.9rem}
+    .chip-icon{font-size:1.6rem;line-height:1}
+    .chip-title{font-weight:700;font-size:.88rem;color:var(--text);line-height:1.2}
+    .chip-sub{font-size:.72rem;color:var(--muted);line-height:1.2}
+
+    /* ── Checkbox list ── */
+    .check-list{display:flex;flex-direction:column;gap:8px}
+    .check-row{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;cursor:pointer;transition:all .15s;user-select:none}
+    .check-row:active{transform:scale(.99)}
+    .check-row.selected{background:var(--primary-light);border-color:var(--primary)}
+    .check-box{width:24px;height:24px;border:2px solid var(--border);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:all .15s}
+    .check-row.selected .check-box{background:var(--primary);border-color:var(--primary)}
+    .check-box::after{content:'';opacity:0;width:11px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translateY(-2px);transition:opacity .15s}
+    .check-row.selected .check-box::after{opacity:1}
+    .check-text{font-weight:600;font-size:.95rem;flex:1}
+
+    /* ── Photo capture ── */
+    .photo-zone{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    @media(min-width:640px){.photo-zone{grid-template-columns:repeat(3,1fr)}}
+    .photo-tile{position:relative;background:#fff;border:1.5px dashed var(--border);border-radius:var(--r-md);aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .15s;overflow:hidden}
+    .photo-tile:active{transform:scale(.98)}
+    .photo-tile.filled{border-style:solid;border-color:var(--primary)}
+    .photo-tile input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+    .photo-icon{font-size:1.8rem;opacity:.55}
+    .photo-label{font-size:.78rem;font-weight:600;color:var(--muted);text-align:center;padding:0 8px}
+    .photo-tile.filled .photo-icon,.photo-tile.filled .photo-label{display:none}
+    .photo-thumb{position:absolute;inset:0;object-fit:cover;width:100%;height:100%}
+    .photo-badge{position:absolute;top:6px;right:6px;background:var(--primary);color:#0B1E3C;font-size:.65rem;font-weight:800;padding:3px 8px;border-radius:999px;display:none}
+    .photo-tile.filled .photo-badge{display:inline-block}
+
+    /* ── Footer nav (sticky) ── */
+    .navbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:60;box-shadow:0 -4px 20px rgba(0,0,0,.06)}
+    .btn{flex:1;padding:16px 20px;border-radius:var(--r-md);font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px}
+    .btn-prev{background:#F1F5F9;color:var(--text)}
+    .btn-prev:disabled{opacity:.4;cursor:not-allowed}
+    .btn-next,.btn-finish{background:var(--primary);color:#0B1E3C;box-shadow:0 6px 20px rgba(0,200,150,.32)}
+    .btn-next:disabled{background:#cbd5e1;color:#94a3b8;box-shadow:none;cursor:not-allowed}
+    .btn-next:not(:disabled):active,.btn-finish:active{transform:translateY(1px);box-shadow:0 3px 10px rgba(0,200,150,.28)}
+    .btn-finish{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff}
+
+    /* ── Summary card (final step) ── */
+    .summary{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:18px}
+    .summary h3{font-size:.78rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary-dark);font-weight:800;margin-bottom:10px}
+    .summary dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:.92rem}
+    .summary dt{color:var(--muted);font-weight:500}
+    .summary dd{font-weight:700;text-align:right}
+    .summary dd.empty{color:var(--muted);font-weight:400;font-style:italic}
+
+    /* ── Toast ── */
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:#0B1E3C;color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:.92rem;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:100}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+    /* ── Export modal (final) ── */
+    .export-box{background:#0B1E3C;color:#fff;border-radius:var(--r-lg);padding:22px;margin-top:18px}
+    .export-box h3{color:var(--primary);font-size:.78rem;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px}
+    .export-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    @media(max-width:480px){.export-actions{grid-template-columns:1fr}}
+    .export-btn{background:var(--primary);color:#0B1E3C;border:none;padding:14px;border-radius:var(--r-sm);font-weight:700;cursor:pointer;font-size:.92rem;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .export-btn.secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18)}
+    .export-btn:active{transform:scale(.98)}
+
+    .small-note{font-size:.78rem;color:var(--muted);text-align:center;margin-top:12px}
+  </style>
+</head>
+<body data-bornexa-tool="visite">
+
+  <header class="topbar">
+    <svg class="logo-hex" viewBox="0 0 80 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="hex" x1="10%" y1="0%" x2="90%" y2="100%">
+          <stop offset="0%" stop-color="#1ADBA8"/><stop offset="100%" stop-color="#009E76"/>
+        </linearGradient>
+      </defs>
+      <polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#hex)"/>
+      <polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/>
+    </svg>
+    <div class="topbar-text">
+      <div class="topbar-title">Fiche visite terrain</div>
+      <div class="topbar-sub" data-nl="BORNEXA · Outil interne" data-fr="BORNEXA · Outil interne">BORNEXA · Outil interne</div>
+    </div>
+    <button class="lang-toggle" id="langBtn">FR</button>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span data-nl="Stap" data-fr="Étape">Stap</span>&nbsp;<strong id="stepCount">1</strong>&nbsp;/&nbsp;7
+      <span id="elapsed">0:00</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <main class="main">
+
+    <!-- ━━━━━━━━ STEP 1 — Client ━━━━━━━━ -->
+    <section class="step active" id="step-1">
+      <span class="step-label" data-nl="Stap 01" data-fr="Étape 01">Stap 01</span>
+      <h2 data-nl="Klantgegevens" data-fr="Coordonnées client">Klantgegevens</h2>
+      <p class="step-sub" data-nl="Basisinformatie van de klant." data-fr="Informations de base sur le client.">Basisinformatie van de klant.</p>
+
+      <div class="hint">
+        <div class="hint-title">
+          <span>💬 Spreek de klant aan / Phrases NL prêtes à dire</span>
+          <button type="button" data-toggle="hint" aria-label="Plier">▾</button>
+        </div>
+        <ul>
+          <li><span class="nl">"Goedendag! Ik ben van BORNEXA. Mag ik uw naam noteren voor de offerte?"</span><span class="fr">Bonjour ! Je suis de BORNEXA. Je note votre nom pour le devis ?</span></li>
+          <li><span class="nl">"Op welk telefoonnummer kan ik u bereiken voor de opvolging?"</span><span class="fr">Quel numéro pour le suivi ?</span></li>
+          <li><span class="nl">"Het volledige adres alstublieft, met postcode?"</span><span class="fr">L'adresse complète avec le code postal ?</span></li>
+          <li><span class="nl">"Is het voor uw woning of voor een bedrijf?"</span><span class="fr">C'est pour votre maison ou pour une entreprise ?</span></li>
+          <li><span class="nl">"Is de woning ouder dan 10 jaar? Voor BTW 6% moet ze minstens 10 jaar oud zijn."</span><span class="fr">La maison a-t-elle plus de 10 ans ? Pour la TVA 6 %, il faut au moins 10 ans.</span></li>
+        </ul>
+      </div>
+
+      <div class="field">
+        <label class="field-label field-required" data-nl="Naam &amp; Voornaam" data-fr="Nom &amp; Prénom">Naam &amp; Voornaam</label>
+        <input type="text" id="clientName" autocomplete="name" data-nl-ph="bv. Jan Janssens" data-fr-ph="ex. Jean Dupont">
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="field-label field-required" data-nl="Telefoon" data-fr="Téléphone">Telefoon</label>
+          <input type="tel" id="clientPhone" inputmode="tel" autocomplete="tel" placeholder="+32 ...">
+        </div>
+        <div class="field">
+          <label class="field-label" data-nl="E-mail" data-fr="E-mail">E-mail</label>
+          <input type="email" id="clientEmail" autocomplete="email" inputmode="email" placeholder="@">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label field-required" data-nl="Adres + Gemeente" data-fr="Adresse + Commune">Adres + Gemeente</label>
+        <input type="text" id="clientAddress" autocomplete="street-address" data-nl-ph="Straat, nr · Postcode Gemeente" data-fr-ph="Rue, n° · Code postal Commune">
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Type klant" data-fr="Type de client">Type klant</label>
+        <div class="chip-grid">
+          <div class="chip" data-field="clientType" data-value="Particulier">
+            <span class="chip-icon">🏠</span>
+            <span class="chip-title" data-nl="Particulier" data-fr="Particulier">Particulier</span>
+          </div>
+          <div class="chip" data-field="clientType" data-value="Bedrijf">
+            <span class="chip-icon">🏢</span>
+            <span class="chip-title" data-nl="Bedrijf" data-fr="Entreprise">Bedrijf</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Bouwjaar woning (BTW 6 % check)" data-fr="Année construction (TVA 6 % check)">Bouwjaar woning (BTW 6 % check)</label>
+        <select id="buildYear">
+          <option value="" data-nl="-- Selecteer --" data-fr="-- Sélectionner --">-- Selecteer --</option>
+          <option value="lt10" data-nl="&lt; 10 jaar (BTW 21 %)" data-fr="&lt; 10 ans (TVA 21 %)">&lt; 10 jaar (BTW 21 %)</option>
+          <option value="gt10" data-nl="≥ 10 jaar (BTW 6 % mogelijk)" data-fr="≥ 10 ans (TVA 6 % possible)">≥ 10 jaar (BTW 6 % mogelijk)</option>
+          <option value="unknown" data-nl="Onbekend — te checken" data-fr="Inconnu — à vérifier">Onbekend — te checken</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Voorkeur contact" data-fr="Canal contact préféré">Voorkeur contact</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="contactPref" data-value="Telefoon"><span class="chip-icon">📞</span><span class="chip-title" data-nl="Telefoon" data-fr="Téléphone">Telefoon</span></div>
+          <div class="chip" data-field="contactPref" data-value="WhatsApp"><span class="chip-icon">💬</span><span class="chip-title">WhatsApp</span></div>
+          <div class="chip" data-field="contactPref" data-value="E-mail"><span class="chip-icon">✉️</span><span class="chip-title">E-mail</span></div>
+          <div class="chip" data-field="contactPref" data-value="SMS"><span class="chip-icon">📱</span><span class="chip-title">SMS</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Type project" data-fr="Type de projet">Type project</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="projectType" data-value="Woning"><span class="chip-icon">🏠</span><span class="chip-title" data-nl="Woning" data-fr="Maison">Woning</span></div>
+          <div class="chip" data-field="projectType" data-value="Appartement (VME)"><span class="chip-icon">🏢</span><span class="chip-title" data-nl="Appartement" data-fr="Appartement">Appartement</span></div>
+          <div class="chip" data-field="projectType" data-value="Parking"><span class="chip-icon">🅿️</span><span class="chip-title">Parking</span></div>
+          <div class="chip" data-field="projectType" data-value="Bedrijf"><span class="chip-icon">🏭</span><span class="chip-title" data-nl="Bedrijf" data-fr="Entreprise">Bedrijf</span></div>
+        </div>
+      </div>
+
+      <div id="building-block" style="display:none;border-top:1px solid var(--border,#E2E8F0);margin-top:14px;padding-top:14px">
+        <p class="step-sub" data-nl="Gegevens gebouw / parking (copropriété)" data-fr="Données immeuble / parking (copropriété)">Gegevens gebouw / parking (copropriété)</p>
+        <div class="grid-2">
+          <div class="field"><label class="field-label" data-nl="Aantal parkeerplaatsen" data-fr="Nombre de places">Aantal parkeerplaatsen</label><input type="text" id="nbSpaces" inputmode="numeric"></div>
+          <div class="field"><label class="field-label" data-nl="Aantal appartementen" data-fr="Nombre d'appartements">Aantal appartementen</label><input type="text" id="nbUnits" inputmode="numeric"></div>
+          <div class="field"><label class="field-label" data-nl="Laadpunten nu" data-fr="Points de charge maintenant">Laadpunten nu</label><input type="text" id="nbPointsNow" inputmode="numeric"></div>
+          <div class="field"><label class="field-label" data-nl="Laadpunten later (uitbreiding)" data-fr="Points futurs (extension)">Laadpunten later</label><input type="text" id="nbPointsLater" inputmode="numeric"></div>
+        </div>
+        <div class="field"><label class="field-label" data-nl="Syndicus / VME (naam + contact)" data-fr="Syndic / ACP (nom + contact)">Syndicus / VME</label><input type="text" id="syndic"></div>
+        <div class="field">
+          <label class="field-label" data-nl="Gemeenschappelijke teller beschikbaar?" data-fr="Compteur des communs disponible ?">Gemeenschappelijke teller?</label>
+          <div class="chip-grid">
+            <div class="chip" data-field="sharedMeter" data-value="Ja"><span class="chip-title">Ja</span></div>
+            <div class="chip" data-field="sharedMeter" data-value="Nee"><span class="chip-title">Nee</span></div>
+            <div class="chip" data-field="sharedMeter" data-value="Onbekend"><span class="chip-title" data-nl="Onbekend" data-fr="Inconnu">Onbekend</span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label class="field-label" data-nl="Locatie tellerlokaal / technische ruimte" data-fr="Local compteurs / technique">Tellerlokaal</label><input type="text" id="techRoom"></div>
+          <div class="field"><label class="field-label" data-nl="Afstand lokaal → parking (m)" data-fr="Distance local → parking (m)">Afstand → parking (m)</label><input type="text" id="distRoom" inputmode="numeric"></div>
+        </div>
+        <div class="field">
+          <label class="field-label" data-nl="Stijgleiding / colonne montante aanwezig?" data-fr="Colonne montante présente ?">Stijgleiding aanwezig?</label>
+          <div class="chip-grid">
+            <div class="chip" data-field="riser" data-value="Ja"><span class="chip-title">Ja</span></div>
+            <div class="chip" data-field="riser" data-value="Nee"><span class="chip-title">Nee</span></div>
+            <div class="chip" data-field="riser" data-value="Onbekend"><span class="chip-title" data-nl="Onbekend" data-fr="Inconnu">Onbekend</span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label class="field-label" data-nl="Beschikbaar vermogen (kVA)" data-fr="Puissance disponible (kVA)">Beschikbaar vermogen (kVA)</label><input type="text" id="availPower" inputmode="numeric"></div>
+          <div class="field"><label class="field-label" data-nl="Facturatie per gebruiker nodig?" data-fr="Facturation par utilisateur ?">Facturatie per gebruiker?</label><input type="text" id="billingNeed" data-nl-ph="Ja / Nee / OCPP" data-fr-ph="Oui / Non / OCPP"></div>
+        </div>
+        <div class="field"><label class="field-label" data-nl="Opmerkingen gebouw / parking" data-fr="Remarques immeuble / parking">Opmerkingen</label><input type="text" id="buildingNote"></div>
+      </div>
+
+      <div class="field" style="border-top:1px solid var(--border,#E2E8F0);margin-top:14px;padding-top:14px">
+        <label class="field-label" data-nl="Energie-audit (Smappee Infinity) gewenst?" data-fr="Audit énergie (Smappee Infinity) souhaité ?">Energie-audit (Smappee) gewenst?</label>
+        <div class="chip-grid">
+          <div class="chip" data-field="energieAudit" data-value="Ja"><span class="chip-title">Ja</span></div>
+          <div class="chip" data-field="energieAudit" data-value="Nee"><span class="chip-title">Nee</span></div>
+        </div>
+      </div>
+
+      <div id="energie-block" style="display:none;border-top:1px solid var(--border,#E2E8F0);margin-top:14px;padding-top:14px">
+        <p class="step-sub" data-nl="Energie-audit / Smappee Infinity" data-fr="Audit énergie / Smappee Infinity">Energie-audit / Smappee Infinity</p>
+        <div class="field">
+          <label class="field-label" data-nl="Zonnepanelen aanwezig?" data-fr="Panneaux solaires ?">Zonnepanelen?</label>
+          <div class="chip-grid">
+            <div class="chip" data-field="enPv" data-value="Ja"><span class="chip-title">Ja</span></div>
+            <div class="chip" data-field="enPv" data-value="Nee"><span class="chip-title">Nee</span></div>
+            <div class="chip" data-field="enPv" data-value="Gepland"><span class="chip-title" data-nl="Gepland" data-fr="Prévu">Gepland</span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label class="field-label" data-nl="Merk omvormer" data-fr="Marque onduleur">Merk omvormer</label><input type="text" id="enInverter"></div>
+          <div class="field"><label class="field-label" data-nl="Maandfactuur / verbruik" data-fr="Facture mensuelle / conso">Maandfactuur</label><input type="text" id="enBill"></div>
+        </div>
+        <div class="field">
+          <label class="field-label" data-nl="Digitale meter + P1-poort toegankelijk?" data-fr="Compteur digital + port P1 accessible ?">Digitale meter / P1?</label>
+          <div class="chip-grid">
+            <div class="chip" data-field="enP1" data-value="Ja"><span class="chip-title">Ja</span></div>
+            <div class="chip" data-field="enP1" data-value="Nee"><span class="chip-title">Nee</span></div>
+            <div class="chip" data-field="enP1" data-value="Onbekend"><span class="chip-title" data-nl="Onbekend" data-fr="Inconnu">Onbekend</span></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label class="field-label" data-nl="Aantal kringen te meten (CT)" data-fr="Circuits à mesurer (CT)">Kringen te meten (CT)</label><input type="text" id="enCircuits" inputmode="numeric"></div>
+          <div class="field"><label class="field-label" data-nl="Maandpiek kW (indien gekend)" data-fr="Pic mensuel kW (si connu)">Maandpiek kW</label><input type="text" id="enPeak" inputmode="numeric"></div>
+        </div>
+        <div class="field"><label class="field-label" data-nl="Aanwezig: warmtepomp / boiler / batterij / EV" data-fr="Présent : PAC / boiler / batterie / VE">WP / boiler / batterij / EV</label><input type="text" id="enDevices"></div>
+        <div class="field"><label class="field-label" data-nl="Te sturen verbruikers + doel klant" data-fr="Consommateurs à piloter + objectif client">Te sturen + doel</label><input type="text" id="enGoal"></div>
+        <div class="field"><label class="field-label" data-nl="Opmerkingen energie" data-fr="Remarques énergie">Opmerkingen energie</label><input type="text" id="enNote"></div>
+      </div>
+    </section>
+
+    <!-- ━━━━━━━━ STEP 2 — Installation existante ━━━━━━━━ -->
+    <section class="step" id="step-2">
+      <span class="step-label" data-nl="Stap 02" data-fr="Étape 02">Stap 02</span>
+      <h2 data-nl="Bestaande installatie" data-fr="Installation existante">Bestaande installatie</h2>
+      <p class="step-sub" data-nl="Wat zien wij in de meterkast?" data-fr="Que voit-on dans le tableau électrique ?">Wat zien wij in de meterkast?</p>
+
+      <div class="hint">
+        <div class="hint-title">
+          <span>💬 Spreek de klant aan / Phrases NL prêtes à dire</span>
+          <button type="button" data-toggle="hint" aria-label="Plier">▾</button>
+        </div>
+        <ul>
+          <li><span class="nl">"Mag ik even uw zekeringskast bekijken?"</span><span class="fr">Je peux regarder votre tableau électrique ?</span></li>
+          <li><span class="nl">"Heeft u eenfase of driefase? En hoeveel ampère?"</span><span class="fr">Vous êtes en mono ou triphasé ? Combien d'ampères ?</span></li>
+          <li><span class="nl">"Heeft u al een digitale meter? Of nog een mechanische?"</span><span class="fr">Vous avez déjà un compteur intelligent ? Ou encore un mécanique ?</span></li>
+          <li><span class="nl">"Is de P1-poort van uw digitale meter geactiveerd?"</span><span class="fr">Le port P1 de votre compteur intelligent est activé ?</span></li>
+          <li><span class="nl">"Bent u klant bij Fluvius of bij Sibelga?"</span><span class="fr">Vous êtes client chez Fluvius ou chez Sibelga ?</span></li>
+          <li><span class="nl">"Misschien moet de aansluiting verzwaard worden — we kijken samen."</span><span class="fr">Il faudra peut-être renforcer le raccordement — on regarde ensemble.</span></li>
+          <li><span class="nl">"Heeft u uw P1-poort al geactiveerd via Mijn Fluvius? Anders kan ik u even tonen hoe — duurt 2 min."</span><span class="fr">Avez-vous activé votre port P1 via Mijn Fluvius ? Sinon je peux vous montrer — 2 min.</span></li>
+        </ul>
+      </div>
+
+      <div class="field">
+        <label class="field-label field-required" data-nl="Aansluiting" data-fr="Raccordement">Aansluiting</label>
+        <div class="chip-grid">
+          <div class="chip" data-field="phase" data-value="Monofase">
+            <span class="chip-icon">▏</span>
+            <span class="chip-title" data-nl="Monofase" data-fr="Monophasé">Monofase</span>
+            <span class="chip-sub">230 V</span>
+          </div>
+          <div class="chip" data-field="phase" data-value="Driefase">
+            <span class="chip-icon">▏▏▏</span>
+            <span class="chip-title" data-nl="Driefase" data-fr="Triphasé">Driefase</span>
+            <span class="chip-sub">400 V</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" id="field-netType" style="display:none">
+        <label class="field-label" data-nl="Type driefase-net" data-fr="Type de réseau triphasé">Type driefase-net</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="netType" data-value="400-4w"><span class="chip-title">400 V</span><span class="chip-sub" data-nl="4-draads + nul" data-fr="4 fils + neutre">4-draads + nul</span></div>
+          <div class="chip" data-field="netType" data-value="230-3w"><span class="chip-title">230 V</span><span class="chip-sub" data-nl="3-draads, GEEN nul" data-fr="3 fils, SANS neutre">3-draads, geen nul</span></div>
+          <div class="chip" data-field="netType" data-value="onbekend"><span class="chip-title" data-nl="Onbekend" data-fr="Inconnu">Onbekend</span></div>
+        </div>
+        <p class="field-help" data-nl="⚠ Oud 3×230 V net zonder nul: Wallbox/Tesla 11 kW vereisen meestal een nulleider. Te controleren vóór bestelling." data-fr="⚠ Ancien réseau 3×230 V sans neutre : Wallbox/Tesla 11 kW exigent souvent un neutre. À vérifier avant commande.">⚠ Oud 3×230 V net zonder nul kan extra werk vereisen.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label field-required" data-nl="Beschikbare intensiteit (A)" data-fr="Intensité disponible (A)">Beschikbare intensiteit (A)</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="ampere" data-value="25">
+            <span class="chip-title">25 A</span>
+          </div>
+          <div class="chip" data-field="ampere" data-value="40">
+            <span class="chip-title">40 A</span>
+          </div>
+          <div class="chip" data-field="ampere" data-value="63">
+            <span class="chip-title">63 A</span>
+          </div>
+          <div class="chip" data-field="ampere" data-value="80">
+            <span class="chip-title">80 A</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Digitale meter" data-fr="Compteur intelligent">Digitale meter</label>
+        <div class="chip-grid">
+          <div class="chip" data-field="digitalMeter" data-value="ja">
+            <span class="chip-title" data-nl="Ja" data-fr="Oui">Ja</span>
+          </div>
+          <div class="chip" data-field="digitalMeter" data-value="nee">
+            <span class="chip-title" data-nl="Nee" data-fr="Non">Nee</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="P1-poort aanwezig &amp; actief" data-fr="Port P1 présent &amp; activé">P1-poort aanwezig &amp; actief</label>
+        <div class="chip-grid">
+          <div class="chip" data-field="p1Port" data-value="ja">
+            <span class="chip-title" data-nl="Ja" data-fr="Oui">Ja</span>
+          </div>
+          <div class="chip" data-field="p1Port" data-value="te-activeren">
+            <span class="chip-title" data-nl="Te activeren" data-fr="À activer">Te activeren</span>
+          </div>
+          <div class="chip" data-field="p1Port" data-value="nee">
+            <span class="chip-title" data-nl="Nee" data-fr="Non">Nee</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Netbeheerder" data-fr="Gestionnaire de réseau">Netbeheerder</label>
+        <div class="chip-grid">
+          <div class="chip" data-field="dso" data-value="Fluvius">
+            <span class="chip-title">Fluvius</span>
+            <span class="chip-sub" data-nl="Vlaanderen" data-fr="Flandre">Vlaanderen</span>
+          </div>
+          <div class="chip" data-field="dso" data-value="Sibelga">
+            <span class="chip-title">Sibelga</span>
+            <span class="chip-sub" data-nl="Brussel" data-fr="Bruxelles">Brussel</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Verzwaring nodig?" data-fr="Renforcement nécessaire ?">Verzwaring nodig?</label>
+        <div class="chip-grid">
+          <div class="chip" data-field="needUpgrade" data-value="nee">
+            <span class="chip-title" data-nl="Nee" data-fr="Non">Nee</span>
+          </div>
+          <div class="chip" data-field="needUpgrade" data-value="ja">
+            <span class="chip-title" data-nl="Ja (te bevestigen)" data-fr="Oui (à confirmer)">Ja (te bevestigen)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Overspanningsbeveiliging (parafoudre) aanwezig?" data-fr="Parafoudre / protection surtension présent ?">Overspanningsbeveiliging aanwezig?</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="hasSurge" data-value="ja"><span class="chip-title" data-nl="Ja" data-fr="Oui">Ja</span></div>
+          <div class="chip" data-field="hasSurge" data-value="nee"><span class="chip-title" data-nl="Nee" data-fr="Non">Nee</span></div>
+          <div class="chip" data-field="hasSurge" data-value="onbekend"><span class="chip-title" data-nl="Onbekend" data-fr="Inconnu">Onbekend</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Merk digitale meter" data-fr="Marque compteur digital">Merk digitale meter</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="meterBrand" data-value="Sagemcom"><span class="chip-title">Sagemcom</span></div>
+          <div class="chip" data-field="meterBrand" data-value="Iskra"><span class="chip-title">Iskra</span></div>
+          <div class="chip" data-field="meterBrand" data-value="Siemens"><span class="chip-title">Siemens</span></div>
+          <div class="chip" data-field="meterBrand" data-value="onbekend"><span class="chip-title" data-nl="Onbekend" data-fr="Inconnu">Onbekend</span></div>
+        </div>
+        <p class="field-help" data-nl="Bepaalt compatibiliteit met Smappee Connect / Wallbox P1 (alle drie standaard ondersteund)." data-fr="Détermine la compatibilité avec Smappee Connect / Wallbox P1 (les trois supportés par défaut).">Bepaalt compatibiliteit met Smappee Connect / Wallbox P1 (alle drie standaard ondersteund).</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Vrije plaats in zekeringkast (DIN modules)" data-fr="Place libre dans tableau (modules DIN)">Vrije plaats in zekeringkast (DIN modules)</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="dinSpace" data-value="3plus"><span class="chip-title" data-nl="3+ modules" data-fr="3+ modules">3+ modules</span></div>
+          <div class="chip" data-field="dinSpace" data-value="1-2"><span class="chip-title" data-nl="1-2 modules" data-fr="1-2 modules">1-2 modules</span></div>
+          <div class="chip" data-field="dinSpace" data-value="0"><span class="chip-title" data-nl="Geen" data-fr="Aucune">Geen</span></div>
+        </div>
+        <p class="field-help" data-nl="Wallbox MID 3P = 3-4 modules. Wallbox P1 module = 1 module. Smappee Connect = 0 (buiten kast)." data-fr="Wallbox MID 3P = 3-4 modules. Wallbox P1 module = 1 module. Smappee Connect = 0 (hors tableau).">Wallbox MID 3P = 3-4 modules. Wallbox P1 module = 1 module. Smappee Connect = 0 (buiten kast).</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label field-required" data-nl="Aarding aanwezig &amp; conform?" data-fr="Mise à la terre présente &amp; conforme ?">Aarding aanwezig &amp; conform?</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="earthing" data-value="ja"><span class="chip-icon">🌍</span><span class="chip-title" data-nl="Ja" data-fr="Oui">Ja</span></div>
+          <div class="chip" data-field="earthing" data-value="twijfel"><span class="chip-icon">⚠️</span><span class="chip-title" data-nl="Twijfel" data-fr="Doute">Twijfel</span></div>
+          <div class="chip" data-field="earthing" data-value="nee"><span class="chip-icon">🚫</span><span class="chip-title" data-nl="Nee/oud" data-fr="Non/vieux">Nee/oud</span></div>
+        </div>
+        <p class="field-help" data-nl="RGIE: zonder conforme aarding is de installatie niet keurbaar. Meet de aardweerstand bij installatie (&lt; 100 Ω)." data-fr="RGIE : sans terre conforme, installation non contrôlable. Mesurer la résistance de terre à l'installation (&lt; 100 Ω).">RGIE: aarding verplicht. Meting bij installatie.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="EAN-nummer (18 cijfers, voor Fluvius-melding)" data-fr="Numéro EAN (18 chiffres, notification Fluvius)">EAN-nummer (optioneel)</label>
+        <input type="text" id="eanNumber" inputmode="numeric" data-nl-ph="5414xxxxxxxxxxxxxx" data-fr-ph="5414xxxxxxxxxxxxxx">
+        <p class="field-help" data-nl="Staat op de meter / energiefactuur. Nodig als BORNEXA de melding bij Fluvius/Sibelga doet." data-fr="Sur le compteur / la facture d'énergie. Nécessaire si BORNEXA fait la notification Fluvius/Sibelga.">Op de meter of energiefactuur.</p>
+      </div>
+    </section>
+
+    <!-- ━━━━━━━━ STEP 3 — Emplacement borne ━━━━━━━━ -->
+    <section class="step" id="step-3">
+      <span class="step-label" data-nl="Stap 03" data-fr="Étape 03">Stap 03</span>
+      <h2 data-nl="Plaatsing van de laadpaal" data-fr="Emplacement de la borne">Plaatsing van de laadpaal</h2>
+      <p class="step-sub" data-nl="Waar en hoe ver?" data-fr="Où et à quelle distance ?">Waar en hoe ver?</p>
+
+      <div class="hint">
+        <div class="hint-title">
+          <span>💬 Spreek de klant aan / Phrases NL prêtes à dire</span>
+          <button type="button" data-toggle="hint" aria-label="Plier">▾</button>
+        </div>
+        <ul>
+          <li><span class="nl">"Waar wilt u de laadpaal komen? Garage, oprit, carport of parking?"</span><span class="fr">Vous voulez la borne où ? Garage, allée, carport ou parking ?</span></li>
+          <li><span class="nl">"Hoe ver is dat ongeveer van de zekeringskast? In meter?"</span><span class="fr">À quelle distance environ du tableau électrique ? En mètres ?</span></li>
+          <li><span class="nl">"Kan de kabel gemakkelijk door? Of moeten we boren of een sleuf maken?"</span><span class="fr">Le câble passe facilement ? Ou faut-il percer / creuser une tranchée ?</span></li>
+          <li><span class="nl">"Heeft u nog speciale wensen voor de plaatsing? Hoogte, esthetiek?"</span><span class="fr">Vous avez des souhaits particuliers pour la place ? Hauteur, esthétique ?</span></li>
+          <li><span class="nl">"Mag ik even kijken waar het beste pad voor de kabel ligt?"</span><span class="fr">Je peux jeter un œil pour repérer le meilleur passage du câble ?</span></li>
+        </ul>
+      </div>
+
+      <div class="field">
+        <label class="field-label field-required" data-nl="Locatie" data-fr="Emplacement">Locatie</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="location" data-value="Garage">
+            <span class="chip-icon">🏚️</span><span class="chip-title">Garage</span>
+          </div>
+          <div class="chip" data-field="location" data-value="Oprit">
+            <span class="chip-icon">🚗</span><span class="chip-title" data-nl="Oprit" data-fr="Allée">Oprit</span>
+          </div>
+          <div class="chip" data-field="location" data-value="Carport">
+            <span class="chip-icon">🏕️</span><span class="chip-title">Carport</span>
+          </div>
+          <div class="chip" data-field="location" data-value="Parking">
+            <span class="chip-icon">🅿️</span><span class="chip-title">Parking</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label field-required" data-nl="Geschatte kabellengte" data-fr="Longueur de câble estimée">Geschatte kabellengte</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="cableLength" data-value="0-5">
+            <span class="chip-title">0–5 m</span>
+          </div>
+          <div class="chip" data-field="cableLength" data-value="5-10">
+            <span class="chip-title">5–10 m</span>
+          </div>
+          <div class="chip" data-field="cableLength" data-value="10-20">
+            <span class="chip-title">10–20 m</span>
+          </div>
+          <div class="chip" data-field="cableLength" data-value="20+">
+            <span class="chip-title">20 m +</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Kabel doorvoer" data-fr="Passage du câble">Kabel doorvoer</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="cableRoute" data-value="Eenvoudig">
+            <span class="chip-icon">🟢</span>
+            <span class="chip-title" data-nl="Eenvoudig" data-fr="Facile">Eenvoudig</span>
+            <span class="chip-sub" data-nl="Goot, direct" data-fr="Goulotte, direct">Goot, direct</span>
+          </div>
+          <div class="chip" data-field="cableRoute" data-value="Gemiddeld">
+            <span class="chip-icon">🟡</span>
+            <span class="chip-title" data-nl="Gemiddeld" data-fr="Moyen">Gemiddeld</span>
+            <span class="chip-sub" data-nl="Boring, plafond" data-fr="Percement, plafond">Boring, plafond</span>
+          </div>
+          <div class="chip" data-field="cableRoute" data-value="Complex">
+            <span class="chip-icon">🔴</span>
+            <span class="chip-title" data-nl="Complex" data-fr="Complexe">Complex</span>
+            <span class="chip-sub" data-nl="Sleuf, gevel" data-fr="Tranchée, façade">Sleuf, gevel</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Wi-Fi signaal aan de laadpaal-plaats" data-fr="Signal Wi-Fi à l'emplacement borne">Wi-Fi signaal aan de laadpaal-plaats</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="wifiSignal" data-value="goed"><span class="chip-icon">📶</span><span class="chip-title" data-nl="Goed" data-fr="Bon">Goed</span></div>
+          <div class="chip" data-field="wifiSignal" data-value="zwak"><span class="chip-icon">📶</span><span class="chip-title" data-nl="Zwak" data-fr="Faible">Zwak</span></div>
+          <div class="chip" data-field="wifiSignal" data-value="geen"><span class="chip-icon">🚫</span><span class="chip-title" data-nl="Geen" data-fr="Aucun">Geen</span></div>
+        </div>
+        <p class="field-help" data-nl="Bepaalt of mesh-Wi-Fi of Ethernet nodig is voor smart charging." data-fr="Détermine si un mesh Wi-Fi ou Ethernet sera nécessaire pour le smart charging.">Bepaalt of mesh-Wi-Fi of Ethernet nodig is voor smart charging.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Type muur (bevestiging)" data-fr="Type de mur (fixation)">Type muur (bevestiging)</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="wallType" data-value="baksteen"><span class="chip-title" data-nl="Baksteen" data-fr="Brique">Baksteen</span></div>
+          <div class="chip" data-field="wallType" data-value="beton"><span class="chip-title" data-nl="Beton" data-fr="Béton">Beton</span></div>
+          <div class="chip" data-field="wallType" data-value="gipsplaat"><span class="chip-title" data-nl="Gipsplaat" data-fr="Placo">Gipsplaat</span></div>
+          <div class="chip" data-field="wallType" data-value="paal"><span class="chip-title" data-nl="Op paal" data-fr="Sur poteau">Op paal</span></div>
+        </div>
+        <p class="field-help" data-nl="Gipsplaat/paal = extra bevestigingsmateriaal of voet nodig." data-fr="Placo/poteau = matériel de fixation ou pied supplémentaire nécessaire.">Gipsplaat/paal = extra materiaal.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Specifieke opmerkingen plaatsing" data-fr="Remarques spécifiques placement">Specifieke opmerkingen plaatsing</label>
+        <textarea id="locationNote" data-nl-ph="bv. hoogte beperkt, achterhuis, eik..." data-fr-ph="ex. hauteur limitée, arrière-cour, chêne..."></textarea>
+      </div>
+    </section>
+
+    <!-- ━━━━━━━━ STEP 4 — Photos ━━━━━━━━ -->
+    <section class="step" id="step-4">
+      <span class="step-label" data-nl="Stap 04" data-fr="Étape 04">Stap 04</span>
+      <h2 data-nl="Foto's verplicht" data-fr="Photos obligatoires">Foto's verplicht</h2>
+      <p class="step-sub" data-nl="Tik op een tegel om een foto te nemen. Voorkomt heen-en-weer." data-fr="Tapez sur une case pour prendre une photo. Évite les allers-retours.">Tik op een tegel om een foto te nemen. Voorkomt heen-en-weer.</p>
+
+      <div class="hint">
+        <div class="hint-title">
+          <span>💬 Spreek de klant aan / Phrases NL prêtes à dire</span>
+          <button type="button" data-toggle="hint" aria-label="Plier">▾</button>
+        </div>
+        <ul>
+          <li><span class="nl">"Ik neem nu enkele foto's voor het technisch dossier, mag dat?"</span><span class="fr">Je prends quelques photos pour le dossier technique, c'est ok ?</span></li>
+          <li><span class="nl">"De zekeringskast, de teller, en waar de laadpaal komt."</span><span class="fr">Le tableau électrique, le compteur, et où ira la borne.</span></li>
+          <li><span class="nl">"Geen zorgen, niets persoonlijks in beeld, enkel de installatie."</span><span class="fr">Pas d'inquiétude, rien de personnel sur la photo, juste l'installation.</span></li>
+          <li><span class="nl">"De foto's blijven intern bij BORNEXA voor de offerte."</span><span class="fr">Les photos restent internes chez BORNEXA pour le devis.</span></li>
+        </ul>
+      </div>
+
+      <div class="photo-zone" id="photoZone">
+        <!-- Generated dynamically -->
+      </div>
+    </section>
+
+    <!-- ━━━━━━━━ STEP 5 — Véhicule ━━━━━━━━ -->
+    <section class="step" id="step-5">
+      <span class="step-label" data-nl="Stap 05" data-fr="Étape 05">Stap 05</span>
+      <h2 data-nl="Voertuig" data-fr="Véhicule">Voertuig</h2>
+      <p class="step-sub" data-nl="Welk EV-merk rijdt of bestelt de klant?" data-fr="Quel modèle de VE le client conduit ou commande ?">Welk EV-merk rijdt of bestelt de klant?</p>
+
+      <div class="hint">
+        <div class="hint-title">
+          <span>💬 Spreek de klant aan / Phrases NL prêtes à dire</span>
+          <button type="button" data-toggle="hint" aria-label="Plier">▾</button>
+        </div>
+        <ul>
+          <li><span class="nl">"Welke wagen rijdt u? Of welke heeft u besteld?"</span><span class="fr">Quelle voiture conduisez-vous ? Ou laquelle avez-vous commandée ?</span></li>
+          <li><span class="nl">"Wanneer wordt hij geleverd?"</span><span class="fr">Quand est-elle livrée ?</span></li>
+          <li><span class="nl">"Weet u de batterijcapaciteit? Anders volstaat het model."</span><span class="fr">Vous connaissez la capacité batterie ? Sinon le modèle suffit.</span></li>
+          <li><span class="nl">"Hoeveel kW kan uw wagen maximaal AC laden? 7,4 — 11 — of 22 kW?"</span><span class="fr">Quelle puissance AC max votre voiture accepte ? 7,4 — 11 — ou 22 kW ?</span></li>
+          <li><span class="nl">"Dat staat meestal in het instructieboekje of op de specificatieblad."</span><span class="fr">C'est dans le manuel ou la fiche technique en général.</span></li>
+          <li><span class="nl">"Welk merk omvormer hebt u? Fronius, SMA, SolarEdge? En hoeveel kWp piek?"</span><span class="fr">Quelle marque d'onduleur ? Fronius, SMA, SolarEdge ? Et quelle puissance kWp ?</span></li>
+          <li><span class="nl">"Heeft u een thuisbatterij? Tesla Powerwall, Sonnen, of andere?"</span><span class="fr">Avez-vous une batterie domestique ? Powerwall, Sonnen, ou autre ?</span></li>
+        </ul>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="field-label" data-nl="Merk" data-fr="Marque">Merk</label>
+          <select id="vehBrand">
+            <option value="">--</option>
+            <option>Tesla</option><option>Volkswagen</option><option>BMW</option>
+            <option>Audi</option><option>Mercedes</option><option>Volvo</option>
+            <option>Polestar</option><option>Hyundai</option><option>Kia</option>
+            <option>Renault</option><option>Peugeot</option><option>Citroën</option>
+            <option>Porsche</option><option>Skoda</option><option>Cupra</option>
+            <option>Ford</option><option>Opel</option><option>Mini</option>
+            <option>Smart</option><option>BYD</option><option>MG</option>
+            <option data-nl="Andere" data-fr="Autre">Andere</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" data-nl="Model" data-fr="Modèle">Model</label>
+          <input type="text" id="vehModel" data-nl-ph="bv. Model Y, ID.4" data-fr-ph="ex. Model Y, ID.4">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Batterijcapaciteit (kWh, optioneel)" data-fr="Capacité batterie (kWh, optionnel)">Batterijcapaciteit (kWh)</label>
+        <input type="number" id="vehBattery" min="0" max="200" step="1" placeholder="kWh">
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Max AC laadvermogen" data-fr="Charge AC max">Max AC laadvermogen</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="vehAcMax" data-value="3.7"><span class="chip-title">3,7 kW</span></div>
+          <div class="chip" data-field="vehAcMax" data-value="7.4"><span class="chip-title">7,4 kW</span></div>
+          <div class="chip" data-field="vehAcMax" data-value="11"><span class="chip-title">11 kW</span></div>
+          <div class="chip" data-field="vehAcMax" data-value="22"><span class="chip-title">22 kW</span></div>
+        </div>
+        <p class="field-help" data-nl="Bepaalt het zinvolle borne-vermogen. Investeer niet in 22 kW als wagen 11 kW max." data-fr="Détermine le vermogen utile. Pas la peine de viser 22 kW si la voiture est limitée à 11 kW.">Bepaalt het zinvolle borne-vermogen. Investeer niet in 22 kW als wagen 11 kW max.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Zonnepanelen op de woning?" data-fr="Panneaux solaires sur l'habitation ?">Zonnepanelen op de woning?</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="hasSolar" data-value="ja"><span class="chip-icon">☀️</span><span class="chip-title" data-nl="Ja" data-fr="Oui">Ja</span></div>
+          <div class="chip" data-field="hasSolar" data-value="binnenkort"><span class="chip-icon">📅</span><span class="chip-title" data-nl="Binnenkort" data-fr="Bientôt">Binnenkort</span></div>
+          <div class="chip" data-field="hasSolar" data-value="nee"><span class="chip-icon">❌</span><span class="chip-title" data-nl="Nee" data-fr="Non">Nee</span></div>
+        </div>
+        <p class="field-help" data-nl="Smappee Connect of Wallbox P1 module = beide compatibel met alle PV-omvormers (meting aan meter)." data-fr="Smappee Connect ou Wallbox P1 module = tous deux compatibles avec tous les onduleurs PV (mesure au compteur).">Smappee Connect of Wallbox P1 module = beide compatibel met alle PV-omvormers (meting aan meter).</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Merk PV-omvormer (indien zonnepanelen)" data-fr="Marque onduleur PV (si panneaux)">Merk PV-omvormer (indien zonnepanelen)</label>
+        <select id="pvInverter">
+          <option value="" data-nl="-- Selecteer (overslaan indien geen PV) --" data-fr="-- Sélectionner (ignorer si pas de PV) --">-- Selecteer --</option>
+          <option>Fronius</option>
+          <option>SMA</option>
+          <option>SolarEdge</option>
+          <option>Huawei</option>
+          <option>Enphase</option>
+          <option>Goodwe</option>
+          <option>Growatt</option>
+          <option>Andere / Autre</option>
+          <option>Onbekend / Inconnu</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="PV vermogen (kWp, indien gekend)" data-fr="Puissance PV (kWp, si connue)">PV vermogen (kWp)</label>
+        <input type="number" id="pvKwp" min="0" max="50" step="0.1" placeholder="bv. 5.4">
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Thuisbatterij aanwezig?" data-fr="Batterie domestique présente ?">Thuisbatterij aanwezig?</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="hasBattery" data-value="powerwall"><span class="chip-title">Tesla Powerwall</span></div>
+          <div class="chip" data-field="hasBattery" data-value="sonnen"><span class="chip-title">Sonnen</span></div>
+          <div class="chip" data-field="hasBattery" data-value="other"><span class="chip-title" data-nl="Andere" data-fr="Autre">Andere</span></div>
+          <div class="chip" data-field="hasBattery" data-value="nee"><span class="chip-title" data-nl="Geen" data-fr="Aucune">Geen</span></div>
+        </div>
+        <p class="field-help" data-nl="Powerwall + Tesla Wall Connector = systeem werkt natief. Andere batterij → BORNEXA bepaalt configuratie." data-fr="Powerwall + Tesla Wall Connector = système natif. Autre batterie → BORNEXA détermine la config.">Powerwall + Tesla Wall Connector = systeem werkt natief. Andere batterij → BORNEXA bepaalt configuratie.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="2e elektrisch voertuig binnen 24 maanden?" data-fr="2e véhicule électrique d'ici 24 mois ?">2e elektrisch voertuig binnen 24 maanden?</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="futureEV" data-value="ja"><span class="chip-title" data-nl="Ja, zeker" data-fr="Oui, sûr">Ja, zeker</span></div>
+          <div class="chip" data-field="futureEV" data-value="misschien"><span class="chip-title" data-nl="Misschien" data-fr="Peut-être">Misschien</span></div>
+          <div class="chip" data-field="futureEV" data-value="nee"><span class="chip-title" data-nl="Nee" data-fr="Non">Nee</span></div>
+        </div>
+        <p class="field-help" data-nl="Indien ja → grotere kabelsectie + load balancing klaar zetten nu." data-fr="Si oui → câble plus large + load balancing à anticiper dès maintenant.">Indien ja → grotere kabelsectie + load balancing klaar zetten nu.</p>
+      </div>
+    </section>
+
+    <!-- ━━━━━━━━ STEP 6 — Besoins ━━━━━━━━ -->
+    <section class="step" id="step-6">
+      <span class="step-label" data-nl="Stap 06" data-fr="Étape 06">Stap 06</span>
+      <h2 data-nl="Behoeften van de klant" data-fr="Besoins du client">Behoeften van de klant</h2>
+      <p class="step-sub" data-nl="Selecteer alles wat van toepassing is." data-fr="Sélectionnez tout ce qui s'applique.">Selecteer alles wat van toepassing is.</p>
+
+      <div class="hint">
+        <div class="hint-title">
+          <span>💬 Spreek de klant aan / Phrases NL prêtes à dire</span>
+          <button type="button" data-toggle="hint" aria-label="Plier">▾</button>
+        </div>
+        <ul>
+          <li><span class="nl">"Zoekt u gewoon laden, of slimme functies erbij?"</span><span class="fr">Vous cherchez une recharge simple, ou avec fonctions intelligentes ?</span></li>
+          <li><span class="nl">"Heeft u zonnepanelen? Dan kunnen we de laadpaal daarmee koppelen."</span><span class="fr">Vous avez des panneaux solaires ? On peut coupler la borne avec.</span></li>
+          <li><span class="nl">"Wilt u op het dal-tarief laden, automatisch 's nachts?"</span><span class="fr">Vous voulez recharger aux heures creuses, automatiquement la nuit ?</span></li>
+          <li><span class="nl">"Heeft u een voorkeur voor Tesla, Wallbox of Smappee? Of advies?"</span><span class="fr">Préférence pour Tesla, Wallbox ou Smappee ? Ou conseil ?</span></li>
+          <li><span class="nl">"Hoe snel wilt u dit geplaatst hebben? Volgende week, deze maand?"</span><span class="fr">Vous voulez ça installé pour quand ? La semaine prochaine, ce mois-ci ?</span></li>
+          <li><span class="nl">"Heeft u een tweede wagen of een tweede laadpunt in de toekomst?"</span><span class="fr">Une deuxième voiture ou un deuxième point de charge à prévoir ?</span></li>
+        </ul>
+      </div>
+
+      <div class="check-list">
+        <label class="check-row" data-field="needs" data-value="Eenvoudig laden">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="Eenvoudig laden" data-fr="Recharge simple">Eenvoudig laden</span>
+        </label>
+        <label class="check-row" data-field="needs" data-value="Smart charging">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="Smart charging (dal-tarief, app)" data-fr="Smart charging (heures creuses, app)">Smart charging (dal-tarief, app)</span>
+        </label>
+        <label class="check-row" data-field="needs" data-value="Solar integration">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="Integratie zonnepanelen" data-fr="Intégration panneaux solaires">Integratie zonnepanelen</span>
+        </label>
+        <label class="check-row" data-field="needs" data-value="Load balancing">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="Dynamisch load balancing" data-fr="Load balancing dynamique">Dynamisch load balancing</span>
+        </label>
+        <label class="check-row" data-field="needs" data-value="RFID">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="RFID / multi-user" data-fr="RFID / multi-utilisateurs">RFID / multi-user</span>
+        </label>
+        <label class="check-row" data-field="needs" data-value="Reporting">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="Statistieken / reporting" data-fr="Statistiques / reporting">Statistieken / reporting</span>
+        </label>
+        <label class="check-row" data-field="needs" data-value="Triphasé futur">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="Toekomstgericht (3-fasig klaar)" data-fr="Anticipé (prêt triphasé)">Toekomstgericht (3-fasig klaar)</span>
+        </label>
+        <label class="check-row" data-field="needs" data-value="Vehicle-to-home">
+          <span class="check-box"></span>
+          <span class="check-text" data-nl="V2H / V2L (geavanceerd)" data-fr="V2H / V2L (avancé)">V2H / V2L (geavanceerd)</span>
+        </label>
+      </div>
+
+      <div class="field" style="margin-top:18px">
+        <label class="field-label" data-nl="Voorkeur merk borne (optioneel)" data-fr="Préférence marque borne (optionnel)">Voorkeur merk borne (optioneel)</label>
+        <div class="chip-grid four">
+          <div class="chip" data-field="brandPref" data-value="Tesla"><span class="chip-title">Tesla</span></div>
+          <div class="chip" data-field="brandPref" data-value="Wallbox"><span class="chip-title">Wallbox</span></div>
+          <div class="chip" data-field="brandPref" data-value="Smappee"><span class="chip-title">Smappee</span></div>
+          <div class="chip" data-field="brandPref" data-value="advies"><span class="chip-title" data-nl="Advies BORNEXA" data-fr="Conseil BORNEXA">Advies BORNEXA</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Verwachte timing" data-fr="Timing souhaité">Verwachte timing</label>
+        <div class="chip-grid three">
+          <div class="chip" data-field="timing" data-value="ASAP"><span class="chip-title">ASAP</span></div>
+          <div class="chip" data-field="timing" data-value="1mois"><span class="chip-title" data-nl="≤ 1 maand" data-fr="≤ 1 mois">≤ 1 maand</span></div>
+          <div class="chip" data-field="timing" data-value="planning"><span class="chip-title" data-nl="Te plannen" data-fr="À planifier">Te plannen</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ━━━━━━━━ STEP 7 — Synthèse + Export ━━━━━━━━ -->
+    <section class="step" id="step-7">
+      <span class="step-label" data-nl="Stap 07" data-fr="Étape 07">Stap 07</span>
+      <h2 data-nl="Samenvatting &amp; export" data-fr="Récapitulatif &amp; export">Samenvatting &amp; export</h2>
+      <p class="step-sub" data-nl="Controleer en exporteer naar de BORNEXA-calculator." data-fr="Vérifiez et exportez vers le calculateur BORNEXA.">Controleer en exporteer naar de BORNEXA-calculator.</p>
+
+      <div class="hint">
+        <div class="hint-title">
+          <span>💬 Afsluitende zinnen / Phrases de clôture en NL</span>
+          <button type="button" data-toggle="hint" aria-label="Plier">▾</button>
+        </div>
+        <ul>
+          <li><span class="nl">"Perfect. Ik bezorg u een gepersonaliseerde offerte binnen 24 uur."</span><span class="fr">Parfait. Je vous envoie un devis personnalisé sous 24h.</span></li>
+          <li><span class="nl">"De prijs is all-in, inclusief AREI-keuring en plan."</span><span class="fr">Le prix est all-in, keuring AREI et plan inclus.</span></li>
+          <li><span class="nl">"Heeft u nog vragen voor ik vertrek?"</span><span class="fr">Vous avez d'autres questions avant que je parte ?</span></li>
+          <li><span class="nl">"Mag ik u bereiken per telefoon of liever via e-mail?"</span><span class="fr">Je peux vous joindre par téléphone ou plutôt par e-mail ?</span></li>
+          <li><span class="nl">"Bedankt voor het vertrouwen in BORNEXA!"</span><span class="fr">Merci pour votre confiance envers BORNEXA !</span></li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <h3 data-nl="Klant" data-fr="Client">Klant</h3>
+        <dl id="sumClient"></dl>
+      </div>
+
+      <div class="summary">
+        <h3 data-nl="Installatie" data-fr="Installation">Installatie</h3>
+        <dl id="sumInstall"></dl>
+      </div>
+
+      <div class="summary">
+        <h3 data-nl="Plaatsing" data-fr="Placement">Plaatsing</h3>
+        <dl id="sumPlace"></dl>
+      </div>
+
+      <div class="summary">
+        <h3 data-nl="Voertuig &amp; behoeften" data-fr="Véhicule &amp; besoins">Voertuig &amp; behoeften</h3>
+        <dl id="sumVeh"></dl>
+      </div>
+
+      <div class="field">
+        <label class="field-label" data-nl="Interne notitie (privaat, voor offerte)" data-fr="Note interne (privée, pour devis)">Interne notitie (privaat, voor offerte)</label>
+        <textarea id="internalNote" rows="3" data-nl-ph="Specifieke risico's, klant context, deadlines..." data-fr-ph="Risques spécifiques, contexte client, deadlines..."></textarea>
+      </div>
+
+      <div class="export-box">
+        <h3 data-nl="Exporteren" data-fr="Exporter">Exporteren</h3>
+        <p style="font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.5" data-nl="Kopieer de JSON en plak ze in de BORNEXA-calculator (calculateur-interne) → knop 'Importeer JSON visite'." data-fr="Copiez le JSON et collez-le dans le calculateur BORNEXA (calculateur-interne) → bouton 'Importer JSON visite'.">Kopieer de JSON en plak ze in de BORNEXA-calculator (calculateur-interne) → knop 'Importeer JSON visite'.</p>
+        <div class="export-actions">
+          <button class="export-btn" id="btnCopy">📋 <span data-nl="JSON kopieren" data-fr="Copier le JSON">JSON kopiëren</span></button>
+          <button class="export-btn secondary" id="btnDownload">⬇️ <span data-nl="JSON downloaden" data-fr="Télécharger JSON">JSON downloaden</span></button>
+        </div>
+        <div class="export-actions" style="margin-top:8px">
+          <button class="export-btn secondary" id="btnEmail">✉️ <span data-nl="E-mail naar info@bornexa.be" data-fr="E-mail vers info@bornexa.be">E-mail naar info@bornexa.be</span></button>
+          <button class="export-btn secondary" id="btnReset">🗑️ <span data-nl="Nieuwe visite" data-fr="Nouvelle visite">Nieuwe visite</span></button>
+        </div>
+        <p class="small-note" style="color:rgba(255,255,255,.6)" data-nl="Foto's zitten in de GEDOWNLOADE JSON (volledig dossier). De gekopieerde/gemailde JSON blijft licht voor import in de calculator." data-fr="Les photos sont dans le JSON TÉLÉCHARGÉ (dossier complet). Le JSON copié/envoyé reste léger pour l'import dans le calculateur.">Foto's zitten in de gedownloade JSON. Gekopieerde JSON blijft licht.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="navbar">
+    <button class="btn btn-prev" id="btnPrev" disabled data-nl="← Vorige" data-fr="← Précédent">← Vorige</button>
+    <button class="btn btn-next" id="btnNext" data-nl="Volgende →" data-fr="Suivant →">Volgende →</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/bornexa-sync.js?v=2026-06-28"></script>
+  <script src="js/supabase-config.js?v=2026-06-28"></script>
+  <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+  <script>
+  // ── State ──
+  const STORAGE_KEY = 'bornexa-visite-v1';
+  const visiteKey = () => (window.Bornexa && Bornexa.scopedKey) ? Bornexa.scopedKey(STORAGE_KEY) : STORAGE_KEY;
+  const PHOTO_LIST = [
+    { id:'p1', nl:'Tableau électrique', fr:'Tableau électrique', icon:'⚡' },
+    { id:'p2', nl:'Compteur',          fr:'Compteur',          icon:'🔢' },
+    { id:'p3', nl:'Emplacement borne', fr:'Emplacement borne', icon:'📍' },
+    { id:'p4', nl:'Passage câble',     fr:'Passage câble',     icon:'➰' },
+    { id:'p5', nl:'Façade',            fr:'Façade',            icon:'🏠' },
+    { id:'p6', nl:'Connexions dispo.', fr:'Connexions dispo.', icon:'🔌' },
+  ];
+  let state = {
+    lang: localStorage.getItem('bornexa-lang') || 'nl',
+    step: 1,
+    startTime: Date.now(),
+    photos: {}, // {p1:true, p2:true ...}
+    data: {}
+  };
+  const totalSteps = 7;
+
+  // ── Load saved state ──
+  function loadState(){
+    try{
+      const saved = JSON.parse(localStorage.getItem(visiteKey()) || '{}');
+      if (saved.data) {
+        state.data = saved.data;
+        state.step = saved.step || 1;
+        state.startTime = saved.startTime || Date.now();
+        if (saved.photos) state.photos = saved.photos;
+      }
+    }catch(e){}
+  }
+  function saveState(){
+    try{
+      localStorage.setItem(visiteKey(), JSON.stringify({
+        data: state.data, step: state.step, startTime: state.startTime, photos: state.photos, savedAt: Date.now()
+      }));
+      if(window.Bornexa&&Bornexa.has())try{ Bornexa.put('visite', buildPayload(false)); }catch(e){}
+      return true;
+    }catch(e){ return false; } // quota dépassé (photos trop lourdes)
+  }
+
+  // ── Language ──
+  function applyLang(){
+    document.documentElement.lang = state.lang;
+    document.querySelectorAll('[data-nl],[data-fr]').forEach(el=>{
+      const v = el.getAttribute('data-'+state.lang);
+      if (v == null) return;
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return; // handled below
+      el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-nl-ph],[data-fr-ph]').forEach(el=>{
+      const v = el.getAttribute('data-'+state.lang+'-ph');
+      if (v) el.placeholder = v;
+    });
+    document.getElementById('langBtn').textContent = state.lang === 'nl' ? 'FR' : 'NL';
+  }
+  document.getElementById('langBtn').addEventListener('click', ()=>{
+    state.lang = state.lang === 'nl' ? 'fr' : 'nl';
+    localStorage.setItem('bornexa-lang', state.lang);
+    applyLang(); renderSummary();
+    if (document.getElementById('photoZone').innerHTML !== '') renderPhotos();
+  });
+
+  // ── Chip selection ──
+  document.querySelectorAll('.chip').forEach(chip=>{
+    const field = chip.dataset.field;
+    chip.addEventListener('click', ()=>{
+      // Single-select within field
+      document.querySelectorAll('.chip[data-field="'+field+'"]').forEach(c=>c.classList.remove('selected'));
+      chip.classList.add('selected');
+      state.data[field] = chip.dataset.value;
+      saveState(); updateConditional(); updateNavState();
+    });
+    // Restore on load
+    if (state.data[field] === chip.dataset.value) chip.classList.add('selected');
+  });
+
+  // ── Conditional fields (type de réseau visible seulement en triphasé) ──
+  function updateConditional(){
+    const nt = document.getElementById('field-netType');
+    if (nt) nt.style.display = (state.data.phase === 'Driefase') ? 'block' : 'none';
+    const bb = document.getElementById('building-block');
+    if (bb) bb.style.display = /Appartement|Parking|Bedrijf/.test(state.data.projectType || '') ? 'block' : 'none';
+    const eb = document.getElementById('energie-block');
+    if (eb) eb.style.display = state.data.energieAudit === 'Ja' ? 'block' : 'none';
+  }
+  updateConditional();
+
+  // ── Check-list (multi-select) ──
+  document.querySelectorAll('.check-row').forEach(row=>{
+    const field = row.dataset.field;
+    const value = row.dataset.value;
+    if (!Array.isArray(state.data[field])) state.data[field] = state.data[field] ? [state.data[field]] : [];
+    if (state.data[field].includes(value)) row.classList.add('selected');
+    row.addEventListener('click', e=>{
+      e.preventDefault();
+      if (!Array.isArray(state.data[field])) state.data[field] = [];
+      if (row.classList.contains('selected')){
+        row.classList.remove('selected');
+        state.data[field] = state.data[field].filter(v=>v!==value);
+      } else {
+        row.classList.add('selected');
+        state.data[field].push(value);
+      }
+      saveState(); updateNavState();
+    });
+  });
+
+  // ── Text inputs ──
+  ['clientName','clientPhone','clientEmail','clientAddress','eanNumber','locationNote','vehModel','vehBattery','pvKwp','internalNote',
+   'nbSpaces','nbUnits','nbPointsNow','nbPointsLater','syndic','techRoom','distRoom','availPower','billingNeed','buildingNote',
+   'enInverter','enBill','enCircuits','enPeak','enDevices','enGoal','enNote'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = state.data[id] || '';
+    el.addEventListener('input', ()=>{
+      state.data[id] = el.value;
+      saveState(); updateNavState();
+    });
+  });
+  ['buildYear','vehBrand','pvInverter'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (state.data[id]) el.value = state.data[id];
+    el.addEventListener('change', ()=>{
+      state.data[id] = el.value;
+      saveState(); updateNavState();
+    });
+  });
+
+  // ── Photos (compression canvas → dataURL persistant) ──
+  function compressImage(file, maxDim, quality){
+    return new Promise((resolve, reject)=>{
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = ()=>{
+        URL.revokeObjectURL(url);
+        let w = img.width, h = img.height;
+        if (w > h && w > maxDim){ h = Math.round(h * maxDim / w); w = maxDim; }
+        else if (h >= w && h > maxDim){ w = Math.round(w * maxDim / h); h = maxDim; }
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  }
+  function renderPhotos(){
+    const zone = document.getElementById('photoZone');
+    zone.innerHTML = PHOTO_LIST.map(p=>{
+      const data = state.photos[p.id];
+      const isImg = typeof data === 'string' && data.indexOf('data:') === 0;
+      return `
+      <label class="photo-tile ${data?'filled':''}" data-pid="${p.id}">
+        ${isImg ? `<img class="photo-thumb" src="${data}" alt="">` : ''}
+        <span class="photo-icon">${p.icon}</span>
+        <span class="photo-label">${p[state.lang]}</span>
+        <span class="photo-badge">✓</span>
+        <input type="file" accept="image/*" capture="environment" data-pid="${p.id}">
+      </label>`;
+    }).join('');
+    zone.querySelectorAll('input[type=file]').forEach(inp=>{
+      inp.addEventListener('change', async e=>{
+        const pid = inp.dataset.pid;
+        if (!(e.target.files && e.target.files.length)) return;
+        showToast(state.lang==='nl' ? 'Foto verwerken…' : 'Traitement photo…');
+        try{
+          const dataUrl = await compressImage(e.target.files[0], 1000, 0.55);
+          state.photos[pid] = dataUrl;
+          if (!saveState()){ // quota dépassé → fallback drapeau booléen
+            state.photos[pid] = true; saveState();
+            showToast(state.lang==='nl' ? 'Geheugen vol — stuur foto apart' : 'Mémoire pleine — envoyer la photo à part');
+          } else {
+            showToast(state.lang==='nl' ? 'Foto bewaard ✓' : 'Photo enregistrée ✓');
+          }
+        }catch(err){
+          state.photos[pid] = true; saveState();
+          showToast(state.lang==='nl' ? 'Foto bewaard ✓' : 'Photo enregistrée ✓');
+        }
+        renderPhotos();
+      });
+    });
+  }
+
+  // ── Nav ──
+  function showStep(n){
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.getElementById('step-'+n).classList.add('active');
+    document.getElementById('stepCount').textContent = n;
+    document.getElementById('progressFill').style.width = (n/totalSteps*100)+'%';
+    document.getElementById('btnPrev').disabled = (n===1);
+    const isLast = (n === totalSteps);
+    const nextBtn = document.getElementById('btnNext');
+    nextBtn.textContent = isLast ? (state.lang==='nl' ? '✓ Klaar' : '✓ Terminé') : (state.lang==='nl' ? 'Volgende →' : 'Suivant →');
+    nextBtn.classList.toggle('btn-finish', isLast);
+    state.step = n; saveState();
+    if (n === totalSteps) renderSummary();
+    if (n === 4 && document.getElementById('photoZone').innerHTML === '') renderPhotos();
+    updateNavState();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  const validPhone = p => !!p && p.replace(/[^0-9]/g,'').length >= 8;
+  const validEmail = e => !!e && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e);
+  function updateNavState(){
+    // Required field validation per step
+    const reqByStep = {
+      1: () => state.data.clientName && validPhone(state.data.clientPhone) && state.data.clientAddress && (state.data.contactPref !== 'E-mail' || validEmail(state.data.clientEmail)),
+      2: () => state.data.phase && state.data.ampere && state.data.earthing && (state.data.phase !== 'Driefase' || state.data.netType),
+      3: () => state.data.location && state.data.cableLength,
+      4: () => true, // Photos optional in form, mandated by process
+      5: () => true,
+      6: () => true,
+      7: () => true
+    };
+    const ok = reqByStep[state.step] ? reqByStep[state.step]() : true;
+    document.getElementById('btnNext').disabled = !ok;
+  }
+  document.getElementById('btnNext').addEventListener('click', ()=>{
+    if (state.step < totalSteps) showStep(state.step + 1);
+    else exportData();
+  });
+  document.getElementById('btnPrev').addEventListener('click', ()=>{
+    if (state.step > 1) showStep(state.step - 1);
+  });
+
+  // ── Summary ──
+  function getLabel(k){
+    const m = {
+      clientName:{nl:'Naam',fr:'Nom'}, clientPhone:{nl:'Tel',fr:'Tél'}, clientEmail:{nl:'E-mail',fr:'E-mail'},
+      clientAddress:{nl:'Adres',fr:'Adresse'}, clientType:{nl:'Type',fr:'Type'},
+      buildYear:{nl:'Woning',fr:'Habitation'}, contactPref:{nl:'Voorkeur contact',fr:'Canal préféré'},
+      phase:{nl:'Aansluiting',fr:'Raccordement'}, ampere:{nl:'Intensiteit',fr:'Intensité'},
+      digitalMeter:{nl:'Digitale meter',fr:'Compteur intelligent'}, p1Port:{nl:'P1-poort',fr:'Port P1'},
+      dso:{nl:'Netbeheerder',fr:'Gestionnaire réseau'}, needUpgrade:{nl:'Verzwaring',fr:'Renforcement'},
+      netType:{nl:'Type driefase',fr:'Type triphasé'}, earthing:{nl:'Aarding',fr:'Mise à la terre'},
+      eanNumber:{nl:'EAN-nummer',fr:'Numéro EAN'},
+      hasSurge:{nl:'Overspanningsbev.',fr:'Parafoudre existant'},
+      meterBrand:{nl:'Merk meter',fr:'Marque compteur'}, dinSpace:{nl:'Vrije DIN',fr:'Place DIN libre'},
+      location:{nl:'Locatie',fr:'Emplacement'}, cableLength:{nl:'Kabellengte',fr:'Longueur câble'},
+      cableRoute:{nl:'Doorvoer',fr:'Passage'}, wallType:{nl:'Type muur',fr:'Type de mur'}, locationNote:{nl:'Notitie plaatsing',fr:'Note placement'},
+      wifiSignal:{nl:'Wi-Fi signaal',fr:'Signal Wi-Fi'},
+      vehBrand:{nl:'Merk',fr:'Marque'}, vehModel:{nl:'Model',fr:'Modèle'},
+      vehBattery:{nl:'Batterij (kWh)',fr:'Batterie (kWh)'}, vehAcMax:{nl:'AC max',fr:'AC max'},
+      hasSolar:{nl:'Zonnepanelen',fr:'Panneaux solaires'}, futureEV:{nl:'2e EV (24m)',fr:'2e VE (24m)'},
+      pvInverter:{nl:'PV-omvormer',fr:'Onduleur PV'}, pvKwp:{nl:'PV kWp',fr:'PV kWp'}, hasBattery:{nl:'Thuisbatterij',fr:'Batterie maison'},
+      needs:{nl:'Behoeften',fr:'Besoins'}, brandPref:{nl:'Voorkeur',fr:'Préférence'},
+      timing:{nl:'Timing',fr:'Timing'}, internalNote:{nl:'Notitie',fr:'Note'},
+      projectType:{nl:'Type project',fr:'Type projet'}, nbSpaces:{nl:'Parkeerplaatsen',fr:'Places parking'},
+      nbUnits:{nl:'Appartementen',fr:'Appartements'}, nbPointsNow:{nl:'Laadpunten nu',fr:'Points maintenant'},
+      nbPointsLater:{nl:'Laadpunten later',fr:'Points futurs'}, syndic:{nl:'Syndicus/VME',fr:'Syndic/ACP'},
+      sharedMeter:{nl:'Gemeensch. teller',fr:'Compteur communs'}, techRoom:{nl:'Tellerlokaal',fr:'Local compteurs'},
+      distRoom:{nl:'Afstand → parking',fr:'Distance → parking'}, riser:{nl:'Stijgleiding',fr:'Colonne montante'},
+      availPower:{nl:'Vermogen (kVA)',fr:'Puissance (kVA)'}, billingNeed:{nl:'Facturatie/gebruiker',fr:'Facturation/util.'},
+      buildingNote:{nl:'Opmerking gebouw',fr:'Remarque immeuble'},
+      energieAudit:{nl:'Energie-audit',fr:'Audit énergie'}, enPv:{nl:'Zonnepanelen',fr:'Panneaux solaires'},
+      enInverter:{nl:'Merk omvormer',fr:'Marque onduleur'}, enBill:{nl:'Maandfactuur',fr:'Facture mens.'},
+      enP1:{nl:'Digitale meter/P1',fr:'Compteur digital/P1'}, enCircuits:{nl:'Kringen te meten',fr:'Circuits à mesurer'},
+      enPeak:{nl:'Maandpiek kW',fr:'Pic mensuel kW'}, enDevices:{nl:'WP/boiler/batterij/EV',fr:'PAC/boiler/batt./VE'},
+      enGoal:{nl:'Te sturen + doel',fr:'À piloter + objectif'}, enNote:{nl:'Opmerking energie',fr:'Remarque énergie'}
+    };
+    return (m[k] && m[k][state.lang]) || k;
+  }
+  function val(k){
+    let v = state.data[k];
+    if (v == null || v === '') return null;
+    if (Array.isArray(v)) return v.length ? v.join(', ') : null;
+    return v;
+  }
+  function renderDl(target, keys){
+    const dl = document.getElementById(target);
+    dl.innerHTML = keys.map(k=>{
+      const v = val(k);
+      return `<dt>${getLabel(k)}</dt><dd class="${v?'':'empty'}">${v || '—'}</dd>`;
+    }).join('');
+  }
+  function renderSummary(){
+    renderDl('sumClient', ['projectType','clientName','clientPhone','clientEmail','clientAddress','clientType','buildYear','contactPref']);
+    renderDl('sumInstall', ['phase','netType','ampere','earthing','digitalMeter','p1Port','dso','eanNumber','needUpgrade','hasSurge','meterBrand','dinSpace']);
+    let placeKeys = ['location','cableLength','cableRoute','wallType','wifiSignal','locationNote'];
+    if (/Appartement|Parking|Bedrijf/.test(state.data.projectType || '')) {
+      placeKeys = placeKeys.concat(['nbSpaces','nbUnits','nbPointsNow','nbPointsLater','syndic','sharedMeter','techRoom','distRoom','riser','availPower','billingNeed','buildingNote']);
+    }
+    if (state.data.energieAudit === 'Ja') {
+      placeKeys = placeKeys.concat(['energieAudit','enPv','enInverter','enBill','enP1','enCircuits','enPeak','enDevices','enGoal','enNote']);
+    }
+    renderDl('sumPlace', placeKeys);
+    renderDl('sumVeh', ['vehBrand','vehModel','vehBattery','vehAcMax','hasSolar','pvInverter','pvKwp','hasBattery','futureEV','needs','brandPref','timing']);
+  }
+
+  // ── Export ──
+  function buildPayload(includePhotos){
+    const photosTaken = Object.keys(state.photos).filter(k=>state.photos[k]);
+    const payload = {
+      schema:'bornexa-visite-v1',
+      generated: new Date().toISOString(),
+      lang: state.lang,
+      durationSec: Math.round((Date.now()-state.startTime)/1000),
+      photosTakenCount: photosTaken.length,
+      photosTakenList: photosTaken,
+      data: state.data
+    };
+    if (includePhotos){
+      payload.photos = {};
+      photosTaken.forEach(k=>{ if (typeof state.photos[k] === 'string') payload.photos[k] = state.photos[k]; });
+    }
+    return payload;
+  }
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 1800);
+  }
+  function exportData(){
+    // Copy JSON to clipboard automatically
+    const payload = JSON.stringify(buildPayload(), null, 2);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(payload).then(()=>{
+        showToast(state.lang==='nl'?'JSON gekopieerd ✓':'JSON copié ✓');
+      });
+    }
+  }
+  document.getElementById('btnCopy').addEventListener('click', ()=>{
+    const payload = JSON.stringify(buildPayload(), null, 2);
+    navigator.clipboard.writeText(payload).then(()=>{
+      showToast(state.lang==='nl'?'JSON gekopieerd ✓':'JSON copié ✓');
+    });
+  });
+  document.getElementById('btnDownload').addEventListener('click', ()=>{
+    const payload = JSON.stringify(buildPayload(true), null, 2); // dossier complet AVEC photos
+    const blob = new Blob([payload], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const name = (state.data.clientName||'visite').replace(/[^a-zA-Z0-9]+/g,'_');
+    a.href = url; a.download = 'BORNEXA_visite_'+name+'_'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    showToast(state.lang==='nl'?'JSON gedownload':'JSON téléchargé');
+  });
+  document.getElementById('btnEmail').addEventListener('click', ()=>{
+    const payload = JSON.stringify(buildPayload(), null, 2);
+    const subject = encodeURIComponent('BORNEXA visite — '+(state.data.clientName||'klant'));
+    const body = encodeURIComponent('Payload JSON visite terrain:\n\n'+payload);
+    location.href = 'mailto:info@bornexa.be?subject='+subject+'&body='+body;
+  });
+  document.getElementById('btnReset').addEventListener('click', ()=>{
+    if (!confirm(state.lang==='nl'?'Nieuwe visite starten? Huidige gegevens worden gewist.':'Démarrer une nouvelle visite ? Les données actuelles seront effacées.')) return;
+    localStorage.removeItem(visiteKey());
+    location.reload();
+  });
+
+  // ── Timer ──
+  function updateElapsed(){
+    const sec = Math.floor((Date.now()-state.startTime)/1000);
+    const m = Math.floor(sec/60), s = sec%60;
+    document.getElementById('elapsed').textContent = m+':'+String(s).padStart(2,'0');
+  }
+  setInterval(updateElapsed, 1000);
+
+  // ── Hint collapse toggles ──
+  document.querySelectorAll('[data-toggle="hint"]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const hint = btn.closest('.hint');
+      const collapsed = hint.classList.toggle('collapsed');
+      btn.textContent = collapsed ? '▸' : '▾';
+    });
+  });
+
+  // ── Init ──
+  loadState();
+  // Couche dossier partagée : si un dossier est actif et contient déjà une visite, on la reprend
+  if(window.Bornexa&&Bornexa.has()){ var _p=Bornexa.get('visite'); if(_p&&_p.data){ state.data=_p.data; if(_p.photos)state.photos=_p.photos; if(_p.lang)state.lang=_p.lang; } }
+  applyLang();
+  updateConditional();
+  showStep(state.step);
+  updateElapsed();
+  // Pousse une 1re fois (photos incluses) à la sortie / export
+  ['btnDownload','btnEmail','btnCopy'].forEach(function(id){ var b=document.getElementById(id); if(b)b.addEventListener('click',function(){ if(window.Bornexa&&Bornexa.has())try{Bornexa.put('visite',buildPayload(true));}catch(e){} }); });
+  </script>
+
+</body>
+</html>

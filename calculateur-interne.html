@@ -1,0 +1,2397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Calculateur interne — BORNEXA</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <style>
+    :root{
+      --primary:#00C896; --primary-dark:#009E76; --primary-light:#E0FBF4;
+      --navy:#0B1E3C; --dark:#0C1018; --light:#fff; --bg:#F6F8FB;
+      --text:#0F172A; --muted:#64748B; --border:#E2E8F0; --warn:#F59E0B; --danger:#EF4444;
+      --r-sm:8px; --r-md:14px; --r-lg:20px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.5}
+
+    /* ── Top bar ── */
+    .topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--dark) 100%);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:16px;border-bottom:3px solid var(--primary);position:sticky;top:0;z-index:50}
+    .topbar svg.logo{width:34px;height:34px;flex-shrink:0}
+    .topbar-text{flex:1}
+    .topbar-title{font-weight:800;font-size:1.02rem}
+    .topbar-sub{font-size:.72rem;color:rgba(255,255,255,.6);letter-spacing:.5px;text-transform:uppercase}
+    .tabs{display:flex;gap:4px}
+    .tab{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15);padding:8px 14px;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .15s}
+    .tab:hover{background:rgba(255,255,255,.14)}
+    .tab.active{background:var(--primary);color:var(--navy);border-color:var(--primary)}
+
+    /* ── Layout ── */
+    .layout{display:grid;grid-template-columns:380px 1fr;min-height:calc(100vh - 60px)}
+    @media(max-width:980px){.layout{grid-template-columns:1fr}}
+    .sidebar{background:#fff;border-right:1px solid var(--border);padding:20px;overflow-y:auto}
+    .main{padding:20px 24px;overflow-y:auto}
+
+    /* ── Section ── */
+    .section{margin-bottom:22px}
+    .section h3{font-size:.74rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--primary-dark);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .section h3::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+    /* ── Form ── */
+    .field{margin-bottom:12px}
+    .field label{display:block;font-weight:600;font-size:.84rem;margin-bottom:5px;color:var(--text)}
+    .field input, .field select, .field textarea{width:100%;padding:9px 12px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:.92rem;color:var(--text);font-family:inherit;outline:none;transition:all .15s}
+    .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.14)}
+    .field input.input-driven{background:var(--primary-light);font-weight:700;color:var(--navy)}
+    .row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+    /* ── Calc card ── */
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+    .card h2{font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:8px}
+    .card-sub{color:var(--muted);font-size:.86rem;margin-bottom:18px}
+
+    /* ── Reco grid ── */
+    .reco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:14px}
+    .reco-tile{background:var(--primary-light);border:1px solid rgba(0,200,150,.25);border-radius:var(--r-md);padding:14px 16px}
+    .reco-tile .lbl{font-size:.72rem;font-weight:700;color:var(--primary-dark);text-transform:uppercase;letter-spacing:.8px}
+    .reco-tile .val{font-size:1.04rem;font-weight:800;color:var(--navy);margin-top:4px}
+
+    /* ── Risks ── */
+    .risk-row{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:8px;margin-bottom:6px;font-size:.88rem}
+    .risk-ok{background:var(--primary-light);color:var(--primary-dark)}
+    .risk-warn{background:#FEF3C7;color:#92400E}
+    .risk-err{background:#FEE2E2;color:#991B1B}
+    .risk-row .ico{font-weight:800;flex-shrink:0}
+
+    /* ── Quote table ── */
+    .qt-wrap{overflow-x:auto;border-radius:var(--r-md)}
+    .qt{width:100%;border-collapse:collapse;font-size:.88rem;background:#fff}
+    .qt th{background:var(--navy);color:#fff;padding:11px 12px;text-align:left;font-size:.74rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+    .qt th.num{text-align:right;width:80px}
+    .qt th.qty{text-align:center;width:60px}
+    .qt td{padding:11px 12px;border-bottom:1px solid var(--border)}
+    .qt td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+    .qt td .qt-sub{display:block;font-size:.78rem;color:var(--muted);font-weight:400;margin-top:2px;line-height:1.35}
+    .qt td.qty{text-align:center;font-variant-numeric:tabular-nums}
+    .qt tr:last-child td{border-bottom:none}
+    .qt tr.subtotal td{background:var(--primary-light);font-weight:700;color:var(--navy)}
+    .qt tr.total td{background:var(--primary);color:var(--navy);font-weight:800;font-size:1rem;padding:14px 12px}
+
+    /* ── Totals box ── */
+    .totals{margin-top:18px;display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:10px;align-items:stretch}
+    @media(max-width:640px){.totals{grid-template-columns:1fr}}
+    .tot-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:14px 18px;display:flex;flex-direction:column;justify-content:center}
+    .tot-card.primary{background:var(--primary);border-color:var(--primary);color:var(--navy)}
+    .tot-card .lbl{font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.7}
+    .tot-card.primary .lbl{opacity:.9;color:var(--navy)}
+    .tot-card .val{font-size:1.4rem;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+    .tot-card.primary .val{font-size:2rem;line-height:1.05}
+    .tot-card .ttc-sub{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;opacity:.85;color:var(--navy)}
+
+    /* ── Buttons ── */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border-radius:var(--r-sm);font-weight:700;font-size:.88rem;border:none;cursor:pointer;transition:all .15s;font-family:inherit}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .btn-primary{background:var(--primary);color:var(--navy);box-shadow:0 4px 14px rgba(0,200,150,.28)}
+    .btn-primary:hover{background:var(--primary-dark);color:#fff}
+    .btn-outline{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+    .btn-outline:hover{border-color:var(--primary)}
+    .btn-ghost{background:transparent;color:var(--muted)}
+    .btn-ghost:hover{color:var(--navy)}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;padding:14px;background:#fff;border:1px solid var(--border);border-radius:var(--r-md)}
+
+    /* ── Tabs content ── */
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+
+    /* ── Tariff editor ── */
+    .tariff-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .tariff-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:16px}
+    .tariff-card h4{font-size:.88rem;font-weight:800;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .tariff-row{display:grid;grid-template-columns:1fr 100px;gap:8px;align-items:center;margin-bottom:6px}
+    .tariff-row label{font-size:.85rem;color:var(--text)}
+    .tariff-row input{padding:6px 8px;font-size:.85rem;border:1px solid var(--border);border-radius:6px;text-align:right;font-variant-numeric:tabular-nums}
+    .tariff-row input:focus{outline:none;border-color:var(--primary)}
+
+    /* ── Toast ── */
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:32px;background:var(--navy);color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:all .25s;z-index:100}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+    /* ──────────────────────────────────────
+       PRINT — Devis BORNEXA A4
+       ────────────────────────────────────── */
+    .print-only{display:none}
+    @media print{
+      /* marge @page = 0 → le navigateur n'imprime PLUS ses en-têtes/pieds (date, titre, URL).
+         Les marges du document sont recréées via le padding de .quote-doc ci-dessous. */
+      @page{size:A4;margin:0}
+      body{background:#fff;font-size:11pt}
+      .topbar,.sidebar,.toolbar,.tabs,.section h3,.no-print,.btn{display:none !important}
+      .layout{grid-template-columns:1fr;display:block}
+      .main{padding:0;overflow:visible}
+      /* Hide all tabs EXCEPT devis (which contains the quote) */
+      #tab-calc, #tab-tarifs{display:none !important}
+      #tab-devis{display:block !important}
+      .print-only{display:block !important}
+      .card{box-shadow:none !important;border-color:#d1d5db !important}
+      .qt,.qt th,.qt td{box-shadow:none !important;border-color:#d1d5db !important}
+      /* Le tableau DOIT pouvoir se couper entre 2 pages ; seules les LIGNES restent insécables */
+      .qt{page-break-inside:auto}
+      .qt tr{page-break-inside:avoid}
+      .qt thead{display:table-header-group}
+      /* Marges internes du document (puisque @page = 0). L/R sur toutes les pages ;
+         haut/bas sur 1re/dernière page. La page 2 reçoit sa marge haute via .qd-page2. */
+      .quote-doc{padding:13mm 14mm !important;box-shadow:none !important;border:none !important;border-radius:0 !important}
+      /* Flux naturel : la page 1 (décision) se remplit, les compléments (garantie, signature…)
+         basculent en page 2 sans saut forcé → pas de 3e page ni de demi-page vide. */
+      .qd-page2{page-break-before:auto;padding-top:13mm}
+      .qd-warranty,.qd-steps,.qd-engage,.qd-signs{page-break-inside:avoid}
+      /* Compactage impression : faire tenir TOUTE la page 1 décision sur une seule page A4 */
+      .qd-band{margin-bottom:12px}
+      .qd-header{margin-bottom:11px}
+      .qd-trust{padding:6px 16px !important;margin-bottom:10px !important;gap:4px 16px !important}
+      .qd-parties{margin-bottom:10px !important;gap:14px !important}
+      .qd-party p{line-height:1.38 !important;font-size:.82rem !important}
+      .qd-object{margin:0 0 10px !important;padding:7px 12px !important;font-size:.82rem !important;line-height:1.45 !important}
+      .qt{font-size:.84rem !important}
+      .qt td{padding:5px 10px !important}
+      .qt th{padding:7px 10px !important}
+      .qt td .qt-sub{font-size:.71rem !important;margin-top:1px !important}
+      .totals{margin-top:11px !important;page-break-inside:avoid}
+      .tot-card{padding:11px 16px !important}
+      .tot-card .val{font-size:1.3rem !important}
+      .tot-card.primary .val{font-size:1.7rem !important}
+      .qd-included{margin:12px 0 0 !important;padding:11px 16px !important;page-break-inside:avoid}
+      .qd-included h5{margin-bottom:2px !important}
+      .qd-incl-sub{margin-bottom:6px !important}
+      .qd-incl-list{gap:3px 20px !important}
+      .qd-incl-list li{font-size:.8rem !important;line-height:1.3 !important}
+      /* Forcer le rendu des fonds colorés (navy, vert) même si "graphiques d'arrière-plan" est décoché */
+      .quote-doc, .quote-doc *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+    }
+
+    .quote-doc{background:#fff;color:#0B1E3C;padding:32px 36px;border-radius:var(--r-lg);box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid var(--border);max-width:780px;margin:0 auto}
+    .qd-band{height:8px;background:var(--primary);border-radius:4px;margin-bottom:24px}
+    .qd-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:24px;flex-wrap:wrap}
+    .qd-logo-block{flex:1;min-width:160px}
+    .qd-logo-block .name{font-size:1.9rem;font-weight:800;color:var(--navy);letter-spacing:.5px}
+    .qd-logo-block .tagline{font-size:.78rem;color:var(--muted);font-style:italic;margin-top:2px}
+    .qd-meta{text-align:right;font-size:.82rem;color:var(--muted)}
+    .qd-meta .doctype{font-size:1.7rem;font-weight:800;color:var(--primary-dark);margin-bottom:6px;letter-spacing:1px}
+    .qd-parties{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:16px}
+    .qd-party h5{font-size:.66rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--navy);background:var(--primary-light);padding:4px 8px;border-radius:4px;display:inline-block;margin-bottom:6px}
+    .qd-party p{font-size:.88rem;line-height:1.55;white-space:pre-line}
+    .qd-object{background:var(--primary-light);padding:10px 14px;border-radius:6px;font-size:.88rem;margin-bottom:18px;line-height:1.55}
+    .qd-conditions{margin-top:16px;font-size:.72rem;color:var(--muted);line-height:1.55;background:var(--bg);padding:11px 14px;border-radius:6px;border-left:3px solid var(--primary)}
+    .qd-conditions strong{color:var(--text);font-weight:700}
+    .qd-signs{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px;page-break-inside:avoid}
+    .qd-sign h6{font-size:.78rem;font-weight:700;margin-bottom:6px}
+    .qd-sign .sign-box{border:1px dashed #cbd5e1;border-radius:6px;min-height:62px;margin-top:4px;display:flex;align-items:center;justify-content:center;padding:5px 10px}
+    .qd-sign .sign-box img{height:auto;margin:0 auto}
+    /* Signature Bornexa sur les factures (discrète, alignée à droite) */
+    .qd-inv-sign{margin-top:16px;display:flex;flex-direction:column;align-items:flex-end}
+    .qd-inv-sign-img{display:flex;justify-content:flex-end;min-height:44px;align-items:flex-end}
+    .qd-inv-sign-lbl{font-size:.7rem;font-weight:700;color:var(--muted);letter-spacing:.5px;border-top:1px solid var(--border);padding-top:3px;margin-top:2px;min-width:170px;text-align:right}
+    .qd-footer{text-align:center;font-size:.72rem;color:var(--muted);margin-top:30px;padding-top:14px;border-top:1px solid var(--border)}
+
+    /* ── "Inclus dans l'offre" block ── */
+    .qd-included{margin-bottom:22px;background:var(--primary-light);border:1px solid rgba(0,200,150,.32);border-radius:10px;padding:14px 18px 16px;page-break-inside:avoid}
+    .qd-included h5{font-size:.7rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary-dark);margin-bottom:4px}
+    .qd-included .qd-incl-sub{font-size:.78rem;color:var(--muted);margin-bottom:10px}
+    .qd-incl-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+    @media(max-width:640px){.qd-incl-list{grid-template-columns:1fr}}
+    .qd-incl-list li{position:relative;padding-left:22px;font-size:.84rem;line-height:1.42;color:var(--navy)}
+    .qd-incl-list li::before{content:'✓';position:absolute;left:0;top:0;color:var(--primary-dark);font-weight:800}
+    @media print{.qd-incl-list{grid-template-columns:1fr 1fr}.qd-included{background:#F0FBF7 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+    /* ── Garantie & SAV block ── */
+    .qd-warranty{margin-top:18px;padding:12px 16px;border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:6px;background:#fff;page-break-inside:avoid}
+    .qd-warranty h5{font-size:.7rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary-dark);margin-bottom:5px}
+    .qd-warranty p{font-size:.82rem;line-height:1.55;color:var(--text)}
+
+    /* ── Composants premium devis ── */
+    .qd-logo-row{display:flex;align-items:center;gap:11px}
+    .qd-logo-row svg{width:40px;height:40px;flex:none}
+    .qd-fill-warn{background:#FEF3C7;color:#78350F;border:1px solid #FCD34D;border-radius:8px;padding:9px 13px;font-size:.82rem;font-weight:600;margin-bottom:14px;line-height:1.45}
+    .qd-fill-warn code{background:rgba(0,0,0,.08);padding:1px 5px;border-radius:4px;font-size:.92em}
+    /* Bande de réassurance */
+    .qd-trust{display:flex;flex-wrap:wrap;gap:7px 18px;justify-content:center;background:var(--navy);border-radius:8px;padding:9px 16px;margin-bottom:18px}
+    .qd-trust span{font-size:.73rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;color:#dbe7f5}
+    .qd-trust span::before{content:'✓';color:var(--primary);font-weight:800}
+    /* Phrase "en clair" sous l'objet */
+    .qd-plain{font-size:.82rem;color:var(--primary-dark);font-weight:600;margin:8px 0 18px;padding:8px 12px;border-left:3px solid var(--primary);background:var(--primary-light);border-radius:0 6px 6px 0}
+    /* Pourquoi cette offre */
+    .qd-why{margin-bottom:20px;border:1px solid var(--border);border-radius:10px;padding:14px 18px;background:#fff;page-break-inside:avoid}
+    .qd-why h5{font-size:.7rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--navy);margin-bottom:9px}
+    .qd-why ul{list-style:none;display:grid;gap:7px;margin:0;padding:0}
+    .qd-why li{position:relative;padding-left:24px;font-size:.85rem;line-height:1.5;color:var(--text)}
+    .qd-why li::before{content:'→';position:absolute;left:0;top:0;color:var(--primary-dark);font-weight:800}
+    /* Garantie en badges */
+    .qd-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+    .qd-badge{display:inline-flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary-dark);border:1px solid rgba(0,200,150,.32);border-radius:999px;padding:5px 12px;font-size:.75rem;font-weight:700}
+    .qd-badge::before{content:'✓';font-weight:800}
+    /* Appel à l'action / prochaine étape */
+    .qd-cta{margin-top:20px;border:1.5px solid var(--primary);border-radius:10px;padding:14px 18px;background:var(--primary-light);page-break-inside:avoid}
+    .qd-cta h5{font-size:.72rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary-dark);margin-bottom:8px}
+    .qd-cta ol{margin:0;padding-left:20px}
+    .qd-cta li{font-size:.85rem;line-height:1.65;color:var(--navy);font-weight:600}
+    .qd-cta .iban{margin-top:9px;font-size:.83rem;color:var(--text)}
+    /* Pied légal */
+    .qd-legal{text-align:center;font-size:.68rem;color:var(--muted);margin-top:7px;line-height:1.55}
+
+    /* ── Carte "VOTRE SOLUTION" (page 1, vente) ── */
+    .qd-summary{border:1px solid #d1d5db;border-radius:12px;overflow:hidden;margin-bottom:18px;page-break-inside:avoid}
+    .qd-sum-head{background:var(--navy);color:#fff;padding:12px 18px}
+    .qd-sum-kicker{font-size:.6rem;font-weight:800;letter-spacing:1.5px;color:var(--primary);text-transform:uppercase;margin-bottom:3px}
+    .qd-sum-borne{font-size:1.14rem;font-weight:800;line-height:1.25}
+    .qd-sum-body{display:grid;grid-template-columns:1.4fr 1fr}
+    .qd-sum-caps{list-style:none;padding:13px 18px;margin:0;display:flex;flex-direction:column;gap:5px;background:#fff}
+    .qd-sum-caps li{position:relative;padding-left:21px;font-size:.83rem;line-height:1.38;color:var(--text)}
+    .qd-sum-caps li::before{content:'✓';position:absolute;left:0;top:0;color:var(--primary-dark);font-weight:800}
+    .qd-sum-price{background:linear-gradient(135deg,#1ADBA8,#009E76);color:#fff;padding:14px 20px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;text-align:right}
+    .qd-sum-price-lbl{font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.92}
+    .qd-sum-ttc{font-size:2.05rem;font-weight:800;line-height:1.04;margin:2px 0;font-variant-numeric:tabular-nums}
+    .qd-sum-sub{font-size:.72rem;opacity:.95;font-weight:600;line-height:1.35}
+    @media(max-width:640px){.qd-sum-body{grid-template-columns:1fr}.qd-sum-price{align-items:flex-start;text-align:left}}
+    @media print{.qd-sum-head{background:#0B1E3C !important}.qd-sum-price{background:#009E76 !important}}
+
+    /* Titre de section (page 2) */
+    .qd-section-title{font-size:.74rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--navy);margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+
+    /* Déroulement de l'installation (page 2) */
+    .qd-steps{margin-top:20px;page-break-inside:avoid}
+    .qd-steps ol{margin:0;padding-left:20px}
+    .qd-steps li{font-size:.85rem;line-height:1.55;color:var(--text);margin-bottom:5px;padding-left:4px}
+    .qd-steps li::marker{color:var(--primary-dark);font-weight:800}
+    /* Engagement au-dessus des signatures */
+    .qd-engage{margin-top:20px;font-size:.82rem;color:var(--navy);font-weight:600;background:var(--primary-light);border-radius:6px;padding:11px 15px;line-height:1.5;page-break-inside:avoid}
+
+    /* ── Modes document : devis / facture d'acompte / facture de fin de chantier ── */
+    .qd-invoice{display:none}
+    .qd-mode-acompte .qd-invoice, .qd-mode-solde .qd-invoice{display:block}
+    /* En mode facture : on masque tout le contenu commercial/décision du devis */
+    .qd-mode-acompte .qd-object, .qd-mode-acompte .qt-wrap, .qd-mode-acompte .totals,
+    .qd-mode-acompte .qd-included, .qd-mode-acompte .qd-warranty, .qd-mode-acompte .qd-steps,
+    .qd-mode-acompte .qd-engage, .qd-mode-acompte .qd-signs, .qd-mode-acompte .qd-conditions,
+    .qd-mode-solde .qd-object, .qd-mode-solde .qt-wrap, .qd-mode-solde .totals,
+    .qd-mode-solde .qd-included, .qd-mode-solde .qd-warranty, .qd-mode-solde .qd-steps,
+    .qd-mode-solde .qd-engage, .qd-mode-solde .qd-signs, .qd-mode-solde .qd-conditions{display:none}
+    /* En mode facture : document sur 1 page, pas de saut de page forcé */
+    .qd-mode-acompte .qd-page2, .qd-mode-solde .qd-page2{page-break-before:auto}
+
+    /* Bloc facture */
+    .qd-inv-object{font-size:.9rem;color:var(--navy);font-weight:600;background:var(--primary-light);border-radius:6px;padding:11px 15px;margin-bottom:18px;line-height:1.5}
+    .qd-inv-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:stretch;margin-bottom:16px}
+    @media(max-width:640px){.qd-inv-grid{grid-template-columns:1fr}}
+    .qd-inv-rows{display:flex;flex-direction:column;justify-content:center;gap:7px}
+    .qd-inv-rows .row{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;padding-bottom:6px;border-bottom:1px solid var(--border)}
+    .qd-inv-rows .row .k{color:var(--text)}
+    .qd-inv-rows .row .v{font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+    .qd-inv-rows .row.minus .v{color:#b91c1c}
+    .qd-inv-pay{background:linear-gradient(135deg,#1ADBA8,#009E76);color:#fff;border-radius:10px;padding:16px 20px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;text-align:right}
+    .qd-inv-pay-lbl{font-size:.66rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;opacity:.92}
+    .qd-inv-pay-amt{font-size:2.1rem;font-weight:800;line-height:1.05;margin:3px 0;font-variant-numeric:tabular-nums}
+    .qd-inv-pay-sub{font-size:.72rem;font-weight:600;opacity:.95}
+    .qd-inv-bank{font-size:.85rem;color:var(--navy);background:var(--bg);border-left:3px solid var(--primary);border-radius:6px;padding:11px 14px;margin-bottom:12px;line-height:1.55}
+    .qd-inv-note{font-size:.78rem;color:var(--muted);line-height:1.55}
+    @media print{.qd-inv-pay{background:#009E76 !important}.qd-invoice,.qd-invoice *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}}
+  </style>
+</head>
+<body data-bornexa-tool="calc">
+
+  <header class="topbar">
+    <svg class="logo" viewBox="0 0 80 80" aria-hidden="true">
+      <defs><linearGradient id="hex" x1="10%" y1="0%" x2="90%" y2="100%"><stop offset="0%" stop-color="#1ADBA8"/><stop offset="100%" stop-color="#009E76"/></linearGradient></defs>
+      <polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#hex)"/>
+      <polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/>
+    </svg>
+    <div class="topbar-text">
+      <div class="topbar-title">Calculateur interne</div>
+      <div class="topbar-sub">BORNEXA · v1.0</div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="calc">Calcul</button>
+      <button class="tab" data-tab="devis">Devis</button>
+      <button class="tab" data-tab="tarifs">Tarifs</button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- ━━━━━━━━ SIDEBAR (Saisie + Import JSON) ━━━━━━━━ -->
+    <aside class="sidebar">
+      <div class="toolbar no-print" style="margin-bottom:16px">
+        <button class="btn btn-outline" id="btnImport">📥 Importer JSON visite</button>
+        <button class="btn btn-ghost" id="btnReset" style="font-size:.78rem">Reset</button>
+      </div>
+
+      <div class="section">
+        <h3>1. Client</h3>
+        <div class="field"><label>Nom &amp; Prénom</label><input type="text" id="f-name"></div>
+        <div class="field"><label>Adresse complète</label><input type="text" id="f-address"></div>
+        <div class="row-2">
+          <div class="field"><label>Téléphone</label><input type="tel" id="f-phone"></div>
+          <div class="field"><label>E-mail</label><input type="email" id="f-email"></div>
+        </div>
+        <div class="row-2">
+          <div class="field"><label>Type</label><select id="f-clientType"><option>Particulier</option><option>Bedrijf / Entreprise</option></select></div>
+          <div class="field"><label>Habitation</label><select id="f-buildYear"><option value="lt10">&lt; 10 ans (TVA 21 %)</option><option value="gt10" selected>≥ 10 ans (TVA 6 % OK)</option><option value="unknown">Inconnu</option></select></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>2. Installation</h3>
+        <div class="row-2">
+          <div class="field"><label>Phase</label><select id="f-phase"><option value="Monofase">Monophasé</option><option value="Driefase">Triphasé</option></select></div>
+          <div class="field"><label>Ampère dispo</label><select id="f-ampere"><option>25</option><option selected>40</option><option>63</option><option>80</option></select></div>
+        </div>
+        <div class="row-2">
+          <div class="field"><label>Digitale meter</label><select id="f-digitalMeter"><option>Ja</option><option>Nee</option></select></div>
+          <div class="field"><label>Port P1</label><select id="f-p1Port"><option>Ja</option><option>Te activeren</option><option>Nee</option></select></div>
+        </div>
+        <div class="row-2">
+          <div class="field"><label>Netbeheerder</label><select id="f-dso"><option>Fluvius</option><option>Sibelga</option></select></div>
+          <div class="field"><label>Verzwaring ?</label><select id="f-needUpgrade"><option value="nee">Non</option><option value="ja">Oui (à confirmer)</option></select></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>3. Placement</h3>
+        <div class="row-2">
+          <div class="field"><label>Lieu</label><select id="f-location"><option>Garage</option><option>Oprit</option><option>Carport</option><option>Parking</option></select></div>
+          <div class="field"><label>Longueur (m)</label><input type="number" id="f-length" value="10" min="0" max="100" step="1"></div>
+        </div>
+        <div class="field"><label>Doorvoer</label><select id="f-route"><option>Eenvoudig</option><option>Gemiddeld</option><option>Complex</option></select></div>
+        <div class="field"><label>Note placement</label><textarea id="f-locationNote" rows="2"></textarea></div>
+        <div class="row-2">
+          <div class="field"><label>Distance déplacement (km)</label><input type="number" id="f-distance" value="20" min="0" max="200" step="5"></div>
+          <div class="field"><label>&nbsp;</label><div style="font-size:.78rem;color:var(--muted);padding-top:8px" id="distZone">&lt; 25 km : forfait inclus</div></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>4. Véhicule</h3>
+        <div class="row-2">
+          <div class="field"><label>Marque</label><input type="text" id="f-brand" value="Tesla"></div>
+          <div class="field"><label>Modèle</label><input type="text" id="f-model" value="Model Y"></div>
+        </div>
+        <div class="row-2">
+          <div class="field"><label>Batterie (kWh)</label><input type="number" id="f-battery" value="75" min="0" max="200"></div>
+          <div class="field"><label>AC max (kW)</label><select id="f-vehAcMax"><option>3.7</option><option>7.4</option><option selected>11</option><option>22</option></select></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>5. Préférences</h3>
+        <div class="field"><label>Marque borne</label><select id="f-brandPref"><option value="auto" selected>Conseil BORNEXA (auto)</option><option>Tesla</option><option>Wallbox</option><option>Smappee</option></select></div>
+        <div class="field">
+          <label style="font-weight:400;font-size:.84rem;display:block" title="Cochez si le client a déjà acheté sa borne. Le modèle reste sélectionné pour dimensionner câble/protections, mais la borne n'apparaît PAS dans le devis (installation seule).">
+            <input type="checkbox" id="f-borneByClient"> Borne déjà fournie par le client <span style="color:var(--muted)">(installation seule)</span>
+          </label>
+          <label style="font-weight:400;font-size:.84rem;display:block;margin-top:5px" title="Remplacement d'une borne existante (ex. Tesla Gen 2 → Gen 3). On réutilise le câble, les protections et le circuit existants : seuls la nouvelle borne + une main d'œuvre courte (dépose/pose/config) + le déplacement sont facturés. Pas de plan ni de keuring (circuit inchangé).">
+            <input type="checkbox" id="f-borneSwap"> Remplacement de borne <span style="color:var(--muted)">(infra existante réutilisée)</span>
+          </label>
+          <label style="font-weight:400;font-size:.84rem;display:block;margin-top:5px" title="Offre d'entrée de gamme : prise de recharge renforcée Legrand Green'Up sur circuit dédié (~3,7 kW mono, recharge lente sécurisée mode 2). Remplace la borne. Pas de smart charging ni load balancing. Protections conformes incluses (Type A 30 mA + C16).">
+            <input type="checkbox" id="f-greenup"> Prise renforcée Green'Up <span style="color:var(--muted)">(au lieu d'une borne — entrée de gamme)</span>
+          </label>
+        </div>
+        <div class="field" style="border:1px solid var(--border,#e2e8f0);border-radius:8px;padding:8px 10px">
+          <label style="font-weight:700" title="Mode copropriété / parking : devis multi-points. Le devis ignore la borne unique et assemble : infrastructure collective + (prix par point × nombre de points) + facturation. Saisissez les coûts estimés lors de la visite — chaque copro est sur-mesure.">
+            <input type="checkbox" id="f-laadpark" onchange="document.getElementById('lp-fields').style.display=this.checked?'flex':'none'"> Mode Laadpark <span style="color:var(--muted)">(copropriété / parking)</span>
+          </label>
+          <div id="lp-fields" style="display:none;flex-direction:column;gap:6px;margin-top:7px">
+            <div class="field" style="margin:0"><label>Nombre de points de charge</label><input type="number" id="f-lpPoints" min="1" step="1" placeholder="ex. 6"></div>
+            <div class="field" style="margin:0"><label>Prix par point HT (borne + pose + protections) €</label><input type="number" id="f-lpPointPrice" min="0" step="10" placeholder="ex. 1400"></div>
+            <div class="field" style="margin:0"><label>Infrastructure collective HT (alim. + chemin de câbles + tableau parking + gestion de charge) €</label><input type="number" id="f-lpInfra" min="0" step="50" placeholder="ex. 3500"></div>
+            <div class="field" style="margin:0"><label>Facturation par utilisateur</label><select id="f-lpBilling"><option value="Geen">Aucune</option><option value="MID per punt">Compteur MID / point</option><option value="OCPP platform">OCPP / plateforme</option></select></div>
+            <div class="field" style="margin:0"><label>Coût facturation par point HT €</label><input type="number" id="f-lpBillingPrice" min="0" step="10" placeholder="ex. 200"></div>
+            <div style="border-top:1px dashed var(--border,#e2e8f0);margin:4px 0 2px;padding-top:6px;font-weight:700;font-size:.82rem;color:var(--muted)" title="Dimensionnement automatique : foisonnement, réserve de puissance, pilotage dynamique requis, section du backbone et chute de tension (RGIE).">⚙ Dimensionnement auto <span style="font-weight:400">(foisonnement · pilotage · section · ΔU)</span></div>
+            <div class="field" style="margin:0"><label>Puissance par point kW <span style="color:var(--muted)">(borne)</span></label><input type="number" id="f-lpPointPower" min="1.4" step="0.1" placeholder="ex. 7.4 ou 11"></div>
+            <div class="field" style="margin:0"><label>Puissance souscrite immeuble kVA <span style="color:var(--muted)">(raccordement)</span></label><input type="number" id="f-lpSubscribed" min="0" step="1" placeholder="ex. 56"></div>
+            <div class="field" style="margin:0"><label>Pointe mesurée kW <span style="color:var(--muted)">(logger — laisser vide = estimée 60%)</span></label><input type="number" id="f-lpPeak" min="0" step="0.5" placeholder="ex. 25"></div>
+            <div class="field" style="margin:0"><label>Longueur backbone m <span style="color:var(--muted)">(tableau parking → point le + loin)</span></label><input type="number" id="f-lpBackbone" min="1" step="1" placeholder="ex. 40"></div>
+          </div>
+        </div>
+        <div class="field" style="border:1px solid var(--border,#e2e8f0);border-radius:8px;padding:8px 10px">
+          <label style="font-weight:700" title="Mode Énergie / Smappee Infinity : devis monitoring & énergiebeheer (pas une borne). Assemble Smappee Infinity (base) + meetkringen (CT) + stuuruitgangen + audit + contrat de suivi (MRR). Saisir les coûts estimés.">
+            <input type="checkbox" id="f-energie" onchange="document.getElementById('en-fields').style.display=this.checked?'flex':'none'"> Mode Énergie <span style="color:var(--muted)">(Smappee Infinity / monitoring)</span>
+          </label>
+          <div id="en-fields" style="display:none;flex-direction:column;gap:6px;margin-top:7px">
+            <div class="field" style="margin:0"><label>Type</label><select id="f-enType"><option value="Monitoring woning">Monitoring woning</option><option value="Monitoring bedrijf">Monitoring bedrijf</option><option value="Energie-audit">Energie-audit</option><option value="Capaciteitstarief">Capaciteitstarief / piek verlagen</option></select></div>
+            <div class="field" style="margin:0"><label>Smappee Infinity basis HT (Genius/Connect + plaatsing + app) €</label><input type="number" id="f-enInfra" min="0" step="50" placeholder="ex. 750"></div>
+            <div class="field" style="margin:0"><label>Aantal extra meetkringen (CT-sensoren)</label><input type="number" id="f-enCircuits" min="0" step="1" placeholder="ex. 4"></div>
+            <div class="field" style="margin:0"><label>Prix par meetkring HT €</label><input type="number" id="f-enCircuitPrice" min="0" step="10" placeholder="ex. 60"></div>
+            <div class="field" style="margin:0"><label>Stuuruitgangen (aansturing boiler/WP/borne) — aantal</label><input type="number" id="f-enSturing" min="0" step="1" placeholder="ex. 1"></div>
+            <div class="field" style="margin:0"><label>Prix par stuuruitgang HT €</label><input type="number" id="f-enSturingPrice" min="0" step="10" placeholder="ex. 120"></div>
+            <div class="field" style="margin:0"><label>Energie-audit &amp; rapport HT € <span style="color:var(--muted)">(0 = geen)</span></label><input type="number" id="f-enAudit" min="0" step="10" placeholder="ex. 250"></div>
+            <div class="field" style="margin:0"><label>Opvolgingscontract (récurrent / MRR)</label><select id="f-enOpvolging"><option value="Geen">Aucun</option><option value="Basis">Basis</option><option value="Plus">Plus</option><option value="Pro/Business">Pro / Business</option></select></div>
+            <div class="field" style="margin:0"><label>Opvolging €/maand HT</label><input type="number" id="f-enOpvolgingPrice" min="0" step="5" placeholder="ex. 15"></div>
+          </div>
+        </div>
+        <div class="field"><label>Besoins client</label>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-top:4px">
+            <label style="font-weight:400;font-size:.84rem"><input type="checkbox" class="need" value="Smart charging" checked> Smart charging</label>
+            <label style="font-weight:400;font-size:.84rem"><input type="checkbox" class="need" value="Solar integration"> Intégration PV</label>
+            <label style="font-weight:400;font-size:.84rem"><input type="checkbox" class="need" value="Load balancing"> Load balancing</label>
+            <label style="font-weight:400;font-size:.84rem"><input type="checkbox" class="need" value="RFID"> RFID</label>
+            <label style="font-weight:400;font-size:.84rem"><input type="checkbox" class="need" value="Reporting"> Reporting</label>
+          </div>
+        </div>
+        <div class="field"><label style="font-weight:700">Options techniques</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
+            <label style="font-weight:400;font-size:.84rem" title="Type A 30 mA est suffisant car la borne intègre déjà la détection DC 6 mA (RDC-DD IEC 62955). Le Type B est une sur-protection à ne facturer que sur demande client documentée.">
+              <input type="checkbox" id="f-wantTypeB"> Diff. Type B au lieu de Type A <span style="color:var(--muted)">(sur demande client uniquement)</span>
+            </label>
+            <label style="font-weight:400;font-size:.84rem" title="Parafoudre Type 2 recommandé en NBN HD 60364-5-534 pour zones à risque keraunique.">
+              <input type="checkbox" id="f-wantSurge"> Parafoudre Type 2 (anti-surtension)
+            </label>
+            <label style="font-weight:400;font-size:.84rem" title="Si nouveau coffret divisionnaire nécessaire pour isoler le circuit borne.">
+              <input type="checkbox" id="f-wantSubpanel"> Coffret divisionnaire dédié
+            </label>
+            <label style="font-weight:400;font-size:.84rem" title="Par défaut, le devis client présente la main d'œuvre en FORFAIT clé en main (déplacement inclus, sans heures ni taux — positionnement premium). Cochez cette case uniquement pour un client B2B qui exige le détail heures × taux + déplacement séparé. Le montant total reste identique.">
+              <input type="checkbox" id="f-laborHours"> Afficher le détail en heures <span style="color:var(--muted)">(devis B2B uniquement)</span>
+            </label>
+          </div>
+        </div>
+        <div class="field"><label style="font-weight:700">Smart energy (load balancing & PV)</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
+            <label style="font-weight:400;font-size:.84rem" title="Module nécessaire pour ajuster dynamiquement la puissance borne selon la conso maison. Wallbox = WALL-MTR-P1PORT ou MID. Smappee = Connect. Tesla = NON COMPATIBLE.">
+              <input type="checkbox" id="f-wantLoadBalance"> Load balancing dynamique maison <span style="color:var(--muted)">(module auto-suggéré selon marque)</span>
+            </label>
+            <label style="font-weight:400;font-size:.84rem" title="Recharge sur surplus photovoltaïque. Nécessite le même module que load balancing.">
+              <input type="checkbox" id="f-wantSolar"> Recharge surplus solaire <span style="color:var(--muted)">(Eco-Smart Wallbox / Solar Smappee)</span>
+            </label>
+            <label style="font-weight:400;font-size:.84rem" title="Si 2ème EV anticipé : surcâbler section + prévoir Power Sharing (Wallbox) ou multi-borne (Smappee Genius).">
+              <input type="checkbox" id="f-want2ndEV"> 2ème EV anticipé sous 24 mois <span style="color:var(--muted)">(surcâblage)</span>
+            </label>
+          </div>
+        </div>
+        <div class="field"><label>Remise commerciale (%)</label><input type="number" id="f-discount" min="0" max="100" step="1" placeholder="0" title="Remise commerciale appliquée sur le sous-total HT du devis. Apparaît comme une ligne « Remise commerciale (X %) »."></div>
+        <div class="field"><label>Note interne</label><textarea id="f-internalNote" rows="2"></textarea></div>
+      </div>
+    </aside>
+
+    <!-- ━━━━━━━━ MAIN (3 tabs) ━━━━━━━━ -->
+    <main class="main">
+
+      <!-- ── TAB 1 : CALCUL ── -->
+      <section class="tab-content active" id="tab-calc">
+
+        <div class="card">
+          <h2>Dimensionnement recommandé</h2>
+          <p class="card-sub">Calculé en temps réel à partir des données saisies.</p>
+          <div class="reco-grid">
+            <div class="reco-tile"><div class="lbl">Puissance recommandée</div><div class="val" id="r-power">—</div></div>
+            <div class="reco-tile"><div class="lbl">Borne suggérée</div><div class="val" id="r-charger">—</div></div>
+            <div class="reco-tile"><div class="lbl">Section câble</div><div class="val" id="r-cable">—</div></div>
+            <div class="reco-tile"><div class="lbl">Différentiel</div><div class="val" id="r-diff">Type A 30 mA + RDC-DD borne</div></div>
+            <div class="reco-tile"><div class="lbl">Disjoncteur</div><div class="val" id="r-disj">—</div></div>
+            <div class="reco-tile"><div class="lbl">Temps installation</div><div class="val" id="r-hours">—</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Risques &amp; vérifications</h2>
+          <p class="card-sub">À expliquer au client si besoin.</p>
+          <div id="r-risks"></div>
+        </div>
+
+        <div class="card">
+          <h2>Argumentaire commercial</h2>
+          <p class="card-sub">À utiliser face client pour justifier le positionnement BORNEXA.</p>
+          <div style="background:var(--primary-light);padding:14px 18px;border-radius:var(--r-md);font-size:.92rem;line-height:1.7">
+            <strong>Points forts BORNEXA</strong><br>
+            ✓ Triple certification fabricant (Tesla · Wallbox · Smappee)<br>
+            ✓ <strong>Protection DC 6 mA intégrée à la borne (RDC-DD IEC 62955) + Type A 30 mA dédié</strong> — conforme NBN HD 60364-7-722. Pas de surcoût Type B inutile.<br>
+            ✓ Belkounani sur chantier — aucune sous-traitance<br>
+            ✓ AREI / RGIE keuringsattest livré systématiquement<br>
+            ✓ 2 ans de garantie installation BORNEXA + garantie constructeur<br>
+            ✓ Plan électrique fourni avant intervention<br>
+            ✓ <strong>Prix fixe = prix payé.</strong> Aucun rabais commercial cosmétique. Aucun supplément caché.<br>
+            <em style="display:block;margin-top:8px;color:var(--primary-dark);font-size:.86rem">💡 Si le client demande un Type B en plus : cocher l'option dans la sidebar — surcoût documenté €100-€150.</em>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TAB 2 : DEVIS ── -->
+      <section class="tab-content" id="tab-devis">
+
+        <div class="toolbar no-print">
+          <select id="docType" class="btn btn-outline" style="font-weight:700;cursor:pointer" title="Type de document à générer">
+            <option value="devis">📄 Devis</option>
+            <option value="acompte">🧾 Facture d'acompte (50 %)</option>
+            <option value="solde">🧾 Facture de fin de chantier</option>
+          </select>
+          <button class="btn btn-primary" id="btnQuoteLang" title="Bascule FR / NL pour le devis client">📄 Devis : FR</button>
+          <button class="btn btn-primary" id="btnPrint">🖨 Imprimer / PDF</button>
+          <button class="btn btn-outline" id="btnDossierAG" style="display:none" title="Génère un dossier de présentation pour l'assemblée générale (syndic / copropriété)">🏢 Dossier AG (PDF)</button>
+          <button class="btn btn-outline" id="btnExportCSV">📋 Export CSV (Excel)</button>
+          <button class="btn btn-outline" id="btnSaveJSON">💾 Sauver JSON</button>
+        </div>
+
+        <div class="qd-fill-warn no-print" id="qd-fill-warn" style="display:none">⚠ Mentions légales incomplètes : renseigne <code>COMPANY.btw</code> et <code>COMPANY.iban</code> en haut du script pour un devis 100 % conforme (n° TVA + IBAN). Ce rappel ne s'imprime pas.</div>
+
+        <!-- A4 quote document (visible on screen + print) -->
+        <div class="quote-doc" id="quote-doc">
+          <div class="qd-band"></div>
+
+          <div class="qd-header">
+            <div class="qd-logo-block">
+              <div class="qd-logo-row">
+                <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="qdhex" x1="10%" y1="0%" x2="90%" y2="100%"><stop offset="0%" stop-color="#1ADBA8"/><stop offset="100%" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#qdhex)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
+                <div class="name">BORNEXA</div>
+              </div>
+              <div class="tagline" id="qd-tagline">Laadpaal &amp; wallbox installateur</div>
+            </div>
+            <div class="qd-meta">
+              <div class="doctype" id="qd-doctype">DEVIS</div>
+              <div id="qd-meta-inner">
+                <div>N° <strong id="qd-num">BX-...-001</strong></div>
+                <div>Date : <strong id="qd-date">—</strong></div>
+                <div>Validité : <strong id="qd-valid">—</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="qd-trust" id="qd-trust"></div>
+
+          <div class="qd-parties">
+            <div class="qd-party">
+              <h5 id="qd-issuer-title">Émetteur</h5>
+              <p id="qd-issuer"><strong>BORNEXA</strong><br>Boortmeerbeek (3190) · Belgique<br>Tél +32 489 24 77 60<br>info@bornexa.be · www.bornexa.be</p>
+            </div>
+            <div class="qd-party">
+              <h5 id="qd-client-title">Client</h5>
+              <p id="qd-client">—</p>
+            </div>
+          </div>
+
+          <!-- ═══ FACTURE (acompte / solde) — visible uniquement en mode facture ═══ -->
+          <div class="qd-invoice" id="qd-invoice">
+            <div class="qd-inv-object" id="qd-inv-object">—</div>
+            <div class="qd-inv-grid">
+              <div class="qd-inv-rows" id="qd-inv-rows"></div>
+              <div class="qd-inv-pay">
+                <div class="qd-inv-pay-lbl" id="qd-inv-pay-lbl">À PAYER</div>
+                <div class="qd-inv-pay-amt" id="qd-inv-pay-amt">—</div>
+                <div class="qd-inv-pay-sub" id="qd-inv-pay-sub">—</div>
+              </div>
+            </div>
+            <div class="qd-inv-bank" id="qd-inv-bank">—</div>
+            <div class="qd-inv-note" id="qd-inv-note">—</div>
+            <div class="qd-inv-sign">
+              <div class="qd-inv-sign-img" id="qd-inv-sign"></div>
+              <div class="qd-inv-sign-lbl">BORNEXA</div>
+            </div>
+          </div>
+
+          <div class="qd-object" id="qd-object">—</div>
+
+          <!-- ═══ PAGE 1 — DÉCISION : produits, prestations, prix détaillés, total, inclus ═══ -->
+          <div class="qt-wrap">
+            <table class="qt">
+              <thead>
+                <tr>
+                  <th id="qt-h-desc">Description</th>
+                  <th class="qty" id="qt-h-qty">Qté</th>
+                  <th class="num" id="qt-h-pu">PU HT</th>
+                  <th class="num" id="qt-h-tot">Total HT</th>
+                </tr>
+              </thead>
+              <tbody id="qt-body"></tbody>
+            </table>
+          </div>
+
+          <div class="totals">
+            <div class="tot-card"><div class="lbl" id="qd-lbl-ht">Total HT</div><div class="val" id="qd-ht">—</div></div>
+            <div class="tot-card"><div class="lbl"><span id="qd-lbl-tva-prefix">TVA (</span><span id="qd-tva-rate">6 %</span>)</div><div class="val" id="qd-tva">—</div></div>
+            <div class="tot-card primary"><div class="lbl" id="qd-lbl-ttc">TOTAL TTC</div><div class="val" id="qd-ttc">—</div><div class="ttc-sub" id="qd-ttc-sub">Prix tout compris · TVA incluse</div></div>
+          </div>
+
+          <div class="qd-included" id="qd-included">
+            <h5 id="qd-included-title">INCLUS DANS L'OFFRE</h5>
+            <div class="qd-incl-sub" id="qd-included-sub">Tout ce qui suit est compris dans le prix, sans supplément.</div>
+            <ul class="qd-incl-list" id="qd-included-list"></ul>
+          </div>
+
+          <!-- ═══ PAGE 2 — INFORMATIONS COMPLÉMENTAIRES & SIGNATURE ═══ -->
+          <div class="qd-page2">
+            <div class="qd-warranty" id="qd-warranty">
+              <h5 id="qd-warranty-title">GARANTIE &amp; SERVICE APRÈS-VENTE</h5>
+              <p id="qd-warranty-body">—</p>
+              <div class="qd-badges" id="qd-badges"></div>
+            </div>
+
+            <div class="qd-steps" id="qd-steps">
+              <h5 class="qd-section-title" id="qd-steps-title">DÉROULEMENT DE VOTRE INSTALLATION</h5>
+              <ol id="qd-steps-list"></ol>
+            </div>
+
+            <div class="qd-conditions" id="qd-conditions-inner">
+              <strong>Conditions :</strong> Devis gratuit et sans engagement, valable 30 jours. Prix TVA 6 % applicable sous conditions (woning ≥ 10 ans, hoofdverblijfplaats, erkend installateur, installé in/aan het gebouw). Délai 1 à 2 semaines après acceptation (hors verzwaring Fluvius/Sibelga). Inclus : fourniture, pose, configuration, mise en service, plan électrique et AREI keuringsattest. Garantie : 2 ans installation BORNEXA + garantie constructeur (jusqu'à 5 ans Wallbox). Hors devis : travaux de tranchée, démontage cloison, peinture, frais de raccordement Fluvius/Sibelga si verzwaring. CGV : www.bornexa.be/algemene-voorwaarden
+            </div>
+
+            <div class="qd-engage" id="qd-engage">—</div>
+            <div class="qd-signs">
+              <div class="qd-sign">
+                <h6 id="qd-sign-bornexa">Pour BORNEXA</h6>
+                <div class="sign-box" id="qd-sign-box-bornexa"></div>
+              </div>
+              <div class="qd-sign">
+                <h6 id="qd-sign-client">Bon pour accord du client (date + signature)</h6>
+                <div class="sign-box"></div>
+              </div>
+            </div>
+
+            <div class="qd-footer">BORNEXA · Boortmeerbeek (3190) · +32 489 24 77 60 · info@bornexa.be · www.bornexa.be</div>
+            <div class="qd-legal" id="qd-legal"></div>
+          </div><!-- /qd-page2 -->
+        </div>
+      </section>
+
+      <!-- ── TAB 3 : TARIFS ── -->
+      <section class="tab-content" id="tab-tarifs">
+        <div class="card">
+          <h2>Catalogue tarifaire BORNEXA</h2>
+          <p class="card-sub">Modifiable. Sauvegardé automatiquement dans ce navigateur. Utilisez "Export tarifs" pour partager entre machines.</p>
+
+          <div class="toolbar no-print" style="margin:0 0 18px">
+            <button class="btn btn-outline" id="btnExportTarifs">⬇ Export tarifs JSON</button>
+            <button class="btn btn-outline" id="btnImportTarifs">⬆ Import tarifs JSON</button>
+            <button class="btn btn-ghost" id="btnResetTarifs">↺ Restaurer défaut</button>
+          </div>
+
+          <div class="tariff-grid">
+            <div class="tariff-card">
+              <h4>Bornes (€ HT vente — sans marge auto)</h4>
+              <div id="t-bornes"></div>
+            </div>
+            <div class="tariff-card">
+              <h4>Câbles (€ HT / m)</h4>
+              <div id="t-cables"></div>
+            </div>
+            <div class="tariff-card">
+              <h4>Protections &amp; accessoires (€ HT)</h4>
+              <div id="t-prots"></div>
+            </div>
+            <div class="tariff-card">
+              <h4>Main d'œuvre &amp; services</h4>
+              <div id="t-labor"></div>
+            </div>
+          </div>
+
+          <div class="tariff-card" style="margin-top:14px">
+            <h4>Marges &amp; TVA</h4>
+            <div class="tariff-row"><label>Marge matériel (×)</label><input type="number" id="m-mat" step="0.01" min="1" value="1.45"></div>
+            <div class="tariff-row"><label>Marge main d'œuvre (×)</label><input type="number" id="m-mo" step="0.01" min="1" value="1.15"></div>
+            <div class="tariff-row"><label>Taux TVA</label><input type="number" id="m-tva" step="0.01" min="0" max="1" value="0.06"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/bornexa-sync.js?v=2026-06-28"></script>
+  <script src="js/supabase-config.js?v=2026-06-28"></script>
+  <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+  <script>
+  // ════════════════════════════════════════════
+  // BORNEXA Calculateur interne — logic
+  // ════════════════════════════════════════════
+  const STORAGE_FORM   = 'bornexa-calc-form-v1';
+  // Clé formulaire scopée au dossier actif (anti-héritage des données entre dossiers)
+  const formKey = () => (window.Bornexa && Bornexa.scopedKey) ? Bornexa.scopedKey(STORAGE_FORM) : STORAGE_FORM;
+  const STORAGE_TARIFS = 'bornexa-calc-tarifs-v2';   // v2 = bilingual schema
+  const STORAGE_QLANG  = 'bornexa-calc-quote-lang';
+
+  // ── State: language of the generated DEVIS (independent of UI) ──
+  let quoteLang = localStorage.getItem(STORAGE_QLANG) || 'fr';
+
+  // ── Type de document généré : 'devis' | 'acompte' | 'solde' ──
+  let docMode = 'devis';
+  const ACOMPTE_RATE = 0.5; // acompte = 50 % du total TTC (n'apparaît JAMAIS dans le devis)
+
+  // ════════════════════════════════════════════
+  // MENTIONS LÉGALES BORNEXA — À COMPLÉTER UNE FOIS
+  // Remplis ces 3 champs : ils apparaîtront automatiquement sur tous les devis
+  // (pied de page légal, bloc émetteur, IBAN dans l'appel à l'action).
+  // Laisse vide ce que tu n'as pas encore → rien ne s'affiche (pas de placeholder moche),
+  // et un rappel discret (non imprimé) te le signale.
+  // ════════════════════════════════════════════
+  const COMPANY = {
+    btw: 'BE 1037.811.908', // n° de TVA BORNEXA
+    iban: 'BE13 0020 3202 7839', // compte BORNEXA (factures)
+    insurance: ''   // ex : 'Assurance RC pro AXA — police n° 1234567'
+  };
+
+  // ── I18N dictionary for the printed quote ──
+  const I18N = {
+    fr: {
+      docType:'DEVIS', num:'N°', dateLbl:'Date :', validLbl:'Validité :',
+      issuer:'Émetteur', client:'Client', object:'OBJET DU DEVIS',
+      hdrDesc:'Description', hdrQty:'Qté', hdrPU:'PU HT', hdrTot:'Total HT',
+      lblHT:'Total HT', lblTVA:'TVA', lblTTC:'TOTAL TTC',
+      condTitle:'Conditions :',
+      conditions:`Devis gratuit et sans engagement, valable 30 jours. Prix TVA 6 % applicable sous conditions (woning ≥ 10 ans, hoofdverblijfplaats, erkend installateur, installé in/aan het gebouw). Délai 1 à 2 semaines après acceptation (hors verzwaring Fluvius/Sibelga). Inclus : fourniture, pose, configuration, mise en service, plan électrique et AREI keuringsattest. Garantie : 2 ans installation BORNEXA + garantie constructeur (jusqu'à 5 ans Wallbox). Hors devis : travaux de tranchée, démontage cloison, peinture, frais de raccordement Fluvius/Sibelga si verzwaring. Droit de rétractation (consommateur) : pour un contrat conclu à distance ou hors établissement, le consommateur dispose d'un droit de rétractation de 14 jours calendrier (Livre VI du Code de droit économique). En signant ce devis, le client qui souhaite une exécution avant la fin de ce délai en fait la demande expresse et reconnaît perdre son droit de rétractation une fois l'installation entièrement exécutée. CGV : www.bornexa.be/algemene-voorwaarden`,
+      signBornexa:'Pour BORNEXA', signClient:'Bon pour accord du client (date + signature)',
+      issuerBlock:'<strong>BORNEXA</strong>\nLaadpaal & wallbox installateur\nBoortmeerbeek (3190) · Belgique\nTél +32 489 24 77 60\ninfo@bornexa.be · www.bornexa.be',
+      tagline:'Laadpaal & wallbox installateur',
+      objectStr:(charger,power)=>`Installation d'une borne de recharge ${charger} (${power} kW). Protection conforme NBN HD 60364-7-722 : différentiel Type A 30 mA dédié + détection DC 6 mA intégrée à la borne (RDC-DD IEC 62955). Keuringsattest AREI/RGIE inclus.`,
+      objectStrClient:(charger,power)=>`Installation, raccordement et mise en service de votre borne de recharge ${charger} (${power} kW), fournie par le client. Protection conforme NBN HD 60364-7-722 : différentiel Type A 30 mA dédié + détection DC 6 mA intégrée à la borne (RDC-DD IEC 62955). Keuringsattest AREI/RGIE inclus.`,
+      includedTitle:'INCLUS DANS L\'OFFRE',
+      includedSub:'Tout ce qui suit est compris dans le prix, sans supplément.',
+      trustItems:['Installateur agréé Wallbox · Smappee · Tesla','Conformité AREI / RGIE garantie au contrôle','Matériel premium & garanti','Accompagnement de A à Z'],
+      objectPlain:'En clair : votre borne est protégée selon la dernière norme belge et prête à passer le contrôle obligatoire (keuring), sans mauvaise surprise.',
+      whyTitle:'POURQUOI CETTE OFFRE',
+      whyItems:['Installateur agréé : votre installation passe le contrôle obligatoire (keuring) sans mauvaise surprise.','Protection à la dernière norme belge (NBN HD 60364-7-722) — sécurité maximale pour votre habitation.','Matériel de marque, pas de sous-traitance : un seul interlocuteur, du devis au SAV.','Tout est inclus : pose, configuration de l\'app, mise en service, tests et documents. Prix fixe, sans supplément caché.'],
+      ttcLabelSub:'Prix tout compris · TVA incluse',
+      badgeItems:['2 ans sur l\'installation','Jusqu\'à 5 ans constructeur','SAV prioritaire','Assistance app à distance'],
+      ctaTitle:'POUR CONFIRMER VOTRE INSTALLATION',
+      ctaSteps:['Signez le devis ci-dessous','Renvoyez-le à info@bornexa.be','Nous planifions votre installation sous 1 à 2 semaines'],
+      ibanFallback:'IBAN communiqué à la commande.',
+      sumKicker:'VOTRE SOLUTION CLÉ EN MAIN',
+      sumPriceLbl:'Prix tout compris',
+      sumTva:(r)=>`TVA ${r} % incluse`,
+      sumHt:(amt)=>`soit ${amt} HT`,
+      detailTitle:'DÉTAIL DE L\'OFFRE',
+      stepsTitle:'DÉROULEMENT DE VOTRE INSTALLATION',
+      steps:[
+        'Acceptation : vous validez et signez le devis.',
+        'Planification : nous fixons ensemble une date, sous 1 à 2 semaines.',
+        'Installation : pose, raccordement, configuration de l\'app & mise en service par notre technicien spécialisé borne.',
+        'Conformité & remise : tests, AREI / RGIE keuringsattest et explications — votre borne est prête à l\'emploi.'
+      ],
+      stepsSwap:[
+        'Acceptation : vous validez et signez le devis.',
+        'Planification : nous fixons ensemble une date, sous 1 à 2 semaines.',
+        'Remplacement : dépose de l\'ancienne borne, pose et raccordement de la nouvelle, configuration de l\'app & mise en service.',
+        'Tests & remise : vérification du bon fonctionnement et explications — votre nouvelle borne est prête à l\'emploi.'
+      ],
+      engageText:'Bon pour accord : en signant, le client accepte le présent devis et les conditions générales de BORNEXA. Devis valable 30 jours à compter de la date d\'émission.',
+      invAcompteTitle:'FACTURE D\'ACOMPTE', invSoldeTitle:'FACTURE',
+      invNum:'N° facture', invDue:'Échéance :', invRef:'Réf. devis :',
+      invAcompteObject:(ref)=>`Acompte de 50 % sur l'installation de votre borne de recharge — réf. devis N° ${ref}.`,
+      invSoldeObject:(ref)=>`Solde final — installation de votre borne de recharge — réf. devis N° ${ref}.`,
+      invRowProject:'Montant total du projet (TTC)',
+      invRowPaid:'Acompte déjà payé (50 %)',
+      invPayAcompte:'À PAYER — ACOMPTE',
+      invPaySolde:'SOLDE À PAYER',
+      invPaySub:(ht,tva,r)=>`TVA incluse · dont ${ht} HT + ${tva} TVA ${r} %`,
+      invBank:(comm,iban)=>`<strong>Paiement par virement</strong> · Bénéficiaire : BORNEXA${iban?' · IBAN : '+iban:' · IBAN communiqué séparément'} · Communication : ${comm}`,
+      invNoteAcompte:(due)=>`Facture d'acompte à régler pour le ${due}. Le solde fera l'objet d'une facture finale après réalisation des travaux et keuring.`,
+      invNoteSolde:(due)=>`Facture finale à régler pour le ${due}. Un acompte de 50 % a déjà été réglé. Merci de votre confiance.`,
+      capSmart:['Smart charging activé et configuré','Smart charging geactiveerd en geconfigureerd'],
+      capLB:['Load balancing dynamique via le port P1 du compteur','Dynamisch laadbeheer via de P1-poort van de meter'],
+      capPV:['Optimisation solaire — recharge sur le surplus photovoltaïque','Zonne-optimalisatie — opladen op PV-overschot'],
+      capModule:['Module P1 inclus','P1-module inbegrepen'],
+      capSurge:['Parafoudre Type 2 (anti-surtension)','Overspanningsbeveiliging Type 2'],
+      capSub:['Coffret divisionnaire dédié','Apart verdeelbord'],
+      cap2nd:['Précâblage pour une 2e borne (Power Sharing)','Voorbekabeling voor een 2e laadpaal'],
+      capTypeB:['Différentiel Type B (sur demande)','Differentieel Type B (op aanvraag)'],
+      capAllIn:['Pose, configuration, mise en service & keuring inclus','Plaatsing, configuratie, ingebruikname & keuring inbegrepen'],
+      phaseMono:'monophasé', phaseTri:'triphasé',
+      warrantyTitle:'GARANTIE & SERVICE APRÈS-VENTE',
+      warranty:'2 ans de garantie sur l\'installation BORNEXA + garantie constructeur (jusqu\'à 5 ans Wallbox). Intervention SAV prioritaire. Assistance configuration de l\'application à distance. Pièces et main d\'œuvre incluses pendant la garantie installation.',
+      lineCable:n=>'Câble '+n,
+      lineLabor:'Main d\'œuvre : placement, raccordement, configuration de l\'app & mise en service',
+      lineLaborForfait:'Installation & mise en service clé en main',
+      lineLaborForfaitSub:'Déplacement, pose, raccordement, configuration de l\'app, paramétrage, tests & explications',
+      lineLaborSwap:'Remplacement de borne par technicien spécialisé',
+      lineLaborSwapSub:'Dépose de l\'ancienne borne, pose, raccordement, configuration de l\'app & mise en service',
+      objectStrSwap:(charger,power)=>`Remplacement de votre borne de recharge par ${charger} (${power} kW) — réutilisation de l'installation existante (câble, protections, circuit). Configuration de l'app et mise en service incluses.`,
+      lineLaborGreenup:'Installation prise renforcée Green\'Up par technicien spécialisé',
+      lineLaborGreenupSub:'Création du circuit dédié, pose & raccordement de la prise, protections, tests & mise en service',
+      objectStrGreenup:(charger,power)=>`Installation d'une prise de recharge renforcée Legrand Green'Up sur circuit dédié — recharge lente sécurisée (~3,7 kW, mode 2). Protection conforme : différentiel Type A 30 mA dédié + disjoncteur C16. Keuringsattest AREI/RGIE inclus.`,
+      lineArei:'AREI / RGIE keuringsattest (contrôle conformité)',
+      lineTravel:(d)=>'Déplacement ('+d+' km — forfait)',
+      lineLpInfra:'Infrastructure de recharge collective (alimentation, chemin de câbles, tableau parking, gestion de charge dynamique)',
+      lineLpInfraSub:'Backbone partagé — base pour tous les points de charge',
+      lineLpPoint:'Point de charge clé en main (borne + pose + protections)',
+      lineLpPointSub:(n)=>n+' point(s) de charge',
+      lineLpBilling:(b)=>'Facturation par utilisateur — '+b,
+      objectStrLaadpark:(n)=>`Installation d'une infrastructure de recharge collective (laadpark) avec ${n} point(s) de charge en copropriété / parking — alimentation, gestion de charge dynamique et facturation par utilisateur.`,
+      lineEnInfra:'Smappee Infinity — module de base (Genius/Connect), pose & configuration app',
+      lineEnInfraSub:'Mesure énergétique en temps réel via le compteur digital (P1)',
+      lineEnCircuit:(n)=>n+'× circuit de mesure supplémentaire avec capteur (CT)',
+      lineEnSturing:(n)=>n+'× sortie de commande (boiler / pompe à chaleur / borne)',
+      lineEnAudit:'Audit énergétique & rapport sur base de données réelles',
+      lineEnOpvolging:(f)=>'Suivi énergétique — formule '+f+' (abonnement / mois)',
+      objectStrEnergie:(t)=>`Installation et configuration de Smappee Infinity (${t}) — monitoring énergétique, optimisation de l'autoconsommation et pilotage des consommateurs. Pose, configuration de l'application et explications incluses.`,
+      lpPhase1:'Phase 1 — Infrastructure collective (à voter en AG)',
+      lpPhase2:'Phase 2 — Points de charge (évolutif, à la demande)',
+      lineLpCoffret:'Coffret de tête parking + disjoncteur général',
+      lineLpCoffretSub:(a)=>'Tableau dédié IRVE · disjoncteur de tête '+a+' A · départ backbone',
+      lineLpBackbone:(ref)=>'Backbone collectif — câble '+ref,
+      lineLpBackboneSub:(l)=>l+' m · dimensionné ΔU ≤ 3 % (RGIE)',
+      lineLpTray:'Chemin de câbles / goulottes le long du parking',
+      lineLpTraySub:(l)=>l+' m de cheminement',
+      lineLpPilotage:'Gestion de charge dynamique collective (pilotage)',
+      lineLpPilotageSub:'Répartit la réserve de puissance entre les points — évite la verzwaring',
+      lineLpSupervision:'Supervision & mise en service de l\'infrastructure collective',
+      lineDiscount:(pct)=>'Remise commerciale ('+pct+' %)',
+      distLt25:'< 25 km : forfait inclus (0 €)',
+      dist25to50:'25–50 km : +30 € HT',
+      distGt50:'> 50 km : +60 € HT'
+    },
+    nl: {
+      docType:'OFFERTE', num:'Nr.', dateLbl:'Datum :', validLbl:'Geldig tot :',
+      issuer:'Verzender', client:'Klant', object:'VOORWERP VAN DE OFFERTE',
+      hdrDesc:'Omschrijving', hdrQty:'Aantal', hdrPU:'E.P. excl.', hdrTot:'Totaal excl.',
+      lblHT:'Totaal excl. BTW', lblTVA:'BTW', lblTTC:'TOTAAL INCL. BTW',
+      condTitle:'Voorwaarden :',
+      conditions:`Gratis en vrijblijvende offerte, 30 dagen geldig. BTW 6 % onder strikte voorwaarden (woning ≥ 10 jaar, hoofdverblijfplaats, erkend installateur, geplaatst in/aan het gebouw). Termijn 1 tot 2 weken na akkoord (excl. verzwaring Fluvius/Sibelga). Inbegrepen: levering, plaatsing, configuratie, ingebruikname, elektrisch plan en AREI keuringsattest. Garantie: 2 jaar installatie BORNEXA + fabrieksgarantie (tot 5 jaar Wallbox). Niet inbegrepen: sleufwerken, demontage muurwand, schilderwerk, aansluitingskosten Fluvius/Sibelga indien verzwaring. Herroepingsrecht (consument): bij een overeenkomst op afstand of buiten verkoopruimten beschikt de consument over een herroepingsrecht van 14 kalenderdagen (Boek VI Wetboek van Economisch Recht). Door deze offerte te ondertekenen verzoekt de klant die uitvoering vóór het einde van deze termijn wenst, hier uitdrukkelijk om en erkent hij zijn herroepingsrecht te verliezen zodra de installatie volledig is uitgevoerd. AV: www.bornexa.be/algemene-voorwaarden`,
+      signBornexa:'Voor BORNEXA', signClient:'Goed voor akkoord van de klant (datum + handtekening)',
+      issuerBlock:'<strong>BORNEXA</strong>\nLaadpaal & wallbox installateur\nBoortmeerbeek (3190) · België\nTel +32 489 24 77 60\ninfo@bornexa.be · www.bornexa.be',
+      tagline:'Erkend laadpaal & wallbox installateur',
+      objectStr:(charger,power)=>`Installatie van een laadpaal ${charger} (${power} kW). Beveiliging conform NBN HD 60364-7-722: differentieel Type A 30 mA + DC-detectie 6 mA geïntegreerd in laadpaal (RDC-DD IEC 62955). AREI/RGIE keuringsattest inbegrepen.`,
+      objectStrClient:(charger,power)=>`Installatie, aansluiting en ingebruikname van uw laadpaal ${charger} (${power} kW), door de klant geleverd. Beveiliging conform NBN HD 60364-7-722: differentieel Type A 30 mA + DC-detectie 6 mA geïntegreerd in laadpaal (RDC-DD IEC 62955). AREI/RGIE keuringsattest inbegrepen.`,
+      includedTitle:'INBEGREPEN IN DE OFFERTE',
+      includedSub:'Alles hieronder is in de prijs inbegrepen, zonder meerprijs.',
+      trustItems:['Erkend installateur Wallbox · Smappee · Tesla','AREI / RGIE-conformiteit gegarandeerd bij keuring','Premium & gegarandeerd materiaal','Begeleiding van A tot Z'],
+      objectPlain:'Concreet: uw laadpaal is beveiligd volgens de nieuwste Belgische norm en klaar voor de verplichte keuring, zonder verrassingen.',
+      whyTitle:'WAAROM DEZE OFFERTE',
+      whyItems:['Erkend installateur: uw installatie slaagt zonder verrassingen voor de verplichte keuring.','Beveiliging volgens de nieuwste Belgische norm (NBN HD 60364-7-722) — maximale veiligheid voor uw woning.','Merkmateriaal, geen onderaanneming: één aanspreekpunt, van offerte tot service.','Alles inbegrepen: plaatsing, app-configuratie, ingebruikname, tests en documenten. Vaste prijs, geen verborgen kosten.'],
+      ttcLabelSub:'Totaalprijs · BTW inbegrepen',
+      badgeItems:['2 jaar op de installatie','Tot 5 jaar fabrikant','Prioritaire service','App-hulp op afstand'],
+      ctaTitle:'OM UW INSTALLATIE TE BEVESTIGEN',
+      ctaSteps:['Onderteken de offerte hieronder','Stuur ze terug naar info@bornexa.be','Wij plannen uw installatie binnen 1 tot 2 weken'],
+      ibanFallback:'IBAN wordt meegedeeld bij bestelling.',
+      sumKicker:'UW OPLOSSING VOLLEDIG VERZORGD',
+      sumPriceLbl:'Totaalprijs',
+      sumTva:(r)=>`BTW ${r} % inbegrepen`,
+      sumHt:(amt)=>`d.i. ${amt} excl. BTW`,
+      detailTitle:'DETAIL VAN DE OFFERTE',
+      stepsTitle:'VERLOOP VAN UW INSTALLATIE',
+      steps:[
+        'Akkoord: u valideert en ondertekent de offerte.',
+        'Planning: we plannen samen een datum, binnen 1 tot 2 weken.',
+        'Installatie: plaatsing, aansluiting, app-configuratie & ingebruikname door onze gespecialiseerde laadpaaltechnicus.',
+        'Conformiteit & oplevering: tests, AREI / RGIE keuringsattest en uitleg — uw laadpaal is gebruiksklaar.'
+      ],
+      stepsSwap:[
+        'Akkoord: u valideert en ondertekent de offerte.',
+        'Planning: we plannen samen een datum, binnen 1 tot 2 weken.',
+        'Vervanging: demontage van de oude laadpaal, plaatsing en aansluiting van de nieuwe, app-configuratie & ingebruikname.',
+        'Tests & oplevering: controle van de goede werking en uitleg — uw nieuwe laadpaal is gebruiksklaar.'
+      ],
+      engageText:'Goed voor akkoord: door te ondertekenen aanvaardt de klant deze offerte en de algemene voorwaarden van BORNEXA. Offerte 30 dagen geldig vanaf uitgiftedatum.',
+      invAcompteTitle:'VOORSCHOTFACTUUR', invSoldeTitle:'FACTUUR',
+      invNum:'Factuurnr.', invDue:'Vervaldag:', invRef:'Ref. offerte:',
+      invAcompteObject:(ref)=>`Voorschot van 50 % op de installatie van uw laadpaal — ref. offerte nr. ${ref}.`,
+      invSoldeObject:(ref)=>`Eindsaldo — installatie van uw laadpaal — ref. offerte nr. ${ref}.`,
+      invRowProject:'Totaalbedrag van het project (incl. btw)',
+      invRowPaid:'Reeds betaald voorschot (50 %)',
+      invPayAcompte:'TE BETALEN — VOORSCHOT',
+      invPaySolde:'TE BETALEN SALDO',
+      invPaySub:(ht,tva,r)=>`Btw inbegrepen · waarvan ${ht} excl. + ${tva} btw ${r} %`,
+      invBank:(comm,iban)=>`<strong>Betaling via overschrijving</strong> · Begunstigde: BORNEXA${iban?' · IBAN: '+iban:' · IBAN apart meegedeeld'} · Mededeling: ${comm}`,
+      invNoteAcompte:(due)=>`Voorschotfactuur te betalen tegen ${due}. Het saldo wordt gefactureerd na uitvoering van de werken en keuring.`,
+      invNoteSolde:(due)=>`Eindfactuur te betalen tegen ${due}. Een voorschot van 50 % werd reeds betaald. Bedankt voor uw vertrouwen.`,
+      phaseMono:'monofasig', phaseTri:'driefasig',
+      warrantyTitle:'GARANTIE & DIENST-NA-VERKOOP',
+      warranty:'2 jaar garantie op de BORNEXA-installatie + fabrieksgarantie (tot 5 jaar Wallbox). Prioritaire interventie bij service. Hulp bij app-configuratie op afstand. Onderdelen en werkuren inbegrepen tijdens de installatiegarantie.',
+      lineCable:n=>'Kabel '+n,
+      lineLabor:'Werkuren: plaatsing, aansluiting, app-configuratie & ingebruikname',
+      lineLaborForfait:'Installatie & ingebruikname — turnkey',
+      lineLaborForfaitSub:'Verplaatsing, plaatsing, aansluiting, app-configuratie, instelling, tests & uitleg',
+      lineLaborSwap:'Vervanging van de laadpaal door gespecialiseerde technicus',
+      lineLaborSwapSub:'Demontage van de oude laadpaal, plaatsing, aansluiting, app-configuratie & ingebruikname',
+      objectStrSwap:(charger,power)=>`Vervanging van uw laadpaal door ${charger} (${power} kW) — hergebruik van de bestaande installatie (kabel, beveiligingen, kring). App-configuratie en ingebruikname inbegrepen.`,
+      lineLaborGreenup:'Plaatsing versterkt Green\'Up-stopcontact door gespecialiseerde technicus',
+      lineLaborGreenupSub:'Aanleg van de aparte kring, plaatsing & aansluiting van het stopcontact, beveiligingen, tests & ingebruikname',
+      objectStrGreenup:(charger,power)=>`Installatie van een versterkt Legrand Green'Up laadstopcontact op een aparte kring — veilig traag laden (~3,7 kW, mode 2). Beveiliging conform: differentieel Type A 30 mA + automaat C16. AREI/RGIE keuringsattest inbegrepen.`,
+      lineArei:'AREI / RGIE keuringsattest (conformiteitscontrole)',
+      lineTravel:(d)=>'Verplaatsing ('+d+' km — forfait)',
+      lineLpInfra:'Gedeelde laadinfrastructuur (voeding, kabelgoot, parkingbord, dynamische lastverdeling)',
+      lineLpInfraSub:'Gedeelde backbone — basis voor alle laadpunten',
+      lineLpPoint:'Laadpunt sleutel-op-de-deur (laadpaal + plaatsing + beveiligingen)',
+      lineLpPointSub:(n)=>n+' laadpunt(en)',
+      lineLpBilling:(b)=>'Facturatie per gebruiker — '+b,
+      objectStrLaadpark:(n)=>`Installatie van een gedeelde laadinfrastructuur (laadpark) met ${n} laadpunt(en) in mede-eigendom / parking — voeding, dynamische lastverdeling en facturatie per gebruiker.`,
+      lineEnInfra:'Smappee Infinity — basismodule (Genius/Connect), plaatsing & app-configuratie',
+      lineEnInfraSub:'Real-time energiemeting via de digitale meter (P1)',
+      lineEnCircuit:(n)=>n+'× extra meetkring met stroomsensor (CT)',
+      lineEnSturing:(n)=>n+'× stuuruitgang voor aansturing (boiler / warmtepomp / laadpaal)',
+      lineEnAudit:'Energie-audit & rapport op basis van échte meetdata',
+      lineEnOpvolging:(f)=>'Energie-opvolging — formule '+f+' (abonnement / maand)',
+      objectStrEnergie:(t)=>`Installatie en configuratie van Smappee Infinity (${t}) — energiemonitoring, optimalisatie van autoconsumptie en aansturing van verbruikers. Inclusief plaatsing, app-configuratie en uitleg.`,
+      lpPhase1:'Fase 1 — Gedeelde infrastructuur (te stemmen op de AV)',
+      lpPhase2:'Fase 2 — Laadpunten (uitbreidbaar, op aanvraag)',
+      lineLpCoffret:'Hoofdkast parking + algemene automaat',
+      lineLpCoffretSub:(a)=>'Toegewijd EVSE-bord · hoofdautomaat '+a+' A · vertrek backbone',
+      lineLpBackbone:(ref)=>'Gedeelde backbone — kabel '+ref,
+      lineLpBackboneSub:(l)=>l+' m · gedimensioneerd ΔU ≤ 3 % (AREI)',
+      lineLpTray:'Kabelgoot langs de parking',
+      lineLpTraySub:(l)=>l+' m kabeltraject',
+      lineLpPilotage:'Collectieve dynamische lastverdeling (pilotage)',
+      lineLpPilotageSub:'Verdeelt de vermogensreserve over de punten — vermijdt verzwaring',
+      lineLpSupervision:'Supervisie & ingebruikname van de gedeelde infrastructuur',
+      lineDiscount:(pct)=>'Commerciële korting ('+pct+' %)',
+      distLt25:'< 25 km : forfait inbegrepen (0 €)',
+      dist25to50:'25–50 km : +30 € excl.',
+      distGt50:'> 50 km : +60 € excl.'
+    }
+  };
+  function T(key, ...args){
+    const v = (I18N[quoteLang] && I18N[quoteLang][key]) || I18N.fr[key] || key;
+    return (typeof v === 'function') ? v(...args) : v;
+  }
+
+  // ── Default tariffs (bilingual) ──
+  const DEFAULT_TARIFS = {
+    bornes: [
+      {ref:"WB-PM-1.2",  nameFR:"Wallbox Pulsar Max 1.2 (7,4 kW mono)",     nameNL:"Wallbox Pulsar Max 1.2 (7,4 kW eenfase)",  price:680},
+      {ref:"WB-PM-3",    nameFR:"Wallbox Pulsar Max 3-phase (11 kW)",       nameNL:"Wallbox Pulsar Max driefase (11 kW)",       price:720},
+      {ref:"WB-PM-22",   nameFR:"Wallbox Pulsar Max (22 kW)",                nameNL:"Wallbox Pulsar Max (22 kW)",                price:820},
+      {ref:"WB-CM2",     nameFR:"Wallbox Commander 2 (22 kW)",               nameNL:"Wallbox Commander 2 (22 kW)",               price:1490},
+      {ref:"TS-WC3-11",  nameFR:"Tesla Wall Connector Gen 3 (11 kW)",        nameNL:"Tesla Wall Connector Gen 3 (11 kW)",        price:505},
+      {ref:"TS-WC3-22",  nameFR:"Tesla Wall Connector Gen 3 (22 kW)",        nameNL:"Tesla Wall Connector Gen 3 (22 kW)",        price:520},
+      {ref:"SM-EVB-11",  nameFR:"Smappee EV Base (11 kW)",                   nameNL:"Smappee EV Base (11 kW)",                   price:895},
+      {ref:"SM-EVW-11",  nameFR:"Smappee EV Wall (11 kW)",                   nameNL:"Smappee EV Wall (11 kW)",                   price:1145},
+      {ref:"SM-EVB-22",  nameFR:"Smappee EV Base (22 kW)",                   nameNL:"Smappee EV Base (22 kW)",                   price:945}
+    ],
+    cables: [
+      {ref:"3G6",   descFR:"XGB 3G6 · mono ≤ 20 m",                            descNL:"XGB 3G6 · eenfase ≤ 20 m",                              pricePerM:2.40},
+      {ref:"3G10",  descFR:"XGB 3G10 · mono > 20 m",                           descNL:"XGB 3G10 · eenfase > 20 m",                              pricePerM:3.85},
+      {ref:"5G6",   descFR:"XGB 5G6 · tri 11 kW ≤ 20 m",                       descNL:"XGB 5G6 · driefase 11 kW ≤ 20 m",                        pricePerM:4.10},
+      {ref:"5G10",  descFR:"XGB 5G10 · tri 11 kW > 20 m / 22 kW ≤ 20 m",       descNL:"XGB 5G10 · driefase 11 kW > 20 m / 22 kW ≤ 20 m",        pricePerM:6.45},
+      {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:9.85}
+    ],
+    prots: [
+      // ── STANDARD BORNEXA : Type A 30 mA (suffisant car bornes BORNEXA = RDC-DD IEC 62955 intégré) ──
+      // — MONO : différentiels BIPOLAIRES (2P) —
+      {ref:"DIF-A-40", descFR:"Différentiel Type A 30 mA 40 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:65},
+      {ref:"DIF-A-63", descFR:"Différentiel Type A 30 mA 63 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:110},
+      // — TRI : différentiels TÉTRAPOLAIRES (4P) —
+      {ref:"DIF-A-40-4P", descFR:"Différentiel Type A 30 mA 40 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:145},
+      {ref:"DIF-A-63-4P", descFR:"Différentiel Type A 30 mA 63 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:195},
+      // ── OPTION PREMIUM : Type B sur demande explicite client uniquement ──
+      {ref:"DIF-B-40", descFR:"Différentiel Type B 30 mA 40 A bipolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 40 A tweepolig (op klantenvraag — extra beveiliging)", price:185},
+      {ref:"DIF-B-63", descFR:"Différentiel Type B 30 mA 63 A bipolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 63 A tweepolig (op klantenvraag — extra beveiliging)", price:230},
+      {ref:"DIF-B-40-4P", descFR:"Différentiel Type B 30 mA 40 A tétrapolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 40 A vierpolig (op klantenvraag — extra beveiliging)", price:390},
+      {ref:"DIF-B-63-4P", descFR:"Différentiel Type B 30 mA 63 A tétrapolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 63 A vierpolig (op klantenvraag — extra beveiliging)", price:480},
+      // Disjoncteurs courbe C — MONO (unipolaire 1P)
+      {ref:"DIS-C16",  descFR:"Disjoncteur courbe C16",                        descNL:"Automaat curve C16",                                     price:18},
+      {ref:"DIS-C20",  descFR:"Disjoncteur courbe C20",                        descNL:"Automaat curve C20",                                     price:18},
+      {ref:"DIS-C32",  descFR:"Disjoncteur courbe C32",                        descNL:"Automaat curve C32",                                     price:22},
+      // Disjoncteurs courbe C — TRI (tripolaire 3P)
+      {ref:"DIS-C16-3P", descFR:"Disjoncteur courbe C16 tripolaire",           descNL:"Automaat curve C16 driepolig",                           price:48},
+      {ref:"DIS-C20-3P", descFR:"Disjoncteur courbe C20 tripolaire",           descNL:"Automaat curve C20 driepolig",                           price:50},
+      {ref:"DIS-C32-3P", descFR:"Disjoncteur courbe C32 tripolaire",           descNL:"Automaat curve C32 driepolig",                           price:58},
+      // Accessoires
+      {ref:"UTP",      descFR:"Câble UTP Cat6 (forfait 10 m)",                 descNL:"UTP Cat6 kabel (forfait 10 m)",                          price:8.5},
+      {ref:"DIV",      descFR:"Matériel divers (cosses, wagos, fixations)",    descNL:"Divers materiaal (kabelschoenen, wago's, bevestigingen)", price:15},
+      {ref:"PLAN",     descFR:"Plan électrique fourni",                        descNL:"Elektrisch plan geleverd",                                price:18},
+      {ref:"GREENUP",  descFR:"Prise renforcée Legrand Green'Up (recharge mode 2 sécurisée)", descNL:"Versterkt stopcontact Legrand Green'Up (veilig mode 2 laden)", price:110},
+      // Upsells / options
+      {ref:"SUR-T2",   descFR:"Parafoudre Type 2 (anti-surtension) — NBN HD 60364-5-534", descNL:"Overspanningsbeveiliging Type 2 — NBN HD 60364-5-534", price:95},
+      {ref:"SUB-COFF", descFR:"Coffret divisionnaire (sub-tableau dédié laadpaal)", descNL:"Verdeelkast (apart sub-bord laadpaal)",            price:85},
+      // ── MODULES LOAD BALANCING & RECHARGE SOLAIRE ──
+      // WALLBOX
+      {ref:"WB-P1",      descFR:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — Belgique/Pays-Bas natif", descNL:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — België/Nederland natief", price:170},
+      {ref:"WB-MID-1P",  descFR:"Wallbox Power Meter MID monophasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID eenfase (Power Boost + Eco-Smart)", price:165},
+      {ref:"WB-MID-3P",  descFR:"Wallbox Power Meter MID triphasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID driefase (Power Boost + Eco-Smart)", price:250},
+      {ref:"WB-CT",      descFR:"Wallbox Power Boost avec pinces CT (alternative si pas de place DIN)", descNL:"Wallbox Power Boost met CT-klemmen (alternatief indien geen DIN-plaats)", price:185},
+      // SMAPPEE
+      {ref:"SM-CONNECT", descFR:"Smappee Connect — passerelle P1 belge (Wi-Fi)", descNL:"Smappee Connect — Belgische P1-gateway (Wi-Fi)", price:200},
+      {ref:"SM-GENIUS",  descFR:"Smappee Genius — P1 + CT clamps + multi-bornes", descNL:"Smappee Genius — P1 + CT-klemmen + multi-laadpaal", price:330},
+      {ref:"SM-INFINITY",descFR:"Smappee Infinity B2B — système central entreprise", descNL:"Smappee Infinity B2B — centraal systeem bedrijven", price:650}
+    ],
+    labor: {
+      // ★ Tarif horaire = PRIX DE VENTE FINAL (pas de multiplicateur additionnel)
+      // Cohérent avec les pratiques installateur EV BE 2026 (€90-€110/h)
+      hourRate: 110,           // EUR/h HT — prix de vente final
+      baseHours: 4.5,          // Installation standard (était 3.5 — trop juste)
+      triExtra: 1.0,
+      longExtra: 1.0,
+      complexExtra: 1.5,
+      mediumExtra: 0.75,
+      areiKeuring: 160,        // Forfait keuring AREI/RGIE
+      swapHours: 1.5,          // Remplacement de borne (dépose + pose + config + test) — infra réutilisée
+      greenupHours: 3.0,       // Pose prise renforcée Green'Up sur circuit dédié (câble + protections)
+      travel: [
+        {maxKm: 25,  price: 0},
+        {maxKm: 50,  price: 30},
+        {maxKm: 75,  price: 60},
+        {maxKm: 999, price: 95}
+      ]
+    },
+    // Marges : ×1,45 matériel (≈ 31 % marge sur vente — standard installateur)
+    // Marge MO retirée : le taux horaire ci-dessus EST le prix de vente final
+    margins: { mat: 1.45, mo: 1.00, tva: 0.06 }
+  };
+
+  let tarifs = JSON.parse(JSON.stringify(DEFAULT_TARIFS));
+  let form = {};
+
+  // TVA effective : 21 % imposé automatiquement si logement < 10 ans (sinon taux catalogue, défaut 6 %).
+  // Évite d'émettre un devis 6 % pour un logement neuf — risque légal/commercial.
+  function effectiveTva(){ return (form.buildYear === 'lt10') ? 0.21 : (tarifs.margins.tva || 0); }
+
+  // N° de devis séquentiel et stable : alloué une fois par devis (conservé dans le form jusqu'au Reset).
+  function getQuoteSeq(){
+    if (!form.quoteSeq){
+      const n = parseInt(localStorage.getItem('bornexa-calc-seq') || '0', 10) + 1;
+      localStorage.setItem('bornexa-calc-seq', String(n));
+      form.quoteSeq = n;
+      saveForm();
+    }
+    return form.quoteSeq;
+  }
+
+  // ── State persistence ──
+  function loadState(){
+    let hadData = false;
+    try{
+      const f = JSON.parse(localStorage.getItem(formKey()) || '{}');
+      hadData = Object.keys(f).length > 0;
+      form = f;
+      Object.keys(f).forEach(k=>{
+        const el = document.getElementById('f-'+k);
+        if (el && el.type !== 'checkbox') el.value = f[k];
+      });
+      if (Array.isArray(f.needs)) {
+        document.querySelectorAll('.need').forEach(c=>{
+          c.checked = f.needs.includes(c.value);
+        });
+      }
+      // Restore tech option checkboxes + smart energy options
+      ['wantTypeB','wantSurge','wantSubpanel','wantLoadBalance','wantSolar','want2ndEV','laborHours','borneByClient','borneSwap','greenup','laadpark','energie'].forEach(k=>{
+        const el = document.getElementById('f-'+k);
+        if (el) el.checked = !!f[k];
+      });
+      const lpf = document.getElementById('lp-fields'); if (lpf) lpf.style.display = f.laadpark ? 'flex' : 'none';
+      const enf = document.getElementById('en-fields'); if (enf) enf.style.display = f.energie ? 'flex' : 'none';
+    }catch(e){}
+    try{
+      const t = JSON.parse(localStorage.getItem(STORAGE_TARIFS) || 'null');
+      // Only load saved tariffs if they match the bilingual schema (v2).
+      // Older saved data is silently discarded — defaults take over.
+      if (t && t.bornes && t.bornes[0] && (t.bornes[0].nameFR || t.bornes[0].nameNL)) {
+        // Migration : merger les items manquants des DEFAULT_TARIFS (nouvelles refs
+        // ajoutées dans une release ultérieure : WB-P1, SM-CONNECT, etc.).
+        // Les prix customisés par l'utilisateur sont préservés pour les refs existantes.
+        ['bornes','cables','prots'].forEach(group => {
+          if (!Array.isArray(t[group])) { t[group] = JSON.parse(JSON.stringify(DEFAULT_TARIFS[group])); return; }
+          const savedRefs = new Set(t[group].map(x => x.ref));
+          DEFAULT_TARIFS[group].forEach(defItem => {
+            if (!savedRefs.has(defItem.ref)) t[group].push(JSON.parse(JSON.stringify(defItem)));
+          });
+        });
+        // Migration : labor + margins (+ fusion des nouvelles clés, ex. swapHours)
+        if (!t.labor)   t.labor   = JSON.parse(JSON.stringify(DEFAULT_TARIFS.labor));
+        else Object.keys(DEFAULT_TARIFS.labor).forEach(k => { if (t.labor[k] === undefined) t.labor[k] = JSON.parse(JSON.stringify(DEFAULT_TARIFS.labor[k])); });
+        if (!t.margins) t.margins = JSON.parse(JSON.stringify(DEFAULT_TARIFS.margins));
+        tarifs = t;
+        saveTarifs(); // persiste la version migrée pour qu'on ne refasse pas la migration
+      }
+    }catch(e){}
+    return hadData;
+  }
+  function saveForm(){ localStorage.setItem(formKey(), JSON.stringify(form)); }
+  function saveTarifs(){ localStorage.setItem(STORAGE_TARIFS, JSON.stringify(tarifs)); }
+
+  // ── Read form ──
+  function readForm(){
+    const ids = ['name','address','phone','email','clientType','buildYear','phase','ampere','digitalMeter','p1Port','dso','needUpgrade','location','length','route','locationNote','distance','brand','model','battery','vehAcMax','brandPref','internalNote','discount','lpPoints','lpPointPrice','lpInfra','lpBilling','lpBillingPrice','lpPointPower','lpSubscribed','lpPeak','lpBackbone','enType','enInfra','enCircuits','enCircuitPrice','enSturing','enSturingPrice','enAudit','enOpvolging','enOpvolgingPrice'];
+    ids.forEach(id=>{
+      const el = document.getElementById('f-'+id);
+      if (!el) return;
+      let v = el.value;
+      if (['ampere','length','distance','battery','vehAcMax','lpPoints','lpPointPrice','lpInfra','lpBillingPrice','lpPointPower','lpSubscribed','lpPeak','lpBackbone','enInfra','enCircuits','enCircuitPrice','enSturing','enSturingPrice','enAudit','enOpvolgingPrice'].includes(id)) v = parseFloat(v) || 0;
+      form[id] = v;
+    });
+    form.needs = Array.from(document.querySelectorAll('.need:checked')).map(c=>c.value);
+    // Tech option checkboxes + smart energy options
+    ['wantTypeB','wantSurge','wantSubpanel','wantLoadBalance','wantSolar','want2ndEV','laborHours','borneByClient','borneSwap','greenup','laadpark','energie'].forEach(k=>{
+      const el = document.getElementById('f-'+k);
+      form[k] = !!(el && el.checked);
+    });
+    saveForm();
+  }
+
+  // ── Sizing logic ──
+  function computeDimensioning(){
+    const isTri = form.phase === 'Driefase';
+    const ampere = form.ampere || 40;
+    const vehMax = form.vehAcMax || 11;
+    const length = form.length || 10;
+
+    // Recommended power
+    let power;
+    if (isTri) power = Math.min(ampere * 0.4, vehMax, 22);
+    else       power = Math.min(7.4, vehMax);
+    power = Math.round(power * 10) / 10;
+
+    // Cable section
+    let cableRef;
+    if (!isTri) cableRef = (length <= 20) ? '3G6' : '3G10';
+    else if (power >= 22) cableRef = (length <= 20) ? '5G10' : '5G16';
+    else cableRef = (length <= 20) ? '5G6' : '5G10';
+
+    // Disjoncteur — pôles selon mono (unipolaire) / tri (tripolaire)
+    let disjCurve;
+    if (isTri) disjCurve = (power <= 11) ? 'C20' : 'C32'; // tri : 11 kW (16 A) → C20 · 22 kW (32 A) → C32
+    else       disjCurve = 'C32';                         // mono : borne 7,4 kW (32 A) → C32
+    const disjRef = 'DIS-' + disjCurve + (isTri ? '-3P' : '');
+    const disjLabel = isTri ? 'triphasé' : 'monophasé';
+
+    // Différentiel : Type A 30 mA par défaut (associé au RDC-DD intégré de la borne — IEC 62955)
+    // Type B uniquement si demande explicite client (case à cocher)
+    // Pôles : mono → bipolaire (2P) · tri → TÉTRAPOLAIRE (4P)
+    const wantTypeB = !!form.wantTypeB;
+    const diffPrefix = wantTypeB ? 'DIF-B' : 'DIF-A';
+    const diffCal = (ampere >= 63) ? '63' : '40';
+    const diffRef = diffPrefix + '-' + diffCal + (isTri ? '-4P' : '');
+
+    // Charger pick (returns ref only — name resolved later via tariffs in current lang)
+    let chargerRef;
+    const pref = form.brandPref || 'auto';
+    if (pref === 'auto') {
+      if (power >= 22)       chargerRef = 'WB-PM-22';
+      else if (power >= 11)  chargerRef = (vehMax >= 11) ? 'WB-PM-3' : 'TS-WC3-11';
+      else                   chargerRef = 'WB-PM-1.2';
+    } else if (pref === 'Tesla') {
+      chargerRef = (power >= 22) ? 'TS-WC3-22' : 'TS-WC3-11';
+    } else if (pref === 'Wallbox') {
+      if (power <= 7.4)       chargerRef = 'WB-PM-1.2';
+      else if (power <= 11)   chargerRef = 'WB-PM-3';
+      else                    chargerRef = 'WB-PM-22';
+    } else { // Smappee
+      if (power >= 22) chargerRef = 'SM-EVB-22';
+      else             chargerRef = (form.needs && form.needs.includes('Solar integration')) ? 'SM-EVW-11' : 'SM-EVB-11';
+    }
+    // Resolve name from tariff catalog (bilingual)
+    const borne = tarifs.bornes.find(b => b.ref === chargerRef);
+    const chargerName = borne ? (quoteLang === 'nl' ? (borne.nameNL || borne.nameFR) : (borne.nameFR || borne.nameNL || borne.name || chargerRef)) : chargerRef;
+
+    // Hours
+    let hours = tarifs.labor.baseHours;
+    if (isTri) hours += tarifs.labor.triExtra;
+    if (length > 20) hours += tarifs.labor.longExtra;
+    if (form.route === 'Complex') hours += tarifs.labor.complexExtra;
+    else if (form.route === 'Gemiddeld') hours += tarifs.labor.mediumExtra;
+
+    return { isTri, power, cableRef, diffRef, disjRef, disjLabel, disjCurve, chargerRef, chargerName, hours: Math.round(hours * 10) / 10 };
+  }
+
+  // ── Dimensionnement Laadpark / copropriété ──
+  // Foisonnement (Ks) → puissance simultanée réelle ; réserve de puissance immeuble ;
+  // pilotage dynamique requis ? ; section du backbone (critère Iz + ΔU≤3%, max RGIE 5%).
+  function ksFactor(N){
+    // Coefficient de simultanéité pour recharge VE en parking collectif
+    if (N <= 1)  return 1.0;
+    if (N <= 4)  return 0.8;
+    if (N <= 9)  return 0.6;
+    if (N <= 20) return 0.5;
+    if (N <= 50) return 0.4;
+    return 0.3;
+  }
+
+  function computeLaadparkDim(){
+    const isTri = form.phase !== 'Eenfase';                  // backbone parking : triphasé par défaut
+    const N = Math.max(1, parseInt(form.lpPoints) || 1);
+    const pPoint = form.lpPointPower || (isTri ? 11 : 7.4);  // kW par borne
+    const Ks = ksFactor(N);
+    const pInstalled = N * pPoint;                           // puissance installée brute
+    const pDiversified = pInstalled * Ks;                    // puissance foisonnée (besoin simultané)
+
+    // Réserve de puissance de l'immeuble
+    const pSub = form.lpSubscribed || 0;                     // kVA souscrit (≈ kW à cosφ≈1)
+    const pPeak = form.lpPeak || (pSub ? +(pSub * 0.6).toFixed(1) : 0); // pointe mesurée, sinon estimée 60%
+    const pReserve = pSub > 0 ? Math.max(0, +(pSub - pPeak).toFixed(1)) : null;
+
+    // Pilotage dynamique requis si la demande foisonnée dépasse la réserve
+    const pilotage = (pReserve !== null) ? (pDiversified > pReserve) : (N >= 4);
+    const pPerPointPiloted = (pReserve !== null && pilotage) ? Math.max(1.4, +(pReserve / N).toFixed(1)) : pPoint;
+
+    // Courant du backbone (charge foisonnée)
+    const cosphi = 1;                                        // bornes VE ≈ facteur de puissance unitaire
+    const Un = isTri ? 400 : 230;
+    const Ib = isTri
+      ? (pDiversified * 1000) / (Math.sqrt(3) * Un * cosphi)
+      : (pDiversified * 1000) / (Un * cosphi);
+
+    // Section minimale pour ΔU ≤ cible (RGIE max 5 %, on vise 3 %)
+    const L = form.lpBackbone || form.length || 30;         // m
+    const rho = 0.0225;                                     // cuivre Ω·mm²/m
+    const b = isTri ? 1 : 2;                                 // tri : 1 · mono : 2 (aller-retour)
+    const duTarget = 3;
+    const sForDu = (b * rho * L * Ib * cosphi) / ((duTarget / 100) * Un);
+
+    // Sections normalisées + ampacité indicative (multiconducteur, pose courante)
+    const SECTIONS = [
+      { s:6, iz:40 }, { s:10, iz:54 }, { s:16, iz:73 }, { s:25, iz:95 },
+      { s:35, iz:117 }, { s:50, iz:141 }, { s:70, iz:179 }, { s:95, iz:216 }, { s:120, iz:249 }
+    ];
+    const pick = SECTIONS.find(x => x.iz >= Ib && x.s >= sForDu) || SECTIONS[SECTIONS.length - 1];
+    const S = pick.s;
+    const duReal = (b * rho * L * Ib * cosphi) / (S * Un) * 100;
+    const cableRef = isTri ? ('5G' + S) : ('3G' + S);
+
+    // Disjoncteur de tête du backbone (calibre normalisé ≥ Ib)
+    const CAL = [16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 250];
+    const headBreaker = CAL.find(a => a >= Ib) || 250;
+
+    return {
+      N, pPoint, Ks, pInstalled: +pInstalled.toFixed(1), pDiversified: +pDiversified.toFixed(1),
+      pSub, pPeak, pReserve, pilotage, pPerPointPiloted,
+      isTri, Ib: +Ib.toFixed(1), L, S, cableRef, duReal: +duReal.toFixed(2), headBreaker
+    };
+  }
+
+  // ── Lang-aware accessor for tariffs (supports legacy single-lang format) ──
+  function tName(item) {
+    if (!item) return '';
+    if (quoteLang === 'nl') return item.nameNL || item.nameFR || item.name || '';
+    return item.nameFR || item.name || item.nameNL || '';
+  }
+  function tDesc(item) {
+    if (!item) return '';
+    if (quoteLang === 'nl') return item.descNL || item.descFR || item.desc || '';
+    return item.descFR || item.desc || item.descNL || '';
+  }
+
+  // ── Smart energy : sources unifiées ──
+  // Le load balancing / solaire peut être demandé à DEUX endroits dans la sidebar :
+  //   1) "Besoins client" (cases .need : "Load balancing" / "Solar integration")
+  //   2) "Smart energy" (cases f-wantLoadBalance / f-wantSolar)
+  // Avant, seul (2) ajoutait le module → un devis pouvait omettre le module/fonctions.
+  // On lit désormais LES DEUX pour qu'aucune prestation incluse ne disparaisse.
+  function wantsLoadBalance(){ return !!form.wantLoadBalance || (Array.isArray(form.needs) && form.needs.includes('Load balancing')); }
+  function wantsSolar(){ return !!form.wantSolar || (Array.isArray(form.needs) && form.needs.includes('Solar integration')); }
+  function wantsSmart(){ return wantsLoadBalance() || wantsSolar(); }
+
+  // Quel module smart energy ajouter selon la marque retenue (null si Tesla = non compatible).
+  function smartModuleRef(dim){
+    if (!wantsSmart()) return null;
+    const c = (dim && dim.chargerRef) || '';
+    if (c.startsWith('WB-')) return 'WB-P1';      // Wallbox → WALL-MTR-P1PORT (P1 belge natif)
+    if (c.startsWith('SM-')) return 'SM-CONNECT';  // Smappee → Connect (P1 natif)
+    return null;                                   // Tesla → pas de module (risque affiché)
+  }
+
+  // Nom CLIENT clair des modules (le devis ne doit pas montrer une réf technique brute).
+  const MODULE_LABEL = {
+    'WB-P1':      { fr:'Wallbox Power Boost (module P1) — Dynamisch laadbeheer & optimisation solaire', nl:'Wallbox Power Boost (P1-module) — Dynamisch laadbeheer & zonne-optimalisatie' },
+    'SM-CONNECT': { fr:'Smappee Connect (module P1) — Dynamisch laadbeheer & optimisation solaire',     nl:'Smappee Connect (P1-module) — Dynamisch laadbeheer & zonne-optimalisatie' }
+  };
+
+  // ── Section "Inclus dans l'offre" : liste générée dynamiquement (bilingue) ──
+  // Rend visible TOUT ce que le client reçoit, y compris les prestations immatérielles
+  // (config app, compte, mise en service, explications, tests) qui n'apparaissaient nulle part.
+  function buildIncludedItems(dim){
+    const nl = quoteLang === 'nl';
+    const items = [];
+    const push = (fr, nlT) => items.push(nl ? nlT : fr);
+
+    // Énergie / Smappee Infinity : liste d'inclus dédiée (monitoring + sturing + audit + opvolging)
+    if (form.energie) {
+      const t = form.enType || 'Smappee Infinity';
+      push('Smappee Infinity installé et configuré (' + t + ')', 'Smappee Infinity geplaatst en geconfigureerd (' + t + ')');
+      push('Mesure en temps réel via le compteur digital (P1)', 'Real-time meting via de digitale meter (P1)');
+      const nCirc = Math.max(0, parseInt(form.enCircuits) || 0);
+      if (nCirc > 0) push('Mesure par circuit (' + nCirc + ' capteur(s) CT)', 'Meting per kring (' + nCirc + ' CT-sensor(en))');
+      const nSt = Math.max(0, parseInt(form.enSturing) || 0);
+      if (nSt > 0) push('Pilotage de ' + nSt + ' consommateur(s) (boiler / PAC / borne)', 'Aansturing van ' + nSt + ' verbruiker(s) (boiler / WP / laadpaal)');
+      if ((parseFloat(form.enAudit) || 0) > 0) push('Audit énergétique & rapport sur données réelles', 'Energie-audit & rapport op échte meetdata');
+      push('Configuration de l\'app, dashboard et explications', 'App-configuratie, dashboard en uitleg');
+      if ((form.enOpvolging || 'Geen') !== 'Geen') push('Suivi énergétique — formule ' + form.enOpvolging + ' (abonnement)', 'Energie-opvolging — formule ' + form.enOpvolging + ' (abonnement)');
+      push('Garantie 2 ans installation', '2 jaar installatiegarantie');
+      return items;
+    }
+
+    // Laadpark / copropriété : liste d'inclus dédiée (infra collective + points + facturation)
+    if (form.laadpark) {
+      const N = Math.max(1, parseInt(form.lpPoints) || 1);
+      push('Infrastructure de recharge collective (alimentation + chemin de câbles + tableau parking)', 'Gedeelde laadinfrastructuur (voeding + kabelgoot + parkingbord)');
+      push('Gestion de charge dynamique entre les ' + N + ' points', 'Dynamische lastverdeling tussen de ' + N + ' laadpunten');
+      push(N + ' point(s) de charge posé(s) et raccordé(s)', N + ' laadpunt(en) geplaatst en aangesloten');
+      if ((form.lpBilling || 'Geen') !== 'Geen') push('Comptage / facturation par utilisateur (' + form.lpBilling + ')', 'Telling / facturatie per gebruiker (' + form.lpBilling + ')');
+      push('Coordination avec le syndic / l\'ACP', 'Coördinatie met de syndicus / VME');
+      push('Plan électrique fourni',                              'Elektrisch plan geleverd');
+      push('AREI / RGIE keuringsattest inclus',                   'AREI / RGIE keuringsattest inbegrepen');
+      push('Évolutif : points supplémentaires possibles plus tard', 'Uitbreidbaar: extra laadpunten later mogelijk');
+      push('Garantie 2 ans installation',                         '2 jaar installatiegarantie');
+      return items;
+    }
+
+    // Prise renforcée Green'Up : liste d'inclus dédiée (pas d'app, pas de smart charging)
+    if (form.greenup) {
+      push('Prise renforcée Green\'Up posée et raccordée',        'Versterkt Green\'Up-stopcontact geplaatst en aangesloten');
+      push('Circuit dédié conforme (différentiel Type A 30 mA + disjoncteur C16)', 'Aparte kring conform (differentieel Type A 30 mA + automaat C16)');
+      push('Tests et validation du bon fonctionnement',           'Tests en validatie van de goede werking');
+      push('Plan électrique fourni',                              'Elektrisch plan geleverd');
+      push('AREI / RGIE keuringsattest inclus',                   'AREI / RGIE keuringsattest inbegrepen');
+      push('Garantie 2 ans installation',                         '2 jaar installatiegarantie');
+      return items;
+    }
+
+    const hasModule = !!smartModuleRef(dim); // Tesla sans Powerwall → false (rien d'inventé)
+
+    // 1) Prestations de service — TOUJOURS incluses (cœur du problème client signalé)
+    push('Configuration complète de l\'application',                'Volledige configuratie van de app');
+    push('Création et paramétrage du compte utilisateur',           'Aanmaak en instelling van het gebruikersaccount');
+    push('Mise en service complète de la borne',                    'Volledige ingebruikname van de laadpaal');
+    push('Explication du fonctionnement de l\'application',          'Uitleg over de werking van de app');
+    push('Explication des principaux réglages',                     'Uitleg over de belangrijkste instellingen');
+    push('Smart charging activé et configuré',                      'Smart charging geactiveerd en geconfigureerd');
+
+    // 2) Load balancing — uniquement si réellement fourni (module présent)
+    if (wantsLoadBalance() && hasModule){
+      push('Dynamisch laadbeheer (load balancing) configuré',       'Dynamisch laadbeheer (load balancing) geconfigureerd');
+      push('Connexion à la borne via le port P1 du compteur numérique', 'Verbinding met de laadpaal via de P1-poort van de digitale meter');
+    }
+    // 3) Photovoltaïque — mention visible de compatibilité/optimisation
+    if (wantsSolar() && hasModule){
+      push('Optimisation de la recharge selon la production photovoltaïque', 'Optimalisatie van het opladen volgens de zonneproductie');
+      push('Recharge sur surplus solaire (Eco-Smart / Solar)',      'Opladen op zonne-overschot (Eco-Smart / Solar)');
+    }
+
+    // 4) Documents & garanties — plan + keuring uniquement pour une installation (pas un remplacement)
+    if (!form.borneSwap) {
+      push('Plan électrique fourni',                                'Elektrisch plan geleverd');
+      push('AREI / RGIE keuringsattest inclus',                     'AREI / RGIE keuringsattest inbegrepen');
+    }
+    push('Tests et validation du bon fonctionnement',               'Tests en validatie van de goede werking');
+    push('Garantie 2 ans installation + garantie constructeur',     '2 jaar installatiegarantie + fabrieksgarantie');
+
+    // 5) Options techniques cochées — rendues visibles aussi
+    if (form.wantSurge)    push('Parafoudre Type 2 (anti-surtension)', 'Overspanningsbeveiliging Type 2');
+    if (form.wantSubpanel) push('Coffret divisionnaire dédié',        'Apart verdeelbord voor de laadpaal');
+    if (form.wantTypeB)    push('Différentiel Type B (sur demande)',   'Differentieel Type B (op aanvraag)');
+    if (form.want2ndEV)    push('Précâblage pour 2e borne (Power Sharing)', 'Voorbekabeling voor 2e laadpaal (Power Sharing)');
+
+    return items;
+  }
+
+  // ── Carte "VOTRE SOLUTION" (page 1) : capacités-clés en quelques lignes ──
+  function buildSummaryCaps(dim){
+    const i = quoteLang === 'nl' ? 1 : 0;
+    const caps = [];
+    const moduleRef = smartModuleRef(dim);
+    const hasModule = !!moduleRef;
+    caps.push(T('capSmart')[i]);
+    if (hasModule && wantsLoadBalance()) caps.push(T('capLB')[i]);
+    if (hasModule && wantsSolar())       caps.push(T('capPV')[i]);
+    if (hasModule) {
+      const lbl = MODULE_LABEL[moduleRef];
+      const name = lbl ? (quoteLang === 'nl' ? lbl.nl : lbl.fr).split('—')[0].trim() : '';
+      caps.push(T('capModule')[i] + (name ? ' : ' + name : ''));
+    }
+    if (form.wantSurge)    caps.push(T('capSurge')[i]);
+    if (form.wantSubpanel) caps.push(T('capSub')[i]);
+    if (form.want2ndEV)    caps.push(T('cap2nd')[i]);
+    if (form.wantTypeB)    caps.push(T('capTypeB')[i]);
+    caps.push(T('capAllIn')[i]);
+    return caps;
+  }
+
+
+
+  // ── Build quote lines ──
+  // Ajoute une ligne de remise commerciale (% du sous-total) si renseignée. Appelée avant chaque return.
+  function withDiscount(lines){
+    const pct = parseFloat(form.discount) || 0;
+    if (pct > 0) {
+      const sub = lines.reduce((s, l) => s + (l.qty || 0) * (l.puHT || 0), 0);
+      lines.push({ desc: T('lineDiscount', pct), qty: 1, puHT: -(sub * pct / 100), isDiscount: true });
+    }
+    return lines;
+  }
+
+  function buildQuoteLines(dim){
+    const find = (arr, ref) => arr.find(x => x.ref === ref);
+    const lines = [];
+
+    // ÉNERGIE / SMAPPEE INFINITY : devis monitoring & énergiebeheer (pas une borne).
+    // Coûts estimés à la visite. Infinity (base) + meetkringen (CT) + stuuruitgangen + audit + opvolging (MRR).
+    if (form.energie) {
+      const infra = parseFloat(form.enInfra) || 0;
+      const nCirc = Math.max(0, parseInt(form.enCircuits) || 0);
+      const circPrice = parseFloat(form.enCircuitPrice) || 0;
+      const nSt = Math.max(0, parseInt(form.enSturing) || 0);
+      const stPrice = parseFloat(form.enSturingPrice) || 0;
+      const audit = parseFloat(form.enAudit) || 0;
+      const opv = form.enOpvolging || 'Geen';
+      const opvPrice = parseFloat(form.enOpvolgingPrice) || 0;
+      if (infra > 0) lines.push({ desc: T('lineEnInfra'), sub: T('lineEnInfraSub'), qty: 1, puHT: infra });
+      if (nCirc > 0 && circPrice > 0) lines.push({ desc: T('lineEnCircuit', nCirc), qty: nCirc, puHT: circPrice });
+      if (nSt > 0 && stPrice > 0) lines.push({ desc: T('lineEnSturing', nSt), qty: nSt, puHT: stPrice });
+      if (audit > 0) lines.push({ desc: T('lineEnAudit'), qty: 1, puHT: audit });
+      lines.push({ desc: T('lineArei'), qty: 1, puHT: tarifs.labor.areiKeuring });
+      const distL = form.distance || 0;
+      let travelL = tarifs.labor.travel.find(t => distL <= t.maxKm) || tarifs.labor.travel[tarifs.labor.travel.length - 1];
+      if (travelL.price > 0) lines.push({ desc: T('lineTravel', distL), qty: 1, puHT: travelL.price });
+      if (opv !== 'Geen' && opvPrice > 0) lines.push({ desc: T('lineEnOpvolging', opv), qty: 1, puHT: opvPrice });
+      return withDiscount(lines);
+    }
+
+    // LAADPARK / COPROPRIÉTÉ : devis multi-points paramétrique (infra collective + N points + facturation).
+    // Les coûts infra/point sont estimés lors de la visite (chaque copro est sur-mesure).
+    if (form.laadpark) {
+      const N = Math.max(1, parseInt(form.lpPoints) || 1);
+      const infra = parseFloat(form.lpInfra) || 0;
+      const ptPrice = parseFloat(form.lpPointPrice) || 0;
+      const billPrice = parseFloat(form.lpBillingPrice) || 0;
+      const billing = form.lpBilling || 'Geen';
+      const mat = tarifs.margins.mat || 1;
+      const ph1 = T('lpPhase1'), ph2 = T('lpPhase2');
+
+      // ── PHASE 1 — Infrastructure collective (votée en AG) ──
+      if (infra > 0) {
+        // Montant infra saisi manuellement → ligne globale (override installateur)
+        lines.push({ desc: ph1 + ' · ' + T('lineLpInfra'), sub: T('lineLpInfraSub'), qty: 1, puHT: infra });
+      } else {
+        // Bibliothèque de postes : détail auto à partir du dimensionnement
+        const d = computeLaadparkDim();
+        // €/m du backbone par section (5G, HT) — au-delà du catalogue 5G16
+        const CABLE_PER_M = { 6:4.10, 10:6.45, 16:9.85, 25:15, 35:21, 50:30, 70:42, 95:58, 120:74 };
+        const cpm = (CABLE_PER_M[d.S] || 15) * mat;
+        lines.push({ desc: ph1 + ' · ' + T('lineLpCoffret'), sub: T('lineLpCoffretSub', d.headBreaker), qty: 1, puHT: 680 });
+        lines.push({ desc: ph1 + ' · ' + T('lineLpBackbone', d.cableRef), sub: T('lineLpBackboneSub', d.L), qty: d.L, puHT: +cpm.toFixed(2) });
+        lines.push({ desc: ph1 + ' · ' + T('lineLpTray'), sub: T('lineLpTraySub', d.L), qty: d.L, puHT: 18 });
+        if (d.pilotage) lines.push({ desc: ph1 + ' · ' + T('lineLpPilotage'), sub: T('lineLpPilotageSub'), qty: 1, puHT: 950 });
+        lines.push({ desc: ph1 + ' · ' + T('lineLpSupervision'), qty: 1, puHT: 380 });
+      }
+
+      // ── PHASE 2 — Points de charge (évolutif, à la demande) ──
+      if (ptPrice > 0) lines.push({ desc: ph2 + ' · ' + T('lineLpPoint'), sub: T('lineLpPointSub', N), qty: N, puHT: ptPrice });
+      if (billing !== 'Geen' && billPrice > 0) lines.push({ desc: ph2 + ' · ' + T('lineLpBilling', billing), qty: N, puHT: billPrice });
+
+      // ── Postes communs ──
+      const planL = find(tarifs.prots, 'PLAN');
+      if (planL) lines.push({ desc: tDesc(planL), qty: 1, puHT: planL.price * tarifs.margins.mat });
+      lines.push({ desc: T('lineArei'), qty: 1, puHT: tarifs.labor.areiKeuring });
+      const distL = form.distance || 0;
+      let travelL = tarifs.labor.travel.find(t => distL <= t.maxKm) || tarifs.labor.travel[tarifs.labor.travel.length - 1];
+      if (travelL.price > 0) lines.push({ desc: T('lineTravel', distL), qty: 1, puHT: travelL.price });
+      return withDiscount(lines);
+    }
+
+    // PRISE RENFORCÉE GREEN'UP (entrée de gamme) : remplace la borne. Circuit dédié mono ~3,7 kW.
+    if (form.greenup) {
+      const gu = find(tarifs.prots, 'GREENUP');
+      if (gu) lines.push({ desc: tDesc(gu), qty: 1, puHT: gu.price }); // prix de vente direct
+      const cabG = find(tarifs.cables, '3G6');
+      if (cabG) lines.push({ desc: T('lineCable', tDesc(cabG)), qty: form.length || 10, puHT: cabG.pricePerM * tarifs.margins.mat });
+      const diffG = find(tarifs.prots, 'DIF-A-40');
+      if (diffG) lines.push({ desc: tDesc(diffG), qty: 1, puHT: diffG.price * tarifs.margins.mat });
+      const disjG = find(tarifs.prots, 'DIS-C16');
+      if (disjG) lines.push({ desc: tDesc(disjG) + ' (C16 mono)', qty: 1, puHT: disjG.price * tarifs.margins.mat });
+      const divG = find(tarifs.prots, 'DIV');
+      if (divG) lines.push({ desc: tDesc(divG), qty: 1, puHT: divG.price * tarifs.margins.mat });
+      const planG = find(tarifs.prots, 'PLAN');
+      if (planG) lines.push({ desc: tDesc(planG), qty: 1, puHT: planG.price * tarifs.margins.mat });
+      lines.push({ desc: T('lineLaborGreenup'), sub: T('lineLaborGreenupSub'), qty: 1, puHT: (tarifs.labor.greenupHours || 3) * tarifs.labor.hourRate * tarifs.margins.mo });
+      lines.push({ desc: T('lineArei'), qty: 1, puHT: tarifs.labor.areiKeuring });
+      const distG = form.distance || 0;
+      let travelG = tarifs.labor.travel.find(t => distG <= t.maxKm) || tarifs.labor.travel[tarifs.labor.travel.length - 1];
+      if (travelG.price > 0) lines.push({ desc: T('lineTravel', distG), qty: 1, puHT: travelG.price });
+      return withDiscount(lines);
+    }
+
+    // 1) Borne — PRIX DE VENTE HT direct (pas de marge matériel : produit de marque, prix public connu).
+    //    Exclue du devis si fournie par le client (installation seule).
+    const b = find(tarifs.bornes, dim.chargerRef);
+    if (b && !form.borneByClient) lines.push({ desc: tName(b), qty: 1, puHT: b.price });
+
+    // REMPLACEMENT de borne : on réutilise câble/protections/circuit existants.
+    // → nouvelle borne + main d'œuvre courte (dépose/pose/config) + déplacement. Pas de divers, plan ni keuring.
+    if (form.borneSwap) {
+      lines.push({ desc: T('lineLaborSwap'), sub: T('lineLaborSwapSub'), qty: 1, puHT: (tarifs.labor.swapHours || 1.5) * tarifs.labor.hourRate * tarifs.margins.mo });
+      const distS = form.distance || 0;
+      let travelS = tarifs.labor.travel.find(t => distS <= t.maxKm) || tarifs.labor.travel[tarifs.labor.travel.length - 1];
+      if (travelS.price > 0) lines.push({ desc: T('lineTravel', distS), qty: 1, puHT: travelS.price });
+      return withDiscount(lines);
+    }
+
+    // 2) Câble / Kabel
+    const cab = find(tarifs.cables, dim.cableRef);
+    if (cab) lines.push({ desc: T('lineCable', tDesc(cab)), qty: form.length || 10, puHT: cab.pricePerM * tarifs.margins.mat });
+
+    // 3) Différentiel / Differentieel
+    const diff = find(tarifs.prots, dim.diffRef);
+    if (diff) lines.push({ desc: tDesc(diff), qty: 1, puHT: diff.price * tarifs.margins.mat });
+
+    // 4) Disjoncteur / Automaat
+    const disj = find(tarifs.prots, dim.disjRef);
+    if (disj) lines.push({ desc: tDesc(disj) + ' (' + dim.disjLabel + ')', qty: 1, puHT: disj.price * tarifs.margins.mat });
+
+    // 5) UTP — uniquement si liaison data filaire nécessaire (module P1/RS485 Wallbox/Smappee).
+    //    Pas de câble réseau pour un Tesla Wall Connector (Wi-Fi) ni sans load balancing.
+    const utp  = find(tarifs.prots, 'UTP');
+    if (utp && smartModuleRef(dim)) lines.push({ desc: tDesc(utp), qty: 1, puHT: utp.price * tarifs.margins.mat });
+    const div  = find(tarifs.prots, 'DIV');
+    if (div) lines.push({ desc: tDesc(div), qty: 1, puHT: div.price * tarifs.margins.mat });
+    const plan = find(tarifs.prots, 'PLAN');
+    if (plan) lines.push({ desc: tDesc(plan), qty: 1, puHT: plan.price * tarifs.margins.mat });
+
+    // 7b) Options techniques cochées
+    if (form.wantSurge) {
+      const surge = find(tarifs.prots, 'SUR-T2');
+      if (surge) lines.push({ desc: tDesc(surge), qty: 1, puHT: surge.price * tarifs.margins.mat });
+    }
+    if (form.wantSubpanel) {
+      const sub = find(tarifs.prots, 'SUB-COFF');
+      if (sub) lines.push({ desc: tDesc(sub), qty: 1, puHT: sub.price * tarifs.margins.mat });
+    }
+
+    // 7c) Smart energy (load balancing / PV) — module auto-suggéré selon marque.
+    // Source unifiée (besoins client OU smart energy) via smartModuleRef().
+    // Le module est affiché avec un NOM CLIENT clair (pas la réf technique brute).
+    let extraHours = 0;
+    const moduleRef = smartModuleRef(dim);
+    if (moduleRef) {
+      extraHours = moduleRef.startsWith('WB-') ? 1.0 : 0.5; // WB: DIN+RS485+config app · SM: P1 5-10 min
+      const mod = find(tarifs.prots, moduleRef);
+      if (mod) {
+        const lbl = MODULE_LABEL[moduleRef];
+        const desc = lbl ? (quoteLang === 'nl' ? lbl.nl : lbl.fr) : tDesc(mod);
+        lines.push({ desc, qty: 1, puHT: mod.price }); // module = prix de vente direct (accessoire de marque, prix connu)
+      }
+    }
+    // 2ème EV anticipé → ajout 1h MO pour précâblage + surveillance config Power Sharing
+    if (form.want2ndEV) extraHours += 1.0;
+    // Stocker dans dim pour que la ligne MO soit ajustée
+    dim._extraHours = extraHours;
+
+    // 8) Main d'œuvre (inclut heures sup. module smart energy + 2e EV)
+    //    Présentation CLIENT = forfait "clé en main" (déplacement fondu), pour vendre un résultat
+    //    et une expertise, pas du temps. La case "Afficher les heures (B2B)" permet le détail h × taux.
+    const totalHours = Math.round((dim.hours + (dim._extraHours || 0)) * 10) / 10;
+    const laborBase = tarifs.labor.hourRate * tarifs.margins.mo * totalHours;
+    // Déplacement / Verplaatsing
+    const dist = form.distance || 0;
+    let travel = tarifs.labor.travel.find(t => dist <= t.maxKm);
+    if (!travel) travel = tarifs.labor.travel[tarifs.labor.travel.length - 1];
+    const travelPrice = travel.price || 0;
+
+    if (form.laborHours) {
+      // B2B (sur demande) : détail heures + déplacement séparé
+      lines.push({ desc: T('lineLabor'), qty: totalHours, puHT: tarifs.labor.hourRate * tarifs.margins.mo, isHours: true });
+      if (travelPrice > 0) lines.push({ desc: T('lineTravel', dist), qty: 1, puHT: travelPrice });
+    } else {
+      // Standard premium : forfait unique clé en main, déplacement inclus
+      lines.push({ desc: T('lineLaborForfait'), sub: T('lineLaborForfaitSub'), qty: 1, puHT: laborBase + travelPrice });
+    }
+
+    // 9) AREI keuring (toujours visible — coût de conformité tiers, rassure + justifie)
+    lines.push({ desc: T('lineArei'), qty: 1, puHT: tarifs.labor.areiKeuring });
+
+    return withDiscount(lines);
+  }
+
+  // ── Render Calc tab ──
+  function renderCalc(dim){
+    // ── Mode Énergie / Smappee Infinity : fiche dédiée ──
+    if (form.energie) { renderCalcEnergie(); return; }
+    // ── Mode Laadpark / copropriété : fiche de dimensionnement collective dédiée ──
+    if (form.laadpark) { renderCalcLaadpark(); return; }
+    // Restaure les libellés par défaut des tuiles (au cas où le mode Laadpark les a modifiés)
+    const lbl = (id, v) => { const el = document.getElementById(id); if (el && el.previousElementSibling) el.previousElementSibling.textContent = v; };
+    lbl('r-power', 'Puissance recommandée'); lbl('r-charger', 'Borne suggérée');
+    lbl('r-cable', 'Section câble'); lbl('r-diff', 'Différentiel');
+    lbl('r-disj', 'Disjoncteur'); lbl('r-hours', 'Temps installation');
+    document.getElementById('r-power').textContent = dim.power.toFixed(1).replace('.0','') + ' kW';
+    document.getElementById('r-charger').textContent = dim.chargerName;
+    document.getElementById('r-cable').textContent = 'Section ' + dim.cableRef;
+    document.getElementById('r-disj').textContent = dim.disjCurve + ' · ' + (dim.isTri ? 'tripolaire' : 'unipolaire');
+    document.getElementById('r-hours').textContent = dim.hours + ' h';
+
+    // Différentiel : reflète le choix Type A (défaut) ou Type B (sur demande) + pôles selon mono/tri
+    const ampere = form.ampere || 40;
+    const poles = dim.isTri ? ' tétrapolaire' : ' bipolaire';
+    if (form.wantTypeB) {
+      document.getElementById('r-diff').textContent = 'Type B 30 mA ' + (ampere >= 63 ? '63 A' : '40 A') + poles + ' (sur demande)';
+    } else {
+      document.getElementById('r-diff').textContent = 'Type A 30 mA ' + (ampere >= 63 ? '63 A' : '40 A') + poles + ' + RDC-DD borne';
+    }
+
+    // Risks
+    const risks = [];
+    if (form.needUpgrade === 'ja') risks.push({c:'err', t:'Verzwaring nécessaire — Fluvius/Sibelga : coût client + délai 6-12 semaines (hors devis)'});
+    else risks.push({c:'ok', t:'Capacité suffisante, aucune verzwaring nécessaire'});
+
+    if (form.wantTypeB) risks.push({c:'warn', t:'Type B activé sur demande client — surcoût ~€100 (techniquement non requis si borne RDC-DD)'});
+    else risks.push({c:'ok', t:'Type A 30 mA + RDC-DD intégré borne (IEC 62955) — conforme NBN HD 60364-7-722'});
+
+    // ── Smart energy (load balancing / PV) — risques contextuels par marque ──
+    const isTesla = (dim.chargerRef || '').startsWith('TS-');
+    const isWallbox = (dim.chargerRef || '').startsWith('WB-');
+    const isSmappee = (dim.chargerRef || '').startsWith('SM-');
+    const smartReq = wantsSmart();
+
+    if (smartReq && isTesla) {
+      risks.push({c:'err', t:'⚠ Tesla Wall Connector seul ne gère PAS le load balancing maison ni la recharge surplus PV. Proposer Smappee EV Wall ou Wallbox + WALL-MTR-P1PORT à la place, OU expliquer la limitation au client.'});
+    } else if (smartReq && isWallbox) {
+      risks.push({c:'ok', t:'Wallbox + module P1 (WALL-MTR-P1PORT) ajouté — load balancing dynamique + Eco-Smart PV via lecture compteur belge. RS485 filaire = fiable.'});
+    } else if (smartReq && isSmappee) {
+      risks.push({c:'ok', t:'Smappee Connect ajouté — load balancing + surplus PV natif via port P1 belge. Installation 5-10 min.'});
+    }
+    if (smartReq && (isWallbox || isSmappee) && form.p1Port === 'nee') {
+      risks.push({c:'warn', t:'Le port P1 du compteur digital doit être ACTIVÉ par le client via Mijn Fluvius / mon Sibelga avant l\'installation. Sinon retour chantier.'});
+    }
+    if (smartReq && form.digitalMeter === 'nee') {
+      risks.push({c:'err', t:'⚠ Compteur mécanique → P1 indisponible. Fallback : Wallbox MID/CT (3-4 modules DIN) ou Smappee Genius + CT clamps. Vérifier place dans tableau.'});
+    }
+    if (form.want2ndEV) {
+      risks.push({c:'warn', t:'2e EV anticipé : section câble sur-dimensionnée (5G10 mini) + 1h MO supplémentaire pour précâblage Power Sharing/multi-borne.'});
+    }
+
+    if ((form.length||0) > 20) risks.push({c:'warn', t:'Câble > 20 m : section sur-dimensionnée. Perte de tension à vérifier.'});
+    else risks.push({c:'ok', t:'Distance câble dans les normes RGIE'});
+
+    if (form.route === 'Complex') risks.push({c:'warn', t:'Passage câble complexe : tranchée/sleuf possible. Devis complémentaire éventuel.'});
+    else if (form.route === 'Gemiddeld') risks.push({c:'ok', t:'Passage câble moyen — boring/plafond inclus'});
+    else risks.push({c:'ok', t:'Passage câble standard'});
+
+    if (dim.power > (form.vehAcMax || 0)) risks.push({c:'warn', t:'Borne sur-dimensionnée par rapport au véhicule. Acceptable comme investissement futur.'});
+    else risks.push({c:'ok', t:'Borne et véhicule alignés'});
+
+    if (form.buildYear === 'lt10') risks.push({c:'warn', t:'Habitation < 10 ans : TVA 21 % appliquée automatiquement au devis (6 % non éligible).'});
+    else if (form.buildYear === 'unknown') risks.push({c:'warn', t:'Bouwjaar à vérifier avant émission du devis. TVA conditionnée.'});
+    else risks.push({c:'ok', t:'Bouwjaar OK pour TVA 6 %'});
+
+    const icoMap = { ok:'✓', warn:'⚠', err:'✕' };
+    document.getElementById('r-risks').innerHTML = risks.map(r =>
+      `<div class="risk-row risk-${r.c}"><span class="ico">${icoMap[r.c]}</span><span>${r.t}</span></div>`
+    ).join('');
+  }
+
+  // ── Fiche technique : mode Laadpark / copropriété ──
+  function renderCalcLaadpark(){
+    const d = computeLaadparkDim();
+    const phase = d.isTri ? 'triphasé 400 V' : 'monophasé 230 V';
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    const lbl = (id, v) => { const el = document.getElementById(id); if (el && el.previousElementSibling) el.previousElementSibling.textContent = v; };
+
+    // Relabel des tuiles pour le contexte copropriété
+    lbl('r-power', 'Puissance simultanée'); lbl('r-charger', 'Points · pilotage');
+    lbl('r-cable', 'Backbone · ΔU'); lbl('r-diff', 'Protection / point');
+    lbl('r-disj', 'Disjoncteur de tête'); lbl('r-hours', 'Courant backbone (Ib)');
+
+    set('r-power', d.pDiversified + ' kW' + ' (' + d.N + '×' + d.pPoint + ' kW · Ks ' + d.Ks + ')');
+    set('r-charger', d.N + ' point(s) · pilotage ' + (d.pilotage ? 'OUI' : 'non'));
+    set('r-cable', 'Backbone ' + d.cableRef + ' · ΔU ' + d.duReal.toFixed(2).replace('.', ',') + ' %');
+    set('r-disj', 'Tête ' + d.headBreaker + ' A · ' + phase);
+    set('r-hours', 'Ib ≈ ' + d.Ib.toFixed(0) + ' A');
+    set('r-diff', 'Type A 30 mA + RDC-DD / point · ' + d.S + ' mm²');
+
+    const risks = [];
+
+    // Foisonnement
+    risks.push({ c:'ok', t:`Foisonnement Ks=${d.Ks} → puissance simultanée ${d.pDiversified} kW (sur ${d.pInstalled} kW installés). Sans foisonnement, l'aansluiting serait surdimensionnée.` });
+
+    // Réserve de puissance + pilotage
+    if (d.pReserve === null) {
+      risks.push({ c:'warn', t:`Puissance souscrite de l'immeuble non renseignée → impossible de valider la réserve. Mesurer la pointe (logger 1 sem.) avant l'offre. Pilotage supposé requis dès ${4} points.` });
+    } else {
+      risks.push({ c:'ok', t:`Réserve immeuble ≈ ${d.pReserve} kW (souscrit ${d.pSub} − pointe ${d.pPeak} kW${form.lpPeak ? ' mesurée' : ' estimée 60%'}).` });
+      if (d.pilotage) {
+        risks.push({ c:'err', t:`⚠ Demande foisonnée (${d.pDiversified} kW) > réserve (${d.pReserve} kW) → PILOTAGE DYNAMIQUE OBLIGATOIRE. Sans pilotage : verzwaring Fluvius/Sibelga (coût + délai). Avec pilotage : ≈ ${d.pPerPointPiloted} kW/point réparti, pas de verzwaring.` });
+      } else {
+        risks.push({ c:'ok', t:`Demande foisonnée (${d.pDiversified} kW) ≤ réserve (${d.pReserve} kW) → pas de verzwaring nécessaire. Pilotage dynamique recommandé pour l'évolutivité.` });
+      }
+    }
+
+    // Section / chute de tension
+    if (d.duReal <= 3) {
+      risks.push({ c:'ok', t:`Backbone ${d.cableRef} (${d.S} mm²) sur ${d.L} m : ΔU ${d.duReal.toFixed(2).replace('.', ',')} % ≤ 3 % (cible). Conforme RGIE (max 5 %).` });
+    } else if (d.duReal <= 5) {
+      risks.push({ c:'warn', t:`Backbone ${d.cableRef} : ΔU ${d.duReal.toFixed(2).replace('.', ',')} % (entre 3 % et 5 %). Conforme RGIE mais limite — envisager la section supérieure si extension prévue.` });
+    } else {
+      risks.push({ c:'err', t:`⚠ ΔU ${d.duReal.toFixed(2).replace('.', ',')} % > 5 % (RGIE dépassé). Augmenter la section ou rapprocher le tableau parking.` });
+    }
+
+    // Disjoncteur de tête
+    risks.push({ c:'ok', t:`Disjoncteur de tête backbone ${d.headBreaker} A (${phase}), Ib ≈ ${d.Ib.toFixed(0)} A. Chaque point : Type A 30 mA + RDC-DD intégré (IEC 62955).` });
+
+    // Évolutivité / EPBD
+    risks.push({ c:'ok', t:`Backbone + fourreaux dimensionnés pour ${d.N} points : ajout futur de points simple (logique EPBD). Proposer le pré-câblage de toutes les places.` });
+
+    // Brandveiligheid parking
+    risks.push({ c:'warn', t:`Parking : respecter la sécurité incendie (NBN S 21-208-1) + exigences assureur (emplacement, coupure d'urgence éventuelle, compartimentage). Photo du local technique + tableau à joindre.` });
+
+    // Facturation
+    if (form.lpBilling && form.lpBilling !== 'Geen') {
+      risks.push({ c:'ok', t:`Facturation par résident via ${form.lpBilling} — répartition individuelle des kWh, pas de litige sur la facture commune VME.` });
+    } else {
+      risks.push({ c:'warn', t:`Aucune facturation par résident sélectionnée → définir la répartition des kWh (compteur MID local ou plateforme OCPP) avant l'AG.` });
+    }
+
+    const icoMap = { ok:'✓', warn:'⚠', err:'✕' };
+    document.getElementById('r-risks').innerHTML = risks.map(r =>
+      `<div class="risk-row risk-${r.c}"><span class="ico">${icoMap[r.c]}</span><span>${r.t}</span></div>`
+    ).join('');
+  }
+
+  // ── Fiche technique : mode Énergie / Smappee Infinity ──
+  function renderCalcEnergie(){
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    const lbl = (id, v) => { const el = document.getElementById(id); if (el && el.previousElementSibling) el.previousElementSibling.textContent = v; };
+    const nCirc = Math.max(0, parseInt(form.enCircuits) || 0);
+    const nSt = Math.max(0, parseInt(form.enSturing) || 0);
+    const opv = form.enOpvolging || 'Geen';
+    const audit = (parseFloat(form.enAudit) || 0) > 0;
+
+    lbl('r-power','Type'); lbl('r-charger','Modules'); lbl('r-cable','Meting');
+    lbl('r-diff','Opvolging (MRR)'); lbl('r-disj','Audit'); lbl('r-hours','Meetkringen');
+    set('r-power', form.enType || 'Smappee Infinity');
+    set('r-charger', 'Infinity basis' + (nSt > 0 ? ' + ' + nSt + ' sturing' : ''));
+    set('r-cable', 'via P1 (digitale meter)');
+    set('r-diff', opv === 'Geen' ? '—' : opv);
+    set('r-disj', audit ? 'Inbegrepen' : 'Geen');
+    set('r-hours', nCirc + ' kring(en) (CT)');
+
+    const risks = [];
+    if (form.digitalMeter === 'nee') {
+      risks.push({ c:'err', t:'⚠ Mechanische meter → P1 niet beschikbaar. Voorzie Smappee Genius + CT-klemmen (extra modules). Controleer plaats in de zekeringkast.' });
+    } else {
+      risks.push({ c:'ok', t:'Digitale meter → real-time meting via de P1-poort mogelijk.' });
+    }
+    if (form.p1Port === 'nee') {
+      risks.push({ c:'warn', t:'P1-poort moet door de klant geactiveerd worden via Mijn Fluvius / mon Sibelga vóór de installatie. Anders terugkomst.' });
+    }
+    risks.push({ c:'ok', t:'Smappee meet aan de meter → compatibel met élke PV-omvormer en met laadpalen van diverse merken.' });
+    if (form.enType === 'Capaciteitstarief') {
+      risks.push({ c:'ok', t:'Doel: maandpiek verlagen (capaciteitstarief Fluvius). Stuuruitgangen aanbevolen om zware verbruikers te spreiden.' });
+    }
+    if (nSt > 0) risks.push({ c:'ok', t:nSt + ' stuuruitgang(en): aansturing van boiler / warmtepomp / laadpaal op zonne-overschot of om de piek te beperken.' });
+    if (audit) risks.push({ c:'ok', t:'Energie-audit op échte meetdata inbegrepen — sterk verkoopargument richting besparing.' });
+    if (opv === 'Geen') {
+      risks.push({ c:'warn', t:'Geen opvolgingscontract geselecteerd → stel een formule voor (Basis/Plus/Pro). Terugkerende omzet (MRR) + klant blijft besparen.' });
+    } else {
+      risks.push({ c:'ok', t:'Opvolgingscontract ' + opv + ' — terugkerende omzet + structurele besparing voor de klant.' });
+    }
+
+    const icoMap = { ok:'✓', warn:'⚠', err:'✕' };
+    document.getElementById('r-risks').innerHTML = risks.map(r =>
+      `<div class="risk-row risk-${r.c}"><span class="ico">${icoMap[r.c]}</span><span>${r.t}</span></div>`
+    ).join('');
+  }
+
+  // ── Render Devis ──
+  function renderDevis(dim, lines){
+    // Apply quote language to the document chrome
+    applyQuoteLangChrome();
+
+    // Header meta
+    const today = new Date();
+    const valid = new Date(today); valid.setDate(valid.getDate() + 30);
+    const locale = quoteLang === 'nl' ? 'nl-BE' : 'fr-BE';
+    const fmtDate = d => d.toLocaleDateString(locale);
+    const qY = today.getFullYear();
+    const qSeq = String(getQuoteSeq()).padStart(4, '0');
+    const devisRef = `BX-${qY}-${qSeq}`;
+    const dueDate = new Date(today); dueDate.setDate(dueDate.getDate() + 14);
+    document.getElementById('quote-doc').className = 'quote-doc qd-mode-' + docMode;
+    const setMeta = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    setMeta('qd-date', fmtDate(today));
+    if (docMode === 'devis') {
+      setMeta('qd-num', devisRef);
+      setMeta('qd-valid', fmtDate(valid));
+    } else {
+      setMeta('qd-num', (docMode === 'acompte' ? 'FA' : 'FV') + `-${qY}-${qSeq}`);
+      setMeta('qd-due', fmtDate(dueDate));
+      setMeta('qd-ref', devisRef);
+    }
+
+    // Client block
+    const phoneLbl = quoteLang === 'nl' ? 'Tel' : 'Tél';
+    const emailLbl = 'E-mail';
+    const clientLines = [form.name || '—'];
+    if (form.address) clientLines.push(form.address);
+    if (form.phone)   clientLines.push(phoneLbl + ' : ' + form.phone);
+    if (form.email)   clientLines.push(emailLbl + ' : ' + form.email);
+    document.getElementById('qd-client').textContent = clientLines.join('\n');
+
+    // Objet du devis (page 1) — adapté : remplacement > borne fournie par le client > installation complète
+    const objKey = form.energie ? 'objectStrEnergie' : form.laadpark ? 'objectStrLaadpark' : form.greenup ? 'objectStrGreenup' : form.borneSwap ? 'objectStrSwap' : (form.borneByClient ? 'objectStrClient' : 'objectStr');
+    document.getElementById('qd-object').textContent = form.energie
+      ? T('objectStrEnergie', form.enType || 'Smappee Infinity')
+      : form.laadpark
+      ? T('objectStrLaadpark', Math.max(1, parseInt(form.lpPoints) || 1))
+      : T(objKey, dim.chargerName, dim.power);
+
+    // "Inclus dans l'offre" — généré dynamiquement selon les options sélectionnées
+    document.getElementById('qd-included-title').textContent = T('includedTitle');
+    document.getElementById('qd-included-sub').textContent   = T('includedSub');
+    document.getElementById('qd-included-list').innerHTML     = buildIncludedItems(dim).map(t => `<li>${t}</li>`).join('');
+
+    // Quote table
+    const fmt = n => '€ ' + n.toLocaleString(locale, { minimumFractionDigits:2, maximumFractionDigits:2 });
+    let totalHT = 0;
+    document.getElementById('qt-body').innerHTML = lines.map(l => {
+      const sub = (l.qty || 0) * (l.puHT || 0);
+      totalHT += sub;
+      const qtyDisplay = l.isHours ? (l.qty + ' h') : (Number.isInteger(l.qty) ? l.qty : l.qty.toFixed(1));
+      const descCell = l.desc + (l.sub ? `<br><span class="qt-sub">${l.sub}</span>` : '');
+      return `<tr><td>${descCell}</td><td class="qty">${qtyDisplay}</td><td class="num">${fmt(l.puHT)}</td><td class="num">${fmt(sub)}</td></tr>`;
+    }).join('');
+
+    // Totals
+    const tvaRate = effectiveTva();
+    const tvaAmt = totalHT * tvaRate;
+    const ttc    = totalHT + tvaAmt;
+    document.getElementById('qd-ht').textContent   = fmt(totalHT);
+    document.getElementById('qd-tva-rate').textContent = (tvaRate * 100).toFixed(0) + ' %';
+    document.getElementById('qd-tva').textContent  = fmt(tvaAmt);
+    document.getElementById('qd-ttc').textContent  = fmt(ttc);
+
+    // Mode facture : remplir le bloc acompte / solde
+    if (docMode !== 'devis') {
+      renderInvoice(devisRef, totalHT, tvaAmt, ttc, fmt, fmtDate(dueDate));
+    }
+
+    // Signature société auto (devis : boîte « Pour BORNEXA » · facture : zone signature)
+    if (window.Bornexa && Bornexa.injectSignature) {
+      Bornexa.injectSignature(document.getElementById('qd-sign-box-bornexa'), 54);
+      Bornexa.injectSignature(document.getElementById('qd-inv-sign'), 48);
+    }
+
+    // Note conditions si TVA 21 % auto-appliquée (logement < 10 ans)
+    if (form.buildYear === 'lt10') {
+      const condEl = document.getElementById('qd-conditions-inner');
+      condEl.innerHTML += quoteLang === 'nl'
+        ? ' <strong>BTW 21 %</strong> toegepast (woning &lt; 10 jaar — 6 % niet van toepassing).'
+        : ' <strong>TVA 21 %</strong> appliquée (logement &lt; 10 ans — 6 % non applicable).';
+    }
+
+    // distZone update
+    const dist = form.distance || 0;
+    let zoneKey;
+    if (dist < 25) zoneKey = 'distLt25';
+    else if (dist <= 50) zoneKey = 'dist25to50';
+    else zoneKey = 'distGt50';
+    document.getElementById('distZone').textContent = T(zoneKey);
+  }
+
+  // ── Render facture (acompte 50 % / solde de fin de chantier) ──
+  function renderInvoice(ref, totalHT, tvaAmt, ttc, fmt, dueStr){
+    const isAcompte = (docMode === 'acompte');
+    const half    = ttc * ACOMPTE_RATE;      // 50 % du TTC
+    const halfHT  = totalHT * ACOMPTE_RATE;
+    const halfTVA = tvaAmt * ACOMPTE_RATE;
+    const rate    = (effectiveTva() * 100).toFixed(0);
+    const setX = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+    setX('qd-inv-object', isAcompte ? T('invAcompteObject', ref) : T('invSoldeObject', ref));
+
+    let rows = `<div class="row"><span class="k">${T('invRowProject')}</span><span class="v">${fmt(ttc)}</span></div>`;
+    if (!isAcompte) rows += `<div class="row minus"><span class="k">${T('invRowPaid')}</span><span class="v">− ${fmt(half)}</span></div>`;
+    document.getElementById('qd-inv-rows').innerHTML = rows;
+
+    const pay = isAcompte ? half : (ttc - half);
+    setX('qd-inv-pay-lbl', isAcompte ? T('invPayAcompte') : T('invPaySolde'));
+    setX('qd-inv-pay-amt', fmt(pay));
+    setX('qd-inv-pay-sub', T('invPaySub', fmt(halfHT), fmt(halfTVA), rate));
+
+    document.getElementById('qd-inv-bank').innerHTML = T('invBank', ref, COMPANY.iban || '');
+    setX('qd-inv-note', isAcompte ? T('invNoteAcompte', dueStr) : T('invNoteSolde', dueStr));
+  }
+
+  // ── Apply quote language to the static parts of the quote document ──
+  function applyQuoteLangChrome() {
+    const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+    const setHTML = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+
+    // Titre du document selon le mode (DEVIS / FACTURE D'ACOMPTE / FACTURE)
+    set('qd-doctype', docMode === 'acompte' ? T('invAcompteTitle') : docMode === 'solde' ? T('invSoldeTitle') : T('docType'));
+    // Méta : devis = N°/date/validité · facture = N° facture/date/échéance/réf devis
+    setHTML('qd-meta-inner', (docMode === 'devis')
+      ? `<div>${T('num')} <strong id="qd-num">—</strong></div>
+         <div>${T('dateLbl')} <strong id="qd-date">—</strong></div>
+         <div>${T('validLbl')} <strong id="qd-valid">—</strong></div>`
+      : `<div>${T('invNum')} <strong id="qd-num">—</strong></div>
+         <div>${T('dateLbl')} <strong id="qd-date">—</strong></div>
+         <div>${T('invDue')} <strong id="qd-due">—</strong></div>
+         <div>${T('invRef')} <strong id="qd-ref">—</strong></div>`);
+    // Party headings
+    set('qd-issuer-title', T('issuer'));
+    set('qd-client-title', T('client'));
+    // Issuer block (HTML allowed for <strong> + line breaks)
+    setHTML('qd-issuer', T('issuerBlock').replace(/\n/g, '<br>'));
+    // Object band header is part of the box content (kept implicit, label is hidden visually — we keep just qd-object)
+    // Tagline
+    set('qd-tagline', T('tagline'));
+    // Bande de réassurance
+    const trustEl = document.getElementById('qd-trust');
+    if (trustEl) trustEl.innerHTML = T('trustItems').map(t => `<span>${t}</span>`).join('');
+    // Déroulement de l'installation (page 2)
+    set('qd-steps-title', T('stepsTitle'));
+    const stepsEl = document.getElementById('qd-steps-list');
+    if (stepsEl) stepsEl.innerHTML = T(form.borneSwap ? 'stepsSwap' : 'steps').map(t => `<li>${t}</li>`).join('');
+    // Engagement au-dessus des signatures
+    set('qd-engage', T('engageText'));
+    // Sous-label TTC
+    set('qd-ttc-sub', T('ttcLabelSub'));
+    // Garantie en badges
+    const badgeEl = document.getElementById('qd-badges');
+    if (badgeEl) badgeEl.innerHTML = T('badgeItems').map(t => `<span class="qd-badge">${t}</span>`).join('');
+    // Mentions légales (COMPANY) — émetteur, IBAN, pied légal, rappel
+    renderCompany();
+    // Table headers
+    set('qt-h-desc', T('hdrDesc'));
+    set('qt-h-qty',  T('hdrQty'));
+    set('qt-h-pu',   T('hdrPU'));
+    set('qt-h-tot',  T('hdrTot'));
+    // Totals labels
+    set('qd-lbl-ht',  T('lblHT'));
+    set('qd-lbl-tva-prefix', T('lblTVA') + ' (');
+    set('qd-lbl-ttc', T('lblTTC'));
+    // Garantie & SAV
+    set('qd-warranty-title', T('warrantyTitle'));
+    set('qd-warranty-body', T('warranty'));
+    // Conditions
+    setHTML('qd-conditions-inner', `<strong>${T('condTitle')}</strong> ${T('conditions')}`);
+    // Signatures
+    set('qd-sign-bornexa', T('signBornexa'));
+    set('qd-sign-client',  T('signClient'));
+    // Quote-lang button label
+    const btn = document.getElementById('btnQuoteLang');
+    if (btn) btn.textContent = (quoteLang === 'nl') ? '📄 Offerte : NL' : '📄 Devis : FR';
+  }
+
+  // ── Mentions légales société (depuis COMPANY) ──
+  function renderCompany(){
+    const setTxt = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+    // Bloc émetteur (+ n° TVA si renseigné)
+    const iss = document.getElementById('qd-issuer');
+    if (iss) { let html = T('issuerBlock').replace(/\n/g, '<br>'); if (COMPANY.btw) html += '<br>BTW ' + COMPANY.btw; iss.innerHTML = html; }
+    // Pied de page légal (n'affiche que les champs renseignés)
+    let legal = 'BORNEXA · Boortmeerbeek (3190)';
+    if (COMPANY.btw) legal += ' · BTW ' + COMPANY.btw;
+    if (COMPANY.iban) legal += ' · IBAN ' + COMPANY.iban;
+    if (COMPANY.insurance) legal += ' · ' + COMPANY.insurance;
+    setTxt('qd-legal', legal);
+    // Rappel non imprimé si mentions incomplètes
+    const fw = document.getElementById('qd-fill-warn');
+    if (fw) fw.style.display = (COMPANY.btw && COMPANY.iban) ? 'none' : '';
+  }
+
+  // ── Render Tariffs (uses FR display for the editor UI) ──
+  function renderTariffs(){
+    document.getElementById('t-bornes').innerHTML = tarifs.bornes.map((b,i)=>`
+      <div class="tariff-row"><label>${b.ref} · ${b.nameFR || b.name || ''}</label><input type="number" step="1" value="${b.price}" data-grp="bornes" data-idx="${i}" data-key="price"></div>`).join('');
+    document.getElementById('t-cables').innerHTML = tarifs.cables.map((c,i)=>`
+      <div class="tariff-row"><label>${c.ref} · ${c.descFR || c.desc || ''}</label><input type="number" step="0.05" value="${c.pricePerM}" data-grp="cables" data-idx="${i}" data-key="pricePerM"></div>`).join('');
+    document.getElementById('t-prots').innerHTML = tarifs.prots.map((p,i)=>`
+      <div class="tariff-row"><label>${p.ref} · ${p.descFR || p.desc || ''}</label><input type="number" step="0.5" value="${p.price}" data-grp="prots" data-idx="${i}" data-key="price"></div>`).join('');
+    const lab = tarifs.labor;
+    document.getElementById('t-labor').innerHTML = `
+      <div class="tariff-row"><label>Tarif horaire (€/h)</label><input type="number" step="1" value="${lab.hourRate}" data-grp="laborSimple" data-key="hourRate"></div>
+      <div class="tariff-row"><label>Heures base</label><input type="number" step="0.25" value="${lab.baseHours}" data-grp="laborSimple" data-key="baseHours"></div>
+      <div class="tariff-row"><label>+ Triphasé (h)</label><input type="number" step="0.25" value="${lab.triExtra}" data-grp="laborSimple" data-key="triExtra"></div>
+      <div class="tariff-row"><label>+ Câble &gt; 20 m (h)</label><input type="number" step="0.25" value="${lab.longExtra}" data-grp="laborSimple" data-key="longExtra"></div>
+      <div class="tariff-row"><label>+ Doorvoer complex (h)</label><input type="number" step="0.25" value="${lab.complexExtra}" data-grp="laborSimple" data-key="complexExtra"></div>
+      <div class="tariff-row"><label>+ Doorvoer moyen (h)</label><input type="number" step="0.25" value="${lab.mediumExtra}" data-grp="laborSimple" data-key="mediumExtra"></div>
+      <div class="tariff-row"><label>AREI keuring (€)</label><input type="number" step="5" value="${lab.areiKeuring}" data-grp="laborSimple" data-key="areiKeuring"></div>
+      <div class="tariff-row"><label>Remplacement borne (h)</label><input type="number" step="0.25" value="${lab.swapHours}" data-grp="laborSimple" data-key="swapHours"></div>
+      <div class="tariff-row"><label>Pose Green'Up (h)</label><input type="number" step="0.25" value="${lab.greenupHours}" data-grp="laborSimple" data-key="greenupHours"></div>`;
+    document.getElementById('m-mat').value = tarifs.margins.mat;
+    document.getElementById('m-mo').value  = tarifs.margins.mo;
+    document.getElementById('m-tva').value = tarifs.margins.tva;
+  }
+
+  // ── Devis payload (réutilisé : export JSON + couche dossier partagée) ──
+  function buildDevisPayload(dim, lines){
+    dim = dim || computeDimensioning(); lines = lines || buildQuoteLines(dim);
+    const totalHT = lines.reduce((s,l)=>s+(l.qty||0)*(l.puHT||0),0);
+    return { schema:'bornexa-devis-v1', generated:new Date().toISOString(),
+      client:{name:form.name,address:form.address,phone:form.phone,email:form.email,type:form.clientType,buildYear:form.buildYear},
+      install:{phase:form.phase,ampere:form.ampere,digitalMeter:form.digitalMeter,p1Port:form.p1Port,dso:form.dso,needUpgrade:form.needUpgrade},
+      placement:{location:form.location,length:form.length,route:form.route,note:form.locationNote,distance:form.distance},
+      vehicle:{brand:form.brand,model:form.model,battery:form.battery,acMax:form.vehAcMax},
+      needs:form.needs, brandPref:form.brandPref,
+      smartEnergy:{loadBalance:wantsLoadBalance(),solar:wantsSolar(),moduleRef:smartModuleRef(dim)},
+      dimensioning:dim, included:buildIncludedItems(dim),
+      lines, totalHT, tvaRate:effectiveTva(), tva:totalHT*effectiveTva(), ttc:totalHT*(1+effectiveTva()),
+      internalNote:form.internalNote };
+  }
+  // ── Main update ──
+  function update(){
+    readForm();
+    const dim = computeDimensioning();
+    const lines = buildQuoteLines(dim);
+    renderCalc(dim);
+    renderDevis(dim, lines);
+    const bAG = document.getElementById('btnDossierAG'); if (bAG) bAG.style.display = form.laadpark ? '' : 'none';
+    if (window.Bornexa && Bornexa.has()) { if (window.__dpush) clearTimeout(window.__dpush); window.__dpush = setTimeout(function(){ try{ Bornexa.put('devis', buildDevisPayload(dim, lines)); }catch(e){} }, 400); }
+  }
+
+  // ── Event bindings ──
+  document.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.closest('.tariff-grid') || el.closest('.tariff-card')) return; // tariff handled separately
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+
+  // Tariff editor events
+  function bindTariffEditors(){
+    document.querySelectorAll('[data-grp]').forEach(el => {
+      el.addEventListener('input', () => {
+        const grp = el.dataset.grp, idx = el.dataset.idx, key = el.dataset.key;
+        const val = parseFloat(el.value) || 0;
+        if (grp === 'laborSimple') tarifs.labor[key] = val;
+        else tarifs[grp][parseInt(idx,10)][key] = val;
+        saveTarifs(); update();
+      });
+    });
+    ['mat','mo','tva'].forEach(k => {
+      const el = document.getElementById('m-' + k);
+      el.addEventListener('input', () => {
+        tarifs.margins[k] = parseFloat(el.value) || 0;
+        saveTarifs(); update();
+      });
+    });
+  }
+
+  // ── Tabs ──
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById('tab-' + t.dataset.tab).classList.add('active');
+      if (t.dataset.tab === 'tarifs') { renderTariffs(); bindTariffEditors(); }
+    });
+  });
+
+  // ── Toast ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  // ── Quote language toggle ──
+  function setQuoteLang(lang) {
+    quoteLang = (lang === 'nl') ? 'nl' : 'fr';
+    localStorage.setItem(STORAGE_QLANG, quoteLang);
+    update();
+  }
+  document.getElementById('btnQuoteLang').addEventListener('click', () => {
+    setQuoteLang(quoteLang === 'fr' ? 'nl' : 'fr');
+    showToast(quoteLang === 'nl' ? 'Offerte in NL ✓' : 'Devis en FR ✓');
+  });
+
+  // ── Import JSON visite (refactor : appelé par le bouton ET par la couche dossier) ──
+  function applyVisitePayload(payload){
+    try {
+      if (payload.lang === 'nl' || payload.lang === 'fr') setQuoteLang(payload.lang);
+      const d = payload.data || {};
+      // Map field form
+      const map = {
+        clientName:'name', clientAddress:'address', clientPhone:'phone', clientEmail:'email',
+        clientType:'clientType', buildYear:'buildYear',
+        phase:'phase', ampere:'ampere', digitalMeter:'digitalMeter', p1Port:'p1Port', dso:'dso', needUpgrade:'needUpgrade',
+        location:'location', cableLength:'length-range', cableRoute:'route', locationNote:'locationNote',
+        vehBrand:'brand', vehModel:'model', vehBattery:'battery', vehAcMax:'vehAcMax',
+        brandPref:'brandPref'
+      };
+      Object.keys(map).forEach(srcK => {
+        const dstK = map[srcK];
+        const el = document.getElementById('f-' + dstK);
+        if (el && d[srcK] != null) {
+          if (dstK === 'length-range') {
+            // Convert range '5-10' -> median 7.5
+            const r = String(d[srcK]).split('-');
+            const len = r.length === 2 ? (parseFloat(r[0]) + parseFloat(r[1])) / 2 : parseFloat(d[srcK]) || 10;
+            document.getElementById('f-length').value = Math.round(len);
+          } else {
+            el.value = d[srcK];
+          }
+        }
+      });
+      // Normaliser les valeurs qui ne matchent pas exactement les <option> du calculateur
+      if (d.clientType === 'Bedrijf') document.getElementById('f-clientType').value = 'Bedrijf / Entreprise';
+      if (d.brandPref === 'advies' || d.brandPref === 'advisering') document.getElementById('f-brandPref').value = 'auto';
+      // Needs
+      if (Array.isArray(d.needs)) {
+        document.querySelectorAll('.need').forEach(c => { c.checked = d.needs.includes(c.value); });
+      }
+      // ── Auto-cocher les options smart energy depuis la visite (colmatage jonction) ──
+      const vSolar = (d.hasSolar === 'ja' || d.hasSolar === 'binnenkort') || (Array.isArray(d.needs) && d.needs.includes('Solar integration'));
+      const vLoadB = (Array.isArray(d.needs) && d.needs.includes('Load balancing'));
+      const v2ndEV = (d.futureEV === 'ja' || d.futureEV === 'misschien');
+      const setChk = (id, v) => { const el = document.getElementById(id); if (el) el.checked = !!v; };
+      setChk('f-wantSolar', vSolar);
+      setChk('f-wantLoadBalance', vLoadB);
+      setChk('f-want2ndEV', v2ndEV);
+      // ── Conserver les champs visite sans équivalent dans la note interne (rien ne se perd) ──
+      const lbl = { netType:'Réseau', earthing:'Terre', eanNumber:'EAN', meterBrand:'Compteur', dinSpace:'DIN libre',
+        wifiSignal:'WiFi', hasSolar:'PV', pvInverter:'Onduleur', pvKwp:'kWp', hasBattery:'Batt. maison',
+        futureEV:'2e EV', wallType:'Mur', timing:'Timing', hasSurge:'Parafoudre existant', contactPref:'Contact' };
+      const extras = Object.keys(lbl).filter(k => d[k] != null && d[k] !== '').map(k => lbl[k] + ': ' + d[k]);
+      const noteEl = document.getElementById('f-internalNote');
+      const parts = [];
+      if (d.internalNote) parts.push(d.internalNote);
+      if (extras.length) parts.push('[Visite] ' + extras.join(' · '));
+      if (noteEl.value && !noteEl.value.includes('[Visite]')) parts.push(noteEl.value);
+      noteEl.value = parts.join('\n');
+      update();
+      return true;
+    } catch (e) { return false; }
+  }
+  document.getElementById('btnImport').addEventListener('click', () => {
+    let json;
+    try { json = prompt('Coller le JSON exporté depuis visite-terrain.html :'); } catch (e) { return; }
+    if (!json) return;
+    try { showToast(applyVisitePayload(JSON.parse(json)) ? 'Import OK ✓ (options auto-cochées)' : 'JSON invalide ✗'); }
+    catch (e) { showToast('JSON invalide ✗'); }
+  });
+
+  document.getElementById('btnReset').addEventListener('click', () => {
+    if (!confirm('Effacer toutes les données du formulaire ?')) return;
+    localStorage.removeItem(formKey());
+    location.reload();
+  });
+
+  // ── Print ──
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    // Titre propre dans l'en-tête PDF du navigateur (au lieu de "Calculateur interne")
+    const prev = document.title;
+    const client = (form.name || '').trim();
+    const num = (document.getElementById('qd-num').textContent || '').trim();
+    const doc = docMode === 'acompte' ? T('invAcompteTitle')
+              : docMode === 'solde'   ? T('invSoldeTitle')
+              : (quoteLang === 'nl' ? 'Offerte' : 'Devis');
+    document.title = doc + ' BORNEXA' + (client ? ' - ' + client : '') + (num ? ' - ' + num : '');
+    window.print();
+    setTimeout(() => { document.title = prev; }, 800);
+  });
+
+  // ── Dossier AG (assemblée générale / syndic) — document de présentation copropriété ──
+  function buildDossierAG(d, lines){
+    const nl = quoteLang === 'nl';
+    const tr = (fr, nlT) => nl ? nlT : fr;
+    const loc = nl ? 'nl-BE' : 'fr-BE';
+    const fmt = n => '€ ' + (n || 0).toLocaleString(loc, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const today = new Date().toLocaleDateString(loc);
+
+    // Totaux + ventilation par phase
+    const ph1 = T('lpPhase1'), ph2 = T('lpPhase2');
+    let ht = 0, ht1 = 0, ht2 = 0;
+    lines.forEach(l => { const s = (l.qty || 0) * (l.puHT || 0); ht += s;
+      if (l.desc.indexOf(ph1) === 0) ht1 += s; else if (l.desc.indexOf(ph2) === 0) ht2 += s; });
+    const htCommon = ht - ht1 - ht2;
+    const tvaRate = effectiveTva();
+    const tva = ht * tvaRate, ttc = ht + tva;
+
+    const pilotLine = d.pReserve === null
+      ? tr('Réserve de puissance à confirmer sur place (mesure recommandée).', 'Vermogensreserve ter plaatse te bevestigen (meting aanbevolen).')
+      : d.pilotage
+        ? tr(`La puissance simultanée (${d.pDiversified} kW) dépasse la réserve disponible (${d.pReserve} kW) : la <strong>gestion de charge dynamique</strong> répartit la puissance et <strong>évite tout renforcement (verzwaring)</strong> chez Fluvius / Sibelga.`,
+             `Het gelijktijdig vermogen (${d.pDiversified} kW) overschrijdt de beschikbare reserve (${d.pReserve} kW): de <strong>dynamische lastverdeling</strong> verdeelt het vermogen en <strong>vermijdt elke verzwaring</strong> bij Fluvius / Sibelga.`)
+        : tr(`La réserve disponible (${d.pReserve} kW) couvre la puissance simultanée (${d.pDiversified} kW) : aucun renforcement nécessaire.`,
+             `De beschikbare reserve (${d.pReserve} kW) dekt het gelijktijdig vermogen (${d.pDiversified} kW): geen verzwaring nodig.`);
+
+    const rows = lines.map(l => {
+      const s = (l.qty || 0) * (l.puHT || 0);
+      return `<tr><td>${esc(l.desc)}${l.sub ? `<br><small>${esc(l.sub)}</small>` : ''}</td><td class="r">${l.qty}</td><td class="r">${fmt(l.puHT)}</td><td class="r">${fmt(s)}</td></tr>`;
+    }).join('');
+
+    const compliance = [
+      tr('Installation conforme AREI / RGIE — keuringsattest par organisme agréé inclus.', 'Installatie conform AREI / RGIE — keuringsattest door erkend organisme inbegrepen.'),
+      tr('Protection conforme NBN HD 60364-7-722 : différentiel Type A 30 mA + RDC-DD intégré (IEC 62955) par point.', 'Bescherming conform NBN HD 60364-7-722: differentieel Type A 30 mA + geïntegreerde RDC-DD (IEC 62955) per punt.'),
+      tr('Sécurité incendie parking : respect de la NBN S 21-208-1 et des exigences de l\'assureur.', 'Brandveiligheid parking: naleving van NBN S 21-208-1 en de eisen van de verzekeraar.'),
+      tr('Infrastructure évolutive (logique EPBD) : backbone et fourreaux dimensionnés pour ajouter des points ultérieurement.', 'Uitbreidbare infrastructuur (EPBD-logica): backbone en wachtbuizen gedimensioneerd om later punten toe te voegen.'),
+      tr('Facturation individuelle par résident possible (compteur MID ou plateforme OCPP) — pas de litige sur la facture commune.', 'Individuele facturatie per bewoner mogelijk (MID-meter of OCPP-platform) — geen discussie over de gemeenschappelijke factuur.')
+    ].map(x => `<li>${x}</li>`).join('');
+
+    const title = tr('Dossier pour l\'assemblée générale', 'Dossier voor de algemene vergadering');
+    const subtitle = tr('Installation d\'une infrastructure de recharge collective en copropriété', 'Plaatsing van een gedeelde laadinfrastructuur in mede-eigendom');
+
+    return `<!DOCTYPE html><html lang="${nl?'nl':'fr'}"><head><meta charset="UTF-8">
+<title>${esc(title)} BORNEXA${form.name ? ' - ' + esc(form.name) : ''}</title>
+<style>
+*{box-sizing:border-box} body{font-family:'Segoe UI',Arial,sans-serif;color:#0B1E3C;margin:0;padding:24px 28px;line-height:1.55;font-size:13.5px}
+h1{font-size:1.5rem;margin:0 0 2px} h2{font-size:1.05rem;margin:22px 0 8px;color:#0B1E3C;border-bottom:2px solid #00C896;padding-bottom:4px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0B1E3C;padding-bottom:12px;margin-bottom:8px}
+.brand strong{font-size:1.25rem} .muted{color:#64748B;font-size:.82rem}
+.tag{display:inline-block;background:#E0FBF4;color:#0B1E3C;font-weight:700;border-radius:6px;padding:2px 9px;font-size:.8rem;margin-top:4px}
+.grid{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0}
+.box{flex:1;min-width:220px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px 13px}
+.box .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;color:#64748B;font-weight:700}
+.specs{width:100%;border-collapse:collapse;margin:6px 0}
+.specs td{padding:5px 8px;border-bottom:1px solid #EDF2F7} .specs td:first-child{color:#475569;width:55%}
+.specs td:last-child{font-weight:700;text-align:right}
+.hl{background:linear-gradient(135deg,#E0FBF4,#fff);border:1px solid #00C896;border-radius:10px;padding:11px 14px;margin:10px 0}
+table.q{width:100%;border-collapse:collapse;margin:8px 0;font-size:12.5px}
+table.q th{background:#0B1E3C;color:#fff;text-align:left;padding:7px 8px;font-size:.78rem}
+table.q td{padding:7px 8px;border-bottom:1px solid #EDF2F7;vertical-align:top} table.q td.r{text-align:right;white-space:nowrap}
+table.q small{color:#64748B}
+.tot{margin-left:auto;width:300px;margin-top:8px} .tot td{padding:5px 8px} .tot tr:last-child td{font-weight:800;font-size:1.05rem;border-top:2px solid #0B1E3C}
+ul.cmp{margin:6px 0 0;padding-left:18px} ul.cmp li{margin-bottom:5px}
+.reso{background:#0B1E3C;color:#fff;border-radius:10px;padding:13px 16px;margin:12px 0}
+.reso .k{color:#94a3b8;font-size:.72rem;text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+.foot{margin-top:18px;border-top:1px solid #E2E8F0;padding-top:10px;color:#64748B;font-size:.78rem}
+@media print{body{padding:0}@page{margin:14mm}}
+</style></head><body>
+<div class="top">
+  <div class="brand"><strong>BORNEXA</strong><div class="muted">${tr('Installateur de bornes de recharge','Laadpaal & wallbox installateur')}<br>Boortmeerbeek (3190) · +32 489 24 77 60 · info@bornexa.be</div></div>
+  <div style="text-align:right"><div class="muted">${tr('Date','Datum')} : ${today}</div><div class="tag">${esc(tr('Document de présentation','Presentatiedocument'))}</div></div>
+</div>
+<h1>${esc(title)}</h1>
+<div class="muted">${esc(subtitle)}</div>
+
+<div class="grid">
+  <div class="box"><div class="k">${tr('Copropriété / Syndic','Mede-eigendom / Syndicus')}</div>${esc(form.name || '—')}<br><span class="muted">${esc(form.address || '')}</span></div>
+  <div class="box"><div class="k">${tr('Contact','Contact')}</div>${esc(form.phone || '—')}<br><span class="muted">${esc(form.email || '')}</span></div>
+</div>
+
+<h2>${tr('1. Le projet','1. Het project')}</h2>
+<p>${tr('La copropriété souhaite équiper son parking de bornes de recharge. Plutôt qu\'une borne isolée, BORNEXA propose une <strong>infrastructure collective</strong> dimensionnée pour l\'ensemble des emplacements : une seule fois l\'infrastructure (votée en AG), puis chaque résident raccorde son point quand il le souhaite. Le <strong>droit à la prise</strong> garantit par ailleurs à chaque copropriétaire la possibilité d\'installer un point de charge.',
+       'De mede-eigendom wil haar parking uitrusten met laadpalen. In plaats van een losse laadpaal stelt BORNEXA een <strong>gedeelde infrastructuur</strong> voor, gedimensioneerd voor alle staanplaatsen: één keer de infrastructuur (gestemd op de AV), daarna sluit elke bewoner zijn punt aan wanneer hij wil. Het <strong>recht op een laadpunt</strong> garandeert bovendien elke mede-eigenaar de mogelijkheid om een laadpunt te plaatsen.')}</p>
+
+<h2>${tr('2. Dimensionnement technique','2. Technische dimensionering')}</h2>
+<table class="specs">
+  <tr><td>${tr('Nombre de points de charge','Aantal laadpunten')}</td><td>${d.N}</td></tr>
+  <tr><td>${tr('Puissance par point','Vermogen per punt')}</td><td>${String(d.pPoint).replace('.', ',')} kW</td></tr>
+  <tr><td>${tr('Puissance installée brute','Bruto geïnstalleerd vermogen')}</td><td>${d.pInstalled} kW</td></tr>
+  <tr><td>${tr('Foisonnement (Ks)','Gelijktijdigheidsfactor (Ks)')}</td><td>${String(d.Ks).replace('.', ',')}</td></tr>
+  <tr><td>${tr('Puissance simultanée réelle','Werkelijk gelijktijdig vermogen')}</td><td>${d.pDiversified} kW</td></tr>
+  <tr><td>${tr('Pilotage dynamique','Dynamische sturing')}</td><td>${d.pilotage ? tr('Oui','Ja') : tr('Recommandé','Aanbevolen')}</td></tr>
+  <tr><td>${tr('Backbone (câble)','Backbone (kabel)')}</td><td>${d.cableRef} · ${d.L} m</td></tr>
+  <tr><td>${tr('Chute de tension (ΔU)','Spanningsval (ΔU)')}</td><td>${String(d.duReal).replace('.', ',')} % (≤ 3 %)</td></tr>
+  <tr><td>${tr('Disjoncteur de tête','Hoofdautomaat')}</td><td>${d.headBreaker} A</td></tr>
+</table>
+<div class="hl">${pilotLine}</div>
+
+<h2>${tr('3. Budget (en deux phases)','3. Budget (in twee fasen)')}</h2>
+<table class="q"><thead><tr><th>${tr('Poste','Post')}</th><th class="r">${tr('Qté','Aantal')}</th><th class="r">${tr('PU HT','EP excl.')}</th><th class="r">${tr('Total HT','Totaal excl.')}</th></tr></thead><tbody>${rows}</tbody></table>
+<table class="q tot">
+  <tr><td>${tr('Phase 1 — Infrastructure collective','Fase 1 — Gedeelde infrastructuur')}</td><td class="r">${fmt(ht1)}</td></tr>
+  <tr><td>${tr('Phase 2 — Points de charge','Fase 2 — Laadpunten')}</td><td class="r">${fmt(ht2)}</td></tr>
+  ${htCommon > 0.005 ? `<tr><td>${tr('Frais communs (plan, keuring, déplacement)','Gemeenschappelijke kosten (plan, keuring, verplaatsing)')}</td><td class="r">${fmt(htCommon)}</td></tr>` : ''}
+  <tr><td>${tr('Total HT','Totaal excl. btw')}</td><td class="r">${fmt(ht)}</td></tr>
+  <tr><td>${tr('TVA','Btw')} ${(tvaRate*100).toFixed(0)} %</td><td class="r">${fmt(tva)}</td></tr>
+  <tr><td>${tr('TOTAL TTC','TOTAAL incl. btw')}</td><td class="r">${fmt(ttc)}</td></tr>
+</table>
+<p class="muted">${tr('TVA 6 % applicable sous conditions pour les immeubles d\'habitation de plus de 10 ans. La Phase 2 (points) peut être engagée progressivement, à la demande des résidents.','Btw 6 % van toepassing onder voorwaarden voor woongebouwen ouder dan 10 jaar. Fase 2 (punten) kan geleidelijk worden uitgevoerd, op vraag van de bewoners.')}</p>
+
+<h2>${tr('4. Conformité & garanties','4. Conformiteit & garanties')}</h2>
+<ul class="cmp">${compliance}</ul>
+
+<div class="reso">
+  <div class="k">${tr('Proposition de décision pour l\'AG','Voorstel van beslissing voor de AV')}</div>
+  ${tr(`L'assemblée générale approuve l'installation de l'infrastructure de recharge collective (Phase 1) telle que décrite, pour un montant de <strong>${fmt(ht1 + htCommon)} HT</strong>, et mandate le syndic pour la signature du devis avec BORNEXA. Les points de charge individuels (Phase 2) sont à charge des résidents demandeurs.`,
+       `De algemene vergadering keurt de plaatsing van de gedeelde laadinfrastructuur (Fase 1) goed zoals beschreven, voor een bedrag van <strong>${fmt(ht1 + htCommon)} excl. btw</strong>, en geeft de syndicus mandaat om de offerte met BORNEXA te ondertekenen. De individuele laadpunten (Fase 2) zijn ten laste van de aanvragende bewoners.`)}
+</div>
+
+<div class="foot">BORNEXA · ${esc(COMPANY.btw)} · IBAN ${esc(COMPANY.iban)} · www.bornexa.be — ${tr('Document indicatif, sous réserve d\'un audit technique sur place.','Indicatief document, onder voorbehoud van een technische audit ter plaatse.')}</div>
+</body></html>`;
+  }
+
+  function openDossierAG(){
+    update();
+    const dim = computeDimensioning();
+    const lines = buildQuoteLines(dim);
+    const d = computeLaadparkDim();
+    const html = buildDossierAG(d, lines);
+    const w = window.open('', '_blank');
+    if (!w){ alert(quoteLang === 'nl' ? 'Sta pop-ups toe om het dossier te openen.' : 'Autorisez les pop-ups pour ouvrir le dossier.'); return; }
+    w.document.open(); w.document.write(html); w.document.close(); w.focus();
+    setTimeout(() => { try { w.print(); } catch(e){} }, 500);
+  }
+  const bAGel = document.getElementById('btnDossierAG');
+  if (bAGel) bAGel.addEventListener('click', openDossierAG);
+
+  // Sélecteur de type de document (devis / facture d'acompte / facture de fin de chantier)
+  const docTypeEl = document.getElementById('docType');
+  if (docTypeEl) docTypeEl.addEventListener('change', function () { docMode = this.value; update(); });
+
+  // ── Export CSV (pour Excel) ──
+  document.getElementById('btnExportCSV').addEventListener('click', () => {
+    const dim   = computeDimensioning();
+    const lines = buildQuoteLines(dim);
+    const rows  = [
+      ['BORNEXA — Devis'],
+      ['Client', form.name || ''],
+      ['Adresse', form.address || ''],
+      ['Tél', form.phone || ''],
+      ['E-mail', form.email || ''],
+      [],
+      ['Objet', `Installation borne ${dim.chargerName} (${dim.power} kW)`],
+      [],
+      [T('includedTitle')]
+    ];
+    buildIncludedItems(dim).forEach(it => rows.push(['✓ ' + it]));
+    rows.push([], ['Description', 'Qté', 'PU HT', 'Total HT']);
+    let totalHT = 0;
+    lines.forEach(l => {
+      const sub = (l.qty || 0) * (l.puHT || 0);
+      totalHT += sub;
+      rows.push([l.desc, l.qty, l.puHT.toFixed(2), sub.toFixed(2)]);
+    });
+    const tva = totalHT * effectiveTva();
+    const ttc = totalHT + tva;
+    rows.push([], ['Total HT', '', '', totalHT.toFixed(2)]);
+    rows.push(['TVA ' + (effectiveTva() * 100).toFixed(0) + ' %', '', '', tva.toFixed(2)]);
+    rows.push(['TOTAL TTC', '', '', ttc.toFixed(2)]);
+
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+    const bom = '﻿';
+    const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    const slug = (form.name || 'devis').replace(/[^a-zA-Z0-9]+/g,'_');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'BORNEXA_devis_' + slug + '_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    showToast('CSV téléchargé ✓');
+  });
+
+  document.getElementById('btnSaveJSON').addEventListener('click', () => {
+    const payload = buildDevisPayload();
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const a = document.createElement('a');
+    const slug = (form.name || 'devis').replace(/[^a-zA-Z0-9]+/g,'_');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'BORNEXA_devis_' + slug + '_' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    showToast('JSON sauvegardé ✓');
+  });
+
+  // ── Tariffs import/export/reset ──
+  document.getElementById('btnExportTarifs').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(tarifs, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'BORNEXA_tarifs_' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  document.getElementById('btnImportTarifs').addEventListener('click', () => {
+    const json = prompt('Coller le JSON tarifs :');
+    if (!json) return;
+    try {
+      const t = JSON.parse(json);
+      if (!t.bornes) throw new Error();
+      tarifs = t; saveTarifs(); renderTariffs(); bindTariffEditors(); update();
+      showToast('Tarifs importés ✓');
+    } catch (e) { showToast('JSON invalide ✗'); }
+  });
+  document.getElementById('btnResetTarifs').addEventListener('click', () => {
+    if (!confirm('Restaurer les tarifs par défaut ?')) return;
+    tarifs = JSON.parse(JSON.stringify(DEFAULT_TARIFS));
+    saveTarifs(); renderTariffs(); bindTariffEditors(); update();
+  });
+
+  // ── Init ──
+  const _hadForm = loadState();
+  // Couche dossier partagée : pré-remplir depuis la visite UNIQUEMENT au 1er passage
+  // (dossier sans formulaire calculateur scopé). Sinon on restaure le formulaire du
+  // dossier tel quel → ni écrasement des saisies, ni héritage d'un autre dossier.
+  if (!_hadForm && window.Bornexa && Bornexa.has()) { var _v = Bornexa.get('visite'); if (_v && _v.data) { try { applyVisitePayload(_v); } catch(e){} } }
+  update();
+  renderTariffs();
+  bindTariffEditors();
+  </script>
+
+</body>
+</html>

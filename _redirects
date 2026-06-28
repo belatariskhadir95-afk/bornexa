@@ -1,0 +1,224 @@
+# Force pretty URLs (canonical without .html) — 301 redirects
+# Each .html version permanently redirects to the clean URL
+
+/index.html                       /                            301!
+/services.html                    /services                    301!
+/contact.html                     /contact                     301!
+/devis.html                       /devis                       301!
+/faq.html                         /faq                         301!
+/blog.html                        /blog                        301!
+/simulator.html                   /simulator                   301!
+/comparateur.html                 /comparateur                 301!
+/prijsberekening.html             /prijsberekening             301!
+/prijs                            /prijsberekening             301!
+/wat-kost-een-laadpaal            /prijsberekening             301!
+/prix-borne-recharge              /prijsberekening             301!
+/tesla.html                       /tesla                       301!
+/wallbox.html                     /wallbox                     301!
+/smappee.html                     /smappee                     301!
+/privacy.html                     /privacy                     301!
+
+/laadpaal-boortmeerbeek.html      /laadpaal-boortmeerbeek      301!
+/laadpaal-bruxelles.html          /laadpaal-bruxelles          301!
+/laadpaal-mechelen.html           /laadpaal-mechelen           301!
+/laadpaal-leuven.html             /laadpaal-leuven             301!
+/laadpaal-zemst.html              /laadpaal-zemst              301!
+/laadpaal-haacht.html             /laadpaal-haacht             301!
+/laadpaal-kampenhout.html         /laadpaal-kampenhout         301!
+/laadpaal-keerbergen.html         /laadpaal-keerbergen         301!
+/laadpaal-tremelo.html            /laadpaal-tremelo            301!
+/laadpaal-rotselaar.html          /laadpaal-rotselaar          301!
+
+/blog-boortmeerbeek.html          /laadpaal-boortmeerbeek      301!
+/blog-boortmeerbeek               /laadpaal-boortmeerbeek      301!
+/blog-tesla.html                  /blog-tesla                  301!
+/blog-solar.html                  /blog-solar                  301!
+/blog-economie.html               /blog-economie               301!
+/blog-appartement.html            /blog-appartement            301!
+/blog-business.html               /blog-business               301!
+
+# New pages added 2026-05-30 — NL Vlaams-Brabant
+/laadpaal-vilvoorde.html  /laadpaal-vilvoorde  301!
+/laadpaal-lier.html  /laadpaal-lier  301!
+/laadpaal-aarschot.html  /laadpaal-aarschot  301!
+/laadpaal-bonheiden.html  /laadpaal-bonheiden  301!
+/laadpaal-sint-katelijne-waver.html  /laadpaal-sint-katelijne-waver  301!
+/laadpaal-diest.html  /laadpaal-diest  301!
+/laadpaal-overijse.html  /laadpaal-overijse  301!
+/laadpaal-herent.html  /laadpaal-herent  301!
+/laadpaal-holsbeek.html  /laadpaal-holsbeek  301!
+/laadpaal-begijnendijk.html  /laadpaal-begijnendijk  301!
+/laadpaal-tervuren.html  /laadpaal-tervuren  301!
+
+# NL Hageland / oostelijk Vlaams-Brabant (2026-06-06)
+/laadpaal-tienen.html      /laadpaal-tienen      301!
+/laadpaal-boutersem.html   /laadpaal-boutersem   301!
+/laadpaal-zoutleeuw.html   /laadpaal-zoutleeuw   301!
+/laadpaal-landen.html      /laadpaal-landen      301!
+/laadpaal-lubbeek.html     /laadpaal-lubbeek     301!
+/laadpaal-bierbeek.html    /laadpaal-bierbeek    301!
+/laadpaal-kortenberg.html  /laadpaal-kortenberg  301!
+
+# FR Bruxelles + périphérie
+/borne-recharge-uccle.html  /borne-recharge-uccle  301!
+/borne-recharge-auderghem.html  /borne-recharge-auderghem  301!
+/borne-recharge-woluwe-saint-pierre.html  /borne-recharge-woluwe-saint-pierre  301!
+/borne-recharge-woluwe-saint-lambert.html  /borne-recharge-woluwe-saint-lambert  301!
+/borne-recharge-ixelles.html  /borne-recharge-ixelles  301!
+/borne-recharge-etterbeek.html  /borne-recharge-etterbeek  301!
+/borne-recharge-watermael-boitsfort.html  /borne-recharge-watermael-boitsfort  301!
+/borne-recharge-wezembeek-oppem.html  /borne-recharge-wezembeek-oppem  301!
+/borne-recharge-kraainem.html  /borne-recharge-kraainem  301!
+
+# Guides
+/fluvius-premie-laadpaal.html  /fluvius-premie-laadpaal  301!
+/prime-borne-recharge-bruxelles.html  /prime-borne-recharge-bruxelles  301!
+
+# Technische gidsen (GEO/IA, 2026-06-06)
+/gids-p1-poort-activeren.html       /gids-p1-poort-activeren       301!
+/gids-laadpaal-zekering-kabel.html  /gids-laadpaal-zekering-kabel  301!
+/p1-poort-activeren                 /gids-p1-poort-activeren       301!
+/laadpaal-zekering                  /gids-laadpaal-zekering-kabel  301!
+
+# Tesla models
+/laadpaal-tesla-model-y.html  /laadpaal-tesla-model-y  301!
+/laadpaal-tesla-model-3.html  /laadpaal-tesla-model-3  301!
+# Legal + about pages added 2026-05-31
+/over-bornexa.html  /over-bornexa  301!
+/algemene-voorwaarden.html  /algemene-voorwaarden  301!
+
+# Blog article added 2026-06-03
+/blog-securite-installation.html  /blog-securite-installation  301!
+# Blog article added 2026-06-04 — Type A vs Type B
+/blog-type-a-type-b-differentiel.html  /blog-type-a-type-b-differentiel  301!
+# Blog article added 2026-06-05 — Recharge solaire & load balancing
+/blog-recharge-solaire-load-balancing.html  /blog-recharge-solaire-load-balancing  301!
+# New FR Brussels pages added 2026-06-03
+/borne-recharge-saint-gilles.html  /borne-recharge-saint-gilles  301!
+/borne-recharge-schaerbeek.html  /borne-recharge-schaerbeek  301!
+/borne-recharge-forest.html  /borne-recharge-forest  301!
+/borne-recharge-jette.html  /borne-recharge-jette  301!
+
+/garantie-sav.html  /garantie-sav  301!
+/blog-couts-laadpaal-2026.html  /blog-couts-laadpaal-2026  301!
+
+# B2B / Entreprise (2026-06-06)
+/borne-entreprise.html  /borne-entreprise  301!
+/borne-bedrijf          /borne-entreprise  301!
+/laadpaal-bedrijf       /borne-entreprise  301!
+
+# Regions hub (2026-06-03)
+/regios.html  /regios  301!
+/regions  /regios  301!
+/regions.html  /regios  301!
+
+# Reparatie & depannage (2026-06-23) — public, indexable
+/reparation-borne-recharge.html  /reparation-borne-recharge  301!
+/depannage-borne                 /reparation-borne-recharge  301!
+/depannage-borne-recharge        /reparation-borne-recharge  301!
+/laadpaal-herstelling            /reparation-borne-recharge  301!
+/herstelling-laadpaal            /reparation-borne-recharge  301!
+/laadpaal-depannage              /reparation-borne-recharge  301!
+
+# Installatie eigen laadpaal (2026-06-18) — public, indexable
+/installation-borne-fournie-client.html  /installation-borne-fournie-client  301!
+/borne-deja-achetee              /installation-borne-fournie-client  301!
+/eigen-laadpaal-plaatsen         /installation-borne-fournie-client  301!
+/laadpaal-installeren            /installation-borne-fournie-client  301!
+/installation-borne              /installation-borne-fournie-client  301!
+
+# Versterkt stopcontact Green'Up (2026-06-18) — public, indexable
+/prise-renforcee-green-up.html  /prise-renforcee-green-up  301!
+/green-up                        /prise-renforcee-green-up  301!
+/versterkt-stopcontact          /prise-renforcee-green-up  301!
+/versterkt-stopcontact-green-up /prise-renforcee-green-up  301!
+/prise-renforcee                /prise-renforcee-green-up  301!
+
+# Laadpaal appartement / copropriété — pilier (2026-06-23) — public, indexable
+/laadpaal-appartement.html       /laadpaal-appartement  301!
+/laadpaal-mede-eigendom          /laadpaal-appartement  301!
+/laadpaal-vme                    /laadpaal-appartement  301!
+/laadpaal-syndicus               /laadpaal-appartement  301!
+/laadpaal-parking                /laadpaal-appartement  301!
+/borne-recharge-copropriete      /laadpaal-appartement  301!
+/borne-copropriete               /laadpaal-appartement  301!
+/borne-recharge-immeuble         /laadpaal-appartement  301!
+/droit-a-la-prise                /laadpaal-appartement  301!
+/recht-op-laadpunt               /laadpaal-appartement  301!
+
+# QR avis Google (2026-06-28) — redirection externe, modifiable (porte-clé fin de chantier)
+/avis         https://g.page/r/CQR9NxUM1ngUEBM/review  301!
+/review       https://g.page/r/CQR9NxUM1ngUEBM/review  301!
+/beoordeling  https://g.page/r/CQR9NxUM1ngUEBM/review  301!
+
+# Laadpaal bedrijfswagen / fiscaal (2026-06-27) — public, indexable
+/laadpaal-bedrijfswagen.html      /laadpaal-bedrijfswagen  301!
+/bedrijfswagen-laadpaal           /laadpaal-bedrijfswagen  301!
+/laadpaal-salariswagen            /laadpaal-bedrijfswagen  301!
+/laadpaal-bedrijfswagen-fiscaal   /laadpaal-bedrijfswagen  301!
+/borne-voiture-societe            /laadpaal-bedrijfswagen  301!
+/borne-recharge-voiture-societe   /laadpaal-bedrijfswagen  301!
+
+# Simulateur copropriété (2026-06-24) — public, indexable
+/simulateur-copropriete.html     /simulateur-copropriete  301!
+/simulator-copropriete           /simulateur-copropriete  301!
+/simulateur-copro                /simulateur-copropriete  301!
+/simulator-mede-eigendom         /simulateur-copropriete  301!
+/laadpaal-simulator-appartement  /simulateur-copropriete  301!
+
+# Energie : blog capaciteitstarief + opvolging (2026-06-25) — public, indexable
+/blog-capaciteitstarief.html      /blog-capaciteitstarief      301!
+/blog-energievreters.html         /blog-energievreters         301!
+/blog-zonne-autoconsumptie.html   /blog-zonne-autoconsumptie   301!
+/energie-opvolging.html           /energie-opvolging           301!
+/energiemonitoring-contract       /energie-opvolging           301!
+/suivi-energetique                /energie-opvolging           301!
+/monitoringcontract               /energie-opvolging           301!
+
+# Slim energiebeheer / Smappee Infinity — cocon énergie (2026-06-25) — public, indexable
+/slim-energiebeheer.html          /slim-energiebeheer          301!
+/energiebeheer                    /slim-energiebeheer          301!
+/gestion-energetique              /slim-energiebeheer          301!
+/smappee-infinity.html            /smappee-infinity            301!
+/capaciteitstarief-verlagen.html  /capaciteitstarief-verlagen  301!
+/capaciteitstarief                /capaciteitstarief-verlagen  301!
+/piekvermogen-verlagen            /capaciteitstarief-verlagen  301!
+/tarif-capacitaire                /capaciteitstarief-verlagen  301!
+/energiemonitoring-woning.html    /energiemonitoring-woning    301!
+/energiemonitoring                /energiemonitoring-woning    301!
+/energiemonitoring-bedrijf.html   /energiemonitoring-bedrijf   301!
+/monitoring-energetique-entreprise /energiemonitoring-bedrijf  301!
+/submetering                      /energiemonitoring-bedrijf   301!
+/zonnepanelen-optimaliseren.html  /zonnepanelen-optimaliseren  301!
+/autoconsumptie                   /zonnepanelen-optimaliseren  301!
+/optimisation-photovoltaique      /zonnepanelen-optimaliseren  301!
+/energie-audit.html               /energie-audit               301!
+/audit-energetique                /energie-audit               301!
+/smart-building.html              /smart-building              301!
+/slim-gebouw                      /smart-building              301!
+
+# Glossary (2026-06-06) — public, indexable
+/glossaire-borne-recharge.html  /glossaire-borne-recharge  301!
+/glossaire                       /glossaire-borne-recharge  301!
+/woordenlijst                    /glossaire-borne-recharge  301!
+/woordenlijst-laadpaal           /glossaire-borne-recharge  301!
+
+# Internal tools — noindex + nofollow, gated by URL only
+/configurateur-smappee.html /configurateur-smappee 301!
+/configurateur              /configurateur-smappee 301!
+/smappee-config             /configurateur-smappee 301!
+/visite-terrain.html       /visite-terrain       301!
+/calculateur-interne.html  /calculateur-interne  301!
+/chantier-installation.html /chantier-installation 301!
+/calc                       /calculateur-interne  301!
+/visite                     /visite-terrain       301!
+/chantier                   /chantier-installation 301!
+/documenten-installatie.html /documenten-installatie 301!
+/documenten                  /documenten-installatie 301!
+/documents                   /documenten-installatie 301!
+/bornexa-workflow.html       /bornexa-workflow        301!
+/workflow                    /bornexa-workflow        301!
+/outil-bornexa               /bornexa-workflow        301!
+/bornexa-hub.html            /bornexa-hub             301!
+/hub                         /bornexa-hub             301!
+/dossiers                    /bornexa-hub             301!

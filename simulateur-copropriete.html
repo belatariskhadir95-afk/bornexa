@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <title data-fr="Simulateur borne de recharge en copropriété — budget &amp; dimensionnement | BORNEXA">Simulator laadpaal in mede-eigendom — budget &amp; dimensionering | BORNEXA</title>
+  <meta name="description" content="Bereken gratis het budget en de dimensionering van een collectieve laadinfrastructuur in uw appartementsgebouw: aantal punten, foisonnement, pilotage nodig?, kabelsectie en richtprijs. Voor bewoners, syndici en promotoren." data-fr="Estimez gratuitement le budget et le dimensionnement d'une infrastructure de recharge collective dans votre immeuble : nombre de points, foisonnement, pilotage nécessaire ?, section de câble et prix indicatif. Pour habitants, syndics et promoteurs.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.bornexa.be/simulateur-copropriete">
+  <link rel="alternate" hreflang="nl" href="https://www.bornexa.be/simulateur-copropriete">
+  <link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/simulateur-copropriete">
+  <meta property="og:title" content="Simulator laadpaal in mede-eigendom — budget &amp; dimensionering | BORNEXA">
+  <meta property="og:description" content="Bereken het budget en de dimensionering van een collectieve laadinfrastructuur in uw mede-eigendom. Foisonnement, pilotage, kabelsectie en richtprijs.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.bornexa.be/simulateur-copropriete">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+  <meta property="og:image:alt" content="Laadinfrastructuur in mede-eigendom / parking">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
+  <link rel="stylesheet" href="css/style.css?v=2026-06-28">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.bornexa.be/simulateur-copropriete",
+        "url": "https://www.bornexa.be/simulateur-copropriete",
+        "name": "Simulateur borne de recharge en copropriété — budget & dimensionnement",
+        "description": "Estimez le budget et le dimensionnement d'une infrastructure de recharge collective en copropriété ou parking : foisonnement, pilotage dynamique, section de câble et prix indicatif.",
+        "inLanguage": ["nl-BE","fr-BE"],
+        "isPartOf": { "@id": "https://www.bornexa.be/#website" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Combien coûte une infrastructure de recharge en copropriété ?", "acceptedAnswer": { "@type": "Answer", "text": "Cela dépend du nombre de points, de la distance au tableau et de la réserve de puissance du bâtiment. Comptez en général une infrastructure collective de 3.000 à 8.000 € (alimentation, backbone, gestion de charge) + environ 1.300 à 1.900 € par point de charge. Le simulateur donne une fourchette indicative ; seul un audit gratuit sur place permet un prix ferme." } },
+          { "@type": "Question", "name": "Qu'est-ce que le foisonnement et pourquoi est-ce important ?", "acceptedAnswer": { "@type": "Answer", "text": "Le foisonnement (coefficient de simultanéité Ks) tient compte du fait que toutes les bornes ne chargent jamais à pleine puissance en même temps. Par exemple, 6 points de 11 kW ne demandent pas 66 kW mais environ 40 kW. C'est ce qui permet, avec la gestion de charge dynamique, d'éviter un renforcement coûteux du raccordement." } },
+          { "@type": "Question", "name": "Quand le pilotage dynamique est-il nécessaire ?", "acceptedAnswer": { "@type": "Answer", "text": "Le pilotage dynamique est requis lorsque la puissance simultanée des bornes dépasse la réserve de puissance disponible du bâtiment. Il répartit alors la puissance disponible entre les points en temps réel, ce qui évite une verzwaring (renforcement) auprès de Fluvius ou Sibelga." } },
+          { "@type": "Question", "name": "Faut-il l'accord de la copropriété ?", "acceptedAnswer": { "@type": "Answer", "text": "L'infrastructure collective (Phase 1) se vote en assemblée générale. Un copropriétaire peut toutefois invoquer le droit à la prise pour son propre point de charge. BORNEXA fournit un dossier technique clair pour l'AG et accompagne la procédure." } }
+        ]
+      },
+      { "@type": "BreadcrumbList", "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bornexa.be/" },
+        { "@type": "ListItem", "position": 2, "name": "Laadpaal appartement", "item": "https://www.bornexa.be/laadpaal-appartement" },
+        { "@type": "ListItem", "position": 3, "name": "Simulateur copropriété", "item": "https://www.bornexa.be/simulateur-copropriete" }
+      ] }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+      <div class="nav-links">
+        <a href="/" data-key="navHome">Home</a>
+        <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+        <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+        <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+        <a href="faq">FAQ</a>
+        <a href="blog" data-key="navBlog">Blog</a>
+        <a href="devis" class="nav-cta">Offerte aanvragen</a>
+        <button class="btn-lang" id="lang-btn">FR</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+      <a href="/" data-key="navHome">Home</a>
+      <a href="services" data-key="navServices">Diensten</a>
+      <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+      <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+      <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+      <a href="faq">FAQ</a>
+      <a href="blog" data-key="navBlog">Blog</a>
+      <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+      <button class="btn-lang" id="lang-btn-mobile">FR</button>
+    </div>
+  </nav>
+
+  <header class="sim-hero">
+    <div class="container sim-hero-inner">
+      <div class="sim-hero-badges">
+        <span class="sim-hero-badge" data-nl="Cadre belge" data-fr="Cadre belge">Belgisch kader</span>
+        <span class="sim-hero-badge" data-nl="Dimensionering in real-time" data-fr="Dimensionnement en temps réel">Dimensionering in real-time</span>
+        <span class="sim-hero-badge" data-nl="Gratis &amp; vrijblijvend" data-fr="Gratuit &amp; sans engagement">Gratis &amp; vrijblijvend</span>
+      </div>
+      <h1 data-nl="Simulator: laadpaal in een appartementsgebouw" data-fr="Simulateur : borne de recharge en copropriété">Simulator: laadpaal in een appartementsgebouw</h1>
+      <p data-nl="Voer enkele kenmerken van uw gebouw in en ontdek meteen het budget, of pilotage nodig is, en de dimensionering van de collectieve laadinfrastructuur." data-fr="Entrez quelques caractéristiques de votre immeuble et découvrez immédiatement le budget, si le pilotage est nécessaire, et le dimensionnement de l'infrastructure collective.">Voer enkele kenmerken van uw gebouw in en ontdek meteen het budget, of pilotage nodig is, en de dimensionering van de collectieve laadinfrastructuur.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" aria-labelledby="sim-title">
+      <div class="container">
+        <div class="sim-layout">
+
+          <!-- Inputs -->
+          <div class="sim-card reveal">
+            <div class="sim-card-title" id="sim-title" data-nl="Uw gebouw" data-fr="Votre immeuble">Uw gebouw</div>
+            <p class="sim-card-sub" data-nl="Pas de waarden aan voor een persoonlijke raming. Een gratis audit ter plaatse bevestigt alles." data-fr="Ajustez les valeurs pour une estimation personnalisée. Un audit gratuit sur place confirme tout.">Pas de waarden aan voor een persoonlijke raming. Een gratis audit ter plaatse bevestigt alles.</p>
+
+            <div class="sim-group">
+              <div class="sim-label">
+                <span data-nl="Aantal laadpunten nu" data-fr="Nombre de points maintenant">Aantal laadpunten nu</span>
+                <span class="sim-label-val" id="lbl-points">6</span>
+              </div>
+              <input type="range" class="sim-range" id="sim-points" min="1" max="40" step="1" value="6" aria-label="Aantal laadpunten">
+            </div>
+
+            <div class="sim-group">
+              <div class="sim-label"><span data-nl="Vermogen per punt" data-fr="Puissance par point">Vermogen per punt</span></div>
+              <select class="sim-select" id="sim-power" aria-label="Vermogen per punt">
+                <option value="3.7" data-nl="3,7 kW (langzaam, mono)" data-fr="3,7 kW (lent, mono)">3,7 kW (langzaam, mono)</option>
+                <option value="7.4" data-nl="7,4 kW (mono)" data-fr="7,4 kW (mono)">7,4 kW (mono)</option>
+                <option value="11" selected data-nl="11 kW (driefasig)" data-fr="11 kW (triphasé)">11 kW (driefasig)</option>
+                <option value="22" data-nl="22 kW (driefasig, snel)" data-fr="22 kW (triphasé, rapide)">22 kW (driefasig, snel)</option>
+              </select>
+            </div>
+
+            <div class="sim-group">
+              <div class="sim-label">
+                <span data-nl="Afstand tableau → parking" data-fr="Distance tableau → parking">Afstand tableau → parking</span>
+                <span class="sim-label-val" id="lbl-length">40 m</span>
+              </div>
+              <input type="range" class="sim-range" id="sim-length" min="5" max="120" step="5" value="40" aria-label="Backbone lengte">
+            </div>
+
+            <div class="sim-sep"></div>
+
+            <div class="sim-group">
+              <div class="sim-label">
+                <span data-nl="Aansluitvermogen gebouw" data-fr="Puissance souscrite immeuble">Aansluitvermogen gebouw</span>
+                <span class="sim-label-val" id="lbl-sub">onbekend</span>
+              </div>
+              <input type="range" class="sim-range" id="sim-sub" min="0" max="250" step="5" value="0" aria-label="Aansluitvermogen">
+              <small style="color:var(--muted,#64748B);font-size:.8rem" data-nl="0 = onbekend (we schatten de piek). Staat op de factuur of de teller." data-fr="0 = inconnu (on estime la pointe). Indiqué sur la facture ou le compteur.">0 = onbekend (we schatten de piek). Staat op de factuur of de teller.</small>
+            </div>
+
+            <div class="sim-group">
+              <div class="sim-label"><span data-nl="Type parking" data-fr="Type de parking">Type parking</span></div>
+              <select class="sim-select" id="sim-parking" aria-label="Type parking">
+                <option value="onder" data-nl="Ondergronds" data-fr="Souterrain">Ondergronds</option>
+                <option value="buiten" data-nl="Buiten / op niveau" data-fr="Extérieur / de plain-pied">Buiten / op niveau</option>
+              </select>
+            </div>
+
+            <div class="sim-sep"></div>
+
+            <div class="sim-toggle-row">
+              <div class="sim-toggle-info">
+                <strong data-nl="Digitale meter" data-fr="Compteur numérique">Digitale meter</strong>
+                <small data-nl="Slimme meter aanwezig (P1-poort)" data-fr="Compteur intelligent présent (port P1)">Slimme meter aanwezig (P1-poort)</small>
+              </div>
+              <label class="sim-switch" aria-label="Digitale meter"><input type="checkbox" id="sim-digital" checked><span class="sim-track"></span></label>
+            </div>
+
+            <div class="sim-toggle-row">
+              <div class="sim-toggle-info">
+                <strong data-nl="Technisch lokaal toegankelijk" data-fr="Local technique accessible">Technisch lokaal toegankelijk</strong>
+                <small data-nl="Tellerlokaal vlot bereikbaar vanaf de parking" data-fr="Local compteurs facilement accessible depuis le parking">Tellerlokaal vlot bereikbaar vanaf de parking</small>
+              </div>
+              <label class="sim-switch" aria-label="Technisch lokaal"><input type="checkbox" id="sim-techroom" checked><span class="sim-track"></span></label>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div class="sim-results reveal delay-2">
+
+            <div class="sim-result-card" id="score-card" style="background:linear-gradient(135deg,#0B1E3C,#13315c);color:#fff;text-align:center">
+              <div class="sim-result-label" style="color:#cbd5e1" data-nl="Eligibiliteitsscore van uw gebouw" data-fr="Score d'éligibilité de votre immeuble">Eligibiliteitsscore van uw gebouw</div>
+              <div style="display:flex;align-items:baseline;justify-content:center;gap:6px;margin:4px 0">
+                <span id="res-score" style="font-size:2.6rem;font-weight:800;line-height:1">72</span>
+                <span style="font-size:1.1rem;color:#94a3b8">/ 100</span>
+              </div>
+              <div id="res-score-tag" style="display:inline-block;font-weight:700;padding:3px 12px;border-radius:999px;background:#00C896;color:#0B1E3C;font-size:.9rem">Bon</div>
+              <div style="height:8px;border-radius:999px;background:rgba(255,255,255,.15);margin:12px 0 0;overflow:hidden"><div id="res-score-bar" style="height:100%;width:72%;background:#00C896;transition:width .3s,background .3s"></div></div>
+              <ul id="res-score-list" style="list-style:none;margin:14px 0 0;padding:0;text-align:left;font-size:.86rem;line-height:1.5"></ul>
+            </div>
+
+            <div class="sim-result-card sim-result-ev">
+              <div class="sim-result-label" data-nl="Gelijktijdig vermogen (foisonnement)" data-fr="Puissance simultanée (foisonnement)">Gelijktijdig vermogen (foisonnement)</div>
+              <div class="sim-result-amount" id="res-power">40 kW</div>
+              <div class="sim-result-sub" id="res-power-sub">Ks 0,6 · 6 × 11 kW</div>
+            </div>
+
+            <div class="sim-result-card" id="pilot-card" style="border-left:5px solid #00C896">
+              <div class="sim-result-label" data-nl="Dynamische lastverdeling (pilotage)" data-fr="Gestion de charge dynamique (pilotage)">Dynamische lastverdeling (pilotage)</div>
+              <div class="sim-result-amount" id="res-pilot" style="font-size:1.4rem">—</div>
+              <div class="sim-result-sub" id="res-pilot-sub"></div>
+            </div>
+
+            <div class="sim-result-card sim-result-savings">
+              <div class="sim-result-label" data-nl="Geschat budget (richtprijs, excl. btw)" data-fr="Budget estimé (indicatif, hors TVA)">Geschat budget (richtprijs, excl. btw)</div>
+              <div class="sim-result-amount" id="res-total">€ 12.000 – € 18.000</div>
+              <div class="sim-monthly-row">
+                <span data-nl="Backbone / dimensionering:" data-fr="Backbone / dimensionnement :">Backbone / dimensionering:</span>
+                <strong id="res-cable">5G16 · ΔU 2,3 %</strong>
+              </div>
+            </div>
+
+            <div style="background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:14px 16px;font-size:.9rem;line-height:1.55">
+              <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><span data-nl="Infrastructuur collectief" data-fr="Infrastructure collective">Infrastructuur collectief</span><strong id="res-infra">—</strong></div>
+              <div style="display:flex;justify-content:space-between;gap:8px"><span data-nl="Per laadpunt × aantal" data-fr="Par point × nombre">Per laadpunt × aantal</span><strong id="res-points">—</strong></div>
+            </div>
+
+            <p style="font-size:.82rem;color:var(--muted,#64748B);margin:2px 0 0" data-nl="Richtprijs indicatief. TVA 6 % mogelijk voor woongebouwen ouder dan 10 jaar. Definitieve prijs na gratis audit." data-fr="Prix indicatif. TVA 6 % possible pour les immeubles d'habitation de plus de 10 ans. Prix définitif après audit gratuit.">Richtprijs indicatief. TVA 6 % mogelijk voor woongebouwen ouder dan 10 jaar. Definitieve prijs na gratis audit.</p>
+
+            <div class="sim-cta-card">
+              <h4 data-nl="Klaar voor uw laadpark?" data-fr="Prêt pour votre laadpark ?">Klaar voor uw laadpark?</h4>
+              <p data-nl="Vraag een gratis audit aan — inclusief dossier voor de algemene vergadering." data-fr="Demandez un audit gratuit — dossier pour l'assemblée générale inclus.">Vraag een gratis audit aan — inclusief dossier voor de algemene vergadering.</p>
+              <a href="devis" class="btn btn-dark" data-nl="Gratis audit aanvragen" data-fr="Demander un audit gratuit">Gratis audit aanvragen</a>
+            </div>
+
+          </div>
+        </div>
+
+        <p class="text-muted mt-24" style="font-size:.8rem;text-align:center;max-width:780px;margin:18px auto 0" data-nl="Methode : foisonnement Ks (1,0 → 0,3 volgens aantal punten), reserve = aansluitvermogen − geschatte piek (60 %), pilotage vereist als gelijktijdig vermogen > reserve, kabelsectie volgens stroom (Iz) en spanningsval ΔU ≤ 3 % (AREI max 5 %). Richtprijzen incl. plaatsing, excl. btw." data-fr="Méthode : foisonnement Ks (1,0 → 0,3 selon le nombre de points), réserve = puissance souscrite − pointe estimée (60 %), pilotage requis si puissance simultanée > réserve, section de câble selon le courant (Iz) et la chute de tension ΔU ≤ 3 % (RGIE max 5 %). Prix indicatifs pose comprise, hors TVA.">Methode : foisonnement Ks (1,0 → 0,3 volgens aantal punten), reserve = aansluitvermogen − geschatte piek (60 %), pilotage vereist als gelijktijdig vermogen > reserve, kabelsectie volgens stroom (Iz) en spanningsval ΔU ≤ 3 % (AREI max 5 %). Richtprijzen incl. plaatsing, excl. btw.</p>
+      </div>
+    </section>
+
+    <!-- Explainer -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 data-nl="Hoe lezen we deze raming?" data-fr="Comment lire cette estimation ?">Hoe lezen we deze raming?</h2>
+          <p data-nl="Drie hefbomen bepalen het budget van een laadpark in mede-eigendom." data-fr="Trois leviers déterminent le budget d'un laadpark en copropriété.">Drie hefbomen bepalen het budget van een laadpark in mede-eigendom.</p>
+        </div>
+        <div class="insights-grid reveal">
+          <div class="sim-insight">
+            <div class="sim-insight-icon" style="background:#ECFDF5">⚖️</div>
+            <div>
+              <h4 data-nl="Foisonnement" data-fr="Foisonnement">Foisonnement</h4>
+              <p data-nl="Alle bornes laden nooit samen op vol vermogen. Het foisonnement (Ks) verlaagt het nodige vermogen — zo blijft de aansluiting realistisch en betaalbaar." data-fr="Toutes les bornes ne chargent jamais ensemble à pleine puissance. Le foisonnement (Ks) réduit la puissance nécessaire — le raccordement reste réaliste et abordable.">Alle bornes laden nooit samen op vol vermogen. Het foisonnement (Ks) verlaagt het nodige vermogen — zo blijft de aansluiting realistisch en betaalbaar.</p>
+            </div>
+          </div>
+          <div class="sim-insight">
+            <div class="sim-insight-icon" style="background:#ECFDF5">🔀</div>
+            <div>
+              <h4 data-nl="Pilotage = geen verzwaring" data-fr="Pilotage = pas de verzwaring">Pilotage = geen verzwaring</h4>
+              <p data-nl="Als de vraag de reserve overschrijdt, verdeelt de dynamische lastverdeling het beschikbare vermogen real-time. Dat vermijdt een dure verzwaring bij Fluvius of Sibelga." data-fr="Si la demande dépasse la réserve, la gestion de charge dynamique répartit la puissance disponible en temps réel. Cela évite un renforcement coûteux chez Fluvius ou Sibelga.">Als de vraag de reserve overschrijdt, verdeelt de dynamische lastverdeling het beschikbare vermogen real-time. Dat vermijdt een dure verzwaring bij Fluvius of Sibelga.</p>
+            </div>
+          </div>
+          <div class="sim-insight">
+            <div class="sim-insight-icon" style="background:#ECFDF5">🧩</div>
+            <div>
+              <h4 data-nl="Eén keer infra, dan uitbreidbaar" data-fr="Infra une fois, puis évolutif">Eén keer infra, dan uitbreidbaar</h4>
+              <p data-nl="De collectieve backbone (Fase 1) wordt één keer gestemd op de AV. Daarna voegt elke bewoner eenvoudig een punt toe (Fase 2) — logica EPBD." data-fr="La backbone collective (Phase 1) se vote une fois en AG. Ensuite, chaque résident ajoute simplement un point (Phase 2) — logique EPBD.">De collectieve backbone (Fase 1) wordt één keer gestemd op de AV. Daarna voegt elke bewoner eenvoudig een punt toe (Fase 2) — logica EPBD.</p>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:1.6rem">
+          <a href="laadpaal-appartement" class="btn btn-primary" data-nl="Alles over laadpalen in mede-eigendom" data-fr="Tout sur les bornes en copropriété">Alles over laadpalen in mede-eigendom</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section section-dark">
+      <div class="container">
+        <div class="cta-banner reveal">
+          <div>
+            <h2 data-nl="Een betrouwbare raming voor uw AV?" data-fr="Une estimation fiable pour votre AG ?">Een betrouwbare raming voor uw AV?</h2>
+            <p data-nl="BORNEXA komt gratis ter plaatse, meet de werkelijke reserve en levert een helder dossier voor de syndicus." data-fr="BORNEXA se déplace gratuitement, mesure la réserve réelle et fournit un dossier clair pour le syndic.">BORNEXA komt gratis ter plaatse, meet de werkelijke reserve en levert een helder dossier voor de syndicus.</p>
+          </div>
+          <div class="cta-banner-actions">
+            <a href="devis" class="btn btn-primary" data-nl="Gratis audit" data-fr="Audit gratuit">Gratis audit</a>
+            <a href="tel:+32489247760" class="btn btn-outline" data-nl="Bel ons" data-fr="Appelez-nous">Bel ons</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+          <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="navServices">Diensten</h4>
+          <ul class="footer-links">
+            <li><a href="laadpaal-appartement" data-nl="Laadpaal in mede-eigendom" data-fr="Borne en copropriété">Laadpaal in mede-eigendom</a></li>
+            <li><a href="borne-entreprise" data-nl="Bedrijfslaadpaal" data-fr="Borne entreprise">Bedrijfslaadpaal</a></li>
+            <li><a href="simulateur-copropriete" data-nl="Simulator copropriété" data-fr="Simulateur copropriété">Simulator copropriété</a></li>
+            <li><a href="reparation-borne-recharge" data-nl="Reparatie &amp; depannage" data-fr="Réparation &amp; dépannage">Reparatie &amp; depannage</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerContact">Contact</h4>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span data-key="footerPhone">+32 489 24 77 60</span></div>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-key="footerEmail">info@bornexa.be</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-key="idxFootRghts">© 2026 BORNEXA · BTW BE 1037.811.908 · Alle rechten voorbehouden.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy" data-key="footerPrivacy">Privacybeleid</a>
+          <a href="algemene-voorwaarden" data-key="footerTerms">Algemene voorwaarden</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script defer src="js/translations.js?v=2026-06-28"></script>
+  <script defer src="js/lang.js?v=2026-06-28"></script>
+  <script src="js/main.js?v=2026-06-28"></script>
+
+  <script>
+  /* ── Simulateur copropriété : dimensionnement + budget indicatif ── */
+  (function () {
+    var ptsEl  = document.getElementById('sim-points');
+    var powEl  = document.getElementById('sim-power');
+    var lenEl  = document.getElementById('sim-length');
+    var subEl  = document.getElementById('sim-sub');
+    var parkEl = document.getElementById('sim-parking');
+    var digEl  = document.getElementById('sim-digital');
+    var roomEl = document.getElementById('sim-techroom');
+
+    var resScore    = document.getElementById('res-score');
+    var resScoreTag = document.getElementById('res-score-tag');
+    var resScoreBar = document.getElementById('res-score-bar');
+    var resScoreList= document.getElementById('res-score-list');
+
+    var lblPts = document.getElementById('lbl-points');
+    var lblLen = document.getElementById('lbl-length');
+    var lblSub = document.getElementById('lbl-sub');
+
+    var resPower    = document.getElementById('res-power');
+    var resPowerSub = document.getElementById('res-power-sub');
+    var resPilot    = document.getElementById('res-pilot');
+    var resPilotSub = document.getElementById('res-pilot-sub');
+    var pilotCard   = document.getElementById('pilot-card');
+    var resTotal    = document.getElementById('res-total');
+    var resCable    = document.getElementById('res-cable');
+    var resInfra    = document.getElementById('res-infra');
+    var resPoints   = document.getElementById('res-points');
+
+    // Sections normalisées (mm²) + ampacité indicative (multiconducteur)
+    var SECTIONS = [
+      { s:6, iz:40 }, { s:10, iz:54 }, { s:16, iz:73 }, { s:25, iz:95 },
+      { s:35, iz:117 }, { s:50, iz:141 }, { s:70, iz:179 }, { s:95, iz:216 }, { s:120, iz:249 }
+    ];
+    // €/m installé du backbone (5G), fourchette [min,max]
+    var CABLE_M = { 6:[6,9], 10:[9,13], 16:[14,19], 25:[21,28], 35:[29,38], 50:[40,52], 70:[56,72], 95:[75,95], 120:[95,120] };
+    // Prix par point selon puissance [min,max]
+    var POINT_P = { 3.7:[900,1300], 7.4:[1100,1600], 11:[1300,1900], 22:[1700,2500] };
+
+    function ksFactor(N){
+      if (N <= 1)  return 1.0;
+      if (N <= 4)  return 0.8;
+      if (N <= 9)  return 0.6;
+      if (N <= 20) return 0.5;
+      if (N <= 50) return 0.4;
+      return 0.3;
+    }
+    function lang(){ return (document.documentElement.lang === 'fr') ? 'fr' : 'nl'; }
+    function eur(n){ return '€ ' + (Math.round(n/100)*100).toLocaleString('fr-BE'); }
+    function range(a, b){ return eur(a) + ' – ' + eur(b); }
+
+    function calculate(){
+      var N    = parseInt(ptsEl.value) || 1;
+      var pPt  = parseFloat(powEl.value);
+      var L    = parseInt(lenEl.value) || 10;
+      var sub  = parseInt(subEl.value) || 0;
+      var under = parkEl.value === 'onder';
+      var fr = lang() === 'fr';
+
+      // Labels
+      lblPts.textContent = N;
+      lblLen.textContent = L + ' m';
+      lblSub.textContent = sub > 0 ? (sub + ' kVA') : (fr ? 'inconnu' : 'onbekend');
+
+      // Dimensionnement
+      var isTri = pPt >= 11;
+      var Un = isTri ? 400 : 230;
+      var Ks = ksFactor(N);
+      var pDiv = N * pPt * Ks;                                   // kW simultané
+      var Ib = isTri ? (pDiv*1000)/(Math.sqrt(3)*Un) : (pDiv*1000)/Un;
+
+      // Réserve & pilotage
+      var pilot, pilotTxt, pilotSub, cls;
+      if (sub > 0) {
+        var reserve = Math.max(0, sub - sub*0.6);               // pointe estimée 60 %
+        pilot = pDiv > reserve;
+        if (pilot) {
+          pilotTxt = fr ? 'Requis' : 'Vereist';
+          pilotSub = fr ? ('Demande ' + pDiv.toFixed(0) + ' kW > réserve ≈ ' + reserve.toFixed(0) + ' kW — évite la verzwaring')
+                        : ('Vraag ' + pDiv.toFixed(0) + ' kW > reserve ≈ ' + reserve.toFixed(0) + ' kW — vermijdt verzwaring');
+          cls = '#dc3545';
+        } else {
+          pilotTxt = fr ? 'Recommandé' : 'Aanbevolen';
+          pilotSub = fr ? ('Réserve ≈ ' + reserve.toFixed(0) + ' kW suffisante — utile pour l’évolutivité')
+                        : ('Reserve ≈ ' + reserve.toFixed(0) + ' kW volstaat — handig voor uitbreiding');
+          cls = '#00C896';
+        }
+      } else {
+        pilot = N >= 4;
+        pilotTxt = pilot ? (fr ? 'Probablement requis' : 'Waarschijnlijk vereist') : (fr ? 'Optionnel' : 'Optioneel');
+        pilotSub = fr ? 'Renseignez la puissance souscrite pour confirmer' : 'Vul het aansluitvermogen in om te bevestigen';
+        cls = pilot ? '#F59E0B' : '#00C896';
+      }
+
+      // Section câble : Iz ≥ Ib ET ΔU ≤ 3 %
+      var rho = 0.0225, b = isTri ? 1 : 2, duTarget = 3;
+      var sForDu = (b*rho*L*Ib) / ((duTarget/100)*Un);
+      var pick = SECTIONS.find(function(x){ return x.iz >= Ib && x.s >= sForDu; }) || SECTIONS[SECTIONS.length-1];
+      var S = pick.s;
+      var duReal = (b*rho*L*Ib) / (S*Un) * 100;
+      var cableRef = (isTri ? '5G' : '3G') + S;
+      var CAL = [16,20,25,32,40,50,63,80,100,125,160,250];
+      var headBreaker = CAL.find(function(a){ return a >= Ib; }) || 250;
+
+      // Budget infrastructure (fourchette)
+      var cm = CABLE_M[S] || [15,20];
+      var infraMin = 700 + cm[0]*L + 15*L + (pilot?1000:0) + 400;
+      var infraMax = 1000 + cm[1]*L + 25*L + (pilot?1500:0) + 700;
+      if (under){ infraMin *= 1.08; infraMax *= 1.08; }
+      var pp = POINT_P[pPt] || [1300,1900];
+      var pointsMin = N*pp[0], pointsMax = N*pp[1];
+      var totMin = infraMin + pointsMin, totMax = infraMax + pointsMax;
+
+      // Render
+      resPower.textContent = pDiv.toFixed(0) + ' kW';
+      resPowerSub.textContent = 'Ks ' + Ks.toFixed(1).replace('.', ',') + ' · ' + N + ' × ' + String(pPt).replace('.', ',') + ' kW';
+      resPilot.textContent = pilotTxt;
+      resPilot.style.color = cls;
+      resPilotSub.textContent = pilotSub;
+      pilotCard.style.borderLeftColor = cls;
+      resTotal.textContent = range(totMin, totMax);
+      resCable.textContent = cableRef + ' · ΔU ' + duReal.toFixed(1).replace('.', ',') + ' % · tête ' + headBreaker + ' A';
+      resInfra.textContent = range(infraMin, infraMax);
+      resPoints.textContent = range(pointsMin, pointsMax);
+
+      // ── Score d'éligibilité ──
+      var sc = 0, items = [];
+      function add(pts, okFr, okNl, lvl){ sc += pts; items.push({ lvl: lvl, t: fr ? okFr : okNl }); }
+      if (sub > 0 && !pilot)      add(30, 'Réserve de puissance suffisante', 'Voldoende vermogensreserve', 'ok');
+      else if (sub > 0 && pilot)  add(20, 'Pilotage dynamique requis (faisable, sans verzwaring)', 'Dynamische sturing nodig (haalbaar, geen verzwaring)', 'warn');
+      else                        add(12, 'Puissance souscrite à confirmer', 'Aansluitvermogen te bevestigen', 'warn');
+      if (L <= 25)                add(25, 'Tableau proche du parking', 'Tableau dicht bij de parking', 'ok');
+      else if (L <= 60)           add(18, 'Distance backbone moyenne', 'Gemiddelde backbone-afstand', 'ok');
+      else                        add(10, 'Backbone long (coût câble plus élevé)', 'Lange backbone (hogere kabelkost)', 'warn');
+      if (digEl.checked)          add(15, 'Compteur numérique (pilotage P1 natif)', 'Digitale meter (P1-sturing)', 'ok');
+      else                        add(5,  'Compteur mécanique (solution CT à prévoir)', 'Mechanische meter (CT-oplossing nodig)', 'warn');
+      if (roomEl.checked)         add(15, 'Local technique accessible', 'Technisch lokaal toegankelijk', 'ok');
+      else                        add(5,  'Accès local technique à vérifier', 'Toegang technisch lokaal te checken', 'warn');
+      if (under)                  add(12, 'Parking souterrain (sécurité incendie NBN S 21-208-1)', 'Ondergrondse parking (brandveiligheid NBN S 21-208-1)', 'ok');
+      else                        add(15, 'Parking extérieur (installation simple)', 'Buitenparking (eenvoudige plaatsing)', 'ok');
+      if (sc > 100) sc = 100;
+
+      var tag, col;
+      if (sc >= 80)      { tag = fr ? 'Excellent' : 'Uitstekend';            col = '#00C896'; }
+      else if (sc >= 60) { tag = fr ? 'Bon' : 'Goed';                        col = '#00C896'; }
+      else if (sc >= 40) { tag = fr ? 'Faisable avec étude' : 'Haalbaar met studie'; col = '#F59E0B'; }
+      else               { tag = fr ? 'À étudier' : 'Te bestuderen';         col = '#F59E0B'; }
+      resScore.textContent = sc;
+      resScoreTag.textContent = tag;
+      resScoreTag.style.background = col;
+      resScoreBar.style.width = sc + '%';
+      resScoreBar.style.background = col;
+      var ico = { ok:'✓', warn:'⚠' }, icoCol = { ok:'#00C896', warn:'#F59E0B' };
+      resScoreList.innerHTML = items.map(function(it){
+        return '<li style="margin-bottom:5px;display:flex;gap:8px"><span style="color:'+icoCol[it.lvl]+';font-weight:800">'+ico[it.lvl]+'</span><span>'+it.t+'</span></li>';
+      }).join('');
+    }
+
+    [ptsEl, powEl, lenEl, subEl, parkEl, digEl, roomEl].forEach(function(el){
+      if (el){ el.addEventListener('input', calculate); el.addEventListener('change', calculate); }
+    });
+    // Recalcule les libellés dynamiques après bascule de langue
+    ['lang-btn','lang-btn-mobile'].forEach(function(id){
+      var b = document.getElementById(id);
+      if (b) b.addEventListener('click', function(){ setTimeout(calculate, 0); });
+    });
+    calculate();
+  })();
+  </script>
+</body>
+</html>

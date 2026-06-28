@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;
+    -webkit-print-color-adjust:exact!important;
+    print-color-adjust:exact!important;}
+  @page{size:88mm 58mm;margin:0;}
+  body{background:#fff;}
+
+  .card{
+    width:88mm;height:58mm;
+    position:relative;overflow:hidden;
+    page-break-after:always;
+  }
+
+  /* ── RECTO ── */
+  .recto{background:#0C1018;}
+
+  .recto .accent{
+    position:absolute;left:0;top:0;bottom:0;width:3.5px;
+    background:linear-gradient(180deg,#1ADBA8,#009E76);
+  }
+  .recto .grid{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(0,200,150,.025)1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,200,150,.025)1px,transparent 1px);
+    background-size:5mm 5mm;
+  }
+  .recto .glow{
+    position:absolute;top:-30mm;right:-20mm;
+    width:70mm;height:70mm;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,200,150,.06),transparent 70%);
+  }
+  .recto .dot{
+    position:absolute;top:5mm;right:5.5mm;
+    width:5px;height:5px;border-radius:50%;
+    background:#00C896;opacity:.55;
+  }
+  .recto .dot2{
+    position:absolute;top:5mm;right:8.5mm;
+    width:3px;height:3px;border-radius:50%;
+    background:#00C896;opacity:.25;
+  }
+  .recto .logo{
+    position:absolute;top:9mm;left:7mm;
+  }
+  .recto .slogan{
+    position:absolute;bottom:7.5mm;left:7mm;
+  }
+  .recto .slogan-line{
+    width:8mm;height:1px;background:#00C896;opacity:.7;margin-bottom:3.5px;
+  }
+  .recto .slogan-text{
+    font-family:Arial,sans-serif;
+    font-size:5.2px;font-weight:300;letter-spacing:2.8px;
+    text-transform:uppercase;color:#00C896;
+  }
+
+  /* ── VERSO ── */
+  .verso{background:#0C1018;}
+
+  .verso .top-stripe{
+    position:absolute;top:0;left:0;right:0;height:3.5px;
+    background:linear-gradient(90deg,#1ADBA8 0%,#009E76 65%,transparent 100%);
+  }
+  .verso .grid{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(0,200,150,.02)1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,200,150,.02)1px,transparent 1px);
+    background-size:5mm 5mm;
+  }
+  .verso .contacts{
+    position:absolute;top:10mm;left:7mm;
+    display:flex;flex-direction:column;gap:4.5mm;
+  }
+  .verso .row{display:flex;align-items:center;gap:2.5mm;}
+  .verso .ico{color:#00C896;flex-shrink:0;}
+  .verso .txt{
+    font-family:Arial,sans-serif;
+    font-size:7px;color:#E2E8F0;letter-spacing:.3px;line-height:1;
+  }
+  .verso .txt.bold{font-weight:700;color:#fff;font-size:7.5px;}
+
+  .verso .qr{
+    position:absolute;right:7mm;top:50%;transform:translateY(-50%);
+    background:#fff;padding:2mm;border-radius:2mm;
+    width:18mm;height:18mm;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .verso .qr img{width:14mm;height:14mm;display:block;}
+
+  .verso .brand{
+    position:absolute;bottom:4mm;left:7mm;
+    font-family:Arial,sans-serif;
+    font-size:5px;font-weight:600;letter-spacing:2.5px;
+    color:rgba(255,255,255,.12);text-transform:uppercase;
+  }
+  .verso .glow-line{
+    position:absolute;bottom:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(0,200,150,.3),transparent);
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 : RECTO -->
+<div class="card recto">
+  <div class="glow"></div>
+  <div class="grid"></div>
+  <div class="accent"></div>
+  <div class="dot"></div>
+  <div class="dot2"></div>
+  <div class="logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 90" width="155" height="35">
+      <defs>
+        <linearGradient id="hg" x1="10%" y1="0%" x2="90%" y2="100%">
+          <stop offset="0%" stop-color="#1ADBA8"/>
+          <stop offset="100%" stop-color="#009E76"/>
+        </linearGradient>
+      </defs>
+      <polygon points="85,45 65,80 25,80 5,45 25,10 65,10" fill="url(#hg)"/>
+      <polygon points="56,13 29,47 41,47 26,77 67,43 52,43" fill="rgba(0,40,25,0.22)" transform="translate(1,2)"/>
+      <polygon points="56,13 29,47 41,47 26,77 67,43 52,43" fill="#fff"/>
+      <text x="100" y="52" font-family="Arial Black,Arial,sans-serif" font-weight="700" font-size="36" letter-spacing="2" fill="#fff">BORNEXA</text>
+      <text x="101" y="70" font-family="Arial,sans-serif" font-weight="400" font-size="10.5" letter-spacing="3.8" fill="#00C896">LAADPAAL INSTALLATEUR</text>
+    </svg>
+  </div>
+  <div class="slogan">
+    <div class="slogan-line"></div>
+    <div class="slogan-text">Powering Your Next Drive</div>
+  </div>
+</div>
+
+<!-- PAGE 2 : VERSO -->
+<div class="card verso">
+  <div class="top-stripe"></div>
+  <div class="grid"></div>
+  <div class="contacts">
+    <div class="row">
+      <svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5 19.79 19.79 0 01.22 5.18 2 2 0 012.18 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 10.09a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      <span class="txt bold">0489 24 77 60</span>
+    </div>
+    <div class="row">
+      <svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      <span class="txt">info@bornexa.be</span>
+    </div>
+    <div class="row">
+      <svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
+      </svg>
+      <span class="txt">bornexa.be</span>
+    </div>
+  </div>
+  <div class="qr">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=168x168&data=https://bornexa.be/devis.html&bgcolor=ffffff&color=0C1018&margin=4" alt="QR" width="56" height="56"/>
+  </div>
+  <div class="brand">BORNEXA · EV Installateur</div>
+  <div class="glow-line"></div>
+</div>
+
+</body>
+</html>

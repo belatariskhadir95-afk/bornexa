@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00C896">
+<meta name="robots" content="noindex, nofollow">
+<title>BORNEXA Workflow — dossier client complet</title>
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<style>
+:root{--primary:#00C896;--primary-dark:#009E76;--primary-light:#E0FBF4;--navy:#0B1E3C;--dark:#0C1018;--bg:#F6F8FB;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--warn:#F59E0B;--danger:#EF4444;--r:12px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.5;padding-bottom:80px}
+.topbar{background:linear-gradient(135deg,var(--navy),var(--dark));color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;border-bottom:3px solid var(--primary);flex-wrap:wrap}
+.topbar svg{width:30px;height:30px}
+.topbar b{font-weight:800;font-size:.96rem}
+.dz{display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap}
+.dz select,.dz button{font-size:.8rem;padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-weight:700;cursor:pointer;font-family:inherit}
+.dz select{max-width:170px}
+.save-ind{font-size:.72rem;color:#1ADBA8}
+.dl{display:flex;gap:4px}.dl button{padding:5px 9px;font-size:.74rem;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-weight:700;cursor:pointer}.dl button.on{background:var(--primary);color:var(--navy)}
+.prog{background:#fff;padding:10px 16px;border-bottom:1px solid var(--border);position:sticky;top:52px;z-index:49}
+.prog-bar{height:5px;background:var(--border);border-radius:999px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));transition:width .3s;width:0}
+.prog-meta{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:6px}
+.prog-meta b{color:var(--primary-dark)}
+.wrap{max-width:880px;margin:0 auto;padding:18px 16px}
+.step{display:none;animation:fade .2s}.step.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.step h2{font-size:1.3rem;color:var(--navy);margin-bottom:4px}
+.step .lead{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.f{margin-bottom:11px}.f label{display:block;font-weight:600;font-size:.82rem;margin-bottom:4px}
+.f input,.f select,.f textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.94rem;font-family:inherit;outline:none}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
+.f input.err{border-color:var(--danger)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:600;font-size:.88rem;background:#fff;user-select:none}
+.chip.on{border-color:var(--primary);background:var(--primary-light);color:var(--navy)}
+.checks label{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;margin-bottom:7px;cursor:pointer;font-size:.9rem;font-weight:600}
+.checks label.on{border-color:var(--primary);background:var(--primary-light)}
+.checks input{width:18px;height:18px;accent-color:var(--primary)}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:11px 16px;display:flex;gap:10px;z-index:60;box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+.nav .sp{flex:1}
+.btn{padding:12px 20px;border-radius:10px;font-weight:700;font-size:.92rem;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.btn-p{background:var(--primary);color:var(--navy);box-shadow:0 4px 14px rgba(0,200,150,.28)}.btn-p:hover{background:var(--primary-dark);color:#fff}
+.btn-o{background:#fff;color:var(--navy);border:1.5px solid var(--border)}.btn-g{background:#F1F5F9;color:var(--text)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.risk{display:flex;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:6px;font-size:.86rem}
+.risk.ok{background:var(--primary-light);color:var(--primary-dark)}.risk.warn{background:#FEF3C7;color:#92400E}.risk.err{background:#FEE2E2;color:#991B1B}
+.reco{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.reco div{background:var(--primary-light);border:1px solid rgba(0,200,150,.25);border-radius:10px;padding:12px}
+.reco .l{font-size:.7rem;font-weight:700;color:var(--primary-dark);text-transform:uppercase}.reco .v{font-size:1rem;font-weight:800;color:var(--navy);margin-top:3px}
+.prudence{background:#FEF3C7;border-left:4px solid var(--warn);border-radius:0 8px 8px 0;padding:9px 13px;font-size:.82rem;color:#78350F;margin:10px 0}
+.svgbox{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:8px;overflow:auto}
+.svgbox svg{width:100%;height:auto;max-width:820px;margin:0 auto;display:block}
+/* Devis / dossier A4 */
+.doc{background:#fff;color:#0B1E3C;border:1px solid var(--border);border-radius:var(--r);padding:26px 30px;max-width:780px;margin:0 auto}
+.doc-band{height:7px;background:var(--primary);border-radius:4px;margin-bottom:16px}
+.doc-h{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:14px}
+.doc-h .nm{font-size:1.7rem;font-weight:800;color:var(--navy)}.doc-h .tg{font-size:.72rem;color:var(--muted);font-style:italic}
+.doc-h .mt{text-align:right;font-size:.78rem;color:var(--muted)}.doc-h .mt b{color:var(--navy)}
+.doc h3{font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--primary-dark);background:var(--primary-light);padding:5px 9px;border-radius:5px;display:inline-block;margin:14px 0 8px}
+.qt{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:6px}
+.qt th{background:var(--navy);color:#fff;padding:8px 9px;text-align:left;font-size:.7rem;text-transform:uppercase}
+.qt th.n,.qt td.n{text-align:right}.qt td{padding:8px 9px;border-bottom:1px solid var(--border)}
+.qt tr.tot td{background:var(--primary);color:var(--navy);font-weight:800}
+.incl{columns:2;font-size:.82rem;line-height:1.5}@media(max-width:560px){.incl{columns:1}}
+.incl div{break-inside:avoid;padding-left:18px;position:relative}.incl div::before{content:'✓';position:absolute;left:0;color:var(--primary-dark);font-weight:800}
+.doc dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.85rem}.doc dt{color:var(--muted)}.doc dd{font-weight:700}
+.doc .ok{color:var(--primary-dark)}.doc .nok{color:var(--danger)}
+.cond{font-size:.74rem;color:var(--muted);background:var(--bg);border-left:3px solid var(--primary);border-radius:0 6px 6px 0;padding:10px 13px;margin-top:14px;line-height:1.55}
+.summary dl{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:.88rem}.summary dt{color:var(--muted)}.summary dd{font-weight:700;text-align:right}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:100}.toast.show{opacity:1}
+.photogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}@media(max-width:520px){.photogrid{grid-template-columns:repeat(2,1fr)}}
+.phototile{position:relative;border:1.5px dashed var(--border);border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:hidden;cursor:pointer}
+.phototile.on{border-style:solid;border-color:var(--primary)}.phototile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.phototile input{position:absolute;inset:0;opacity:0}.phototile span{font-size:.72rem;color:var(--muted);text-align:center;padding:0 4px;z-index:1}
+@media print{.topbar,.prog,.nav,.no-print{display:none!important}.step{display:none!important}.step.printing{display:block!important}.wrap{max-width:100%;padding:0}.doc{border:none;border-radius:0;max-width:100%;padding:0}.svgbox{border:none}.doc-schema{page-break-before:always}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="h" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#h)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
+  <b>BORNEXA Workflow</b>
+  <div class="dz">
+    <span class="save-ind" id="saveInd">●</span>
+    <select id="dossierSel" title="Dossiers"></select>
+    <button id="newDossier">+ Nouveau</button>
+    <button id="delDossier" title="Supprimer">🗑</button>
+    <div class="dl">Doc<button id="dNL" class="on">NL</button><button id="dFR">FR</button></div>
+  </div>
+</header>
+<div class="prog">
+  <div class="prog-meta"><span>Étape <b id="stepNum">1</b> / 11 — <span id="stepName"></span></span><span id="dossierTag"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+</div>
+
+<div class="wrap">
+
+<!-- 1 CLIENT -->
+<section class="step active" data-step="1" data-name="Informations client">
+  <h2>1. Informations client</h2><p class="lead">Coordonnées et type de logement.</p>
+  <div class="card"><div class="grid">
+    <div class="f"><label>Nom &amp; prénom *</label><input data-bind="client.name" data-req></div>
+    <div class="f"><label>Téléphone *</label><input type="tel" data-bind="client.phone" data-req></div>
+    <div class="f"><label>E-mail</label><input type="email" data-bind="client.email"></div>
+    <div class="f"><label>Adresse complète *</label><input data-bind="client.address" data-req></div>
+    <div class="f"><label>Type</label><select data-bind="client.type"><option value="Particulier">Particulier</option><option value="Bedrijf">Entreprise / Bedrijf</option></select></div>
+    <div class="f"><label>Âge logement (TVA)</label><select data-bind="client.buildYear"><option value="gt10">≥ 10 ans (TVA 6%)</option><option value="lt10">&lt; 10 ans (TVA 21%)</option><option value="unknown">Inconnu</option></select></div>
+  </div></div>
+</section>
+
+<!-- 2 VISITE -->
+<section class="step" data-step="2" data-name="Visite terrain">
+  <h2>2. Visite terrain</h2><p class="lead">Constats sur place : tableau, compteur, photos.</p>
+  <div class="card"><div class="grid">
+    <div class="f"><label>Compteur numérique</label><select data-bind="network.digitalMeter"><option value="ja">Oui</option><option value="nee">Non</option></select></div>
+    <div class="f"><label>Port P1</label><select data-bind="network.p1Port"><option value="ja">Oui (actif)</option><option value="te-activeren">À activer</option><option value="nee">Non</option></select></div>
+    <div class="f"><label>Gestionnaire réseau</label><select data-bind="network.dso"><option>Fluvius</option><option>Sibelga</option></select></div>
+    <div class="f"><label>EAN (18 chiffres)</label><input data-bind="network.ean" inputmode="numeric" placeholder="5414..."></div>
+    <div class="f"><label>Mise à la terre</label><select data-bind="network.earthing"><option value="ja">Présente/conforme</option><option value="twijfel">Doute</option><option value="nee">Non/vieux</option></select></div>
+    <div class="f"><label>Verzwaring nécessaire ?</label><select data-bind="network.needUpgrade"><option value="nee">Non</option><option value="ja">Oui (à confirmer)</option></select></div>
+  </div></div>
+  <div class="card"><label style="font-weight:700;margin-bottom:8px;display:block">Photos (tablette)</label>
+    <div class="photogrid" id="photoGrid"></div>
+  </div>
+</section>
+
+<!-- 3 TECHNIQUE -->
+<section class="step" data-step="3" data-name="Données techniques">
+  <h2>3. Données techniques</h2><p class="lead">Réseau, placement et véhicule.</p>
+  <div class="card"><div class="grid">
+    <div class="f"><label>Raccordement *</label><select data-bind="network.phase" data-req><option value="mono">Monophasé 230 V</option><option value="tri">Triphasé</option></select></div>
+    <div class="f"><label>Type triphasé</label><select data-bind="network.netType"><option value="">—</option><option value="400-4w">400 V + neutre</option><option value="230-3w">3×230 V (sans N)</option></select></div>
+    <div class="f"><label>Intensité dispo (A)</label><select data-bind="network.ampere"><option>25</option><option>40</option><option>63</option><option>80</option></select></div>
+    <div class="f"><label>Lieu de pose</label><select data-bind="placement.location"><option>Garage</option><option>Oprit/Allée</option><option>Carport</option><option>Parking</option></select></div>
+    <div class="f"><label>Longueur câble (m)</label><input type="number" data-bind="placement.length" value="10" min="0"></div>
+    <div class="f"><label>Doorvoer / passage</label><select data-bind="placement.route"><option value="Eenvoudig">Facile</option><option value="Gemiddeld">Moyen (percement)</option><option value="Complex">Complexe (tranchée)</option></select></div>
+    <div class="f"><label>Distance déplacement (km)</label><input type="number" data-bind="placement.distance" value="20"></div>
+    <div class="f"><label>Type de mur</label><select data-bind="placement.wallType"><option value="baksteen">Brique</option><option value="beton">Béton</option><option value="gipsplaat">Placo</option><option value="paal">Poteau</option></select></div>
+  </div>
+  <div class="f"><label>Véhicule (marque / modèle)</label><div class="grid"><input data-bind="vehicle.brand" placeholder="Tesla"><input data-bind="vehicle.model" placeholder="Model Y"></div></div>
+  <div class="f"><label>Charge AC max véhicule</label><div class="chips" data-chips="vehicle.acMax"><span class="chip" data-v="3.7">3,7 kW</span><span class="chip" data-v="7.4">7,4 kW</span><span class="chip" data-v="11">11 kW</span><span class="chip" data-v="22">22 kW</span></div></div>
+  </div>
+  <div class="card"><label style="font-weight:700;margin-bottom:8px;display:block">Énergie</label><div class="grid">
+    <div class="f"><label>Panneaux solaires</label><select data-bind="solar.hasSolar"><option value="nee">Non</option><option value="ja">Oui</option><option value="binnenkort">Bientôt</option></select></div>
+    <div class="f"><label>Onduleur PV / kWp</label><input data-bind="solar.pvInfo" placeholder="Fronius 5 kWp"></div>
+    <div class="f"><label>Batterie domestique</label><select data-bind="solar.hasBattery"><option value="nee">Aucune</option><option value="powerwall">Powerwall</option><option value="sonnen">Sonnen</option><option value="other">Autre</option></select></div>
+    <div class="f"><label>2e EV sous 24 mois</label><select data-bind="vehicle.futureEV"><option value="nee">Non</option><option value="misschien">Peut-être</option><option value="ja">Oui</option></select></div>
+  </div></div>
+</section>
+
+<!-- 4 BORNE -->
+<section class="step" data-step="4" data-name="Choix borne">
+  <h2>4. Choix de la borne</h2><p class="lead">Préférence de marque (ou conseil BORNEXA).</p>
+  <div class="card"><div class="chips" data-chips="borne.brandPref">
+    <span class="chip on" data-v="auto">Conseil BORNEXA</span><span class="chip" data-v="Wallbox">Wallbox</span><span class="chip" data-v="Tesla">Tesla</span><span class="chip" data-v="Smappee">Smappee</span>
+  </div></div>
+  <div class="card"><label style="font-weight:700;margin-bottom:8px;display:block">Besoins client</label>
+    <div class="checks" id="needsBox">
+      <label data-need="Smart charging"><input type="checkbox"> Smart charging</label>
+      <label data-need="Solar integration"><input type="checkbox"> Intégration PV</label>
+      <label data-need="Load balancing"><input type="checkbox"> Load balancing</label>
+      <label data-need="RFID"><input type="checkbox"> RFID / multi-user</label>
+      <label data-need="Reporting"><input type="checkbox"> Reporting</label>
+    </div>
+  </div>
+</section>
+
+<!-- 5 OPTIONS -->
+<section class="step" data-step="5" data-name="Options">
+  <h2>5. Options</h2><p class="lead">Smart energy &amp; options techniques (le devis ajoute les modules automatiquement).</p>
+  <div class="card"><label style="font-weight:700;margin-bottom:8px;display:block">Smart energy</label><div class="checks">
+    <label><input type="checkbox" data-bind="options.wantLoadBalance"> Load balancing dynamique (P1)</label>
+    <label><input type="checkbox" data-bind="options.wantSolar"> Recharge surplus solaire</label>
+    <label><input type="checkbox" data-bind="options.want2ndEV"> 2e EV anticipé (surcâblage)</label>
+  </div></div>
+  <div class="card"><label style="font-weight:700;margin-bottom:8px;display:block">Options techniques</label><div class="checks">
+    <label><input type="checkbox" data-bind="options.wantTypeB"> Différentiel Type B (sur demande)</label>
+    <label><input type="checkbox" data-bind="options.wantSurge"> Parafoudre Type 2</label>
+    <label><input type="checkbox" data-bind="options.wantSubpanel"> Coffret divisionnaire dédié</label>
+    <label><input type="checkbox" data-bind="options.laborForfait"> Main d'œuvre en forfait (devis)</label>
+  </div>
+  <div class="prudence">⚠ Différentiel : par défaut Type A 30 mA + RDC-DD borne (IEC 62955). Protection à confirmer selon la datasheet du modèle et l'organisme de contrôle.</div>
+  </div>
+</section>
+
+<!-- 6 CALCUL -->
+<section class="step" data-step="6" data-name="Calcul automatique">
+  <h2>6. Calcul automatique</h2><p class="lead">Dimensionnement + risques (temps réel).</p>
+  <div class="card"><div class="reco" id="recoBox"></div></div>
+  <div class="card"><label style="font-weight:700;margin-bottom:8px;display:block">Risques &amp; vérifications</label><div id="riskBox"></div></div>
+</section>
+
+<!-- 7 DEVIS -->
+<section class="step" data-step="7" data-name="Devis">
+  <h2>7. Devis</h2><p class="lead">Document client (impression PDF en étape 11).</p>
+  <div class="doc" id="devisDoc"></div>
+</section>
+
+<!-- 8 CHANTIER PREP -->
+<section class="step" data-step="8" data-name="Préparation chantier">
+  <h2>8. Préparation chantier</h2><p class="lead">Matériel à emporter (selon la borne retenue).</p>
+  <div class="card"><div id="prepBox"></div></div>
+</section>
+
+<!-- 9 ASSISTANCE -->
+<section class="step" data-step="9" data-name="Assistance installation">
+  <h2>9. Assistance installation</h2><p class="lead">Checklist + mesures RGIE.</p>
+  <div class="card"><div id="chantierBox"></div></div>
+  <div class="card"><label style="font-weight:700;margin-bottom:8px;display:block">Mesures RGIE</label><div class="grid">
+    <div class="f"><label>Terre (Ω)</label><input data-bind="chantier.measures.earthOhm" placeholder="&lt;100"></div>
+    <div class="f"><label>RCD courant (mA)</label><input data-bind="chantier.measures.rcdMa" placeholder="≤30"></div>
+    <div class="f"><label>RCD temps (ms)</label><input data-bind="chantier.measures.rcdMs" placeholder="&lt;300"></div>
+    <div class="f"><label>Continuité PE (Ω)</label><input data-bind="chantier.measures.peOhm" placeholder="&lt;2"></div>
+    <div class="f"><label>Isolement (MΩ)</label><input data-bind="chantier.measures.iso" placeholder="≥0,5"></div>
+    <div class="f"><label>Tension (V)</label><input data-bind="chantier.measures.voltage" placeholder="230/400"></div>
+  </div></div>
+</section>
+
+<!-- 10 DOCUMENTS -->
+<section class="step" data-step="10" data-name="Documents / contrôle">
+  <h2>10. Documents installation / contrôle</h2><p class="lead">Schéma unifilaire (circuit borne) + dossier.</p>
+  <div class="card"><div class="grid">
+    <div class="f"><label>Installateur</label><input data-bind="documents.installer" value="Belkounani (BORNEXA)"></div>
+    <div class="f"><label>Date installation</label><input type="date" data-bind="documents.date"></div>
+    <div class="f"><label>Pouvoir de coupure</label><select data-bind="borne.ka"><option>3 kA</option><option selected>6 kA</option><option>10 kA</option></select></div>
+    <div class="f"><label>Schéma de terre</label><select data-bind="network.earthtype"><option>TT</option><option>TN-S</option><option>TN-C-S</option></select></div>
+    <div class="f"><label>Réglages app / load balancing</label><input data-bind="documents.settings" placeholder="Max 32 A, Eco-Smart"></div>
+  </div></div>
+  <div class="prudence">⚠ Schéma = circuit borne (à intégrer au schéma global). Symboles IEC 60617 — à recouper avec la planche officielle Volta/OCB. Aucune garantie d'acceptation organisme.</div>
+  <div class="svgbox" id="uniBox"></div>
+</section>
+
+<!-- 11 EXPORT -->
+<section class="step" data-step="11" data-name="Export &amp; résumé">
+  <h2>11. Export &amp; résumé</h2><p class="lead">Imprime les documents ou exporte le dossier.</p>
+  <div class="card"><div class="summary"><dl id="summaryBox"></dl></div></div>
+  <div class="card no-print">
+    <label style="font-weight:700;margin-bottom:8px;display:block">Imprimer (PDF)</label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+      <button class="btn btn-p" data-print="7">🖨 Devis</button>
+      <button class="btn btn-o" data-print="10d">🖨 Dossier installation</button>
+    </div>
+    <label style="font-weight:700;margin-bottom:8px;display:block">Données</label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-o" id="expJSON">💾 Export JSON (sauvegarde)</button>
+      <button class="btn btn-o" id="impJSON">📥 Importer JSON</button>
+    </div>
+  </div>
+</section>
+
+<!-- Dossier print container (hidden) -->
+<section class="step" data-step="dossier-print"><div class="doc" id="dossierDoc"></div></section>
+
+</div>
+
+<nav class="nav no-print">
+  <button class="btn btn-g" id="prevBtn">← Précédent</button>
+  <span class="sp"></span>
+  <button class="btn btn-p" id="nextBtn">Suivant →</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+// ════════ BORNEXA Workflow — écosystème unifié ════════
+var DKEY='bornexa-workflow-v1';
+var docLang='nl';
+var step=1, TOTAL=11;
+
+// ---- Modèle unifié (BornexaProjectData) ----
+function blankData(){ return {
+  meta:{dossierId:'', status:'Nouveau', created:Date.now(), updated:Date.now()},
+  client:{name:'',phone:'',email:'',address:'',type:'Particulier',buildYear:'gt10'},
+  vehicle:{brand:'',model:'',acMax:'11',futureEV:'nee'},
+  network:{phase:'mono',netType:'',ampere:'40',digitalMeter:'ja',p1Port:'ja',dso:'Fluvius',ean:'',earthing:'ja',earthtype:'TT',needUpgrade:'nee'},
+  solar:{hasSolar:'nee',pvInfo:'',hasBattery:'nee'},
+  placement:{location:'Garage',length:'10',route:'Eenvoudig',distance:'20',wallType:'baksteen'},
+  needs:['Smart charging'],
+  options:{wantLoadBalance:false,wantSolar:false,want2ndEV:false,wantTypeB:false,wantSurge:false,wantSubpanel:false,laborForfait:false},
+  borne:{brandPref:'auto',ka:'6 kA'},
+  documents:{installer:'Belkounani (BORNEXA)',date:new Date().toISOString().slice(0,10),settings:''},
+  chantier:{checks:{},measures:{}},
+  photos:{}, notes:''
+}; }
+var D=blankData();
+var store={current:'', dossiers:{}};
+
+function getP(o,p){ return p.split('.').reduce(function(a,k){return a==null?undefined:a[k];},o); }
+function setP(o,p,v){ var ks=p.split('.'),last=ks.pop(),t=ks.reduce(function(a,k){if(a[k]==null)a[k]={};return a[k];},o); t[last]=v; }
+var $=function(s,r){return (r||document).querySelector(s);};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1700);}
+function num(x){var n=parseFloat(String(x).replace(',','.'));return isNaN(n)?null:n;}
+
+// ---- Persistance dossiers ----
+function loadStore(){ try{ var s=JSON.parse(localStorage.getItem(DKEY)||'null'); if(s&&s.dossiers){store=s;} }catch(e){} }
+function saveStore(){ if(D.meta.dossierId){ D.meta.updated=Date.now(); store.dossiers[D.meta.dossierId]=D; store.current=D.meta.dossierId; }
+  try{ localStorage.setItem(DKEY,JSON.stringify(store)); blink(); }catch(e){ // quota: drop photos
+    var c=JSON.parse(JSON.stringify(store)); Object.keys(c.dossiers).forEach(function(k){c.dossiers[k].photos={};}); try{localStorage.setItem(DKEY,JSON.stringify(c));}catch(e2){} } }
+function blink(){ var i=$('#saveInd'); i.style.color='#1ADBA8'; i.textContent='● sauvé'; clearTimeout(window.__bk); window.__bk=setTimeout(function(){i.textContent='●';},1200); }
+function newId(){ return 'BX-'+new Date().getFullYear()+'-'+String((parseInt(localStorage.getItem('bornexa-wf-seq')||'0',10)+1)).padStart(4,'0'); }
+function newDossier(){ var id=newId(); localStorage.setItem('bornexa-wf-seq', id.slice(-4)); D=blankData(); D.meta.dossierId=id; store.dossiers[id]=D; store.current=id; saveStore(); refreshDossierList(); fillForm(); step=1; showStep(); toast('Dossier '+id+' créé'); }
+function openDossier(id){ if(!store.dossiers[id])return; D=store.dossiers[id]; store.current=id; saveStore(); fillForm(); step=1; showStep(); }
+function refreshDossierList(){ var sel=$('#dossierSel'); sel.innerHTML=Object.keys(store.dossiers).map(function(id){var d=store.dossiers[id];return '<option value="'+id+'"'+(id===store.current?' selected':'')+'>'+esc(id+' · '+(d.client&&d.client.name?d.client.name:'—'))+'</option>';}).join(''); }
+
+// ---- Binding générique ----
+function fillForm(){
+  $$('[data-bind]').forEach(function(el){ var v=getP(D,el.dataset.bind); if(el.type==='checkbox')el.checked=!!v; else if(v!=null)el.value=v; });
+  $$('[data-chips]').forEach(function(g){ var v=getP(D,g.dataset.chips); $$('.chip',g).forEach(function(c){c.classList.toggle('on',c.dataset.v===String(v));}); });
+  $$('#needsBox label').forEach(function(l){ var on=(D.needs||[]).indexOf(l.dataset.need)>=0; l.classList.toggle('on',on); $('input',l).checked=on; });
+  $('#dossierTag').textContent=D.meta.dossierId||'';
+  renderPhotos();
+}
+function bindInputs(){
+  document.addEventListener('input',function(e){ var el=e.target; if(el.dataset&&el.dataset.bind){ setP(D, el.dataset.bind, el.type==='checkbox'?el.checked:el.value); queueSave(); markStepDirty(); } },true);
+  document.addEventListener('change',function(e){ var el=e.target; if(el.dataset&&el.dataset.bind){ setP(D, el.dataset.bind, el.type==='checkbox'?el.checked:el.value); queueSave(); markStepDirty(); } },true);
+  // chips
+  $$('[data-chips]').forEach(function(g){ g.addEventListener('click',function(e){ var c=e.target.closest('.chip'); if(!c)return; $$('.chip',g).forEach(function(x){x.classList.remove('on');}); c.classList.add('on'); setP(D,g.dataset.chips,c.dataset.v); queueSave(); markStepDirty(); }); });
+  // needs
+  $('#needsBox').addEventListener('change',function(e){ var l=e.target.closest('label'); if(!l)return; var on=$('input',l).checked; l.classList.toggle('on',on); D.needs=$$('#needsBox label').filter(function(x){return $('input',x).checked;}).map(function(x){return x.dataset.need;}); queueSave(); markStepDirty(); });
+}
+function queueSave(){ clearTimeout(window.__sv); window.__sv=setTimeout(saveStore,400); }
+function markStepDirty(){ window.__dirty=true; }
+
+// ---- Photos ----
+var PHOTO_LIST=[{id:'p1',l:'Tableau'},{id:'p2',l:'Compteur'},{id:'p3',l:'Emplacement'},{id:'p4',l:'Passage câble'},{id:'p5',l:'Façade'},{id:'p6',l:'Connexions'}];
+function compress(file,cb){ var rd=new FileReader(); rd.onload=function(){ var img=new Image(); img.onload=function(){ var m=1000,sc=Math.min(1,m/img.width),w=Math.round(img.width*sc),h=Math.round(img.height*sc),cv=document.createElement('canvas'); cv.width=w;cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h); cb(cv.toDataURL('image/jpeg',0.55)); }; img.src=rd.result; }; rd.readAsDataURL(file); }
+function renderPhotos(){ var g=$('#photoGrid'); if(!g)return; g.innerHTML=PHOTO_LIST.map(function(p){ var d=D.photos[p.id]; return '<label class="phototile '+(d?'on':'')+'">'+(d?'<img src="'+d+'">':'')+'<span>'+p.l+'</span><input type="file" accept="image/*" capture="environment" data-pid="'+p.id+'"></label>'; }).join('');
+  $$('input[data-pid]',g).forEach(function(inp){ inp.addEventListener('change',function(e){ var f=e.target.files&&e.target.files[0]; if(!f)return; compress(f,function(d){ D.photos[inp.dataset.pid]=d; saveStore(); renderPhotos(); }); }); }); }
+
+// ════════ LOGIQUE CALCUL (portée du calculateur) ════════
+var TARIFS={
+ bornes:[{ref:"WB-PM-1.2",nameFR:"Wallbox Pulsar Max 1.2 (7,4 kW mono)",nameNL:"Wallbox Pulsar Max 1.2 (7,4 kW)",price:680},
+  {ref:"WB-PM-3",nameFR:"Wallbox Pulsar Max 3-phase (11 kW)",nameNL:"Wallbox Pulsar Max driefase (11 kW)",price:720},
+  {ref:"WB-PM-22",nameFR:"Wallbox Pulsar Max (22 kW)",nameNL:"Wallbox Pulsar Max (22 kW)",price:820},
+  {ref:"TS-WC3-11",nameFR:"Tesla Wall Connector Gen 3 (11 kW)",nameNL:"Tesla Wall Connector Gen 3 (11 kW)",price:505},
+  {ref:"TS-WC3-22",nameFR:"Tesla Wall Connector Gen 3 (22 kW)",nameNL:"Tesla Wall Connector Gen 3 (22 kW)",price:520},
+  {ref:"SM-EVB-11",nameFR:"Smappee EV Base (11 kW)",nameNL:"Smappee EV Base (11 kW)",price:895},
+  {ref:"SM-EVW-11",nameFR:"Smappee EV Wall (11 kW)",nameNL:"Smappee EV Wall (11 kW)",price:1145},
+  {ref:"SM-EVB-22",nameFR:"Smappee EV Base (22 kW)",nameNL:"Smappee EV Base (22 kW)",price:945}],
+ cables:[{ref:"3G6",d:"XGB 3G6 · mono ≤20m",pm:2.40},{ref:"3G10",d:"XGB 3G10 · mono >20m",pm:3.85},{ref:"5G6",d:"XGB 5G6 · tri 11kW ≤20m",pm:4.10},{ref:"5G10",d:"XGB 5G10 · tri",pm:6.45},{ref:"5G16",d:"XGB 5G16 · tri 22kW >20m",pm:9.85}],
+ prots:{"DIF-A-40":{d:"Différentiel Type A 30 mA 40 A (combiné RDC-DD borne — IEC 62955)",dNL:"Differentieel Type A 30 mA 40 A (RDC-DD laadpaal — IEC 62955)",p:65},
+  "DIF-A-63":{d:"Différentiel Type A 30 mA 63 A (combiné RDC-DD borne)",dNL:"Differentieel Type A 30 mA 63 A (RDC-DD laadpaal)",p:110},
+  "DIF-B-40":{d:"Différentiel Type B 30 mA 40 A (sur demande)",dNL:"Differentieel Type B 30 mA 40 A (op aanvraag)",p:185},
+  "DIF-B-63":{d:"Différentiel Type B 30 mA 63 A (sur demande)",dNL:"Differentieel Type B 30 mA 63 A (op aanvraag)",p:230},
+  "DIS-C20":{d:"Disjoncteur courbe C20",dNL:"Automaat curve C20",p:18},"DIS-C32":{d:"Disjoncteur courbe C32",dNL:"Automaat curve C32",p:22},
+  "UTP":{d:"Câble UTP Cat6 (forfait)",dNL:"UTP Cat6 (forfait)",p:8.5},"DIV":{d:"Matériel divers (cosses, wagos)",dNL:"Divers materiaal",p:15},"PLAN":{d:"Plan électrique fourni",dNL:"Elektrisch plan",p:18},
+  "SUR-T2":{d:"Parafoudre Type 2 (NBN HD 60364-5-534)",dNL:"Overspanningsbeveiliging Type 2",p:95},"SUB-COFF":{d:"Coffret divisionnaire dédié",dNL:"Verdeelkast laadpaal",p:85},
+  "WB-P1":{d:"Wallbox Power Boost (module P1, WALL-MTR-P1PORT) — load balancing & solaire",dNL:"Wallbox Power Boost (P1-module) — dynamisch laadbeheer & zonne",p:170},
+  "SM-CONNECT":{d:"Smappee Connect (module P1) — load balancing & solaire",dNL:"Smappee Connect (P1-module) — dynamisch laadbeheer & zonne",p:200}},
+ labor:{hourRate:110,baseHours:4.5,triExtra:1,longExtra:1,complexExtra:1.5,mediumExtra:0.75,areiKeuring:160,travel:[{km:25,p:0},{km:50,p:30},{km:75,p:60},{km:999,p:95}]},
+ margins:{mat:1.45,mo:1.00,tva:0.06}
+};
+function wantsLB(){ return !!D.options.wantLoadBalance || (D.needs||[]).indexOf('Load balancing')>=0; }
+function wantsSolar(){ return !!D.options.wantSolar || (D.needs||[]).indexOf('Solar integration')>=0 || D.solar.hasSolar==='ja'; }
+function wantsSmart(){ return wantsLB()||wantsSolar(); }
+function effTva(){ return D.client.buildYear==='lt10'?0.21:TARIFS.margins.tva; }
+function smartModuleRef(dim){ if(!wantsSmart())return null; var c=dim.chargerRef||''; if(c.indexOf('WB-')===0)return 'WB-P1'; if(c.indexOf('SM-')===0)return 'SM-CONNECT'; return null; }
+function computeDim(){
+  var isTri=D.network.phase==='tri', ampere=num(D.network.ampere)||40, vehMax=num(D.vehicle.acMax)||11, length=num(D.placement.length)||10;
+  var power= isTri? Math.min(ampere*0.4,vehMax,22) : Math.min(7.4,vehMax); power=Math.round(power*10)/10;
+  var cableRef= !isTri?(length<=20?'3G6':'3G10') : (power>=22?(length<=20?'5G10':'5G16'):(length<=20?'5G6':'5G10'));
+  var disjRef= power<=11?(power<=7.4?'DIS-C32':'DIS-C20'):'DIS-C32';
+  var disjLabel= power<=7.4?'C32 mono':(power<=11?'C20 tri':'C32 tri');
+  var diffPrefix=D.options.wantTypeB?'DIF-B':'DIF-A', diffRef=ampere>=63?(diffPrefix+'-63'):(diffPrefix+'-40');
+  var chargerRef, pref=D.borne.brandPref||'auto';
+  if(pref==='auto'){ chargerRef= power>=22?'WB-PM-22':(power>=11?(vehMax>=11?'WB-PM-3':'TS-WC3-11'):'WB-PM-1.2'); }
+  else if(pref==='Tesla'){ chargerRef= power>=22?'TS-WC3-22':'TS-WC3-11'; }
+  else if(pref==='Wallbox'){ chargerRef= power<=7.4?'WB-PM-1.2':(power<=11?'WB-PM-3':'WB-PM-22'); }
+  else { chargerRef= power>=22?'SM-EVB-22':((D.needs||[]).indexOf('Solar integration')>=0?'SM-EVW-11':'SM-EVB-11'); }
+  var b=TARIFS.bornes.filter(function(x){return x.ref===chargerRef;})[0];
+  var chargerName=b?(docLang==='nl'?b.nameNL:b.nameFR):chargerRef;
+  var hours=TARIFS.labor.baseHours; if(isTri)hours+=TARIFS.labor.triExtra; if(length>20)hours+=TARIFS.labor.longExtra;
+  if(D.placement.route==='Complex')hours+=TARIFS.labor.complexExtra; else if(D.placement.route==='Gemiddeld')hours+=TARIFS.labor.mediumExtra;
+  return {isTri:isTri,power:power,cableRef:cableRef,diffRef:diffRef,disjRef:disjRef,disjLabel:disjLabel,chargerRef:chargerRef,chargerName:chargerName,hours:Math.round(hours*10)/10};
+}
+var MODULE_LABEL={'WB-P1':{fr:'Wallbox Power Boost (module P1) — load balancing & optimisation solaire',nl:'Wallbox Power Boost (P1-module) — dynamisch laadbeheer & zonne-optimalisatie'},'SM-CONNECT':{fr:'Smappee Connect (module P1) — load balancing & optimisation solaire',nl:'Smappee Connect (P1-module) — dynamisch laadbeheer & zonne-optimalisatie'}};
+function tName(b){return docLang==='nl'?(b.nameNL||b.nameFR):(b.nameFR||b.nameNL);}
+function tProt(ref){var p=TARIFS.prots[ref];return p?(docLang==='nl'?(p.dNL||p.d):p.d):ref;}
+function buildLines(dim){
+  var L=[], m=TARIFS.margins.mat;
+  var b=TARIFS.bornes.filter(function(x){return x.ref===dim.chargerRef;})[0]; if(b)L.push({d:tName(b),q:1,pu:b.price*m});
+  var cab=TARIFS.cables.filter(function(x){return x.ref===dim.cableRef;})[0]; if(cab)L.push({d:(docLang==='nl'?'Kabel ':'Câble ')+cab.d,q:num(D.placement.length)||10,pu:cab.pm*m});
+  L.push({d:tProt(dim.diffRef),q:1,pu:TARIFS.prots[dim.diffRef].p*m});
+  L.push({d:tProt(dim.disjRef)+' ('+dim.disjLabel+')',q:1,pu:TARIFS.prots[dim.disjRef].p*m});
+  ['UTP','DIV','PLAN'].forEach(function(r){L.push({d:tProt(r),q:1,pu:TARIFS.prots[r].p*m});});
+  if(D.options.wantSurge)L.push({d:tProt('SUR-T2'),q:1,pu:TARIFS.prots['SUR-T2'].p*m});
+  if(D.options.wantSubpanel)L.push({d:tProt('SUB-COFF'),q:1,pu:TARIFS.prots['SUB-COFF'].p*m});
+  var extra=0, modRef=smartModuleRef(dim);
+  if(modRef){ extra=modRef.indexOf('WB-')===0?1.0:0.5; var lbl=MODULE_LABEL[modRef]; L.push({d:lbl?(docLang==='nl'?lbl.nl:lbl.fr):tProt(modRef),q:1,pu:TARIFS.prots[modRef].p*m}); }
+  if(D.options.want2ndEV)extra+=1.0;
+  var hrs=Math.round((dim.hours+extra)*10)/10;
+  if(D.options.laborForfait)L.push({d:docLang==='nl'?'Volledige installatie (forfait)':'Installation complète (forfait)',q:1,pu:TARIFS.labor.hourRate*hrs});
+  else L.push({d:docLang==='nl'?'Werkuren: plaatsing, aansluiting, app-config & ingebruikname':'Main d\'œuvre : pose, raccordement, config app & mise en service',q:hrs,pu:TARIFS.labor.hourRate,h:true});
+  L.push({d:docLang==='nl'?'AREI/RGIE keuringsattest':'AREI / RGIE keuringsattest',q:1,pu:TARIFS.labor.areiKeuring});
+  var dist=num(D.placement.distance)||0, tr=TARIFS.labor.travel.filter(function(t){return dist<=t.km;})[0]||TARIFS.labor.travel[3];
+  if(tr.p>0)L.push({d:(docLang==='nl'?'Verplaatsing ':'Déplacement ')+'('+dist+' km)',q:1,pu:tr.p});
+  return L;
+}
+function buildIncluded(dim){
+  var nl=docLang==='nl', it=[], push=function(f,n){it.push(nl?n:f);}, hasMod=!!smartModuleRef(dim);
+  push('Configuration complète de l\'application','Volledige configuratie van de app');
+  push('Création et paramétrage du compte','Aanmaak en instelling van het account');
+  push('Mise en service complète','Volledige ingebruikname');
+  push('Explication du fonctionnement','Uitleg over de werking');
+  push('Smart charging activé','Smart charging geactiveerd');
+  if(wantsLB()&&hasMod){push('Dynamisch laadbeheer (load balancing) configuré','Dynamisch laadbeheer geconfigureerd');push('Connexion via le port P1','Verbinding via P1-poort');}
+  if(wantsSolar()&&hasMod){push('Optimisation selon production PV','Optimalisatie volgens zonneproductie');}
+  push('Plan électrique fourni','Elektrisch plan geleverd');
+  push('AREI/RGIE keuringsattest','AREI/RGIE keuringsattest');
+  push('Tests et validation','Tests en validatie');
+  push('Garantie 2 ans + constructeur','2 jaar garantie + fabrieksgarantie');
+  if(D.options.wantSurge)push('Parafoudre Type 2','Overspanningsbeveiliging Type 2');
+  if(D.options.want2ndEV)push('Précâblage 2e borne','Voorbekabeling 2e laadpaal');
+  return it;
+}
+
+// ════════ RENDER étapes dynamiques ════════
+function renderCalc(){
+  var dim=computeDim(); D.borne.chargerRef=dim.chargerRef; D.borne.chargerName=dim.chargerName; D.borne.power=dim.power; D.borne.cableRef=dim.cableRef;
+  var ka=D.borne.ka;
+  $('#recoBox').innerHTML=[['Puissance',dim.power+' kW'],['Borne',dim.chargerName],['Câble','Section '+dim.cableRef],['Différentiel',(D.options.wantTypeB?'Type B':'Type A')+' 30 mA + RDC-DD'],['Disjoncteur',dim.disjLabel],['Temps',dim.hours+' h']].map(function(r){return '<div><div class="l">'+r[0]+'</div><div class="v">'+esc(r[1])+'</div></div>';}).join('');
+  var R=[], isTesla=dim.chargerRef.indexOf('TS-')===0;
+  if(D.network.needUpgrade==='ja')R.push(['err','Verzwaring nécessaire — coût client + délai (hors devis).']); else R.push(['ok','Capacité suffisante, pas de verzwaring.']);
+  if(D.options.wantTypeB)R.push(['warn','Type B sur demande — surcoût (techniquement non requis si RDC-DD borne).']); else R.push(['ok','Type A 30 mA + RDC-DD borne (IEC 62955) — NBN HD 60364-7-722.']);
+  if(wantsSmart()&&isTesla)R.push(['err','Tesla seul ne gère pas LB/PV maison. Proposer Wallbox/Smappee ou expliquer la limite.']);
+  else if(wantsSmart())R.push(['ok','Module P1 ajouté — load balancing + surplus PV via compteur belge.']);
+  if(wantsSmart()&&D.network.p1Port==='nee')R.push(['warn','Port P1 à activer par le client (Mijn Fluvius/Sibelga) avant l\'installation.']);
+  if(D.network.phase==='tri'&&D.network.netType==='230-3w')R.push(['warn','Réseau 3×230 V sans neutre : vérifier la compatibilité 11 kW.']);
+  if((num(D.placement.length)||0)>20)R.push(['warn','Câble >20 m : section sur-dimensionnée, chute de tension à vérifier.']);
+  if(D.client.buildYear==='lt10')R.push(['warn','Logement <10 ans : TVA 21% appliquée automatiquement.']);
+  $('#riskBox').innerHTML=R.map(function(r){var ic={ok:'✓',warn:'⚠',err:'✕'};return '<div class="risk '+r[0]+'"><b>'+ic[r[0]]+'</b><span>'+esc(r[1])+'</span></div>';}).join('');
+}
+function fmt(n){return '€ '+n.toLocaleString(docLang==='nl'?'nl-BE':'fr-BE',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function renderDevis(){
+  var nl=docLang==='nl', dim=computeDim(), L=buildLines(dim), inc=buildIncluded(dim);
+  var tot=0; var rows=L.map(function(l){var s=(l.q||0)*(l.pu||0);tot+=s;var q=l.h?(l.q+' h'):(Number.isInteger(l.q)?l.q:l.q.toFixed(1));return '<tr><td>'+esc(l.d)+'</td><td class="n">'+q+'</td><td class="n">'+fmt(l.pu)+'</td><td class="n">'+fmt(s)+'</td></tr>';}).join('');
+  var tva=tot*effTva(), ttc=tot+tva;
+  D.pricing={lines:L,totalHT:tot,tvaRate:effTva(),tva:tva,ttc:ttc,included:inc,quoteNr:D.meta.dossierId};
+  var cond= nl?('Gratis offerte, 30 dagen geldig. BTW '+(effTva()*100).toFixed(0)+'% '+(effTva()===0.21?'(woning <10 jaar)':'onder voorwaarden')+'. Inbegrepen: levering, plaatsing, configuratie, ingebruikname, plan en AREI keuringsattest. 2 jaar garantie + fabrieksgarantie. Niet inbegrepen: sleufwerken, aansluitingskosten Fluvius/Sibelga indien verzwaring.')
+    :('Devis gratuit, valable 30 jours. TVA '+(effTva()*100).toFixed(0)+'% '+(effTva()===0.21?'(logement <10 ans)':'sous conditions')+'. Inclus : fourniture, pose, configuration, mise en service, plan et AREI keuringsattest. 2 ans de garantie + constructeur. Hors devis : tranchée, frais de raccordement Fluvius/Sibelga si verzwaring.');
+  $('#devisDoc').innerHTML='<div class="doc-band"></div><div class="doc-h"><div><div class="nm">BORNEXA</div><div class="tg">'+(nl?'Laadpaal & wallbox installateur':'Laadpaal & wallbox installateur')+'</div></div><div class="mt"><div style="font-size:1.4rem;font-weight:800;color:var(--primary-dark)">'+(nl?'OFFERTE':'DEVIS')+'</div><div>N° <b>'+esc(D.meta.dossierId)+'</b></div><div>'+(nl?'Datum':'Date')+': <b>'+new Date().toLocaleDateString(nl?'nl-BE':'fr-BE')+'</b></div></div></div>'
+    +'<div style="background:var(--primary-light);padding:8px 12px;border-radius:6px;font-size:.86rem;margin-bottom:12px">'+esc(nl?'Klant':'Client')+': <b>'+esc(D.client.name||'—')+'</b> · '+esc(D.client.address||'')+(D.network.ean?(' · EAN '+esc(D.network.ean)):'')+'</div>'
+    +'<div style="background:var(--primary-light);border:1px solid rgba(0,200,150,.3);border-radius:8px;padding:12px 14px;margin-bottom:12px"><h3 style="margin-top:0">'+(nl?'INBEGREPEN IN DE OFFERTE':'INCLUS DANS L\'OFFRE')+'</h3><div class="incl">'+inc.map(function(t){return '<div>'+esc(t)+'</div>';}).join('')+'</div></div>'
+    +'<table class="qt"><thead><tr><th>'+(nl?'Omschrijving':'Description')+'</th><th class="n">'+(nl?'Aantal':'Qté')+'</th><th class="n">'+(nl?'E.P.':'PU HT')+'</th><th class="n">'+(nl?'Totaal':'Total')+'</th></tr></thead><tbody>'+rows
+    +'<tr><td colspan="3" style="text-align:right;font-weight:700">'+(nl?'Totaal excl.':'Total HT')+'</td><td class="n">'+fmt(tot)+'</td></tr>'
+    +'<tr><td colspan="3" style="text-align:right">'+(nl?'BTW':'TVA')+' '+(effTva()*100).toFixed(0)+'%</td><td class="n">'+fmt(tva)+'</td></tr>'
+    +'<tr class="tot"><td colspan="3" style="text-align:right">'+(nl?'TOTAAL INCL.':'TOTAL TTC')+'</td><td class="n">'+fmt(ttc)+'</td></tr></tbody></table>'
+    +'<h3>'+(nl?'Garantie & service':'Garantie & SAV')+'</h3><p style="font-size:.84rem">'+(nl?'2 jaar installatiegarantie BORNEXA + fabrieksgarantie (tot 5 jaar Wallbox). Hulp bij app-configuratie. Onderdelen en werkuren inbegrepen tijdens de garantie.':'2 ans de garantie installation BORNEXA + garantie constructeur (jusqu\'à 5 ans Wallbox). Assistance configuration app. Pièces et main d\'œuvre incluses pendant la garantie.')+'</p>'
+    +'<div class="cond"><b>'+(nl?'Voorwaarden:':'Conditions :')+'</b> '+esc(cond)+'</div>';
+}
+// CHANTIER condensé
+var MANUALS={
+ wallbox:{label:'Wallbox',items:['Borne Wallbox + module P1 (si LB/PV)','Différentiel Type A 30 mA + disjoncteur courbe C','Câble XGB section selon devis + RS485 si P1','Fixation 1,3-1,5 m, percer Ø10, couple 8 Nm','Câbler Diff→Disj→borne, serrage 2,5 Nm','App Wallbox : QR, Wi-Fi, firmware, Power Boost, Max Current −4A','Test charge + load balancing (four/sèche-linge)','Mesure terre <100 Ω · photos dossier','Expliquer Eco-Smart/Power Boost, remettre keuring']},
+ tesla:{label:'Tesla Wall Connector Gen 3',items:['Tesla Wall Connector Gen 3 (boîte scellée)','⚠ Pas de P1/LB maison sans Powerwall — prévenir si client veut LB/PV','Différentiel Type A 30 mA + disjoncteur courbe C','Fixation + capot Torx T20','Câbler L/N/PE, couple 2,5 Nm','App Tesla One : QR, Wi-Fi, Max current = calibre','Test charge véhicule · mesure terre <100 Ω','Expliquer limites solaire (Powerwall requis), remettre keuring']},
+ smappee:{label:'Smappee EV',items:['Borne Smappee + Smappee Connect (si LB/PV)','Différentiel Type A 30 mA + disjoncteur courbe C','Câble XGB + RJ12 P1 si Connect','Connect : RJ12 sur P1 compteur + USB-C, LED bleue = OK','App Smappee : Live data, Smart Charging, Max −4A','Test modes Smart/Solar + load balancing','Mesure terre <100 Ω · photos','Expliquer modes Smart/Solar/Boost, remettre keuring']}
+};
+function chantierBrand(){ var c=D.borne.chargerRef||''; return c.indexOf('TS-')===0?'tesla':(c.indexOf('SM-')===0?'smappee':'wallbox'); }
+function renderChantier(){
+  var br=chantierBrand(), man=MANUALS[br];
+  var gate=['Mise à la terre conforme (sinon STOP)','Différentiel principal coupé','Matériel complet vs devis','Type de réseau confirmé','Client joignable (Wi-Fi)'];
+  var html='<div style="font-weight:800;color:var(--primary-dark);margin-bottom:8px">⚠ GO/NO-GO sécurité</div><div class="checks">'+gate.map(function(t,i){var k='g'+i,on=!!D.chantier.checks[k];return '<label class="'+(on?'on':'')+'" data-ck="'+k+'"><input type="checkbox" '+(on?'checked':'')+'> '+esc(t)+'</label>';}).join('')+'</div>';
+  html+='<div style="font-weight:800;color:var(--navy);margin:14px 0 8px">'+esc(man.label)+'</div><div class="checks">'+man.items.map(function(t,i){var k=br+i,on=!!D.chantier.checks[k];return '<label class="'+(on?'on':'')+'" data-ck="'+k+'"><input type="checkbox" '+(on?'checked':'')+'> '+esc(t)+'</label>';}).join('')+'</div>';
+  var box=$('#chantierBox'); box.innerHTML=html;
+  if(!box.__bound){ box.__bound=true; box.addEventListener('change',function(e){var l=e.target.closest('[data-ck]');if(!l)return;D.chantier.checks[l.dataset.ck]=$('input',l).checked;l.classList.toggle('on',$('input',l).checked);D.chantier.brand=chantierBrand();saveStore();}); }
+}
+function renderPrep(){
+  var br=chantierBrand(); var dim=computeDim();
+  var list=['Borne : '+dim.chargerName,'Différentiel '+(D.options.wantTypeB?'Type B':'Type A')+' 30 mA + disjoncteur '+dim.disjLabel,'Câble '+dim.cableRef+' (~'+(D.placement.length||'?')+' m)'];
+  if(smartModuleRef(dim))list.push('Module : '+(MODULE_LABEL[smartModuleRef(dim)]?MODULE_LABEL[smartModuleRef(dim)].fr.split('—')[0]:smartModuleRef(dim)));
+  if(D.options.wantSurge)list.push('Parafoudre Type 2');
+  if(D.options.wantSubpanel)list.push('Coffret divisionnaire');
+  list.push('Outils : perceuse Ø10, niveau, '+(br==='tesla'?'Torx T20':'M8 + RS485/RJ12 si module'),'App '+(br==='tesla'?'Tesla One':(br==='smappee'?'Smappee Energy':'Wallbox'))+' + compte BORNEXA','Keuringsapparatuur (terre, RCD)');
+  $('#prepBox').innerHTML='<div class="checks">'+list.map(function(t){return '<label><input type="checkbox"> '+esc(t)+'</label>';}).join('')+'</div>';
+}
+// UNIFILAIRE (porté)
+function buildUni(){
+  var dim=computeDim(); var W=820,x=170,txt=250,yS=64,step=92,S=[];
+  var net=D.network.phase==='mono'?'230V 1~':(D.network.netType==='230-3w'?'3×230V':'400V 3~+N'), cond=D.network.phase==='mono'?'3':(D.network.netType==='230-3w'?'4':'5');
+  var dt=D.options.wantTypeB?'B':'A', dlabel='Différentiel Type '+dt+' 30 mA '+(num(D.network.ampere)>=63?'63A':'40A');
+  var stages=[];
+  stages.push({s:function(x,y){return '<circle cx="'+x+'" cy="'+y+'" r="20" fill="#fff" stroke="#0B1E3C" stroke-width="2"/><text x="'+x+'" y="'+(y+4)+'" font-size="10" font-weight="700" text-anchor="middle">kWh</text>';},t1:'Compteur · '+net,t2:D.network.dso+(D.network.ean?(' · EAN '+D.network.ean):'')});
+  if(D.options.wantSubpanel)stages.push({s:function(x,y){return '<rect x="'+(x-20)+'" y="'+(y-18)+'" width="40" height="36" rx="3" fill="#fff" stroke="#0B1E3C" stroke-width="2"/><line x1="'+(x-20)+'" y1="'+(y-6)+'" x2="'+(x+20)+'" y2="'+(y-6)+'" stroke="#0B1E3C"/><line x1="'+(x-20)+'" y1="'+(y+6)+'" x2="'+(x+20)+'" y2="'+(y+6)+'" stroke="#0B1E3C"/>';},t1:'Coffret divisionnaire',t2:''});
+  stages.push({s:function(x,y){return '<rect x="'+(x-16)+'" y="'+(y-20)+'" width="32" height="40" rx="3" fill="#fff" stroke="#0B1E3C" stroke-width="2"/><circle cx="'+x+'" cy="'+(y-2)+'" r="6" fill="none" stroke="#0B1E3C" stroke-width="1.5"/><line x1="'+(x-9)+'" y1="'+(y+9)+'" x2="'+(x+9)+'" y2="'+(y+9)+'" stroke="#0B1E3C" stroke-width="1.5"/><line x1="'+(x-9)+'" y1="'+(y+13)+'" x2="'+(x+9)+'" y2="'+(y+13)+'" stroke="#0B1E3C" stroke-width="1.5"/>';},t1:dlabel,t2:dt==='B'?'Type B (sur demande)':'Type A + RDC-DD borne (IEC 62955) — NBN HD 60364-7-722'});
+  stages.push({s:function(x,y){return '<rect x="'+(x-15)+'" y="'+(y-20)+'" width="30" height="40" rx="3" fill="#fff" stroke="#0B1E3C" stroke-width="2"/><line x1="'+x+'" y1="'+(y-18)+'" x2="'+(x-9)+'" y2="'+(y+6)+'" stroke="#0B1E3C" stroke-width="2"/><rect x="'+(x-12)+'" y="'+(y+8)+'" width="24" height="8" fill="#0B1E3C"/>';},t1:'Disjoncteur '+dim.disjLabel.split(' ')[0],t2:'Courbe C · '+D.borne.ka});
+  var ys=[]; for(var i=0;i<stages.length;i++){var yy=yS+i*step;ys.push(yy);S.push(stages[i].s(x,yy));S.push('<text x="'+txt+'" y="'+(yy-3)+'" font-size="13" font-weight="700" fill="#0B1E3C">'+esc(stages[i].t1)+'</text>');if(stages[i].t2)S.push('<text x="'+txt+'" y="'+(yy+13)+'" font-size="11" fill="#475569">'+esc(stages[i].t2)+'</text>');if(i<stages.length-1)S.push('<line x1="'+x+'" y1="'+(yy+22)+'" x2="'+x+'" y2="'+(yy+step-22)+'" stroke="#0B1E3C" stroke-width="2"/>');}
+  var yM=ys[ys.length-1], yC=yM+step;
+  S.push('<line x1="'+x+'" y1="'+(yM+22)+'" x2="'+x+'" y2="'+(yC-22)+'" stroke="#0B1E3C" stroke-width="2"/><line x1="'+(x-12)+'" y1="'+(yM+44)+'" x2="'+(x+12)+'" y2="'+(yM+38)+'" stroke="#0B1E3C" stroke-width="1.5"/><text x="'+(x+16)+'" y="'+(yM+44)+'" font-size="10" fill="#475569">'+cond+'</text>');
+  S.push('<text x="'+txt+'" y="'+(yM+49)+'" font-size="13" font-weight="700">Câble: XGB '+esc(dim.cableRef)+'</text><text x="'+txt+'" y="'+(yM+65)+'" font-size="11" fill="#475569">Longueur: '+esc(D.placement.length||'?')+' m</text>');
+  S.push('<rect x="'+(x-30)+'" y="'+(yC-22)+'" width="60" height="44" rx="6" fill="#E0FBF4" stroke="#009E76" stroke-width="2"/><path d="M'+(x-6)+' '+(yC-10)+' l-8 14 h6 l-4 12 12 -16 h-6 z" fill="#009E76"/><text x="'+x+'" y="'+(yC+18)+'" font-size="8" font-weight="700" text-anchor="middle">EV</text>');
+  S.push('<text x="'+txt+'" y="'+(yC-3)+'" font-size="13" font-weight="700">Borne: '+esc(dim.chargerName)+'</text><text x="'+txt+'" y="'+(yC+13)+'" font-size="11" fill="#475569">'+dim.power+' kW'+(wantsSmart()?' · load balancing':'')+'</text>');
+  var ye=yC+70; S.push('<line x1="'+x+'" y1="'+(yC+22)+'" x2="'+x+'" y2="'+ye+'" stroke="#0B1E3C" stroke-width="2" stroke-dasharray="3 2"/><line x1="'+(x-14)+'" y1="'+ye+'" x2="'+(x+14)+'" y2="'+ye+'" stroke="#0B1E3C" stroke-width="2"/><line x1="'+(x-9)+'" y1="'+(ye+5)+'" x2="'+(x+9)+'" y2="'+(ye+5)+'" stroke="#0B1E3C" stroke-width="2"/><line x1="'+(x-4)+'" y1="'+(ye+10)+'" x2="'+(x+4)+'" y2="'+(ye+10)+'" stroke="#0B1E3C" stroke-width="2"/><text x="'+(x+18)+'" y="'+(ye+4)+'" font-size="11" fill="#475569">Terre '+esc(D.network.earthtype)+(D.chantier.measures.earthOhm?(' · '+D.chantier.measures.earthOhm+' Ω'):'')+'</text>');
+  // sources
+  var srcs=[]; if(D.solar.hasSolar==='ja')srcs.push(['PV', D.solar.pvInfo]); if(D.solar.hasBattery&&D.solar.hasBattery!=='nee')srcs.push(['Batterie', D.solar.hasBattery]); if(wantsSmart())srcs.push(['P1', smartModuleRef(dim)||'']);
+  var sX=70, sY=ys.length>1?ys[1]:ys[0];
+  srcs.forEach(function(o,i){var yy=sY+i*70;S.push('<rect x="'+(sX-24)+'" y="'+(yy-16)+'" width="48" height="30" rx="3" fill="#fff" stroke="#0B1E3C" stroke-width="1.5"/><text x="'+sX+'" y="'+(yy+4)+'" font-size="10" font-weight="700" text-anchor="middle">'+esc(o[0])+'</text><line x1="'+(sX+24)+'" y1="'+yy+'" x2="'+x+'" y2="'+yy+'" stroke="#94a3b8" stroke-dasharray="4 3"/>'+(o[1]?'<text x="'+sX+'" y="'+(yy+26)+'" font-size="8" text-anchor="middle" fill="#64748b">'+esc(o[1])+'</text>':''));});
+  var H=Math.max(ye+90,sY+srcs.length*70+50), cy=H, ch=86; H+=ch+12;
+  S.push('<rect x="8" y="'+cy+'" width="'+(W-16)+'" height="'+ch+'" fill="#fff" stroke="#0B1E3C"/><text x="20" y="'+(cy+22)+'" font-size="15" font-weight="800">BORNEXA</text><text x="20" y="'+(cy+38)+'" font-size="11" font-weight="700" fill="#009E76">SCHÉMA UNIFILAIRE — Circuit borne</text><text x="20" y="'+(cy+55)+'" font-size="10">'+esc((D.client.name||'—')+' · '+(D.client.address||''))+'</text><text x="20" y="'+(cy+69)+'" font-size="10">'+esc((D.documents.date||'')+' · '+(D.documents.installer||'')+' · '+D.meta.dossierId)+'</text><text x="20" y="'+(cy+82)+'" font-size="8" fill="#92400E">Protection à confirmer selon datasheet fabricant, configuration réelle et exigences de l\'organisme de contrôle.</text>');
+  return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,sans-serif"><rect width="'+W+'" height="'+H+'" fill="#fff"/>'+S.join('')+'</svg>';
+}
+function renderUni(){ $('#uniBox').innerHTML=buildUni(); }
+function renderDossier(){
+  var nl=docLang==='nl', m=D.chantier.measures||{};
+  function meas(k,v,u,t){if(v==null||v==='')return '';var c=t==null?'':(t?'ok':'nok');return '<dt>'+esc(k)+'</dt><dd class="'+c+'">'+esc(v)+' '+u+'</dd>';}
+  var e=num(m.earthOhm),rm=num(m.rcdMa),rt=num(m.rcdMs),pe=num(m.peOhm),iso=num(m.iso);
+  var dim=computeDim();
+  $('#dossierDoc').innerHTML='<div class="doc-band"></div><div class="doc-h"><div><div class="nm">BORNEXA</div><div class="tg">'+(nl?'INSTALLATIEDOSSIER':'DOSSIER D\'INSTALLATION')+'</div></div><div class="mt"><div>N° <b>'+esc(D.meta.dossierId)+'</b></div><div>'+(nl?'Datum':'Date')+': <b>'+esc(D.documents.date||'')+'</b></div><div>'+esc(D.documents.installer||'')+'</div></div></div>'
+   +'<dl><dt>'+(nl?'Klant':'Client')+'</dt><dd>'+esc(D.client.name||'')+'</dd><dt>'+(nl?'Adres':'Adresse')+'</dt><dd>'+esc(D.client.address||'')+'</dd>'+(D.network.ean?'<dt>EAN</dt><dd>'+esc(D.network.ean)+'</dd>':'')+'<dt>'+(nl?'Net':'Réseau')+'</dt><dd>'+(D.network.phase==='mono'?'230V 1~':'400V 3~')+'</dd></dl>'
+   +'<h3>'+(nl?'Beveiligingen':'Protections')+'</h3><dl><dt>'+(nl?'Differentieel':'Différentiel')+'</dt><dd>'+(D.options.wantTypeB?'Type B':'Type A + RDC-DD')+' 30 mA</dd><dt>'+(nl?'Automaat':'Disjoncteur')+'</dt><dd>'+esc(dim.disjLabel)+' · '+esc(D.borne.ka)+'</dd></dl>'
+   +'<div class="prudence" style="margin-top:8px">⚠ '+(nl?'Beveiliging te bevestigen volgens fabrieksdocumentatie, werkelijke configuratie en eisen van het controleorganisme.':'Protection à confirmer selon la documentation fabricant, la configuration réelle et les exigences de l\'organisme de contrôle.')+'</div>'
+   +'<h3>'+(nl?'Laadpaal':'Borne')+'</h3><dl><dt>'+(nl?'Toestel':'Appareil')+'</dt><dd>'+esc(dim.chargerName)+'</dd><dt>'+(nl?'Vermogen':'Puissance')+'</dt><dd>'+dim.power+' kW</dd><dt>'+(nl?'Kabel':'Câble')+'</dt><dd>XGB '+esc(dim.cableRef)+' · '+esc(D.placement.length||'')+' m</dd>'+(D.documents.settings?'<dt>'+(nl?'Instellingen':'Réglages')+'</dt><dd>'+esc(D.documents.settings)+'</dd>':'')+'</dl>'
+   +'<h3>'+(nl?'Smart & bronnen':'Smart & sources')+'</h3><dl>'+(wantsSmart()?'<dt>Load balancing / P1</dt><dd>✓ '+(smartModuleRef(dim)||'')+'</dd>':'')+(D.solar.hasSolar==='ja'?'<dt>'+(nl?'Zonnepanelen':'Solaire')+'</dt><dd>✓ '+esc(D.solar.pvInfo||'')+'</dd>':'')+(D.solar.hasBattery&&D.solar.hasBattery!=='nee'?'<dt>'+(nl?'Thuisbatterij':'Batterie')+'</dt><dd>'+esc(D.solar.hasBattery)+'</dd>':'')+'</dl>'
+   +'<h3>'+(nl?'Metingen RGIE':'Mesures RGIE')+'</h3><dl>'+meas(nl?'Aardweerstand':'Terre',m.earthOhm,'Ω',e==null?null:e<100)+meas('RCD',m.rcdMa,'mA',rm==null?null:rm<=30)+meas('RCD',m.rcdMs,'ms',rt==null?null:rt<300)+meas('PE',m.peOhm,'Ω',pe==null?null:pe<2)+meas(nl?'Isolatie':'Isolement',m.iso,'MΩ',iso==null?null:iso>=0.5)+meas(nl?'Spanning':'Tension',m.voltage,'V',null)+'</dl>'
+   +'<h3>'+(nl?'Garantie':'Garantie')+'</h3><p style="font-size:.84rem">'+(nl?'2 jaar installatiegarantie + fabrieksgarantie. App geconfigureerd en getest.':'2 ans de garantie installation + constructeur. Application configurée et testée.')+'</p>'
+   +'<div class="doc-foot" style="text-align:center;font-size:.7rem;color:var(--muted);margin-top:18px;padding-top:10px;border-top:1px solid var(--border)">BORNEXA · Boortmeerbeek (3190) · +32 489 24 77 60 · info@bornexa.be</div>'
+   +'<div class="doc-schema"><h3>'+(nl?'EENDRAADSCHEMA':'SCHÉMA UNIFILAIRE')+'</h3>'+buildUni()+'</div>';
+}
+function renderSummary(){
+  var dim=computeDim(); var t=D.pricing&&D.pricing.ttc?fmt(D.pricing.ttc):'—';
+  var rows=[['Dossier',D.meta.dossierId],['Client',D.client.name],['Adresse',D.client.address],['Borne',dim.chargerName],['Puissance',dim.power+' kW'],['Réseau',D.network.phase==='mono'?'Mono 230V':'Tri'],['Différentiel',(D.options.wantTypeB?'Type B':'Type A')+' 30mA'],['Load balancing',wantsSmart()?'Oui ('+(smartModuleRef(dim)||'-')+')':'Non'],['Solaire',D.solar.hasSolar==='ja'?'Oui':'Non'],['Total TTC',t],['État',D.meta.status]];
+  $('#summaryBox').innerHTML=rows.map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1]||'—')+'</dd>';}).join('');
+}
+
+// ════════ Navigation ════════
+function renderStep(){
+  if(step===6)renderCalc();
+  if(step===7)renderDevis();
+  if(step===8)renderPrep();
+  if(step===9)renderChantier();
+  if(step===10){renderCalc();renderUni();}
+  if(step===11){renderDevis();renderSummary();D.meta.status='Complet';}
+}
+function showStep(){
+  $$('.step').forEach(function(s){s.classList.remove('active','printing');});
+  var el=$('.step[data-step="'+step+'"]'); if(el)el.classList.add('active');
+  $('#stepNum').textContent=step; $('#stepName').textContent=el?el.dataset.name:'';
+  $('#progFill').style.width=(step/TOTAL*100)+'%';
+  $('#prevBtn').disabled=step===1; $('#nextBtn').textContent=step===TOTAL?'✓ Terminé':'Suivant →';
+  renderStep(); window.scrollTo({top:0,behavior:'smooth'}); saveStore();
+}
+function validateStep(){
+  var el=$('.step[data-step="'+step+'"]'); if(!el)return true; var ok=true;
+  $$('[data-req]',el).forEach(function(i){ var bad=!i.value; i.classList.toggle('err',bad); if(bad)ok=false; });
+  if(!ok)toast('Complétez les champs obligatoires (*)');
+  return ok;
+}
+$('#nextBtn').addEventListener('click',function(){ if(!validateStep())return; if(step<TOTAL){step++;showStep();} else {toast('Dossier complet ✓');} });
+$('#prevBtn').addEventListener('click',function(){ if(step>1){step--;showStep();} });
+
+// Doc lang
+$('#dNL').addEventListener('click',function(){docLang='nl';$('#dNL').classList.add('on');$('#dFR').classList.remove('on');renderStep();});
+$('#dFR').addEventListener('click',function(){docLang='fr';$('#dFR').classList.add('on');$('#dNL').classList.remove('on');renderStep();});
+
+// Dossier manager
+$('#newDossier').addEventListener('click',newDossier);
+$('#dossierSel').addEventListener('change',function(e){openDossier(e.target.value);});
+$('#delDossier').addEventListener('click',function(){ if(!D.meta.dossierId)return; if(!confirm('Supprimer le dossier '+D.meta.dossierId+' ?'))return; delete store.dossiers[D.meta.dossierId]; var ids=Object.keys(store.dossiers); if(ids.length){openDossier(ids[0]);}else{newDossier();} saveStore(); refreshDossierList(); });
+
+// Print
+$$('[data-print]').forEach(function(b){ b.addEventListener('click',function(){ var which=b.dataset.print; var sec= which==='10d'?($('.step[data-step="dossier-print"]')):$('.step[data-step="7"]'); if(which==='10d')renderDossier(); else renderDevis(); $$('.step').forEach(function(s){s.classList.remove('printing');}); sec.classList.add('printing'); setTimeout(function(){window.print();sec.classList.remove('printing');},100); }); });
+
+// Export / import JSON
+$('#expJSON').addEventListener('click',function(){ var blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'}); var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='BORNEXA_'+(D.meta.dossierId||'dossier')+'_'+(D.client.name||'').replace(/[^a-zA-Z0-9]+/g,'_')+'.json'; document.body.appendChild(a);a.click();a.remove(); toast('JSON exporté ✓'); });
+$('#impJSON').addEventListener('click',function(){ var j=prompt('Coller le JSON du dossier (sauvegarde, ou export visite/devis) :'); if(!j)return; try{ var p=JSON.parse(j); if(p.meta&&p.client){ D=Object.assign(blankData(),p); }
+  else if(p.schema==='bornexa-visite-v1'&&p.data){ var x=p.data; D.client.name=x.clientName||'';D.client.phone=x.clientPhone||'';D.client.email=x.clientEmail||'';D.client.address=x.clientAddress||'';D.client.buildYear=x.buildYear||'gt10';D.network.phase=x.phase==='Driefase'?'tri':'mono';D.network.ampere=x.ampere||'40';D.network.digitalMeter=x.digitalMeter||'ja';D.network.p1Port=x.p1Port||'ja';D.network.dso=x.dso||'Fluvius';D.network.ean=x.eanNumber||'';D.network.earthing=x.earthing||'ja';D.network.netType=x.netType||'';D.placement.location=x.location||'Garage';D.placement.route=x.cableRoute||'Eenvoudig';D.vehicle.brand=x.vehBrand||'';D.vehicle.model=x.vehModel||'';D.vehicle.acMax=x.vehAcMax||'11';D.vehicle.futureEV=x.futureEV||'nee';D.solar.hasSolar=x.hasSolar||'nee';D.solar.hasBattery=(x.hasBattery&&x.hasBattery!=='nee')?x.hasBattery:'nee';D.needs=x.needs||[];if(x.brandPref&&x.brandPref!=='advies')D.borne.brandPref=x.brandPref; if(x.cableLength){var r=String(x.cableLength).split('-');D.placement.length=r.length===2?Math.round((+r[0]+ +r[1])/2):(parseFloat(x.cableLength)||10);} }
+  else { toast('Format non reconnu'); return; }
+  if(!D.meta.dossierId)D.meta.dossierId=newId(); store.dossiers[D.meta.dossierId]=D; store.current=D.meta.dossierId; saveStore(); refreshDossierList(); fillForm(); step=1; showStep(); toast('Importé ✓'); }catch(e){ toast('JSON invalide'); } });
+
+// ════════ INIT ════════
+loadStore();
+if(store.current&&store.dossiers[store.current]){ D=store.dossiers[store.current]; }
+else { var ids=Object.keys(store.dossiers); if(ids.length){D=store.dossiers[ids[0]];store.current=ids[0];} else { D=blankData(); D.meta.dossierId=newId(); store.dossiers[D.meta.dossierId]=D; store.current=D.meta.dossierId; } }
+bindInputs(); refreshDossierList(); fillForm(); showStep();
+</script>
+</body>
+</html>

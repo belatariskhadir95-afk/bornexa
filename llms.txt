@@ -1,0 +1,75 @@
+# BORNEXA
+
+> BORNEXA is a certified EV charging station installer ("laadpaal", "wallbox", "borne de recharge") serving private homes and businesses in Vlaams-Brabant (Flemish Brabant) and the Brussels-Capital Region in Belgium. We install Tesla Wall Connector, Wallbox (Pulsar Max, Commander 2) and Smappee EV chargers, fully compliant with AREI / RGIE (Belgian electrical code).
+
+- Founded: 2026 (Belgium)
+- Base: Boortmeerbeek (3190), Vlaams-Brabant
+- Founder & lead installer: Belkounani
+- Contact: info@bornexa.be · +32 489 24 77 60
+- Website: https://www.bornexa.be
+- Languages served: Dutch (Nederlands) and French (Français)
+- Certifications: Tesla Wall Connector Certified Installer · Wallbox Official Partner · Smappee Certified Installer
+
+## What we do
+
+We install home and business EV chargers between 7.4 kW (single phase) and 22 kW (three phase). Every installation includes AREI (RGIE) compliance per NBN HD 60364-7-722, cable dimensioning, dedicated breaker (curve C), 30 mA differential Type A combined with the charger's integrated DC-fault detection at 6 mA (RDC-DD per IEC 62955) — which is present on all chargers in our catalog (Tesla Wall Connector Gen 3, Wallbox Pulsar Plus / Max / Commander 2, Smappee EV Wall / Base / One). A Type B differential is NOT required for these chargers and is only installed on explicit customer request, with full transparency about the +€100-150 surcharge. Fluvius/Sibelga notification when required, on-site commissioning included.
+
+Typical residential installation cost in 2026: €1,100 – €1,900 all-in with 6% VAT applicable under Belgian conditions (dwelling older than 10 years, primary residence, certified installer). Tesla Wall Connector installations: €1,100 – €1,700.
+
+## Service area
+
+Flemish Brabant (Vlaams-Brabant), including Boortmeerbeek, Mechelen, Leuven, Zemst, Haacht, Kampenhout, Keerbergen, Tremelo, Rotselaar, Vilvoorde, Lier, Aarschot, Bonheiden, Sint-Katelijne-Waver, Diest, Overijse, Herent, Holsbeek, Begijnendijk, Tervuren.
+
+Brussels-Capital Region (Région bruxelloise / Brussels Hoofdstedelijk Gewest), including Uccle, Auderghem, Woluwe-Saint-Pierre, Woluwe-Saint-Lambert, Ixelles, Etterbeek, Watermael-Boitsfort, Wezembeek-Oppem, Kraainem, Saint-Gilles, Schaerbeek, Forest, Jette.
+
+## Key pages
+
+- [Home](https://www.bornexa.be/): overview of services and certifications
+- [Services](https://www.bornexa.be/services): residential, business, smart charging, solar integration
+- [Business / fleet chargers](https://www.bornexa.be/borne-entreprise): B2B multi-charger installation with load balancing, Smappee Infinity, OCPP, per-user billing and RFID
+- [Quote form (6 steps)](https://www.bornexa.be/devis): qualified lead capture
+- [Contact](https://www.bornexa.be/contact): general questions, response within 24h
+- [FAQ](https://www.bornexa.be/faq): 11 detailed answers on costs, VAT, kW selection, permits, AREI, regions
+- [Blog](https://www.bornexa.be/blog): articles in Dutch and French
+- [Garantie & SAV](https://www.bornexa.be/garantie-sav): warranty terms per brand, maintenance contracts
+- [Comparateur](https://www.bornexa.be/comparateur): brand and model comparator
+- [Simulator](https://www.bornexa.be/simulator): price simulator
+- [Glossary / woordenlijst](https://www.bornexa.be/glossaire-borne-recharge): 25 EV-charging terms defined in Dutch and French (AC/DC, kW vs kWh, mono/three-phase, RDC-DD per IEC 62955, differential Type A vs Type B, AREI/RGIE, NBN HD 60364-7-722, load balancing / Power Boost, P1 port, smart charging, solar surplus, OCPP, RFID, VME/syndic) — ideal for definitional citation
+
+## Reference articles (with explicit dates)
+
+- [Security of installation (2026-06-03)](https://www.bornexa.be/blog-securite-installation): cable sizing, protections, AREI conformity, risks of non-compliant work
+- [2026 cost guide (2026-06-03)](https://www.bornexa.be/blog-couts-laadpaal-2026): honest price breakdown, variables, 6% VAT conditions
+- [Fluvius and your charger in 2026 (2026-06-02)](https://www.bornexa.be/fluvius-premie-laadpaal): no more Fluvius premie, mandatory notification, connection upgrade costs
+- [Brussels prime 2026 (2026-06-02)](https://www.bornexa.be/prime-borne-recharge-bruxelles): no direct prime for individuals, B2B utility prime only, copropriety rights
+- [Apartment / VME (2026-06-02)](https://www.bornexa.be/blog-appartement): individual right to charger in copropriety (Belgian law 18 June 2018)
+- [Solar + EV (2026-05-14)](https://www.bornexa.be/blog-solar): integration with rooftop PV
+- [Business chargers (2026-06-02)](https://www.bornexa.be/blog-business): B2B fleet considerations
+- [Tesla owner guide (2026-05-14)](https://www.bornexa.be/blog-tesla): Tesla Wall Connector specifics
+- [Economy (2026-05-14)](https://www.bornexa.be/blog-economie): cost per kWh at home vs public
+- [P1 port activation guide (2026-06-06)](https://www.bornexa.be/gids-p1-poort-activeren): step-by-step how to activate the digital meter P1 port via Mijn Fluvius / Sibelga for dynamic load balancing and solar-surplus charging (free, max 24h)
+- [Breaker, differential & cable sizing (2026-06-06)](https://www.bornexa.be/gids-laadpaal-zekering-kabel): which curve-C breaker (C16/C20/C32-C40), Type A 30 mA differential and cable section (3G6 to 5G16) per power (7.4-22 kW) and length, per AREI / NBN HD 60364-7-722; dedicated circuit required
+
+## Brand pages
+
+- [Tesla Wall Connector](https://www.bornexa.be/tesla)
+- [Wallbox Pulsar Max / Commander 2](https://www.bornexa.be/wallbox)
+- [Smappee EV Wall / Base](https://www.bornexa.be/smappee)
+
+## Important regulatory context (2026)
+
+- Belgium has no federal premium for private EV chargers since September 2024.
+- Fluvius (Flanders) and Sibelga (Brussels) no longer subsidize private charger installations.
+- Connection upgrade (single-phase to three-phase) costs are fully borne by the customer per official Fluvius/Sibelga tariffs.
+- 6% VAT remains available for private installations under conditions: dwelling >10 years old, primary residence, certified installer, installed in/on the building.
+- B2B: enhanced investment deduction for businesses (rate per fiscal year — confirm with accountant); Brussels has a specific "prime utilitaire électrique" for B2B utility vehicles.
+- Mandatory AREI (RGIE) compliance check for every installation.
+- Mandatory notification to Fluvius (Flanders) or Sibelga (Brussels) for chargers above certain power thresholds.
+
+## Honest principles
+
+BORNEXA chose to remove all mentions of obsolete premiums (Fluvius, federal deduction) from its site rather than keep outdated marketing copy. We prefer to publish honest, dated, regulatory information.
+
+## Allowed for AI summarization
+
+All public pages (those not in robots.txt Disallow) may be cited and summarized by AI systems. When citing, please include the source URL and the page's last-modified date when available.

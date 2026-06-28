@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#00C896">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Guide chantier installation — BORNEXA</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <style>
+    :root{
+      --primary:#00C896; --primary-dark:#009E76; --primary-light:#E0FBF4;
+      --navy:#0B1E3C; --dark:#0C1018; --light:#fff; --bg:#F6F8FB;
+      --text:#0F172A; --muted:#64748B; --border:#E2E8F0; --warn:#F59E0B; --danger:#EF4444; --info:#0EA5E9;
+      --r-sm:10px; --r-md:14px; --r-lg:20px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;font-size:16px;line-height:1.5;overscroll-behavior-y:contain}
+    body{min-height:100vh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+
+    /* Topbar */
+    .topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--dark) 100%);color:#fff;padding:12px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+    .topbar svg.logo{width:32px;height:32px;flex-shrink:0}
+    .topbar-text{flex:1;min-width:0}
+    .topbar-title{font-weight:800;font-size:.96rem;letter-spacing:.3px}
+    .topbar-sub{font-size:.72rem;color:rgba(255,255,255,.6);letter-spacing:.5px;text-transform:uppercase}
+    .brand-pill{padding:6px 12px;background:var(--primary);color:var(--navy);border-radius:999px;font-weight:800;font-size:.78rem;letter-spacing:.4px}
+    .lang-toggle{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:7px 13px;border-radius:999px;font-weight:700;font-size:.78rem;letter-spacing:.5px;cursor:pointer;transition:all .15s;flex-shrink:0}
+    .lang-toggle:active{background:var(--primary);color:var(--navy)}
+
+    /* Progress */
+    .progress-wrap{background:#fff;padding:11px 18px;border-bottom:1px solid var(--border);position:sticky;top:62px;z-index:49}
+    .progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:.8rem;color:var(--muted)}
+    .progress-meta strong{color:var(--primary-dark);font-weight:800}
+    .progress-bar{height:5px;background:var(--border);border-radius:999px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary) 0%,var(--primary-dark) 100%);border-radius:999px;transition:width .35s cubic-bezier(.4,0,.2,1);width:0%}
+
+    /* Main */
+    .main{flex:1;padding:18px 14px 110px;max-width:780px;margin:0 auto;width:100%}
+
+    /* Brand pick */
+    .pick-title{font-size:1.2rem;margin-bottom:6px;color:var(--text)}
+    .pick-sub{color:var(--muted);font-size:.92rem;margin-bottom:18px}
+    .brand-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+    @media(max-width:480px){.brand-pick{grid-template-columns:1fr}}
+    .brand-chip{background:#fff;border:2px solid var(--border);border-radius:var(--r-md);padding:18px 12px;cursor:pointer;text-align:center;transition:all .2s ease}
+    .brand-chip:active{transform:scale(.97)}
+    .brand-chip.selected{border-color:var(--primary);background:var(--primary-light);box-shadow:0 6px 20px rgba(0,200,150,.20)}
+    .brand-chip .name{font-weight:800;font-size:.96rem;color:var(--text);margin-top:6px}
+    .brand-chip .sub{font-size:.74rem;color:var(--muted);margin-top:3px}
+
+    .import-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+    .import-btn{flex:1;min-width:160px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:13px 14px;font-weight:700;font-size:.88rem;cursor:pointer;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px}
+    .import-btn:active{transform:scale(.99);border-color:var(--primary)}
+
+    /* Context card (depuis devis importé) */
+    .ctx-card{background:linear-gradient(180deg,rgba(0,200,150,.08) 0%,rgba(0,200,150,.03) 100%);border:1px solid rgba(0,200,150,.3);border-radius:var(--r-md);padding:14px 16px;margin-bottom:16px}
+    .ctx-card h3{font-size:.72rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary-dark);font-weight:800;margin-bottom:10px}
+    .ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:.86rem}
+    @media(max-width:480px){.ctx-grid{grid-template-columns:1fr}}
+    .ctx-grid .k{color:var(--muted)}
+    .ctx-grid .v{font-weight:700;text-align:right}
+    .ctx-flag{margin-top:10px;padding:8px 11px;border-radius:8px;font-size:.82rem;font-weight:600}
+    .ctx-flag.on{background:var(--primary-light);color:var(--primary-dark)}
+    .ctx-flag.off{background:#F1F5F9;color:var(--muted)}
+
+    /* Section / Phase */
+    .phase{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden}
+    .phase.gate{border-color:rgba(239,68,68,.4)}
+    .phase-head{padding:14px 18px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,#fff 0%,#fafbfc 100%);cursor:pointer;user-select:none}
+    .phase-head.done{background:linear-gradient(180deg,rgba(0,200,150,.07) 0%,rgba(0,200,150,.03) 100%)}
+    .phase.gate .phase-head{background:linear-gradient(180deg,rgba(239,68,68,.06) 0%,rgba(239,68,68,.02) 100%)}
+    .phase.gate.done .phase-head{background:linear-gradient(180deg,rgba(0,200,150,.08) 0%,rgba(0,200,150,.03) 100%)}
+    .phase-num{width:32px;height:32px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);color:var(--muted);font-weight:800;font-size:.86rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+    .phase.open .phase-num{background:var(--primary);color:var(--navy);border-color:var(--primary)}
+    .phase.done .phase-num{background:var(--primary-dark);color:#fff;border-color:var(--primary-dark)}
+    .phase.gate .phase-num{background:var(--danger);color:#fff;border-color:var(--danger)}
+    .phase.gate.done .phase-num{background:var(--primary-dark);border-color:var(--primary-dark)}
+    .phase-title{flex:1;font-weight:700;font-size:.98rem}
+    .phase-meta{font-size:.78rem;color:var(--muted)}
+    .phase-arrow{color:var(--muted);font-size:1.1rem;transition:transform .2s}
+    .phase.open .phase-arrow{transform:rotate(90deg)}
+    .phase-body{display:none;padding:0 18px 16px;border-top:1px solid var(--border)}
+    .phase.open .phase-body{display:block}
+
+    /* Check items */
+    .check-item{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid #f1f5f9;cursor:pointer}
+    .check-item:last-child{border-bottom:none}
+    .check-item .box{width:22px;height:22px;border:2px solid var(--border);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;margin-top:1px;transition:all .15s}
+    .check-item.done .box{background:var(--primary);border-color:var(--primary)}
+    .check-item .box::after{content:'';opacity:0;width:11px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translateY(-2px);transition:opacity .15s}
+    .check-item.done .box::after{opacity:1}
+    .check-item .txt{flex:1;font-size:.92rem;line-height:1.45}
+    .check-item.done .txt{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+    .check-item .note-btn{flex-shrink:0;background:transparent;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;padding:4px}
+    .check-item.has-note .note-btn{color:var(--primary-dark)}
+    .check-item .photo-btn{flex-shrink:0;background:transparent;border:none;color:var(--muted);font-size:.92rem;cursor:pointer;padding:4px;position:relative}
+    .check-item.has-photo .photo-btn{color:var(--primary-dark)}
+    .check-item.has-photo .photo-btn::after{content:'✓';position:absolute;top:0;right:-4px;font-size:.6rem;background:var(--primary);color:var(--navy);border-radius:50%;width:12px;height:12px;display:flex;align-items:center;justify-content:center;font-weight:800}
+    .note-input{display:block;width:100%;margin-top:8px;padding:8px 11px;border:1px solid var(--border);border-radius:8px;font-size:.86rem;font-family:inherit;resize:vertical}
+    input[type=file]{display:none}
+
+    /* Tip / Warning blocks */
+    .tip{margin:8px 0;padding:10px 13px;border-radius:8px;font-size:.84rem;line-height:1.5}
+    .tip.info{background:#F0F9FF;border-left:3px solid var(--info);color:#0C4A6E}
+    .tip.warn{background:#FEF3C7;border-left:3px solid var(--warn);color:#78350F}
+    .tip.err{background:#FEE2E2;border-left:3px solid var(--danger);color:#7F1D1D}
+    .tip strong{font-weight:800}
+
+    /* Mesures RGIE */
+    .measures{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden}
+    .measures > h3{padding:14px 18px;font-size:.92rem;font-weight:800;color:var(--navy);background:linear-gradient(180deg,#fff 0%,#fafbfc 100%);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .measures-body{padding:6px 18px 16px}
+    .measure-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9}
+    .measure-row:last-child{border-bottom:none}
+    .measure-row .ml{flex:1;font-size:.9rem}
+    .measure-row .ml small{display:block;color:var(--muted);font-size:.74rem}
+    .measure-row input{width:96px;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;text-align:right;font-variant-numeric:tabular-nums;outline:none}
+    .measure-row input:focus{border-color:var(--primary)}
+    .m-badge{width:64px;text-align:center;font-size:.72rem;font-weight:800;padding:5px 0;border-radius:999px}
+    .m-badge.ok{background:var(--primary-light);color:var(--primary-dark)}
+    .m-badge.nok{background:#FEE2E2;color:#991B1B}
+    .m-badge.na{background:#F1F5F9;color:var(--muted)}
+
+    /* Toolbar bottom */
+    .navbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:11px 14px calc(11px + env(safe-area-inset-bottom));display:flex;gap:8px;z-index:60;box-shadow:0 -4px 20px rgba(0,0,0,.06)}
+    .btn{flex:1;padding:14px 18px;border-radius:var(--r-md);font-weight:700;font-size:.94rem;border:none;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;font-family:inherit}
+    .btn-primary{background:var(--primary);color:var(--navy);box-shadow:0 6px 20px rgba(0,200,150,.30)}
+    .btn-primary:active{transform:translateY(1px)}
+    .btn-primary:disabled{background:#cbd5e1;color:#94a3b8;box-shadow:none}
+    .btn-outline{background:#F1F5F9;color:var(--text)}
+
+    /* Toast */
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--navy);color:#fff;padding:11px 22px;border-radius:999px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:all .25s;z-index:100;font-size:.88rem}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+    /* Summary view */
+    .summary{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;margin-bottom:14px}
+    .summary h3{font-size:.74rem;letter-spacing:1.3px;text-transform:uppercase;color:var(--primary-dark);font-weight:800;margin-bottom:10px}
+    .summary dl{display:grid;grid-template-columns:1fr auto;gap:6px 14px;font-size:.9rem}
+    .summary dt{color:var(--muted)}
+    .summary dd{font-weight:700;text-align:right}
+  </style>
+</head>
+<body data-bornexa-tool="chantier">
+
+  <header class="topbar">
+    <svg class="logo" viewBox="0 0 80 80" aria-hidden="true">
+      <defs><linearGradient id="hex" x1="10%" y1="0%" x2="90%" y2="100%"><stop offset="0%" stop-color="#1ADBA8"/><stop offset="100%" stop-color="#009E76"/></linearGradient></defs>
+      <polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#hex)"/>
+      <polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/>
+    </svg>
+    <div class="topbar-text">
+      <div class="topbar-title" data-t="appTitle">Werfgids installatie</div>
+      <div class="topbar-sub">BORNEXA · v2.0</div>
+    </div>
+    <span class="brand-pill" id="brand-pill" style="display:none">—</span>
+    <button class="lang-toggle" id="langBtn">FR</button>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span><span id="checkCount">0</span> / <span id="checkTotal">0</span> <span data-t="checks">checks</span></span>
+      <span id="elapsed">0:00</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <main class="main">
+
+    <div id="brand-step">
+      <h2 class="pick-title" data-t="pickTitle">Welk merk installeert u?</h2>
+      <p class="pick-sub" data-t="pickSub">Kies de laadpaal om de juiste handleiding te laden.</p>
+
+      <div class="import-row">
+        <button class="import-btn" id="btnImportDevis">📥 <span data-t="importDevis">Importeer JSON offerte</span></button>
+      </div>
+
+      <div class="brand-pick">
+        <div class="brand-chip" data-brand="wallbox">
+          <div style="font-size:1.8rem">🟢</div>
+          <div class="name">Wallbox</div>
+          <div class="sub">Pulsar Plus / Max / Commander 2</div>
+        </div>
+        <div class="brand-chip" data-brand="tesla">
+          <div style="font-size:1.8rem">🔴</div>
+          <div class="name">Tesla</div>
+          <div class="sub">Wall Connector Gen 3</div>
+        </div>
+        <div class="brand-chip" data-brand="smappee">
+          <div style="font-size:1.8rem">🔵</div>
+          <div class="name">Smappee</div>
+          <div class="sub">EV Wall / Base / One</div>
+        </div>
+        <div class="brand-chip" data-brand="infinity">
+          <div style="font-size:1.8rem">📊</div>
+          <div class="name">Smappee Infinity</div>
+          <div class="sub" data-nl="Energiebeheer / monitoring" data-fr="Gestion d'énergie / monitoring">Energiebeheer / monitoring</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ctx-card-wrap"></div>
+
+    <div id="phases-step" style="display:none"></div>
+
+    <div id="measures-step" style="display:none">
+      <div class="measures">
+        <h3>🧪 <span data-t="measuresTitle">Metingen & controles RGIE</span></h3>
+        <div class="measures-body" id="measuresBody"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <nav class="navbar" id="navbar">
+    <button class="btn btn-outline" id="btnReset">↺ <span data-t="reset">Reset</span></button>
+    <button class="btn btn-primary" id="btnExport" disabled>📤 <span data-t="exportBtn">Exporteer JSON</span></button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/bornexa-sync.js?v=2026-06-28"></script>
+  <script src="js/supabase-config.js?v=2026-06-28"></script>
+  <script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+  <script>
+  // ════════════════════════════════════════
+  // BORNEXA Werfgids installatie — bilingue NL/FR
+  // ════════════════════════════════════════
+  const STORAGE_KEY = 'bornexa-chantier-v2';
+  const chantierKey = () => (window.Bornexa && Bornexa.scopedKey) ? Bornexa.scopedKey(STORAGE_KEY) : STORAGE_KEY;
+  let lang = localStorage.getItem('bornexa-lang') || 'nl';
+  const t = o => (o && (o[lang] || o.fr || o.nl)) || '';
+
+  // ── UI strings ──
+  const UI = {
+    appTitle:{nl:'Werfgids installatie',fr:'Guide chantier installation'},
+    checks:{nl:'checks',fr:'checks'},
+    pickTitle:{nl:'Welk merk installeert u?',fr:'Quelle marque installez-vous ?'},
+    pickSub:{nl:'Kies de laadpaal om de juiste handleiding te laden.',fr:'Choisissez la borne pour charger le manuel adapté.'},
+    importDevis:{nl:'Importeer JSON offerte',fr:'Importer JSON devis'},
+    measuresTitle:{nl:'Metingen & controles RGIE',fr:'Mesures & contrôles RGIE'},
+    reset:{nl:'Reset',fr:'Reset'},
+    exportBtn:{nl:'Exporteer JSON',fr:'Exporter JSON'}
+  };
+
+  // ── Mesures RGIE ──
+  const MEASURES = [
+    {key:'earthOhm', label:{nl:'Aardweerstand',fr:'Résistance de terre'}, hint:{nl:'norm < 100 Ω',fr:'norme < 100 Ω'}, unit:'Ω', cmp:'lt',  limit:100},
+    {key:'rcdMa',    label:{nl:'RCD uitschakelstroom',fr:'RCD courant de déclench.'}, hint:{nl:'≤ 30 mA',fr:'≤ 30 mA'}, unit:'mA', cmp:'lte', limit:30},
+    {key:'rcdMs',    label:{nl:'RCD uitschakeltijd',fr:'RCD temps de déclench.'}, hint:{nl:'< 300 ms',fr:'< 300 ms'}, unit:'ms', cmp:'lt',  limit:300},
+    {key:'peOhm',    label:{nl:'Doorlopendheid PE',fr:'Continuité PE'}, hint:{nl:'< 2 Ω',fr:'< 2 Ω'}, unit:'Ω', cmp:'lt', limit:2},
+    {key:'voltage',  label:{nl:'Netspanning',fr:'Tension réseau'}, hint:{nl:'info (230 / 400 V)',fr:'info (230 / 400 V)'}, unit:'V', cmp:'info'}
+  ];
+
+  // ── Phase commune GO/NO-GO (sécurité, avant tout) ──
+  const GATE_PHASE = {
+    gate:true,
+    title:{nl:'Veiligheid GO / NO-GO (vóór de start)',fr:'Sécurité GO / NO-GO (avant de commencer)'},
+    items:[
+      {nl:'Aarding aanwezig én conform (anders STOP — niet keurbaar)',fr:'Mise à la terre présente et conforme (sinon STOP — non contrôlable)'},
+      {nl:'Hoofddifferentieel afgeschakeld vóór de werken',fr:'Différentiel principal coupé avant intervention'},
+      {nl:'Vrije plaats in de zekeringkast gecontroleerd',fr:'Place libre dans le tableau vérifiée'},
+      {nl:'Materiaal volledig vs offerte (laadpaal, module, kabel, beveiligingen)',fr:'Matériel complet vs devis (borne, module, câble, protections)'},
+      {nl:'Nettype bevestigd (mono / 3×230 V zonder nul / 400 V + nul)',fr:'Type de réseau confirmé (mono / 3×230 V sans neutre / 400 V + neutre)'},
+      {nl:'Klant aanwezig / bereikbaar voor Wi-Fi wachtwoord',fr:'Client présent / joignable pour mot de passe Wi-Fi'}
+    ],
+    tip:{type:'err',nl:'<strong>Eén NO-GO = niet starten.</strong> Documenteer, fotografeer en informeer de klant vóór verder te gaan.',fr:'<strong>Un seul NO-GO = ne pas démarrer.</strong> Documenter, photographier et informer le client avant de continuer.'}
+  };
+
+  // ── Manuels par marque (bilingue) ──
+  const MANUALS = {
+    wallbox: {
+      brandLabel:'Wallbox',
+      phases:[
+        { title:{nl:'Vóór vertrek: materiaal',fr:'Avant départ : matériel'},
+          items:[
+            {nl:'Laadpaal Wallbox Pulsar Plus / Max / Commander 2 (referentie controleren)',fr:'Borne Wallbox Pulsar Plus / Max / Commander 2 (vérifier référence)'},
+            {nl:'Wallbox P1-module (WALL-MTR-P1PORT) — indien load balancing/PV',fr:'Module Wallbox P1 (WALL-MTR-P1PORT) — si load balancing/PV'},
+            {nl:'RJ12 P1-kabel (1 m geleverd, verleng 2-3 m indien meter ver)',fr:'Câble RJ12 P1 (1 m fourni, rallonge 2-3 m si compteur loin)'},
+            {nl:'RS485-kabel (2 getwiste draden + scherm, lengte kast→laadpaal)',fr:'Câble RS485 (2 fils torsadés + écran, longueur tableau→borne)'},
+            {nl:'Differentieel Type A 30 mA 40 A apart',fr:'Différentiel Type A 30 mA 40 A dédié'},
+            {nl:'Automaat curve C (C20/C32 volgens kW)',fr:'Disjoncteur courbe C (C20/C32 selon kW)'},
+            {nl:'XGB-kabel sectie volgens offerte (3G6/3G10/5G6/5G10/5G16)',fr:'Câble XGB section selon devis (3G6/3G10/5G6/5G10/5G16)'},
+            {nl:'Schroeven/pluggen M8 + waterpas + boor Ø10',fr:'Vis chevilles M8 + niveau à bulle + perceuse Ø10'},
+            {nl:'Wallbox-app op tablet + BORNEXA-account verbonden',fr:'App Wallbox installée sur tablette + compte BORNEXA connecté'}
+          ],
+          tip:{type:'info',nl:'<strong>P1 van de klant:</strong> vóór de werf vragen of geactiveerd via Mijn Fluvius / Sibelga. Zo niet, vandaag de procedure tonen of terugkeer binnen 24-48u plannen.',fr:'<strong>P1 du client :</strong> demander avant chantier si activé via Mijn Fluvius / mon Sibelga. Sinon montrer la procédure aujourd\'hui ou prévoir retour sous 24-48h.'} },
+        { title:{nl:'Laadpaal — bevestiging',fr:'Borne — fixation'},
+          items:[
+            {nl:'Positie markeren: 1,3-1,5 m van de grond, kabelvrije ruimte 25 cm',fr:'Marquer position : 1,3-1,5 m du sol, dégagement câble 25 cm'},
+            {nl:'4 gaten Ø10 mm boren, M8 pluggen',fr:'Percer 4 trous Ø10 mm, cheviller M8'},
+            {nl:'Steun aan de muur schroeven (koppel 8 Nm)',fr:'Visser support borne au mur (couple 8 Nm)'},
+            {nl:'XGB-kabel langs onder doorvoeren, NOG NIET aansluiten',fr:'Passer câble XGB par le bas, ne PAS connecter encore'}
+          ] },
+        { title:{nl:'Zekeringkast — beveiliging EVSE',fr:'Tableau — protection EVSE'},
+          items:[
+            {nl:'Hoofddifferentieel uitschakelen',fr:'Couper le différentiel principal'},
+            {nl:'DIN-rail monteren indien nodig',fr:'Monter rail DIN si nécessaire'},
+            {nl:'Differentieel Type A 30 mA apart voor EVSE plaatsen',fr:'Installer Différentiel Type A 30 mA dédié EVSE'},
+            {nl:'Automaat curve C volgens kW plaatsen',fr:'Installer Disjoncteur courbe C selon kW'},
+            {nl:'Laadpaal bekabelen: Diff → Automaat → naar laadpaal (L1+N+PE mono of L1+L2+L3+N+PE driefase)',fr:'Câbler borne : Diff → Disj → vers borne (L1+N+PE mono ou L1+L2+L3+N+PE tri)'},
+            {nl:'Aanspanning alle klemmen controleren (2,5 Nm laadpaal, 1,5 Nm beveiliging)',fr:'Vérifier serrage tous bornes (couple 2,5 Nm borne, 1,5 Nm protection)'}
+          ],
+          tip:{type:'warn',nl:'<strong>Type A volstaat</strong> want de laadpaal heeft RDC-DD IEC 62955 ingebouwd. Geen Type B nodig behalve uitdrukkelijke vraag van de klant.',fr:'<strong>Type A suffit</strong> car la borne intègre RDC-DD IEC 62955. Pas besoin de Type B sauf demande explicite client.'} },
+        { title:{nl:'Wallbox P1-module (indien load balancing/PV)',fr:'Module P1 Wallbox (si load balancing/PV)'},
+          items:[
+            {nl:'WALL-MTR-P1PORT op DIN-rail monteren (1 module)',fr:'Monter module WALL-MTR-P1PORT sur rail DIN tableau (1 module)'},
+            {nl:'RJ12-kabel: P1-poort meter ↔ Wallbox-module',fr:'Brancher câble RJ12 : port P1 compteur ↔ module Wallbox'},
+            {nl:'RS485-kabel: module D+/D- ↔ Pulsar Max RS485-klemmen',fr:'Brancher câble RS485 : module D+/D- ↔ Pulsar Max bornes RS485'},
+            {nl:'LED PWR module = oranje (gevoed ✓)',fr:'LED PWR du module = orange (alimenté ✓)'},
+            {nl:'LED P1 = groen knipperend (data van meter ✓)',fr:'LED P1 = verte clignotante (data depuis compteur ✓)'},
+            {nl:'LED 485 = rood knipperend (data naar laadpaal ✓)',fr:'LED 485 = rouge clignotante (data vers borne ✓)'}
+          ],
+          tip:{type:'info',nl:'<strong>Blijft LED P1 uit?</strong> P1-poort van de klant niet geactiveerd. Toon Mijn Fluvius → Instellingen → P1 → Activeren (kan 24u duren).',fr:'<strong>Si LED P1 reste éteinte :</strong> port P1 du client non activé. Lui montrer Mijn Fluvius → Paramètres → P1 → Activer (peut prendre 24h).'} },
+        { title:{nl:'Onder spanning brengen',fr:'Mise sous tension'},
+          items:[
+            {nl:'Hoofddifferentieel terug inschakelen',fr:'Refermer différentiel principal'},
+            {nl:'Apart Type A differentieel laadpaal inschakelen',fr:'Activer différentiel Type A dédié borne'},
+            {nl:'Laadpaal knippert wit tijdens opstart (~30s)',fr:'La borne clignote blanc pendant boot (~30s)'},
+            {nl:'Wallbox P1-module LEDs correct aan',fr:'Module Wallbox P1 LEDs allumées correctement'},
+            {nl:'Geen geur / rook / oververhitting controleren',fr:'Vérifier absence d\'odeur / fumée / surchauffe'}
+          ] },
+        { title:{nl:'App-configuratie Wallbox',fr:'Configuration app Wallbox'},
+          items:[
+            {nl:'Wallbox App → Add Charger → QR-code laadpaal scannen (onder behuizing)',fr:'Ouvrir Wallbox App → Add Charger → scanner QR code borne (sous boîtier)'},
+            {nl:'Laadpaal verbinden met thuis-Wi-Fi (SSID + paswoord klant)',fr:'Connecter borne au Wi-Fi maison (SSID + password client)'},
+            {nl:'Firmware controleren → update forceren indien nodig (15 min)',fr:'Vérifier firmware → forcer update si pas à jour (15 min)'},
+            {nl:'Settings → Power Boost → activeren',fr:'Settings → Power Boost → activer'},
+            {nl:'Max Current = aansluitvermogen klant − 4 A marge (bv. 40 A → 36 A)',fr:'Configurer Max Current = puissance souscrite client - 4 A marge (ex. 40 A → 36 A)'},
+            {nl:'Indien PV → Eco-Smart activeren, modus Smart standaard',fr:'Si client a PV → activer Eco-Smart, mode Smart par défaut'}
+          ] },
+        { title:{nl:'Verplichte testen',fr:'Tests obligatoires'},
+          items:[
+            {nl:'Laadtest 32 A met niets anders aan → OK vol vermogen',fr:'Charge test 32 A avec rien d\'autre allumé → OK pleine puissance'},
+            {nl:'Load balancing test: oven/droogkast aanzetten → laadpaal zakt in app',fr:'Test load balancing : lancer four/sèche-linge → vérifier la borne descend sur app'},
+            {nl:'Indien Eco-Smart: overdag testen (overschot gemeten)',fr:'Si Eco-Smart : tester en journée (vérifier que surplus mesuré)'},
+            {nl:'Automaat EVSE manueel af en terug aan → laadpaal herneemt automatisch',fr:'Coupure manuelle Disj. EVSE puis reprise → la borne reprend automatiquement'},
+            {nl:'Aardweerstand meten < 100 Ω (in metingen RGIE invullen)',fr:'Mesure résistance terre < 100 Ω (à reporter dans mesures RGIE)'}
+          ] },
+        { title:{nl:'Foto\'s dossier BORNEXA',fr:'Photos dossier BORNEXA'},
+          items:[
+            {nl:'📷 Laadpaal geplaatst vooraanzicht',fr:'📷 Borne installée vue face'},
+            {nl:'📷 Laadpaal achterkant vóór sluiten (aansluitingen zichtbaar)',fr:'📷 Borne vue arrière avant fermeture (connexions visibles)'},
+            {nl:'📷 Open kast met P1-module + beveiligingen zichtbaar',fr:'📷 Tableau ouvert avec Module P1 + protections visibles'},
+            {nl:'📷 Meter Fluvius/Sibelga met P1-kabel aangesloten',fr:'📷 Compteur Fluvius/Sibelga avec câble P1 branché'},
+            {nl:'📷 App Wallbox scherm "Power Boost actief"',fr:'📷 App Wallbox écran "Power Boost activé"'},
+            {nl:'📷 Ondertekend AREI-keuringsattest',fr:'📷 Keuringsattest AREI signé'}
+          ] },
+        { title:{nl:'Uitleg klant + vertrek',fr:'Explication client + départ'},
+          items:[
+            {nl:'Tonen hoe Eco-Smart / Power Boost activeren in de app',fr:'Montrer comment activer Eco-Smart / Power Boost dans l\'app'},
+            {nl:'Uitleggen welke Max Current ingesteld is en waarom',fr:'Expliquer Max Current configuré et pourquoi'},
+            {nl:'Wi-Fi-paswoord laadpaal geven bij wijziging router',fr:'Donner mot de passe Wi-Fi borne en cas de changement routeur'},
+            {nl:'Keuringsattest + foto elektrisch plan overhandigen',fr:'Remettre keuringsattest + photo plan électrique'},
+            {nl:'Handtekening klant op offerte-aanvaarding ophalen',fr:'Récupérer signature client sur devis acceptation'},
+            {nl:'Beleefdheids-SAV binnen 1 maand inplannen',fr:'Programmer SAV de courtoisie sous 1 mois'}
+          ] }
+      ]
+    },
+    tesla: {
+      brandLabel:'Tesla Wall Connector Gen 3',
+      phases:[
+        { title:{nl:'Vóór vertrek: materiaal',fr:'Avant départ : matériel'},
+          items:[
+            {nl:'Tesla Wall Connector Gen 3 (verzegelde doos)',fr:'Tesla Wall Connector Gen 3 (boîte scellée)'},
+            {nl:'Differentieel Type A 30 mA 40 A',fr:'Différentiel Type A 30 mA 40 A'},
+            {nl:'Automaat curve C',fr:'Disjoncteur courbe C'},
+            {nl:'XGB-kabel sectie volgens offerte',fr:'Câble XGB section selon devis'},
+            {nl:'Torx T20 + waterpas + boor Ø10',fr:'Vis Torx T20 + niveau + perceuse Ø10'},
+            {nl:'Tesla One app geïnstalleerd + account klant indien beschikbaar',fr:'App Tesla One installée + compte client si dispo'}
+          ],
+          tip:{type:'warn',nl:'<strong>Geen P1-module / load balancing thuis!</strong> Tesla Gen 3 ondersteunt geen Belgische P1. Wil de klant PV/load balancing → leg de beperking uit en stel Smappee of Wallbox voor VOORALEER verder te gaan.',fr:'<strong>Pas de module P1 / load balancing maison !</strong> Tesla Gen 3 ne supporte pas le P1 belge. Si client veut PV/load balancing → expliquer la limitation et proposer Smappee ou Wallbox à la place AVANT de continuer.'} },
+        { title:{nl:'Laadpaal — bevestiging',fr:'Borne — fixation'},
+          items:[
+            {nl:'Positie: 1,3-1,5 m van de grond, kabelvrije ruimte 25 cm',fr:'Position : 1,3-1,5 m du sol, dégagement câble 25 cm'},
+            {nl:'Voorkap demonteren (4 Torx T20 schroeven)',fr:'Démonter capot avant (4 vis Torx T20)'},
+            {nl:'4 bevestigingspunten markeren, Ø10 boren',fr:'Marquer 4 points fixation, percer Ø10'},
+            {nl:'Steun vastschroeven',fr:'Visser support borne'},
+            {nl:'XGB-kabel langs onder doorvoeren',fr:'Passer câble XGB par le bas'}
+          ] },
+        { title:{nl:'Zekeringkast — beveiliging EVSE',fr:'Tableau — protection EVSE'},
+          items:[
+            {nl:'Hoofddifferentieel uitschakelen',fr:'Couper différentiel principal'},
+            {nl:'Differentieel Type A 30 mA apart plaatsen',fr:'Installer Différentiel Type A 30 mA dédié'},
+            {nl:'Automaat curve C volgens kW (C32 mono 7,4 / C20 tri 11 / C32 tri 22)',fr:'Installer Disjoncteur courbe C selon kW (C32 mono 7,4 / C20 tri 11 / C32 tri 22)'},
+            {nl:'Kast → laadpaal bekabelen',fr:'Câbler tableau → borne'}
+          ] },
+        { title:{nl:'Aansluiting Tesla-laadpaal',fr:'Connexion borne Tesla'},
+          items:[
+            {nl:'L1/L2/L3/N/PE op Tesla-klemmen aansluiten',fr:'Connecter L1/L2/L3/N/PE aux borniers Tesla'},
+            {nl:'Aanspankoppel 2,5 Nm (specifiek Tesla)',fr:'Couple de serrage 2,5 Nm (spécifique Tesla)'},
+            {nl:'Kap terug bevestigen met Torx T20',fr:'Refixer capot avec vis Torx T20'}
+          ],
+          tip:{type:'info',nl:'<strong>Power Sharing multi-laadpalen Tesla:</strong> bij 2+ Wall Connectors, in Group-modus via app configureren. Anders negeren.',fr:'<strong>Power Sharing multi-bornes Tesla :</strong> si 2+ Wall Connectors, configurer en mode Group via app. Sinon ignorer.'} },
+        { title:{nl:'Onder spanning brengen',fr:'Mise sous tension'},
+          items:[
+            {nl:'Hoofddifferentieel terug inschakelen',fr:'Refermer différentiel principal'},
+            {nl:'Apart Type A differentieel inschakelen',fr:'Activer différentiel Type A dédié'},
+            {nl:'Laadpaal knippert wit tijdens opstart',fr:'La borne clignote blanc pendant boot'},
+            {nl:'LED status groen = OK',fr:'LED status verte = OK'}
+          ] },
+        { title:{nl:'App-configuratie Tesla One',fr:'Configuration app Tesla One'},
+          items:[
+            {nl:'Tesla One App openen',fr:'Ouvrir Tesla One App'},
+            {nl:'Add charger → QR-code scannen (onder kap)',fr:'Add charger → scanner QR code (sous capot)'},
+            {nl:'Thuis-Wi-Fi verbinden',fr:'Connecter Wi-Fi maison'},
+            {nl:'Settings → Maximum charging current = kaliber automaat (32 A voor C32)',fr:'Settings → Maximum charging current = calibre du disjoncteur (32 A pour C32)'},
+            {nl:'Indien Power Sharing tussen laadpalen: in Group-modus configureren',fr:'Si Power Sharing entre bornes : configurer en mode Group'}
+          ] },
+        { title:{nl:'Verplichte testen',fr:'Tests obligatoires'},
+          items:[
+            {nl:'Laadtest met Tesla-voertuig → OK',fr:'Charge test avec véhicule Tesla → OK'},
+            {nl:'Indien Power Sharing: gelijktijdige laadtest 2+ laadpalen',fr:'Si Power Sharing : test charge simultanée 2+ bornes'},
+            {nl:'Aardweerstand meten < 100 Ω',fr:'Mesure résistance terre < 100 Ω'}
+          ] },
+        { title:{nl:'Foto\'s dossier BORNEXA',fr:'Photos dossier BORNEXA'},
+          items:[
+            {nl:'📷 Laadpaal geplaatst vooraanzicht',fr:'📷 Borne installée face'},
+            {nl:'📷 Laadpaal open vóór sluiten (aansluitingen zichtbaar)',fr:'📷 Borne ouverte avant fermeture (connexions vues)'},
+            {nl:'📷 Zekeringkast',fr:'📷 Tableau électrique'},
+            {nl:'📷 App Tesla One configuratie zichtbaar',fr:'📷 App Tesla One config visible'},
+            {nl:'📷 Ondertekend keuringsattest',fr:'📷 Keuringsattest signé'}
+          ] },
+        { title:{nl:'Uitleg klant (KRITIEK — hoge verwachtingen)',fr:'Explication client (CRITIQUE — attentes élevées)'},
+          items:[
+            {nl:'Duidelijk uitleggen: geen native beheer zonne-overschot (Powerwall vereist)',fr:'Expliquer clairement : pas de gestion surplus solaire native (Powerwall requis)'},
+            {nl:'Geen vermogenmodulatie volgens oven/droogkast — gelijktijdig verbruik vermijden',fr:'Pas de modulation puissance selon four/sèche-linge — éviter conso simultanée'},
+            {nl:'Indien deze functies nodig → Smappee/Wallbox geschikter (advies mogelijk)',fr:'Si besoin de ces features → Smappee/Wallbox plus adapté (recommandation possible)'},
+            {nl:'Schedule via de wagen (in de Tesla) of via app Tesla One',fr:'Schedule via voiture (dans la Tesla) ou via app Tesla One'},
+            {nl:'Handtekening aanvaarding ophalen',fr:'Récupérer signature acceptation'},
+            {nl:'Keuringsattest + plan overhandigen',fr:'Remettre keuringsattest + plan'}
+          ] }
+      ]
+    },
+    smappee: {
+      brandLabel:'Smappee EV Wall / EV Base / EV One',
+      phases:[
+        { title:{nl:'Vóór vertrek: materiaal',fr:'Avant départ : matériel'},
+          items:[
+            {nl:'Laadpaal Smappee EV Wall / EV Base / EV One (referentie controleren)',fr:'Borne Smappee EV Wall / EV Base / EV One (vérifier référence)'},
+            {nl:'Smappee Connect (aparte doos) indien load balancing/PV',fr:'Smappee Connect (boîte séparée) si load balancing/PV'},
+            {nl:'RJ12 P1-kabel (1 m geleverd, verleng 2-3 m indien nodig)',fr:'Câble RJ12 P1 (1 m fourni, rallonge 2-3 m si besoin)'},
+            {nl:'Differentieel Type A 30 mA 40 A',fr:'Différentiel Type A 30 mA 40 A'},
+            {nl:'Automaat curve C',fr:'Disjoncteur courbe C'},
+            {nl:'XGB-kabel sectie volgens offerte',fr:'Câble XGB section selon devis'},
+            {nl:'Schroeven/pluggen + waterpas + boor',fr:'Vis chevilles + niveau + perceuse'},
+            {nl:'Smappee Energy app geïnstalleerd + BORNEXA-account',fr:'App Smappee Energy installée + compte BORNEXA'}
+          ],
+          tip:{type:'info',nl:'<strong>P1 klant:</strong> activatie Mijn Fluvius / Sibelga controleren. Smappee Connect werkt niet zonder geactiveerde P1-poort.',fr:'<strong>P1 client :</strong> vérifier activation Mijn Fluvius / Sibelga. Smappee Connect ne fonctionne pas sans port P1 activé.'} },
+        { title:{nl:'Laadpaal — bevestiging',fr:'Borne — fixation'},
+          items:[
+            {nl:'Positie 1,3-1,5 m, vrije ruimte 25 cm',fr:'Position 1,3-1,5 m, dégagement 25 cm'},
+            {nl:'4 gaten Ø10 boren, M8 pluggen',fr:'Percer 4 trous Ø10, cheviller M8'},
+            {nl:'Steun vastschroeven',fr:'Visser support'},
+            {nl:'XGB-kabel doorvoeren',fr:'Passer câble XGB'}
+          ] },
+        { title:{nl:'Zekeringkast — beveiliging EVSE',fr:'Tableau — protection EVSE'},
+          items:[
+            {nl:'Hoofddifferentieel uitschakelen',fr:'Couper différentiel principal'},
+            {nl:'Differentieel Type A 30 mA apart plaatsen',fr:'Installer Différentiel Type A 30 mA dédié'},
+            {nl:'Automaat curve C plaatsen',fr:'Installer Disjoncteur courbe C'},
+            {nl:'Tot aan de laadpaal bekabelen',fr:'Câbler jusqu\'à la borne'},
+            {nl:'GEEN DIN-module te plaatsen (Smappee Connect = buiten kast)',fr:'PAS de module DIN à installer (Smappee Connect = hors tableau)'}
+          ] },
+        { title:{nl:'Smappee Connect (5-10 min)',fr:'Smappee Connect (5-10 min)'},
+          items:[
+            {nl:'Geactiveerde P1-poort klant controleren',fr:'Vérifier port P1 activé du client'},
+            {nl:'RJ12-kabel op P1-poort meter aansluiten ("click")',fr:'Brancher câble RJ12 sur port P1 compteur (clip "click")'},
+            {nl:'Ander uiteinde op Smappee Connect (P1-poort)',fr:'Brancher autre extrémité sur Smappee Connect (port P1)'},
+            {nl:'USB-C voeding Smappee Connect aansluiten (stopcontact dichtbij)',fr:'Brancher alim USB-C du Smappee Connect (prise murale proche)'},
+            {nl:'LED Smappee Connect = blauw vast bij Wi-Fi + P1 gelezen',fr:'LED Smappee Connect = bleue fixe quand connecté Wi-Fi + P1 lu'}
+          ],
+          tip:{type:'warn',nl:'<strong>Rode LED?</strong> P1-poort niet geactiveerd. <strong>Oranje LED?</strong> Geen Wi-Fi. Met klant controleren.',fr:'<strong>LED rouge ?</strong> Port P1 non activé. <strong>LED orange ?</strong> Pas de Wi-Fi. Vérifier avec client.'} },
+        { title:{nl:'Laadpaal onder spanning',fr:'Mise sous tension borne'},
+          items:[
+            {nl:'Hoofddifferentieel terug inschakelen',fr:'Refermer différentiel principal'},
+            {nl:'Apart Type A differentieel inschakelen',fr:'Activer différentiel Type A dédié'},
+            {nl:'Laadpaal start op (~30s)',fr:'La borne boot (~30s)'},
+            {nl:'LED status = groen',fr:'LED status = verte'}
+          ] },
+        { title:{nl:'App-configuratie Smappee',fr:'Configuration app Smappee'},
+          items:[
+            {nl:'Smappee Energy App openen',fr:'Ouvrir Smappee Energy App'},
+            {nl:'Add device → QR Smappee Connect scannen',fr:'Add device → scanner QR Smappee Connect'},
+            {nl:'Smappee Connect met thuis-Wi-Fi verbinden',fr:'Connecter Smappee Connect au Wi-Fi maison'},
+            {nl:'Live data controleren: ogenblikkelijk verbruik zichtbaar',fr:'Vérifier Live data : conso instantanée affichée'},
+            {nl:'Indien PV: PV-productie moet zichtbaar zijn (overdag)',fr:'Si PV : PV production doit s\'afficher (en journée)'},
+            {nl:'Add EV Charger → QR laadpaal scannen',fr:'Add EV Charger → scanner QR borne'},
+            {nl:'Laadpaal met Wi-Fi verbinden',fr:'Connecter borne au Wi-Fi'},
+            {nl:'Settings → EV → Smart Charging activeren',fr:'Settings → EV → activer Smart Charging'},
+            {nl:'Standaardmodus: Smart',fr:'Mode par défaut : Smart'},
+            {nl:'Max Current = aansluitvermogen − 4 A',fr:'Configurer Max Current = puissance souscrite - 4 A'}
+          ] },
+        { title:{nl:'Verplichte testen',fr:'Tests obligatoires'},
+          items:[
+            {nl:'Live verbruik coherent (boiler aanzetten → piek zien)',fr:'Conso live cohérente (lancer chauffe-eau → voir pic)'},
+            {nl:'Laden in modus Solar (dag met PV) → past aan op overschot',fr:'Charge borne en mode Solar (jour avec PV) → ajuste sur surplus'},
+            {nl:'Laden in modus Smart (nacht) → daltarief',fr:'Charge borne en mode Smart (nuit) → utilise tarif heures creuses'},
+            {nl:'Load balancing: oven+laadpaal → laadpaal zakt',fr:'Load balancing : lancer four+borne → borne baisse'},
+            {nl:'Aardweerstand meten < 100 Ω',fr:'Mesure résistance terre < 100 Ω'}
+          ] },
+        { title:{nl:'Foto\'s dossier BORNEXA',fr:'Photos dossier BORNEXA'},
+          items:[
+            {nl:'📷 Laadpaal vooraanzicht',fr:'📷 Borne face'},
+            {nl:'📷 Smappee Connect geplaatst met P1-kabel',fr:'📷 Smappee Connect en place avec câble P1'},
+            {nl:'📷 Zekeringkast',fr:'📷 Tableau électrique'},
+            {nl:'📷 App Smappee Energy met Live data zichtbaar',fr:'📷 App Smappee Energy avec Live data visible'},
+            {nl:'📷 App configuratie modus Smart',fr:'📷 App config mode Smart'},
+            {nl:'📷 Ondertekend keuringsattest',fr:'📷 Keuringsattest signé'}
+          ] },
+        { title:{nl:'Uitleg klant (commercieel moment Smappee)',fr:'Explication client (moment commercial Smappee)'},
+          items:[
+            {nl:'"De Smappee ziet uw productie en verbruik in real time"',fr:'"Le Smappee voit en temps réel votre production et conso"'},
+            {nl:'"Bij zonne-overschot → laadt de wagen gratis"',fr:'"Quand surplus solaire → voiture se recharge gratuitement"'},
+            {nl:'"Bij hoog verbruik in huis → zakt de laadpaal"',fr:'"Quand maison consomme bcp → la borne s\'efface"'},
+            {nl:'Modi: Smart (auto), Solar (enkel overschot), Boost (snel)',fr:'Modes : Smart (auto), Solar (surplus only), Boost (rapide)'},
+            {nl:'Smappee app bewaren voor statistieken',fr:'App Smappee à garder pour stats'},
+            {nl:'Later 2e laadpaal of thuisbatterij toevoegen mogelijk',fr:'Possible d\'ajouter 2e borne ou batterie domestique plus tard'},
+            {nl:'Handtekening ophalen + keuringsattest overhandigen',fr:'Récupérer signature + remettre keuringsattest'}
+          ] }
+      ]
+    },
+    infinity: {
+      brandLabel:'Smappee Infinity (energiebeheer / monitoring)',
+      phases:[
+        { title:{nl:'Vóór vertrek: materiaal',fr:'Avant départ : matériel'},
+          items:[
+            {nl:'Smappee Infinity: Genius (of Connect) volgens type meter',fr:'Smappee Infinity : Genius (ou Connect) selon type de compteur'},
+            {nl:'CT-stroomsensoren (aantal volgens audit/offerte)',fr:'Capteurs de courant CT (nombre selon audit/devis)'},
+            {nl:'Stuuruitgang-module(s) indien aansturing (boiler/WP/laadpaal)',fr:'Module(s) de sortie si pilotage (boiler/PAC/borne)'},
+            {nl:'RJ12 P1-kabel (verleng indien nodig)',fr:'Câble RJ12 P1 (rallonge si besoin)'},
+            {nl:'DIN-rail plaats in zekeringkast gecontroleerd',fr:'Place sur rail DIN dans le tableau vérifiée'},
+            {nl:'Smappee Energy app + BORNEXA-account klaar',fr:'App Smappee Energy + compte BORNEXA prêts'}
+          ],
+          tip:{type:'info',nl:'<strong>P1 klant:</strong> activatie Mijn Fluvius / Sibelga controleren vóór vertrek. Zonder digitale meter → CT-meting via Genius.',fr:'<strong>P1 client :</strong> vérifier activation Mijn Fluvius / Sibelga avant départ. Sans compteur digital → mesure CT via Genius.'} },
+        { title:{nl:'Plaatsing & meting in de kast',fr:'Pose & mesure dans le tableau'},
+          items:[
+            {nl:'Hoofd uitschakelen indien nodig (werk in kast)',fr:'Couper le général si nécessaire (travail au tableau)'},
+            {nl:'Genius/Connect op DIN-rail plaatsen',fr:'Placer Genius/Connect sur rail DIN'},
+            {nl:'CT-klemmen rond de juiste kringen — PIJL naar de verbruiker!',fr:'Pinces CT autour des bons circuits — FLÈCHE vers le consommateur !'},
+            {nl:'P1-kabel op digitale meter aansluiten ("click")',fr:'Brancher câble P1 sur compteur digital (clip "click")'},
+            {nl:'Indien sturing: stuuruitgang bekabelen naar boiler/WP/laadpaal',fr:'Si pilotage : câbler la sortie vers boiler/PAC/borne'}
+          ],
+          tip:{type:'warn',nl:'<strong>CT-richting cruciaal:</strong> de pijl op de klem moet naar de verbruiker wijzen, anders meet Smappee negatief.',fr:'<strong>Sens CT crucial :</strong> la flèche sur la pince doit pointer vers le consommateur, sinon Smappee mesure en négatif.'} },
+        { title:{nl:'Inbedrijfstelling app',fr:'Mise en service app'},
+          items:[
+            {nl:'Smappee Energy app → Add device → QR scannen',fr:'App Smappee Energy → Add device → scanner QR'},
+            {nl:'Met thuis-/bedrijfs-Wi-Fi verbinden',fr:'Connecter au Wi-Fi maison/entreprise'},
+            {nl:'Elke CT-kring correct benoemen (per toestel/afdeling)',fr:'Nommer chaque circuit CT correctement (par appareil/département)'},
+            {nl:'Live data controleren: verbruik per kring zichtbaar',fr:'Vérifier Live data : conso par circuit visible'},
+            {nl:'Indien PV: productie zichtbaar (overdag)',fr:'Si PV : production visible (en journée)'},
+            {nl:'Indien sturing: regel instellen (laden op overschot / piek beperken)',fr:'Si pilotage : configurer la règle (charge sur surplus / limiter le pic)'}
+          ] },
+        { title:{nl:'Controles',fr:'Contrôles'},
+          items:[
+            {nl:'Verbruik per kring coherent (toestel aan → piek op juiste kring)',fr:'Conso par circuit cohérente (allumer appareil → pic sur le bon circuit)'},
+            {nl:'Indien capaciteitstarief: maandpiek-alert ingesteld',fr:'Si tarif capacitaire : alerte pic mensuel configurée'},
+            {nl:'Geen losse klemmen / geen oververhitting',fr:'Aucune borne desserrée / pas de surchauffe'}
+          ] },
+        { title:{nl:'Foto\'s dossier BORNEXA',fr:'Photos dossier BORNEXA'},
+          items:[
+            {nl:'📷 Infinity-modules in de zekeringkast',fr:'📷 Modules Infinity dans le tableau'},
+            {nl:'📷 CT-klemmen geplaatst',fr:'📷 Pinces CT en place'},
+            {nl:'📷 P1-aansluiting op de meter',fr:'📷 Raccordement P1 sur le compteur'},
+            {nl:'📷 App Live data per kring',fr:'📷 App Live data par circuit'}
+          ] },
+        { title:{nl:'Uitleg klant + opvolging (commercieel)',fr:'Explication client + suivi (commercial)'},
+          items:[
+            {nl:'"U ziet nu real-time waar uw energie naartoe gaat"',fr:'"Vous voyez maintenant en temps réel où part votre énergie"'},
+            {nl:'Capaciteitstarief / maandpiek uitleggen (besparing)',fr:'Expliquer tarif capacitaire / pic mensuel (économie)'},
+            {nl:'Opvolgingscontract voorstellen (Basis/Plus/Pro — MRR)',fr:'Proposer un contrat de suivi (Basis/Plus/Pro — MRR)'},
+            {nl:'App tonen + handtekening ophalen',fr:'Montrer l\'app + récupérer signature'}
+          ] }
+      ]
+    }
+  };
+
+  // ── State ──
+  let state = {
+    brand: null,
+    startTime: Date.now(),
+    checks: {},      // {phaseIdx-itemIdx: true}
+    notes: {},       // {phaseIdx-itemIdx: 'text'}
+    photos: {},      // {phaseIdx-itemIdx: true}
+    measures: {},    // {key: value}
+    devisContext: null // contexte importé depuis l'offerte
+  };
+
+  function loadState(){
+    try{
+      const saved = JSON.parse(localStorage.getItem(chantierKey()) || '{}');
+      if (saved.brand || saved.devisContext) state = Object.assign(state, saved);
+    }catch(e){}
+  }
+  function saveState(){
+    try{ localStorage.setItem(chantierKey(), JSON.stringify(state)); }catch(e){}
+    if (window.Bornexa && Bornexa.has() && state.brand) try{ Bornexa.put('chantier', buildChantierPayload()); }catch(e){}
+  }
+  function buildChantierPayload(){
+    const phases = getPhases(); const measures = {};
+    MEASURES.forEach(m=>{ const v = state.measures[m.key]; measures[m.key] = { value:(v===''||v==null)?null:v, status: measureStatus(m, v) }; });
+    return {
+      schema:'bornexa-chantier-v2', brand: state.brand, brandLabel: state.brand?MANUALS[state.brand].brandLabel:'', lang,
+      generated:new Date().toISOString(), devisContext: state.devisContext || null, measures,
+      phases: phases.map((phase,pIdx)=>({ title:t(phase.title), gate:!!phase.gate,
+        items: phase.items.map((item,iIdx)=>({ text:t(item), done:!!state.checks[pIdx+'-'+iIdx], note:state.notes[pIdx+'-'+iIdx]||'', photoTaken:!!state.photos[pIdx+'-'+iIdx] })) }))
+    };
+  }
+
+  // Liste des phases pour la marque (GO/NO-GO prepend)
+  function getPhases(){
+    const m = MANUALS[state.brand];
+    return m ? [GATE_PHASE].concat(m.phases) : [];
+  }
+
+  // ── Langue ──
+  function applyLang(){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-t]').forEach(el=>{
+      const k = el.getAttribute('data-t');
+      if (UI[k]) el.textContent = t(UI[k]);
+    });
+    document.getElementById('langBtn').textContent = (lang === 'nl') ? 'FR' : 'NL';
+    if (state.brand){ renderContext(); renderPhases(); renderMeasures(); }
+  }
+  document.getElementById('langBtn').addEventListener('click', ()=>{
+    lang = (lang === 'nl') ? 'fr' : 'nl';
+    localStorage.setItem('bornexa-lang', lang);
+    applyLang();
+  });
+
+  // ── Import devis JSON → contexte (refactor : bouton + couche dossier) ──
+  function applyDevisToChantier(p){
+    try{
+      const dim = p.dimensioning || {}, se = p.smartEnergy || {};
+      state.devisContext = {
+        client: (p.client && p.client.name) || '', charger: dim.chargerName || '', power: dim.power || '',
+        cable: dim.cableRef || '', breaker: dim.disjLabel || '', diff: dim.diffRef || '',
+        moduleRef: se.moduleRef || null, loadBalance: !!se.loadBalance, solar: !!se.solar
+      };
+      const cr = (dim.chargerRef || '');
+      if (cr.indexOf('WB-')===0) state.brand = 'wallbox';
+      else if (cr.indexOf('TS-')===0) state.brand = 'tesla';
+      else if (cr.indexOf('SM-')===0) state.brand = 'smappee';
+      saveState();
+      if (state.brand) enterBrand(state.brand); else renderContext();
+      return true;
+    }catch(e){ return false; }
+  }
+  document.getElementById('btnImportDevis').addEventListener('click', ()=>{
+    let json;
+    try{ json = prompt(lang==='nl' ? 'Plak de JSON van de offerte (calculateur):' : 'Coller le JSON du devis (calculateur) :'); }catch(e){ return; }
+    if (!json) return;
+    try{ showToast(applyDevisToChantier(JSON.parse(json)) ? (lang==='nl'?'Offerte geïmporteerd ✓':'Devis importé ✓') : (lang==='nl'?'Ongeldige JSON ✗':'JSON invalide ✗')); }
+    catch(e){ showToast(lang==='nl'?'Ongeldige JSON ✗':'JSON invalide ✗'); }
+  });
+
+  function renderContext(){
+    const wrap = document.getElementById('ctx-card-wrap');
+    const c = state.devisContext;
+    if (!c){ wrap.innerHTML = ''; return; }
+    const row = (k,v)=> v ? `<div class="k">${k}</div><div class="v">${v}</div>` : '';
+    const lb = lang==='nl';
+    const flag = (on,onTxt,offTxt)=>`<div class="ctx-flag ${on?'on':'off'}">${on?'✓ '+onTxt:'— '+offTxt}</div>`;
+    wrap.innerHTML = `
+      <div class="ctx-card">
+        <h3>${lb?'Context uit offerte':'Contexte du devis'}</h3>
+        <div class="ctx-grid">
+          ${row(lb?'Klant':'Client', c.client)}
+          ${row(lb?'Laadpaal':'Borne', c.charger)}
+          ${row(lb?'Vermogen':'Puissance', c.power ? c.power+' kW' : '')}
+          ${row(lb?'Kabel':'Câble', c.cable)}
+          ${row(lb?'Automaat':'Disjoncteur', c.breaker)}
+          ${row(lb?'Differentieel':'Différentiel', c.diff)}
+          ${row(lb?'Smart-module':'Module smart', c.moduleRef || '')}
+        </div>
+        ${flag(c.loadBalance, lb?'Load balancing voorzien':'Load balancing prévu', lb?'Geen load balancing':'Pas de load balancing')}
+        ${flag(c.solar, lb?'PV-optimalisatie voorzien':'Optimisation PV prévue', lb?'Geen PV':'Pas de PV')}
+      </div>`;
+  }
+
+  // ── Sélection marque ──
+  function enterBrand(brand){
+    state.brand = brand;
+    saveState();
+    document.getElementById('brand-step').style.display = 'none';
+    document.getElementById('phases-step').style.display = 'block';
+    document.getElementById('measures-step').style.display = 'block';
+    document.getElementById('brand-pill').style.display = 'inline-block';
+    document.getElementById('brand-pill').textContent = MANUALS[brand].brandLabel;
+    document.querySelectorAll('.brand-chip').forEach(c=>c.classList.toggle('selected', c.dataset.brand===brand));
+    renderContext();
+    renderPhases();
+    renderMeasures();
+    document.getElementById('btnExport').disabled = false;
+  }
+  document.querySelectorAll('.brand-chip').forEach(chip => {
+    chip.addEventListener('click', () => enterBrand(chip.dataset.brand));
+  });
+
+  // ── Render phases ──
+  function renderPhases(){
+    const phases = getPhases();
+    if (!phases.length) return;
+    const html = phases.map((phase, pIdx) => {
+      const itemsHtml = phase.items.map((item, iIdx) => {
+        const key = pIdx + '-' + iIdx;
+        const done = !!state.checks[key];
+        const noteVal = state.notes[key] || '';
+        const hasNote = !!noteVal;
+        const hasPhoto = !!state.photos[key];
+        return `
+          <div class="check-item ${done?'done':''} ${hasNote?'has-note':''} ${hasPhoto?'has-photo':''}" data-key="${key}">
+            <div class="box" data-action="toggle"></div>
+            <div class="txt">
+              ${t(item)}
+              ${hasNote ? `<textarea class="note-input" data-key="${key}">${noteVal.replace(/</g,'&lt;')}</textarea>` : ''}
+            </div>
+            <button class="note-btn" data-action="note" title="Note">📝</button>
+            <label class="photo-btn" data-action="photo" title="Photo">📷
+              <input type="file" accept="image/*" capture="environment" data-key="${key}">
+            </label>
+          </div>`;
+      }).join('');
+      const tipHtml = phase.tip ? `<div class="tip ${phase.tip.type}">${t(phase.tip)}</div>` : '';
+      const phaseDone = phase.items.every((_,iIdx) => state.checks[pIdx+'-'+iIdx]);
+      const doneCount = phase.items.filter((_,iIdx)=>state.checks[pIdx+'-'+iIdx]).length;
+      return `
+        <div class="phase ${phase.gate?'gate':''} ${pIdx===0?'open':''} ${phaseDone?'done':''}" data-phase="${pIdx}">
+          <div class="phase-head" data-action="toggle-phase">
+            <div class="phase-num">${phaseDone?'✓':(phase.gate?'!':pIdx)}</div>
+            <div class="phase-title">${t(phase.title)}</div>
+            <div class="phase-meta">${doneCount}/${phase.items.length}</div>
+            <span class="phase-arrow">›</span>
+          </div>
+          <div class="phase-body">
+            ${tipHtml}
+            ${itemsHtml}
+          </div>
+        </div>`;
+    }).join('');
+    document.getElementById('phases-step').innerHTML = html;
+    bindPhaseEvents();
+    updateProgress();
+  }
+
+  function bindPhaseEvents(){
+    document.querySelectorAll('.phase-head').forEach(head => {
+      head.addEventListener('click', e => {
+        if (e.target.closest('.check-item')) return;
+        head.parentNode.classList.toggle('open');
+      });
+    });
+    document.querySelectorAll('.check-item .box').forEach(box => {
+      box.addEventListener('click', e => {
+        e.stopPropagation();
+        const item = box.closest('.check-item');
+        const key = item.dataset.key;
+        state.checks[key] = !state.checks[key];
+        item.classList.toggle('done');
+        const phase = item.closest('.phase');
+        const pIdx = parseInt(phase.dataset.phase, 10);
+        const phases = getPhases();
+        const phaseDone = phases[pIdx].items.every((_,iIdx) => state.checks[pIdx+'-'+iIdx]);
+        phase.classList.toggle('done', phaseDone);
+        phase.querySelector('.phase-num').textContent = phaseDone ? '✓' : (phases[pIdx].gate ? '!' : pIdx);
+        const doneCount = phases[pIdx].items.filter((_,iIdx)=>state.checks[pIdx+'-'+iIdx]).length;
+        phase.querySelector('.phase-meta').textContent = doneCount + '/' + phases[pIdx].items.length;
+        saveState();
+        updateProgress();
+      });
+    });
+    document.querySelectorAll('.note-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const item = btn.closest('.check-item');
+        const key = item.dataset.key;
+        let textarea = item.querySelector('.note-input');
+        if (!textarea) {
+          textarea = document.createElement('textarea');
+          textarea.className = 'note-input';
+          textarea.dataset.key = key;
+          textarea.value = state.notes[key] || '';
+          item.querySelector('.txt').appendChild(textarea);
+          item.classList.add('has-note');
+          textarea.focus();
+          textarea.addEventListener('input', () => { state.notes[key] = textarea.value; saveState(); });
+        } else { textarea.focus(); }
+      });
+    });
+    document.querySelectorAll('.photo-btn input[type=file]').forEach(inp => {
+      inp.addEventListener('change', e => {
+        const key = inp.dataset.key;
+        if (e.target.files && e.target.files.length) {
+          state.photos[key] = true;
+          inp.closest('.check-item').classList.add('has-photo');
+          saveState();
+          showToast(lang==='nl' ? 'Foto bewaard ✓' : 'Photo enregistrée ✓');
+        }
+      });
+    });
+  }
+
+  // ── Mesures RGIE ──
+  function measureStatus(m, v){
+    if (v === '' || v == null || isNaN(parseFloat(v))) return 'na';
+    if (m.cmp === 'info') return 'na';
+    const val = parseFloat(v);
+    if (m.cmp === 'lt')  return val <  m.limit ? 'ok' : 'nok';
+    if (m.cmp === 'lte') return val <= m.limit ? 'ok' : 'nok';
+    return 'na';
+  }
+  function renderMeasures(){
+    const body = document.getElementById('measuresBody');
+    body.innerHTML = MEASURES.map(m=>{
+      const v = state.measures[m.key] != null ? state.measures[m.key] : '';
+      const st = measureStatus(m, v);
+      const badge = st==='ok' ? 'OK' : (st==='nok' ? (lang==='nl'?'NIET':'NON') : '—');
+      return `
+        <div class="measure-row">
+          <div class="ml">${t(m.label)} <small>${t(m.hint)}</small></div>
+          <input type="number" inputmode="decimal" step="any" data-mkey="${m.key}" value="${v}" placeholder="${m.unit}">
+          <div class="m-badge ${st}" data-mbadge="${m.key}">${badge}</div>
+        </div>`;
+    }).join('');
+    body.querySelectorAll('input[data-mkey]').forEach(inp=>{
+      inp.addEventListener('input', ()=>{
+        const k = inp.dataset.mkey;
+        state.measures[k] = inp.value;
+        saveState();
+        const m = MEASURES.find(x=>x.key===k);
+        const st = measureStatus(m, inp.value);
+        const badge = body.querySelector(`[data-mbadge="${k}"]`);
+        badge.className = 'm-badge ' + st;
+        badge.textContent = st==='ok' ? 'OK' : (st==='nok' ? (lang==='nl'?'NIET':'NON') : '—');
+      });
+    });
+  }
+
+  // ── Progress ──
+  function updateProgress(){
+    const phases = getPhases();
+    if (!phases.length) return;
+    const total = phases.reduce((s,p) => s+p.items.length, 0);
+    const done = Object.keys(state.checks).filter(k=>state.checks[k]).length;
+    document.getElementById('checkCount').textContent = done;
+    document.getElementById('checkTotal').textContent = total;
+    document.getElementById('progressFill').style.width = (total ? (done/total*100) : 0) + '%';
+  }
+
+  // ── Toast ──
+  function showToast(msg){
+    const el = document.getElementById('toast');
+    el.textContent = msg; el.classList.add('show');
+    setTimeout(()=>el.classList.remove('show'), 1800);
+  }
+
+  // ── Reset ──
+  document.getElementById('btnReset').addEventListener('click', () => {
+    if (!confirm(lang==='nl' ? 'Alle werfgegevens wissen?' : 'Effacer toutes les données du chantier ?')) return;
+    localStorage.removeItem(chantierKey());
+    location.reload();
+  });
+
+  // ── Export ──
+  document.getElementById('btnExport').addEventListener('click', () => {
+    if (!state.brand) return;
+    const payload = buildChantierPayload();
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'BORNEXA_chantier_' + state.brand + '_' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    showToast(lang==='nl' ? 'JSON geëxporteerd ✓' : 'JSON exporté ✓');
+  });
+
+  // ── Timer ──
+  function updateElapsed(){
+    const sec = Math.floor((Date.now()-state.startTime)/1000);
+    const m = Math.floor(sec/60), s = sec%60;
+    document.getElementById('elapsed').textContent = m+':'+String(s).padStart(2,'0');
+  }
+  setInterval(updateElapsed, 1000);
+
+  // ── Init ──
+  loadState();
+  applyLang();
+  // Couche dossier partagée : reprendre le contexte du devis du dossier actif
+  if (!state.brand && window.Bornexa && Bornexa.has()) { var _d = Bornexa.get('devis'); if (_d && _d.dimensioning) applyDevisToChantier(_d); }
+  if (state.brand) enterBrand(state.brand);
+  else renderContext();
+  updateElapsed();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <title data-fr="Activer le port P1 (Fluvius / Sibelga) pour votre borne — guide pas à pas | BORNEXA">P1-poort activeren via Mijn Fluvius of Sibelga — stap voor stap | BORNEXA</title>
+  <meta name="description" content="Stap-voor-stap gids om de P1-poort van uw digitale meter te activeren via Mijn Fluvius of Sibelga. Nodig voor dynamisch load balancing en laden op zonne-overschot met uw laadpaal. Gratis, 2-5 minuten." data-fr="Guide pas à pas pour activer le port P1 de votre compteur numérique via Mijn Fluvius ou Sibelga. Nécessaire pour le load balancing dynamique et la recharge sur surplus solaire. Gratuit, 2-5 minutes.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.bornexa.be/gids-p1-poort-activeren">
+  <link rel="alternate" hreflang="nl" href="https://www.bornexa.be/gids-p1-poort-activeren">
+  <link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/gids-p1-poort-activeren">
+
+  <meta property="og:title" content="P1-poort activeren via Mijn Fluvius of Sibelga — stap voor stap">
+  <meta property="og:description" content="Activeer de P1-poort van uw digitale meter voor load balancing en laden op zonne-overschot. Gratis, 2-5 minuten.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.bornexa.be/gids-p1-poort-activeren">
+  <meta property="og:locale" content="nl_BE">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "HowTo",
+        "name": "P1-poort activeren van uw digitale meter (Fluvius / Sibelga)",
+        "description": "De P1-poort van uw digitale meter activeren zodat uw laadpaal dynamisch load balancing en laden op zonne-overschot kan doen.",
+        "totalTime": "PT5M",
+        "estimatedCost": { "@type": "MonetaryAmount", "currency": "EUR", "value": "0" },
+        "tool": [ { "@type": "HowToTool", "name": "Mijn Fluvius of Mijn Sibelga account" }, { "@type": "HowToTool", "name": "EAN-nummer van uw digitale meter" } ],
+        "step": [
+          { "@type": "HowToStep", "position": 1, "name": "Log in op Mijn Fluvius of Mijn Sibelga", "text": "Maak een account aan of log in met itsme of e-ID op mijn.fluvius.be (Vlaanderen) of via Sibelga (Brussel)." },
+          { "@type": "HowToStep", "position": 2, "name": "Ga naar uw digitale meter", "text": "Selecteer uw aansluiting (EAN-nummer) en ga naar de instellingen van uw digitale meter / poorten." },
+          { "@type": "HowToStep", "position": 3, "name": "Activeer de gebruikerspoort (P1)", "text": "Kies 'Poort openzetten' of 'Gebruikerspoort activeren' voor de P1-poort. Dit is gratis." },
+          { "@type": "HowToStep", "position": 4, "name": "Wacht op activatie", "text": "De activatie gebeurt op afstand en kan tot 24 uur duren. Daarna leest uw laadpaal via de P1-poort live uw verbruik en zonneproductie uit." }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Wat is de P1-poort van een digitale meter?", "acceptedAnswer": { "@type": "Answer", "text": "De P1-poort is een RJ12-uitgang op uw digitale meter (Fluvius of Sibelga) die in realtime uw verbruik en, indien u zonnepanelen heeft, uw injectie/productie doorgeeft. Een laadpaal of energiemanager (zoals een Wallbox P1-module of Smappee Connect) gebruikt deze data voor dynamisch load balancing en laden op zonne-overschot." } },
+          { "@type": "Question", "name": "Is het activeren van de P1-poort gratis?", "acceptedAnswer": { "@type": "Answer", "text": "Ja. Het activeren van de gebruikerspoort (P1) via Mijn Fluvius of Mijn Sibelga is volledig gratis. De activatie gebeurt op afstand en duurt maximaal 24 uur." } },
+          { "@type": "Question", "name": "Heb ik de P1-poort nodig voor mijn laadpaal?", "acceptedAnswer": { "@type": "Answer", "text": "Alleen als u dynamisch load balancing (de laadpaal die zich aanpast aan uw huishoudelijk verbruik) of laden op zonne-overschot wil. Voor eenvoudig laden is de P1-poort niet nodig. BORNEXA adviseert u tijdens het gratis plaatsbezoek." } },
+          { "@type": "Question", "name": "Wat als ik geen digitale meter heb?", "acceptedAnswer": { "@type": "Answer", "text": "Zonder digitale meter is er geen P1-poort. Load balancing en zonne-integratie blijven mogelijk via CT-stroomklemmen (bv. Wallbox Power Boost met CT of Smappee Genius). BORNEXA bepaalt de juiste oplossing voor uw situatie." } }
+        ]
+      },
+      { "@type": "BreadcrumbList", "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bornexa.be/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.bornexa.be/blog" },
+        { "@type": "ListItem", "position": 3, "name": "P1-poort activeren", "item": "https://www.bornexa.be/gids-p1-poort-activeren" }
+      ] }
+    ]
+  }
+  </script>
+
+  <meta property="og:image" content="https://www.bornexa.be/images/og-tableau-electrique.jpg">
+  <meta property="og:image:alt" content="P1-poort digitale meter activeren">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.bornexa.be/images/og-tableau-electrique.jpg">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
+  <link rel="stylesheet" href="css/style.css?v=2026-06-28">
+  <style>
+    .guide{max-width:760px;margin:0 auto}
+    .guide h2{font-size:1.5rem;margin:2.2rem 0 .8rem;color:var(--dark,#0B1E3C)}
+    .guide h3{font-size:1.12rem;margin:1.6rem 0 .5rem;color:var(--dark,#0B1E3C)}
+    .guide p{line-height:1.75;margin-bottom:1rem;color:var(--text,#0F172A)}
+    .guide ul,.guide ol{margin:.6rem 0 1.2rem 1.3rem;line-height:1.75}
+    .guide li{margin-bottom:.4rem}
+    .guide .step-list{list-style:none;margin-left:0;counter-reset:st}
+    .guide .step-list>li{counter-increment:st;position:relative;padding:14px 16px 14px 58px;background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:14px;margin-bottom:12px}
+    .guide .step-list>li::before{content:counter(st);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:#00C896;color:#0B1E3C;font-weight:800;display:flex;align-items:center;justify-content:center}
+    .guide .callout{background:#E0FBF4;border-left:4px solid #00C896;border-radius:0 12px 12px 0;padding:14px 18px;margin:1.4rem 0}
+    .guide .callout.warn{background:#FEF3C7;border-color:#F59E0B}
+  </style>
+</head>
+<body data-page="guide">
+
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+      <div class="nav-links">
+        <a href="/" data-key="navHome">Home</a>
+        <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+        <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+        <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+        <a href="faq">FAQ</a>
+        <a href="blog" data-key="navBlog">Blog</a>
+        <a href="devis" class="nav-cta">Offerte aanvragen</a>
+        <button class="btn-lang" id="lang-btn">FR</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+      <a href="/" data-key="navHome">Home</a>
+      <a href="services" data-key="navServices">Diensten</a>
+      <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+      <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+      <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+      <a href="faq">FAQ</a>
+      <a href="blog" data-key="navBlog">Blog</a>
+      <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+      <button class="btn-lang" id="lang-btn-mobile">FR</button>
+    </div>
+  </nav>
+
+  <header class="page-hero" role="banner">
+    <div class="page-hero-bg" aria-hidden="true"></div>
+    <div class="container">
+      <nav class="page-breadcrumb" aria-label="Breadcrumb"><a href="/" data-key="navHome">Home</a><span class="sep">›</span><a href="blog" data-key="navBlog">Blog</a><span class="sep">›</span><span data-nl="P1-poort activeren" data-fr="Activer le port P1">P1-poort activeren</span></nav>
+      <div class="badge" data-nl="Praktische gids" data-fr="Guide pratique">Praktische gids</div>
+      <h1 data-nl="P1-poort activeren via Mijn Fluvius of Sibelga — stap voor stap" data-fr="Activer le port P1 via Mijn Fluvius ou Sibelga — pas à pas">P1-poort activeren via Mijn Fluvius of Sibelga — stap voor stap</h1>
+      <p data-nl="Wil uw laadpaal automatisch laden op uw zonne-overschot of zich aanpassen aan uw verbruik (load balancing)? Dan moet de P1-poort van uw digitale meter geactiveerd zijn. Het is gratis en duurt 2 tot 5 minuten." data-fr="Vous voulez que votre borne charge automatiquement sur votre surplus solaire ou s'adapte à votre consommation (load balancing) ? Le port P1 de votre compteur numérique doit être activé. C'est gratuit et prend 2 à 5 minutes.">Wil uw laadpaal automatisch laden op uw zonne-overschot of zich aanpassen aan uw verbruik (load balancing)? Dan moet de P1-poort van uw digitale meter geactiveerd zijn. Het is gratis en duurt 2 tot 5 minuten.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="guide">
+
+          <h2 data-nl="Wat is de P1-poort?" data-fr="Qu'est-ce que le port P1 ?">Wat is de P1-poort?</h2>
+          <p data-nl="De P1-poort is een kleine RJ12-uitgang aan de onderkant van uw digitale meter (Fluvius in Vlaanderen, Sibelga in Brussel). Ze geeft in realtime uw verbruik en — als u zonnepanelen heeft — uw injectie en productie door. Een laadpaal met een P1-module (Wallbox WALL-MTR-P1PORT) of een Smappee Connect leest deze data en stuurt het laadvermogen automatisch bij." data-fr="Le port P1 est une petite sortie RJ12 sous votre compteur numérique (Fluvius en Flandre, Sibelga à Bruxelles). Il transmet en temps réel votre consommation et — si vous avez des panneaux — votre injection et production. Une borne avec module P1 (Wallbox WALL-MTR-P1PORT) ou un Smappee Connect lit ces données et ajuste automatiquement la puissance de charge.">De P1-poort is een kleine RJ12-uitgang aan de onderkant van uw digitale meter (Fluvius in Vlaanderen, Sibelga in Brussel). Ze geeft in realtime uw verbruik en — als u zonnepanelen heeft — uw injectie en productie door. Een laadpaal met een P1-module (Wallbox WALL-MTR-P1PORT) of een Smappee Connect leest deze data en stuurt het laadvermogen automatisch bij.</p>
+
+          <div class="callout">
+            <p style="margin:0" data-nl="<strong>Kort:</strong> P1 actief = uw laadpaal kan laden op zonne-overschot én voorkomt dat de hoofdzekering valt bij hoog verbruik. Zonder P1 laadt uw laadpaal gewoon, maar zonder die slimme functies." data-fr="<strong>En bref :</strong> P1 actif = votre borne peut charger sur le surplus solaire et évite que le disjoncteur principal saute en cas de forte consommation. Sans P1, la borne charge normalement, mais sans ces fonctions intelligentes."><strong>Kort:</strong> P1 actief = uw laadpaal kan laden op zonne-overschot én voorkomt dat de hoofdzekering valt bij hoog verbruik.</p>
+          </div>
+
+          <h2 data-nl="Stap voor stap: P1 activeren bij Fluvius (Vlaanderen)" data-fr="Pas à pas : activer le P1 chez Fluvius (Flandre)">Stap voor stap: P1 activeren bij Fluvius (Vlaanderen)</h2>
+          <ol class="step-list">
+            <li data-nl="Surf naar <strong>mijn.fluvius.be</strong> en log in met itsme of uw e-ID. Heeft u nog geen account? Maak er gratis een aan met uw EAN-nummer (staat op uw energiefactuur of meter)." data-fr="Allez sur <strong>mijn.fluvius.be</strong> et connectez-vous avec itsme ou votre e-ID. Pas encore de compte ? Créez-en un gratuitement avec votre numéro EAN (sur votre facture ou compteur).">Surf naar <strong>mijn.fluvius.be</strong> en log in met itsme of uw e-ID. Heeft u nog geen account? Maak er gratis een aan met uw EAN-nummer.</li>
+            <li data-nl="Ga naar uw aansluiting en open de instellingen van uw <strong>digitale meter</strong>." data-fr="Allez sur votre raccordement et ouvrez les paramètres de votre <strong>compteur numérique</strong>.">Ga naar uw aansluiting en open de instellingen van uw <strong>digitale meter</strong>.</li>
+            <li data-nl="Zoek de optie <strong>'Gebruikerspoort (P1) openzetten'</strong> en zet ze aan. Dit is gratis." data-fr="Cherchez l'option <strong>« Activer le port utilisateur (P1) »</strong> et activez-la. C'est gratuit.">Zoek de optie <strong>'Gebruikerspoort (P1) openzetten'</strong> en zet ze aan. Dit is gratis.</li>
+            <li data-nl="Bevestig. De activatie gebeurt op afstand en kan tot <strong>24 uur</strong> duren." data-fr="Confirmez. L'activation se fait à distance et peut prendre jusqu'à <strong>24 heures</strong>.">Bevestig. De activatie gebeurt op afstand en kan tot <strong>24 uur</strong> duren.</li>
+          </ol>
+
+          <h3 data-nl="En bij Sibelga (Brussel)?" data-fr="Et chez Sibelga (Bruxelles) ?">En bij Sibelga (Brussel)?</h3>
+          <p data-nl="In het Brussels Gewest beheert Sibelga de digitale meters. De procedure is gelijkaardig: via uw Sibelga-klantenzone vraagt u de activatie van de gebruikerspoort aan. BORNEXA helpt u hierbij tijdens het plaatsbezoek indien nodig." data-fr="En Région bruxelloise, Sibelga gère les compteurs numériques. La procédure est similaire : via votre espace client Sibelga, vous demandez l'activation du port utilisateur. BORNEXA vous aide lors de la visite si nécessaire.">In het Brussels Gewest beheert Sibelga de digitale meters. De procedure is gelijkaardig: via uw Sibelga-klantenzone vraagt u de activatie van de gebruikerspoort aan. BORNEXA helpt u hierbij tijdens het plaatsbezoek indien nodig.</p>
+
+          <div class="callout warn">
+            <p style="margin:0" data-nl="<strong>Let op:</strong> activeer de P1-poort bij voorkeur <em>vóór</em> de installatiedag. Zo kan onze technieker de laadpaal meteen koppelen en testen, zonder een tweede bezoek." data-fr="<strong>Attention :</strong> activez le port P1 de préférence <em>avant</em> le jour de l'installation. Notre technicien pourra ainsi connecter et tester la borne immédiatement, sans seconde visite."><strong>Let op:</strong> activeer de P1-poort bij voorkeur <em>vóór</em> de installatiedag.</p>
+          </div>
+
+          <h2 data-nl="Veelgestelde vragen" data-fr="Questions fréquentes">Veelgestelde vragen</h2>
+          <h3 data-nl="Is het gratis?" data-fr="Est-ce gratuit ?">Is het gratis?</h3>
+          <p data-nl="Ja, volledig gratis via Mijn Fluvius of Sibelga. Maximaal 24 uur wachttijd." data-fr="Oui, entièrement gratuit via Mijn Fluvius ou Sibelga. Maximum 24 heures d'attente.">Ja, volledig gratis via Mijn Fluvius of Sibelga. Maximaal 24 uur wachttijd.</p>
+          <h3 data-nl="Heb ik de P1-poort echt nodig?" data-fr="Ai-je vraiment besoin du port P1 ?">Heb ik de P1-poort echt nodig?</h3>
+          <p data-nl="Alleen voor dynamisch load balancing of laden op zonne-overschot. Voor eenvoudig laden niet. BORNEXA adviseert wat bij uw situatie past." data-fr="Uniquement pour le load balancing dynamique ou la recharge sur surplus solaire. Pas pour une recharge simple. BORNEXA conseille selon votre situation.">Alleen voor dynamisch load balancing of laden op zonne-overschot. Voor eenvoudig laden niet. BORNEXA adviseert wat bij uw situatie past.</p>
+          <h3 data-nl="Geen digitale meter?" data-fr="Pas de compteur numérique ?">Geen digitale meter?</h3>
+          <p data-nl="Dan is er geen P1-poort. Load balancing en zonne-integratie blijven mogelijk via CT-stroomklemmen (Wallbox Power Boost CT of Smappee Genius)." data-fr="Alors il n'y a pas de port P1. Le load balancing et l'intégration solaire restent possibles via des pinces CT (Wallbox Power Boost CT ou Smappee Genius).">Dan is er geen P1-poort. Load balancing en zonne-integratie blijven mogelijk via CT-stroomklemmen (Wallbox Power Boost CT of Smappee Genius).</p>
+
+          <p style="margin-top:1.6rem" data-nl="Meer weten over slim laden? Lees onze gids over <a href='blog-recharge-solaire-load-balancing'>laden op zonnepanelen &amp; load balancing</a> of <a href='prijsberekening'>bereken meteen uw richtprijs</a>." data-fr="En savoir plus sur la recharge intelligente ? Lisez notre guide sur la <a href='blog-recharge-solaire-load-balancing'>recharge solaire &amp; load balancing</a> ou <a href='prijsberekening'>calculez tout de suite votre estimation</a>.">Meer weten over slim laden? Lees onze gids over <a href="blog-recharge-solaire-load-balancing">laden op zonnepanelen &amp; load balancing</a> of <a href="prijsberekening">bereken meteen uw richtprijs</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2 class="reveal" data-nl="Laadpaal met slim laden installeren?" data-fr="Installer une borne avec recharge intelligente ?">Laadpaal met slim laden installeren?</h2>
+      <p class="reveal delay-1" data-nl="BORNEXA installeert AREI-conform, configureert de P1-koppeling en test alles. Gratis offerte binnen 24u." data-fr="BORNEXA installe conforme RGIE, configure la liaison P1 et teste tout. Devis gratuit sous 24h.">BORNEXA installeert AREI-conform, configureert de P1-koppeling en test alles. Gratis offerte binnen 24u.</p>
+      <a href="devis" class="btn btn-outline reveal delay-2" data-nl="Gratis offerte aanvragen" data-fr="Demander un devis gratuit">Gratis offerte aanvragen</a>
+    </div>
+  </section>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+          <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
+          <div class="footer-certs" aria-label="Officiële certificaties">
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Certified</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Partner</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> Installer</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-nl="Gidsen" data-fr="Guides">Gidsen</h4>
+          <ul class="footer-links">
+            <li><a href="gids-laadpaal-zekering-kabel" data-nl="Zekering &amp; kabelsectie" data-fr="Disjoncteur &amp; câble">Zekering &amp; kabelsectie</a></li>
+            <li><a href="blog-type-a-type-b-differentiel" data-nl="Type A vs Type B" data-fr="Type A vs Type B">Type A vs Type B</a></li>
+            <li><a href="blog-recharge-solaire-load-balancing" data-nl="Zonne &amp; load balancing" data-fr="Solaire &amp; load balancing">Zonne &amp; load balancing</a></li>
+            <li><a href="prijsberekening" data-nl="Prijsberekening" data-fr="Calcul du prix">Prijsberekening</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerContact">Contact</h4>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span data-key="footerPhone">+32 489 24 77 60</span></div>
+          <div class="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span data-key="footerEmail">info@bornexa.be</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-key="footerRights">© 2026 BORNEXA. Alle rechten voorbehouden.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy" data-key="footerPrivacy">Privacybeleid</a>
+          <a href="algemene-voorwaarden" data-key="footerTerms">Algemene voorwaarden</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script defer src="js/translations.js?v=2026-06-28"></script>
+  <script defer src="js/lang.js?v=2026-06-28"></script>
+  <script src="js/main.js?v=2026-06-28"></script>
+</body>
+</html>
