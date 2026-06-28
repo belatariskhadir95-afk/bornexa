@@ -137,7 +137,7 @@
      Tant que l'ID reste le placeholder, AUCUN script ne se charge et AUCUNE bannière ne s'affiche.
      Aucune donnée n'est collectée avant le clic « Accepter » (conforme RGPD/Belgique). */
   (function () {
-    var GA_ID = 'G-XXXXXXXXXX'; // ← À REMPLACER par votre ID GA4
+    var GA_ID = 'G-RVC22RR3N9'; // ID GA4 BORNEXA
     if (GA_ID === 'G-XXXXXXXXXX' || !/^G-[A-Z0-9]{4,}$/.test(GA_ID)) return; // pas configuré → ne rien faire
     var KEY = 'bornexa-consent'; // 'granted' | 'denied'
 
