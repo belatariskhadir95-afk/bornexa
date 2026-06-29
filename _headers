@@ -45,6 +45,10 @@
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
 /bornexa-hub.html
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/facturation
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/facturation.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
 
 # Cache-Control - static assets immutable
 /css/*

@@ -29,6 +29,9 @@ Disallow: /bornexa-hub
 Disallow: /bornexa-hub.html
 Disallow: /hub
 Disallow: /dossiers
+Disallow: /facturation
+Disallow: /facturation.html
+Disallow: /facture
 
 Sitemap: https://www.bornexa.be/sitemap.xml
 # RSS feed

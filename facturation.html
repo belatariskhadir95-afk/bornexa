@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00C896">
+<meta name="robots" content="noindex, nofollow">
+<title>BORNEXA Facturation — acompte & solde</title>
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<style>
+:root{--primary:#00C896;--primary-dark:#009E76;--navy:#0B1E3C;--dark:#0C1018;--bg:#F6F8FB;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--r:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.5}
+.topbar{background:linear-gradient(135deg,var(--navy),var(--dark));color:#fff;padding:13px 18px;display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--primary)}
+.topbar svg{width:30px;height:30px}.topbar b{font-weight:800}.topbar span{display:block;font-size:.7rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.card h2{font-size:1rem;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:620px){.grid2{grid-template-columns:1fr}}
+label.f{display:block;font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+input,textarea{width:100%;font-family:inherit;font-size:16px;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;color:var(--text);outline:none}
+input:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.15)}
+.btn{padding:10px 16px;border-radius:10px;font-weight:700;font-size:.88rem;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.btn-p{background:var(--primary);color:var(--navy)}.btn-p:hover{background:var(--primary-dark);color:#fff}
+.btn-o{background:#fff;color:var(--navy);border:1.5px solid var(--border)}.btn-o:hover{border-color:var(--primary)}
+.btn-g{background:#F1F5F9;color:var(--text)}.btn-sm{padding:7px 12px;font-size:.8rem}
+.pill{font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:999px}
+.pill.draft{background:#F1F5F9;color:var(--muted)}.pill.emit{background:#E0F2FE;color:#075985}.pill.paid{background:#DCFCE7;color:#166534}
+.amt{display:flex;justify-content:space-between;padding:5px 0;font-size:.92rem}
+.amt.big{font-weight:800;font-size:1.15rem;color:var(--navy);border-top:2px solid var(--border);margin-top:6px;padding-top:10px}
+.muted{color:var(--muted)}.warn{background:#FFF6E5;border:1px solid #FCD34D;color:#92400E;border-radius:10px;padding:12px 14px;font-size:.86rem;line-height:1.5}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:100}.toast.show{opacity:1}
+/* ── Print invoice ── */
+#inv{display:none}
+@media print{
+  body{background:#fff}
+  .wrap,.topbar,.toast{display:none!important}
+  #inv{display:block;font-size:12px;color:#111;max-width:none;padding:0}
+  @page{margin:16mm}
+}
+.inv-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--primary);padding-bottom:14px;margin-bottom:18px}
+.inv-title{font-size:1.6rem;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.inv-meta td{padding:1px 0;font-size:.86rem}.inv-meta td:first-child{color:#555;padding-right:14px}
+.inv-parties{display:flex;justify-content:space-between;gap:30px;margin-bottom:18px;font-size:.86rem}
+.inv-parties h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:5px}
+table.inv-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:.86rem}
+table.inv-tbl th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px;font-size:.74rem;text-transform:uppercase}
+table.inv-tbl td{padding:7px 10px;border-bottom:1px solid #eee;vertical-align:top}
+table.inv-tbl td.r,table.inv-tbl th.r{text-align:right}
+.inv-tot{margin-left:auto;width:300px;font-size:.9rem}
+.inv-tot .amt.big{font-size:1.05rem}
+.inv-legal{margin-top:22px;font-size:.76rem;color:#444;line-height:1.6;border-top:1px solid #ddd;padding-top:12px}
+.inv-paid{display:inline-block;border:2px solid #166534;color:#166534;font-weight:800;padding:5px 14px;border-radius:8px;transform:rotate(-4deg);font-size:1rem;margin-top:8px}
+</style>
+</head>
+<body data-bornexa-tool="facture">
+<header class="topbar">
+  <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="h" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#h)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
+  <div><b>BORNEXA Facturation</b><span>Devis accepté → acompte & solde</span></div>
+</header>
+
+<div class="wrap">
+
+  <!-- État sans devis -->
+  <div class="card" id="noDevis" style="display:none"><div class="warn">Aucun devis dans le dossier actif. Ouvrez d'abord le <b>Calculateur / Devis</b> et complétez-le — la facture se pré-remplira automatiquement ici.</div></div>
+
+  <!-- Réglages émetteur (globaux, à remplir une fois) -->
+  <div class="card">
+    <h2>⚙️ Réglages émetteur <span class="pill draft" id="setStatus" style="margin-left:auto"></span></h2>
+    <div class="grid2">
+      <div><label class="f">Nom / raison sociale</label><input id="s-name" placeholder="BORNEXA"></div>
+      <div><label class="f">N° TVA</label><input id="s-vat" placeholder="BE 1037.811.908"></div>
+      <div style="grid-column:1/-1"><label class="f">Adresse de facturation (obligatoire sur facture)</label><input id="s-addr" placeholder="Rue, n° · 3190 Boortmeerbeek · Belgique"></div>
+      <div><label class="f">IBAN</label><input id="s-iban" placeholder="BE.. .... .... ...."></div>
+      <div><label class="f">BIC (optionnel)</label><input id="s-bic" placeholder="GEBABEBB"></div>
+      <div><label class="f">Acompte par défaut (% du TTC)</label><input id="s-pct" type="number" min="0" max="100" value="50"></div>
+      <div><label class="f">Délai de paiement (jours)</label><input id="s-days" type="number" min="0" value="30"></div>
+    </div>
+    <p class="muted" style="font-size:.8rem;margin-top:10px">Ces réglages sont mémorisés sur cet appareil et réutilisés pour toutes les factures.</p>
+  </div>
+
+  <!-- Dossier / client -->
+  <div class="card" id="ctxCard" style="display:none">
+    <h2>📁 Dossier — <span id="ctxClient" style="color:var(--primary-dark)"></span></h2>
+    <div id="ctxBody" class="muted" style="font-size:.9rem"></div>
+  </div>
+
+  <!-- Facture d'acompte -->
+  <div class="card" id="acoCard" style="display:none">
+    <h2>1️⃣ Facture d'acompte <span class="pill draft" id="acoStatus" style="margin-left:auto">Brouillon</span></h2>
+    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+      <div><label class="f">Acompte (% TTC)</label><input id="acoPct" type="number" min="0" max="100" style="width:90px"></div>
+      <div id="acoNumWrap" style="display:none"><label class="f">N° facture</label><input id="acoNum" readonly style="width:130px;background:#F8FAFC"></div>
+      <div id="acoDateWrap" style="display:none"><label class="f">Date</label><input id="acoDate" type="date" style="width:160px"></div>
+    </div>
+    <div id="acoAmts"></div>
+    <div class="toolbar">
+      <button class="btn btn-p" id="acoEmit">📤 Émettre la facture d'acompte</button>
+      <button class="btn btn-o btn-sm" id="acoPaid" style="display:none">✓ Marquer payée</button>
+      <button class="btn btn-o btn-sm" id="acoPrint" style="display:none">🖨️ Imprimer / PDF</button>
+    </div>
+  </div>
+
+  <!-- Facture de solde -->
+  <div class="card" id="solCard" style="display:none">
+    <h2>2️⃣ Facture de solde (fin de chantier) <span class="pill draft" id="solStatus" style="margin-left:auto">Brouillon</span></h2>
+    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+      <div id="solNumWrap" style="display:none"><label class="f">N° facture</label><input id="solNum" readonly style="width:130px;background:#F8FAFC"></div>
+      <div id="solDateWrap" style="display:none"><label class="f">Date</label><input id="solDate" type="date" style="width:160px"></div>
+    </div>
+    <div id="solAmts"></div>
+    <p class="muted" id="solHint" style="font-size:.82rem;margin-top:8px">Émettez d'abord l'acompte. Le solde reprend le total et déduit l'acompte facturé.</p>
+    <div class="toolbar">
+      <button class="btn btn-p" id="solEmit">📤 Émettre la facture de solde</button>
+      <button class="btn btn-o btn-sm" id="solPaid" style="display:none">✓ Marquer payée</button>
+      <button class="btn btn-o btn-sm" id="solPrint" style="display:none">🖨️ Imprimer / PDF</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Zone d'impression -->
+<div id="inv"></div>
+<div class="toast" id="toast"></div>
+
+<script src="js/bornexa-sync.js?v=2026-06-28"></script>
+<script src="js/supabase-config.js?v=2026-06-28"></script>
+<script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
+<script>
+'use strict';
+var $=function(s){return document.getElementById(s);};
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1700);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function eur(n){return (Number(n)||0).toLocaleString('fr-BE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
+function fmtDate(d){try{return new Date(d).toLocaleDateString('fr-BE');}catch(e){return d||'';}}
+function todayISO(){return new Date().toISOString().slice(0,10);}
+function addDays(iso,n){var d=new Date(iso);d.setDate(d.getDate()+(parseInt(n)||0));return d.toLocaleDateString('fr-BE');}
+
+/* ── Réglages émetteur (globaux) ── */
+var SET_KEY='bornexa-facture-settings-v1';
+var SET={name:'BORNEXA',vat:'BE 1037.811.908',addr:'Korenweg 27 · 3190 Boortmeerbeek · Belgique',iban:'BE13 0020 3202 7839',bic:'',pct:50,days:30};
+(function(){ try{var x=JSON.parse(localStorage.getItem(SET_KEY)||'null'); if(x)SET=Object.assign(SET,x);}catch(e){} })();
+function saveSet(){ SET.name=$('s-name').value;SET.vat=$('s-vat').value;SET.addr=$('s-addr').value;SET.iban=$('s-iban').value;SET.bic=$('s-bic').value;SET.pct=parseFloat($('s-pct').value)||0;SET.days=parseInt($('s-days').value)||0; localStorage.setItem(SET_KEY,JSON.stringify(SET)); refreshSetStatus(); }
+function refreshSetStatus(){ var ok=SET.addr&&SET.iban; var el=$('setStatus'); el.textContent=ok?'Complet ✓':'À compléter'; el.className='pill '+(ok?'paid':'draft'); }
+
+/* ── État facture (par dossier) ── */
+var F={pct:null,lang:'fr',acompte:{num:'',date:'',paid:false},solde:{num:'',date:'',paid:false}};
+function loadF(){ try{ var x=(window.Bornexa&&Bornexa.has&&Bornexa.has()&&Bornexa.get)?Bornexa.get('facture'):null; if(x)F=Object.assign(F,x); }catch(e){} }
+function saveF(){ if(window.Bornexa&&Bornexa.has&&Bornexa.has()){ try{ Bornexa.put('facture',F); }catch(e){} } }
+
+/* ── Numérotation séquentielle (compteur global par année) ── */
+var SEQ_KEY='bornexa-facture-seq-v1';
+function nextNum(){
+  var y=new Date().getFullYear(), max=0;
+  // 1) Numéro dérivé de TOUTES les factures de tous les dossiers (synchronisés cloud sur tes 3 appareils)
+  try{
+    var all=(window.Bornexa&&Bornexa.exportAll)?Bornexa.exportAll():null;
+    var doss=(all&&all.dossiers)||{};
+    Object.keys(doss).forEach(function(id){
+      var f=doss[id]&&doss[id].facture; if(!f)return;
+      [f.acompte&&f.acompte.num, f.solde&&f.solde.num].forEach(function(n){
+        if(!n)return; var mm=/^(\d{4})-(\d+)$/.exec(String(n));
+        if(mm&&mm[1]===String(y)){ var s=parseInt(mm[2],10); if(s>max)max=s; }
+      });
+    });
+  }catch(e){}
+  // 2) Garde-fou local : ne jamais reculer (même si un dossier a été supprimé)
+  var seq={}; try{seq=JSON.parse(localStorage.getItem(SEQ_KEY)||'{}');}catch(e){}
+  if((seq[y]||0)>max) max=seq[y];
+  var next=max+1; seq[y]=next; localStorage.setItem(SEQ_KEY,JSON.stringify(seq));
+  return y+'-'+String(next).padStart(3,'0');
+}
+/* Communication structurée belge (10 chiffres + 2 de contrôle mod 97) */
+function structComm(num){
+  var digits=(num||'').replace(/\D/g,''); digits=(digits+'0000000000').slice(0,10);
+  var mod=parseInt(digits,10)%97; if(mod===0)mod=97;
+  var full=digits+String(mod).padStart(2,'0');
+  return '+++'+full.slice(0,3)+'/'+full.slice(3,7)+'/'+full.slice(7,12)+'+++';
+}
+
+/* ── Devis du dossier ── */
+function getDevis(){ try{ return (window.Bornexa&&Bornexa.has&&Bornexa.has()&&Bornexa.get)?Bornexa.get('devis'):null; }catch(e){ return null; } }
+
+/* ── Calcul des montants ── */
+function amounts(){
+  var d=getDevis(); if(!d) return null;
+  var ttc=Number(d.ttc)||0, ht=Number(d.totalHT)||0, tva=Number(d.tva)||0, rate=Number(d.tvaRate)||0;
+  var pct=(F.pct!=null?F.pct:SET.pct)||0;
+  var acoTTC=Math.round(ttc*pct/100*100)/100;
+  var acoHT=rate>0?Math.round(acoTTC/(1+rate)*100)/100:acoTTC;
+  var acoTVA=Math.round((acoTTC-acoHT)*100)/100;
+  var solTTC=Math.round((ttc-acoTTC)*100)/100;
+  return {devis:d, ttc:ttc, ht:ht, tva:tva, rate:rate, pct:pct, acoTTC:acoTTC, acoHT:acoHT, acoTVA:acoTVA, solTTC:solTTC};
+}
+
+/* ── Render ── */
+function render(){
+  // settings -> inputs
+  $('s-name').value=SET.name;$('s-vat').value=SET.vat;$('s-addr').value=SET.addr;$('s-iban').value=SET.iban;$('s-bic').value=SET.bic;$('s-pct').value=SET.pct;$('s-days').value=SET.days; refreshSetStatus();
+  var a=amounts();
+  $('noDevis').style.display=a?'none':'block';
+  $('ctxCard').style.display=a?'block':'none';
+  $('acoCard').style.display=a?'block':'none';
+  $('solCard').style.display=a?'block':'none';
+  if(!a) return;
+  var c=a.devis.client||{};
+  $('ctxClient').textContent=c.name||'(client sans nom)';
+  $('ctxBody').innerHTML='Adresse : <b>'+esc(c.address||'—')+'</b> · Total devis TTC : <b>'+eur(a.ttc)+'</b> (TVA '+Math.round(a.rate*100)+'%)'
+    +'<div style="margin-top:10px"><span class="muted">Langue de la facture : </span><button class="btn btn-sm '+(F.lang==='nl'?'btn-o':'btn-p')+'" id="lFr">FR</button> <button class="btn btn-sm '+(F.lang==='nl'?'btn-p':'btn-o')+'" id="lNl">NL</button></div>';
+  $('lFr').onclick=function(){F.lang='fr';saveF();render();};
+  $('lNl').onclick=function(){F.lang='nl';saveF();render();};
+  // Acompte
+  $('acoPct').value=(F.pct!=null?F.pct:SET.pct);
+  $('acoAmts').innerHTML='<div class="amt"><span>Acompte HT ('+a.pct+'% du TTC)</span><span>'+eur(a.acoHT)+'</span></div>'
+    +'<div class="amt"><span>TVA '+Math.round(a.rate*100)+'%</span><span>'+eur(a.acoTVA)+'</span></div>'
+    +'<div class="amt big"><span>Acompte à payer</span><span>'+eur(a.acoTTC)+'</span></div>';
+  var aEmit=!!F.acompte.num;
+  setStatus('aco',F.acompte);
+  $('acoNumWrap').style.display=aEmit?'':'none'; $('acoDateWrap').style.display=aEmit?'':'none';
+  $('acoNum').value=F.acompte.num; $('acoDate').value=F.acompte.date||todayISO();
+  $('acoEmit').style.display=aEmit?'none':''; $('acoPaid').style.display=aEmit?'':'none'; $('acoPrint').style.display=aEmit?'':'none';
+  $('acoPaid').textContent=F.acompte.paid?'✓ Payée':'Marquer payée';
+  // Solde
+  $('solAmts').innerHTML='<div class="amt"><span>Total travaux HT</span><span>'+eur(a.ht)+'</span></div>'
+    +'<div class="amt"><span>TVA '+Math.round(a.rate*100)+'%</span><span>'+eur(a.tva)+'</span></div>'
+    +'<div class="amt"><span>Total TTC</span><span>'+eur(a.ttc)+'</span></div>'
+    +'<div class="amt"><span>− Acompte déjà facturé'+(F.acompte.num?' (n° '+esc(F.acompte.num)+')':'')+'</span><span>− '+eur(a.acoTTC)+'</span></div>'
+    +'<div class="amt big"><span>Solde à payer</span><span>'+eur(a.solTTC)+'</span></div>';
+  var sEmit=!!F.solde.num;
+  setStatus('sol',F.solde);
+  $('solHint').style.display=(aEmit||sEmit)?'none':'block';
+  $('solEmit').style.display=sEmit?'none':''; $('solEmit').disabled=!aEmit; $('solEmit').style.opacity=aEmit?'1':'.5';
+  $('solNumWrap').style.display=sEmit?'':'none'; $('solDateWrap').style.display=sEmit?'':'none';
+  $('solNum').value=F.solde.num; $('solDate').value=F.solde.date||todayISO();
+  $('solPaid').style.display=sEmit?'':'none'; $('solPrint').style.display=sEmit?'':'none';
+  $('solPaid').textContent=F.solde.paid?'✓ Payée':'Marquer payée';
+}
+function setStatus(p,o){ var el=$(p+'Status'); if(!o.num){el.textContent='Brouillon';el.className='pill draft';} else if(o.paid){el.textContent='Payée';el.className='pill paid';} else {el.textContent='Émise '+(o.num);el.className='pill emit';} }
+
+/* ── Actions ── */
+function checkSettings(){ if(!SET.addr||!SET.iban){ BX.alert('Complétez d\'abord l\'adresse de facturation et l\'IBAN dans les réglages (obligatoires sur une facture belge).','Réglages incomplets'); return false; } return true; }
+$('acoEmit').addEventListener('click',function(){ if(!checkSettings())return; var a=amounts(); if(!a)return;
+  BX.confirm('Émettre la facture d\'acompte de '+eur(a.acoTTC)+' ? Un numéro définitif sera attribué.',{title:'Émettre l\'acompte',okText:'Émettre'}).then(function(ok){ if(!ok)return; F.pct=a.pct; F.acompte.num=nextNum(); F.acompte.date=todayISO(); saveF(); render(); toast('Acompte '+F.acompte.num+' émis ✓'); }); });
+$('solEmit').addEventListener('click',function(){ if(!checkSettings())return; if(!F.acompte.num){BX.alert('Émettez d\'abord la facture d\'acompte.');return;} var a=amounts(); if(!a)return;
+  BX.confirm('Émettre la facture de solde de '+eur(a.solTTC)+' (fin de chantier) ?',{title:'Émettre le solde',okText:'Émettre'}).then(function(ok){ if(!ok)return; F.solde.num=nextNum(); F.solde.date=todayISO(); saveF(); render(); toast('Solde '+F.solde.num+' émis ✓'); }); });
+$('acoPaid').addEventListener('click',function(){ F.acompte.paid=!F.acompte.paid; saveF(); render(); });
+$('solPaid').addEventListener('click',function(){ F.solde.paid=!F.solde.paid; saveF(); render(); });
+$('acoPct').addEventListener('input',function(){ if(F.acompte.num)return; F.pct=parseFloat(this.value)||0; render(); });
+$('acoDate').addEventListener('change',function(){ F.acompte.date=this.value; saveF(); });
+$('solDate').addEventListener('change',function(){ F.solde.date=this.value; saveF(); });
+['s-name','s-vat','s-addr','s-iban','s-bic','s-pct','s-days'].forEach(function(id){ $(id).addEventListener('input',saveSet); });
+$('acoPrint').addEventListener('click',function(){ printInvoice('acompte'); });
+$('solPrint').addEventListener('click',function(){ printInvoice('solde'); });
+
+/* ── Impression facture (conforme BE · FR/NL) ── */
+function printInvoice(which){
+  var a=amounts(); if(!a)return; var d=a.devis, c=d.client||{};
+  var isAco=which==='acompte', o=isAco?F.acompte:F.solde;
+  var comm=structComm(o.num); var nl=(F.lang==='nl');
+  var t = nl ? {
+    aco:'VOORSCHOTFACTUUR', fac:'FACTUUR', num:'Factuurnummer', fdate:'Factuurdatum', due:'Vervaldatum',
+    from:'Leverancier', client:'Klant', vat:'btw', desc:'Omschrijving', qty:'Aantal', pu:'E.P. excl.', tht:'Totaal excl.', tttc:'Totaal incl.', topay:'Te betalen', solde:'Saldo te betalen',
+    tva6:'btw 6% toegepast — werken aan een privéwoning ouder dan 10 jaar (KB nr. 20). Het klantenattest wordt bewaard.',
+    payLbl:'Betaling:', payOn:'over te schrijven op', before:'vóór', comm:'Gestructureerde mededeling',
+    late:'Bij niet-betaling op de vervaldag zijn van rechtswege een verwijlintrest aan de wettelijke rentevoet en een forfaitaire schadevergoeding van 40 € verschuldigd (wet 2/8/2002).',
+    paid:'FACTUUR VOLDAAN', acoLine:'Voorschot van '+a.pct+'% op de installatie van een laadpaal — volgens offerte', acoDed:'− Reeds gefactureerd voorschot'
+  } : {
+    aco:'FACTURE D\'ACOMPTE', fac:'FACTURE', num:'N° de facture', fdate:'Date de facture', due:'Échéance',
+    from:'Émetteur', client:'Client', vat:'TVA', desc:'Description', qty:'Qté', pu:'P.U. HT', tht:'Total HT', tttc:'Total TTC', topay:'À payer', solde:'Solde à payer',
+    tva6:'TVA 6% appliquée — travaux à une habitation privée de plus de 10 ans (art. XXXII AR n°20). L\'attestation client est conservée.',
+    payLbl:'Paiement :', payOn:'à virer sur', before:'avant le', comm:'Communication structurée',
+    late:'À défaut de paiement à l\'échéance, un intérêt de retard au taux légal et une indemnité forfaitaire de 40 € seront dus de plein droit (loi du 2/8/2002).',
+    paid:'FACTURE ACQUITTÉE', acoLine:'Acompte de '+a.pct+'% sur l\'installation d\'une borne de recharge — selon devis', acoDed:'− Acompte facturé'
+  };
+  var acoDedTxt = t.acoDed + (F.acompte.num?(nl?' (nr ':' (n° ')+esc(F.acompte.num)+')':'');
+  var rows='';
+  if(isAco){
+    rows='<tr><td>'+t.acoLine+(d.dimensioning&&d.dimensioning.chargerName?' ('+esc(d.dimensioning.chargerName)+')':'')+'</td><td class="r">1</td><td class="r">'+eur(a.acoHT)+'</td><td class="r">'+eur(a.acoHT)+'</td></tr>';
+  } else {
+    (d.lines||[]).forEach(function(l){ var tt=(l.qty||0)*(l.puHT||0); rows+='<tr><td>'+esc(l.desc||'')+(l.sub?'<br><span style="color:#888;font-size:.9em">'+esc(l.sub)+'</span>':'')+'</td><td class="r">'+(l.qty||1)+'</td><td class="r">'+eur(l.puHT)+'</td><td class="r">'+eur(tt)+'</td></tr>'; });
+  }
+  var tot = isAco
+    ? '<div class="amt"><span>'+t.tht+'</span><span>'+eur(a.acoHT)+'</span></div><div class="amt"><span>'+t.vat+' '+Math.round(a.rate*100)+'%</span><span>'+eur(a.acoTVA)+'</span></div><div class="amt big"><span>'+t.topay+'</span><span>'+eur(a.acoTTC)+'</span></div>'
+    : '<div class="amt"><span>'+t.tht+'</span><span>'+eur(a.ht)+'</span></div><div class="amt"><span>'+t.vat+' '+Math.round(a.rate*100)+'%</span><span>'+eur(a.tva)+'</span></div><div class="amt"><span>'+t.tttc+'</span><span>'+eur(a.ttc)+'</span></div><div class="amt"><span>'+acoDedTxt+'</span><span>− '+eur(a.acoTTC)+'</span></div><div class="amt big"><span>'+t.solde+'</span><span>'+eur(a.solTTC)+'</span></div>';
+  var tvaMention = a.rate<=0.06 ? '<p>'+t.tva6+'</p>' : '';
+  var payAmt = isAco?a.acoTTC:a.solTTC;
+  $('inv').innerHTML=
+    '<div class="inv-head"><div><div class="inv-title">'+(isAco?t.aco:t.fac)+'</div></div>'
+    +'<table class="inv-meta"><tr><td>'+t.num+'</td><td><b>'+esc(o.num)+'</b></td></tr><tr><td>'+t.fdate+'</td><td>'+fmtDate(o.date)+'</td></tr><tr><td>'+t.due+'</td><td>'+addDays(o.date,SET.days)+'</td></tr></table></div>'
+    +'<div class="inv-parties"><div><h4>'+t.from+'</h4><b>'+esc(SET.name)+'</b><br>'+esc(SET.addr).replace(/·/g,'<br>')+'<br>'+t.vat+' : '+esc(SET.vat)+'</div>'
+    +'<div style="text-align:right"><h4>'+t.client+'</h4><b>'+esc(c.name||'')+'</b><br>'+esc(c.address||'')+'</div></div>'
+    +'<table class="inv-tbl"><thead><tr><th>'+t.desc+'</th><th class="r">'+t.qty+'</th><th class="r">'+t.pu+'</th><th class="r">'+t.tht+'</th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div class="inv-tot">'+tot+'</div>'
+    +'<div class="inv-legal">'+tvaMention
+    +'<p><b>'+t.payLbl+'</b> '+eur(payAmt)+' '+t.payOn+' <b>'+esc(SET.iban||'(IBAN)')+'</b>'+(SET.bic?' (BIC '+esc(SET.bic)+')':'')+' '+t.before+' '+addDays(o.date,SET.days)+'.<br>'+t.comm+' : <b>'+comm+'</b></p>'
+    +'<p>'+t.late+'</p>'
+    +(o.paid?'<div class="inv-paid">'+t.paid+'</div>':'')
+    +'</div>';
+  setTimeout(function(){ window.print(); }, 60);
+}
+
+/* ── Init ── */
+loadF(); render();
+document.addEventListener('bornexa:synced', function(){ loadF(); render(); });
+</script>
+</body>
+</html>
