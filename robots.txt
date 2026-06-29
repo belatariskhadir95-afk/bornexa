@@ -32,6 +32,10 @@ Disallow: /dossiers
 Disallow: /facturation
 Disallow: /facturation.html
 Disallow: /facture
+Disallow: /pipeline
+Disallow: /pipeline.html
+Disallow: /planning
+Disallow: /planning.html
 
 Sitemap: https://www.bornexa.be/sitemap.xml
 # RSS feed

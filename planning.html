@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#00C896">
+<meta name="robots" content="noindex, nofollow">
+<title>BORNEXA Planning — visites & chantiers</title>
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<style>
+:root{--primary:#00C896;--primary-dark:#009E76;--navy:#0B1E3C;--dark:#0C1018;--bg:#F6F8FB;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--r:14px;--red:#DC2626}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:var(--text);background:var(--bg);line-height:1.5}
+.topbar{background:linear-gradient(135deg,var(--navy),var(--dark));color:#fff;padding:13px 18px;display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--primary)}
+.topbar svg{width:30px;height:30px}.topbar b{font-weight:800}.topbar span{display:block;font-size:.7rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+.wrap{max-width:920px;margin:0 auto;padding:20px 16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.card h2{font-size:1rem;color:var(--navy);margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:10px}@media(max-width:680px){.grid{grid-template-columns:1fr}}
+label.f{display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+input,select,textarea{width:100%;font-family:inherit;font-size:16px;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;color:var(--text);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.15)}
+.seg{display:flex;gap:6px}.seg button{flex:1;padding:10px;border:1.5px solid var(--border);background:#fff;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--text)}
+.seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn{padding:10px 16px;border-radius:10px;font-weight:700;font-size:.88rem;border:none;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-p{background:var(--primary);color:var(--navy)}.btn-p:hover{background:var(--primary-dark);color:#fff}
+.btn-o{background:#fff;color:var(--navy);border:1.5px solid var(--border)}.btn-o:hover{border-color:var(--primary)}
+.btn-sm{padding:6px 11px;font-size:.78rem}
+.grp{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:18px 0 8px}
+.grp.late{color:var(--red)}
+.ev{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
+.ev.late{border-color:var(--red)}.ev.done{opacity:.55}
+.ev .when{font-weight:800;color:var(--navy);min-width:118px;font-variant-numeric:tabular-nums}
+.ev .meta{flex:1;min-width:150px}.ev .nm{font-weight:700}.ev .note{font-size:.82rem;color:var(--muted)}
+.tag{font-size:.7rem;font-weight:800;padding:3px 9px;border-radius:999px}
+.tag.v{background:#E0F2FE;color:#075985}.tag.c{background:#FEF3C7;color:#92400E}
+.empty{text-align:center;color:var(--muted);padding:30px 10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:100}.toast.show{opacity:1}
+</style>
+</head>
+<body data-bornexa-tool="planning">
+<header class="topbar">
+  <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="h" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#h)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
+  <div><b>BORNEXA Planning</b><span>Agenda visites & chantiers</span></div>
+</header>
+<div class="wrap">
+
+  <div class="card">
+    <h2>➕ Planifier un rendez-vous</h2>
+    <div id="noDoss" class="empty" style="display:none">Aucun dossier. Créez d'abord un dossier dans le hub.</div>
+    <div id="form" style="display:none">
+      <div style="margin-bottom:10px"><label class="f">Dossier</label><select id="pDoss"></select></div>
+      <div style="margin-bottom:10px"><label class="f">Type</label><div class="seg" id="pType"><button data-t="visite" class="on">📋 Visite</button><button data-t="chantier">🔧 Chantier</button></div></div>
+      <div class="grid">
+        <div><label class="f">Date</label><input type="date" id="pDate"></div>
+        <div><label class="f">Heure</label><input type="time" id="pTime"></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn btn-p" id="pSave" style="width:100%;justify-content:center">Enregistrer</button></div>
+      </div>
+      <div style="margin-top:10px"><label class="f">Note (adresse, accès, étage…)</label><input type="text" id="pNote" placeholder="ex. local compteur, sonner chez le syndic"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🗓️ Agenda</h2>
+    <div id="agenda"></div>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="js/bornexa-sync.js?v=2026-06-28"></script>
+<script src="js/supabase-config.js?v=2026-06-28"></script>
+<script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
+<script>
+'use strict';
+var $=function(s){return document.getElementById(s);};
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1700);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var DAY=86400000;
+function startOfToday(){var d=new Date();d.setHours(0,0,0,0);return d.getTime();}
+function fmtDay(iso){try{return new Date(iso+'T00:00:00').toLocaleDateString('fr-BE',{weekday:'short',day:'2-digit',month:'short'});}catch(e){return iso;}}
+
+var pType='visite';
+
+function dossiers(){ try{return (window.Bornexa&&Bornexa.list)?Bornexa.list():[];}catch(e){return [];} }
+function fullDossiers(){ try{var a=(window.Bornexa&&Bornexa.exportAll)?Bornexa.exportAll():null; var d=(a&&a.dossiers)||{}; return Object.keys(d).map(function(k){return d[k];});}catch(e){return [];} }
+function clientName(d){ var v=d.visite&&d.visite.data; return (d.devis&&d.devis.client&&d.devis.client.name)||(v&&v.clientName)||d.name||'(sans nom)'; }
+
+/* ── Événements agrégés depuis tous les dossiers ── */
+function events(){
+  var out=[];
+  fullDossiers().forEach(function(d){
+    var p=d.planning||{};
+    ['visite','chantier'].forEach(function(ty){
+      var e=p[ty]; if(e&&e.date) out.push({id:d.id, client:clientName(d), type:ty, date:e.date, time:e.time||'', note:e.note||'', done:!!e.done, addr:(d.devis&&d.devis.client&&d.devis.client.address)||''});
+    });
+  });
+  return out;
+}
+
+/* ── Écrire un RDV dans un dossier (synchronisé) ── */
+function schedule(id,type,date,time,note){
+  if(!id||!date){ toast('Choisissez un dossier et une date'); return; }
+  Bornexa.setCurrent(id);
+  var p=Bornexa.get('planning')||{};
+  p[type]={date:date,time:time,note:note,done:(p[type]&&p[type].done)||false};
+  Bornexa.put('planning',p);
+  toast('RDV enregistré ✓'); render();
+}
+function toggleDone(id,type){
+  Bornexa.setCurrent(id);
+  var p=Bornexa.get('planning')||{};
+  if(p[type]){ p[type].done=!p[type].done; Bornexa.put('planning',p); render(); }
+}
+
+function render(){
+  var ds=dossiers();
+  $('noDoss').style.display=ds.length?'none':'block';
+  $('form').style.display=ds.length?'block':'none';
+  $('pDoss').innerHTML=ds.map(function(d){ return '<option value="'+esc(d.id)+'">'+esc(d.name||d.id)+'</option>'; }).join('');
+  // Agenda
+  var evs=events(), today=startOfToday();
+  function bucket(e){ var t=new Date(e.date+'T00:00:00').getTime(); if(e.done)return 4; if(t<today)return 0; if(t<today+DAY)return 1; if(t<today+7*DAY)return 2; return 3; }
+  var groups=[[0,'En retard / à faire','late'],[1,'Aujourd\'hui',''],[2,'7 prochains jours',''],[3,'Plus tard',''],[4,'Terminés','']];
+  evs.sort(function(a,b){ return (a.date+a.time).localeCompare(b.date+b.time); });
+  var html='';
+  groups.forEach(function(g){
+    var list=evs.filter(function(e){return bucket(e)===g[0];});
+    if(!list.length)return;
+    html+='<div class="grp '+g[2]+'">'+g[1]+' ('+list.length+')</div>';
+    html+=list.map(function(e){
+      var late=(g[0]===0);
+      return '<div class="ev'+(late?' late':'')+(e.done?' done':'')+'">'
+        +'<div class="when">'+fmtDay(e.date)+(e.time?' · '+esc(e.time):'')+'</div>'
+        +'<span class="tag '+(e.type==='visite'?'v':'c')+'">'+(e.type==='visite'?'📋 Visite':'🔧 Chantier')+'</span>'
+        +'<div class="meta"><div class="nm">'+esc(e.client)+'</div>'+((e.note||e.addr)?'<div class="note">'+esc(e.note||e.addr)+'</div>':'')+'</div>'
+        +'<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-o btn-sm" data-done="'+esc(e.id)+'" data-ty="'+e.type+'">'+(e.done?'↺ Rouvrir':'✓ Fait')+'</button><a class="btn btn-o btn-sm" data-open="'+esc(e.id)+'">Ouvrir</a></div>'
+        +'</div>';
+    }).join('');
+  });
+  $('agenda').innerHTML=html||'<div class="empty">Aucun rendez-vous planifié. Ajoutez-en un ci-dessus.</div>';
+}
+
+$('pType').addEventListener('click',function(e){ var b=e.target.closest('[data-t]'); if(!b)return; pType=b.dataset.t; Array.prototype.forEach.call(this.children,function(x){x.classList.toggle('on',x===b);}); });
+$('pSave').addEventListener('click',function(){ schedule($('pDoss').value,pType,$('pDate').value,$('pTime').value,$('pNote').value.trim()); $('pNote').value=''; });
+$('agenda').addEventListener('click',function(e){ var dn=e.target.closest('[data-done]'), op=e.target.closest('[data-open]'); if(dn){ toggleDone(dn.dataset.done,dn.dataset.ty); } else if(op){ Bornexa.setCurrent(op.dataset.open); location.href='bornexa-hub'; } });
+
+render();
+document.addEventListener('bornexa:synced', render);
+</script>
+</body>
+</html>

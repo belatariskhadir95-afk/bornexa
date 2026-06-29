@@ -49,6 +49,14 @@
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
 /facturation.html
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/pipeline
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/pipeline.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/planning
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
+/planning.html
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
 
 # Cache-Control - static assets immutable
 /css/*

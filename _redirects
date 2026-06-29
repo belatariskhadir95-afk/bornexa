@@ -225,3 +225,7 @@
 /facturation.html            /facturation             301!
 /facture                     /facturation             301!
 /factuur                     /facturation             301!
+/pipeline.html               /pipeline                301!
+/suivi                       /pipeline                301!
+/planning.html               /planning                301!
+/agenda                      /planning                301!
