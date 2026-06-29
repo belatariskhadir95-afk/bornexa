@@ -180,6 +180,10 @@
 /energiebeheer                    /slim-energiebeheer          301!
 /gestion-energetique              /slim-energiebeheer          301!
 /smappee-infinity.html            /smappee-infinity            301!
+/smappee-installateur.html        /smappee-installateur        301!
+/smappee-installer                /smappee-installateur        301!
+/erkend-smappee-installateur      /smappee-installateur        301!
+/installateur-smappee             /smappee-installateur        301!
 /capaciteitstarief-verlagen.html  /capaciteitstarief-verlagen  301!
 /capaciteitstarief                /capaciteitstarief-verlagen  301!
 /piekvermogen-verlagen            /capaciteitstarief-verlagen  301!

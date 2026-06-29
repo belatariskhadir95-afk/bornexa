@@ -37,6 +37,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.bornexa.be/smappee-installateur</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/smappee-installateur"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/smappee-installateur"/>
+    <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://www.bornexa.be/contact</loc>
     <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/contact"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/contact"/>
