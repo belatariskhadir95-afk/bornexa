@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#00C896">
 <meta name="robots" content="noindex, nofollow">
-<title>BORNEXA Pipeline — suivi devis & paiements</title>
+<title>BORNEXA Pipeline — suivi commercial</title>
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
 <style>
 :root{--primary:#00C896;--primary-dark:#009E76;--navy:#0B1E3C;--dark:#0C1018;--bg:#F6F8FB;--text:#0F172A;--muted:#64748B;--border:#E2E8F0;--r:14px;--red:#DC2626;--amber:#F59E0B}
@@ -39,7 +39,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 <body data-bornexa-tool="pipeline">
 <header class="topbar">
   <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="h" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#h)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
-  <div><b>BORNEXA Pipeline</b><span>Suivi devis · factures · paiements · relances</span></div>
+  <div><b>BORNEXA Pipeline</b><span>Suivi commercial · devis · chantiers · à facturer</span></div>
 </header>
 <div class="wrap">
   <div class="kpis" id="kpis"></div>
@@ -58,76 +58,78 @@ var $=function(s){return document.getElementById(s);};
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1700);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function eur(n){return (Number(n)||0).toLocaleString('fr-BE',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';}
-var DUE=30; var DAY=86400000;
+var DAY=86400000;
 function daysSince(iso){ try{ return Math.floor((Date.now()-new Date(iso).getTime())/DAY); }catch(e){ return 0; } }
 
 function allDossiers(){
   try{ var a=(window.Bornexa&&Bornexa.exportAll)?Bornexa.exportAll():null; var d=(a&&a.dossiers)||{}; return Object.keys(d).map(function(k){return d[k];}); }catch(e){ return []; }
 }
 function clientName(d){ var v=d.visite&&d.visite.data; return (d.devis&&d.devis.client&&d.devis.client.name)||(v&&v.clientName)||d.name||'(sans nom)'; }
+
+/* Étapes commerciales/opérationnelles (données Bornexa). La facture officielle
+   + les paiements + relances de paiement sont gérés dans Accountable.
+   f.acompte.done / f.solde.done = « facture créée dans Accountable » (marqué dans l'outil Préparation). */
 function stageOf(d){
   var f=d.facture||{};
-  if(f.solde&&f.solde.paid) return {k:'paid',l:'Payé ✓',c:'s4'};
-  if(f.solde&&f.solde.num) return {k:'soldeEmis',l:'Solde envoyé',c:'s3'};
-  if(f.acompte&&f.acompte.paid) return {k:'acoPaid',l:'Acompte payé · chantier',c:'s3'};
-  if(f.acompte&&f.acompte.num) return {k:'acoEmis',l:'Acompte envoyé',c:'s2'};
-  if(d.devis) return {k:'devis',l:'Devis fait',c:'s2'};
+  if(f.solde&&f.solde.done) return {k:'facture',l:'Facturé ✓',c:'s4'};
+  if(f.acompte&&f.acompte.done) return {k:'acoFac',l:'Acompte facturé',c:'s3'};
+  if(d.chantier) return {k:'chantier',l:'Chantier',c:'s3'};
+  if(d.devis) return {k:'devis',l:'Devis envoyé',c:'s2'};
   if(d.visite) return {k:'visite',l:'Visite faite',c:'s1'};
   return {k:'new',l:'Nouveau',c:''};
 }
-function amounts(d){
-  var ttc=(d.devis&&Number(d.devis.ttc))||0, f=d.facture||{};
-  var pct=(f.pct!=null?f.pct:50);
-  var acoTTC=Math.round(ttc*pct/100*100)/100, solTTC=Math.round((ttc-acoTTC)*100)/100;
-  var paid=0,pending=0,overdue=0;
-  if(f.acompte&&f.acompte.num){ if(f.acompte.paid)paid+=acoTTC; else {pending+=acoTTC; if(daysSince(f.acompte.date)>DUE)overdue+=acoTTC;} }
-  if(f.solde&&f.solde.num){ if(f.solde.paid)paid+=solTTC; else {pending+=solTTC; if(daysSince(f.solde.date)>DUE)overdue+=solTTC;} }
-  return {ttc:ttc,paid:paid,pending:pending,overdue:overdue};
-}
+function devisAmount(d){ return (d.devis&&Number(d.devis.ttc))||0; }
 function relances(d){
   var out=[], f=d.facture||{};
-  if(f.acompte&&f.acompte.num&&!f.acompte.paid){ var da=daysSince(f.acompte.date); out.push({t:'Acompte impayé ('+da+' j)',late:da>DUE}); }
-  if(f.solde&&f.solde.num&&!f.solde.paid){ var ds=daysSince(f.solde.date); out.push({t:'Solde impayé ('+ds+' j)',late:ds>DUE}); }
-  if(d.devis&&!(f.acompte&&f.acompte.num)){ var dv=daysSince(d.devis.generated); if(dv>=7) out.push({t:'Devis sans suite ('+dv+' j) → relancer',late:dv>=21}); }
+  var hasAco=!!(f.acompte&&f.acompte.done), hasSol=!!(f.solde&&f.solde.done);
+  if(d.devis&&!hasAco&&!d.chantier){ var dv=daysSince(d.devis.generated); if(dv>=7) out.push({t:'Devis sans suite ('+dv+' j) → relancer',late:dv>=21,kind:'relance'}); }
+  if(d.chantier&&!hasSol){ out.push({t:'À facturer dans Accountable',late:false,kind:'facturer'}); }
   return out;
 }
 
 var FILTER='all';
-var FILTERS=[['all','Tous'],['relance','À relancer'],['impaye','Impayés'],['encours','En cours'],['paye','Payés']];
+var FILTERS=[['all','Tous'],['relance','À relancer'],['afacturer','À facturer'],['encours','En cours'],['facture','Facturés']];
 function matches(d){
   var st=stageOf(d), rl=relances(d);
   if(FILTER==='all') return true;
-  if(FILTER==='relance') return rl.length>0;
-  if(FILTER==='impaye') return amounts(d).pending>0;
-  if(FILTER==='encours') return st.k!=='paid' && st.k!=='new';
-  if(FILTER==='paye') return st.k==='paid';
+  if(FILTER==='relance') return rl.some(function(r){return r.kind==='relance';});
+  if(FILTER==='afacturer') return rl.some(function(r){return r.kind==='facturer';});
+  if(FILTER==='encours') return st.k!=='facture' && st.k!=='new';
+  if(FILTER==='facture') return st.k==='facture';
   return true;
 }
 
 function render(){
   var ds=allDossiers();
-  // KPI
-  var k={pipeline:0,paid:0,pending:0,overdue:0,relances:0};
-  ds.forEach(function(d){ var a=amounts(d), st=stageOf(d); if(st.k!=='paid'&&d.devis) k.pipeline+=a.ttc; k.paid+=a.paid; k.pending+=a.pending; k.overdue+=a.overdue; k.relances+=relances(d).length?1:0; });
+  // KPI (commercial — pas de paiements, ceux-ci sont dans Accountable)
+  var k={pipeline:0,won:0,relance:0,afacturer:0,dossiers:0};
+  ds.forEach(function(d){
+    var st=stageOf(d), rl=relances(d), amt=devisAmount(d);
+    k.dossiers++;
+    if(st.k!=='facture' && d.devis) k.pipeline+=amt;
+    if(st.k==='facture') k.won+=amt;
+    if(rl.some(function(r){return r.kind==='relance';})) k.relance++;
+    if(rl.some(function(r){return r.kind==='facturer';})) k.afacturer++;
+  });
   $('kpis').innerHTML=
     '<div class="kpi"><div class="v">'+eur(k.pipeline)+'</div><div class="l">Pipeline en cours</div></div>'
-    +'<div class="kpi ok"><div class="v">'+eur(k.paid)+'</div><div class="l">Encaissé</div></div>'
-    +'<div class="kpi"><div class="v">'+eur(k.pending)+'</div><div class="l">À encaisser</div></div>'
-    +'<div class="kpi alert"><div class="v">'+eur(k.overdue)+'</div><div class="l">En retard</div></div>'
-    +'<div class="kpi'+(k.relances?' alert':'')+'"><div class="v">'+k.relances+'</div><div class="l">À relancer</div></div>';
+    +'<div class="kpi ok"><div class="v">'+eur(k.won)+'</div><div class="l">Facturé (gagné)</div></div>'
+    +'<div class="kpi'+(k.afacturer?' alert':'')+'"><div class="v">'+k.afacturer+'</div><div class="l">À facturer</div></div>'
+    +'<div class="kpi'+(k.relance?' alert':'')+'"><div class="v">'+k.relance+'</div><div class="l">Devis à relancer</div></div>'
+    +'<div class="kpi"><div class="v">'+k.dossiers+'</div><div class="l">Dossiers</div></div>';
   // Filters
   $('filters').innerHTML=FILTERS.map(function(f){ return '<button class="chip'+(FILTER===f[0]?' on':'')+'" data-f="'+f[0]+'">'+f[1]+'</button>'; }).join('');
-  // List — tri : urgents (relances en retard) d'abord, puis par montant
-  var rows=ds.filter(matches).map(function(d){ return {d:d,a:amounts(d),st:stageOf(d),rl:relances(d)}; });
-  rows.sort(function(x,y){ var lx=x.rl.some(function(r){return r.late;})?1:0, ly=y.rl.some(function(r){return r.late;})?1:0; if(lx!==ly)return ly-lx; var ux=x.rl.length?1:0,uy=y.rl.length?1:0; if(ux!==uy)return uy-ux; return y.a.ttc-x.a.ttc; });
+  // List — tri : urgents d'abord, puis relances, puis par montant devis
+  var rows=ds.filter(matches).map(function(d){ return {d:d,amt:devisAmount(d),st:stageOf(d),rl:relances(d)}; });
+  rows.sort(function(x,y){ var lx=x.rl.some(function(r){return r.late;})?1:0, ly=y.rl.some(function(r){return r.late;})?1:0; if(lx!==ly)return ly-lx; var ux=x.rl.length?1:0,uy=y.rl.length?1:0; if(ux!==uy)return uy-ux; return y.amt-x.amt; });
   if(!rows.length){ $('list').innerHTML='<div class="empty">Aucun dossier dans cette vue.</div>'; }
   else $('list').innerHTML=rows.map(function(r){
     var d=r.d, urgent=r.rl.some(function(x){return x.late;});
     var rel=r.rl.map(function(x){return '<div class="rel'+(x.late?' late':'')+'">'+(x.late?'⚠ ':'• ')+esc(x.t)+'</div>';}).join('');
-    var act=(r.st.k==='devis'||r.st.k==='acoPaid')?'<a class="btn btn-p" data-fac="'+esc(d.id)+'">🧾 Facturer</a>':'';
+    var act=(d.devis&&r.st.k!=='facture')?'<a class="btn btn-p" data-fac="'+esc(d.id)+'">🧾 Préparer facture</a>':'';
     return '<div class="row'+(urgent?' urgent':'')+'"><div class="meta"><div class="nm">'+esc(clientName(d))+'</div><div class="id">'+esc(d.id)+'</div>'+rel+'</div>'
       +'<span class="stage '+r.st.c+'">'+esc(r.st.l)+'</span>'
-      +'<span class="amt">'+(r.a.ttc?eur(r.a.ttc):'—')+'</span>'
+      +'<span class="amt">'+(r.amt?eur(r.amt):'—')+'</span>'
       +'<span class="acts" style="display:flex;gap:6px">'+act+'<a class="btn btn-o" data-open="'+esc(d.id)+'">Ouvrir</a></span></div>';
   }).join('');
 }
