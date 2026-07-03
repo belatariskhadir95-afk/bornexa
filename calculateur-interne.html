@@ -665,7 +665,7 @@
 
           <div class="tariff-grid">
             <div class="tariff-card">
-              <h4>Bornes (€ HT vente — sans marge auto)</h4>
+              <h4>Bornes (€ HT achat — marge auto)</h4>
               <div id="t-bornes"></div>
             </div>
             <div class="tariff-card">
@@ -685,6 +685,7 @@
           <div class="tariff-card" style="margin-top:14px">
             <h4>Marges &amp; TVA</h4>
             <div class="tariff-row"><label>Marge matériel (×)</label><input type="number" id="m-mat" step="0.01" min="1" value="1.45"></div>
+            <div class="tariff-row"><label>Marge bornes (×)</label><input type="number" id="m-borne" step="0.01" min="1" value="1.25"></div>
             <div class="tariff-row"><label>Marge main d'œuvre (×)</label><input type="number" id="m-mo" step="0.01" min="1" value="1.15"></div>
             <div class="tariff-row"><label>Taux TVA</label><input type="number" id="m-tva" step="0.01" min="0" max="1" value="0.06"></div>
           </div>
@@ -707,7 +708,7 @@
   const STORAGE_FORM   = 'bornexa-calc-form-v1';
   // Clé formulaire scopée au dossier actif (anti-héritage des données entre dossiers)
   const formKey = () => (window.Bornexa && Bornexa.scopedKey) ? Bornexa.scopedKey(STORAGE_FORM) : STORAGE_FORM;
-  const STORAGE_TARIFS = 'bornexa-calc-tarifs-v2';   // v2 = bilingual schema
+  const STORAGE_TARIFS = 'bornexa-calc-tarifs-v3';   // v3 = vrais prix Cebeo (achat) + marge bornes auto
   const STORAGE_QLANG  = 'bornexa-calc-quote-lang';
 
   // ── State: language of the generated DEVIS (independent of UI) ──
@@ -946,68 +947,74 @@
   // ── Default tariffs (bilingual) ──
   const DEFAULT_TARIFS = {
     bornes: [
-      {ref:"WB-PM-1.2",  nameFR:"Wallbox Pulsar Max 1.2 (7,4 kW mono)",     nameNL:"Wallbox Pulsar Max 1.2 (7,4 kW eenfase)",  price:680},
-      {ref:"WB-PM-3",    nameFR:"Wallbox Pulsar Max 3-phase (11 kW)",       nameNL:"Wallbox Pulsar Max driefase (11 kW)",       price:720},
-      {ref:"WB-PM-22",   nameFR:"Wallbox Pulsar Max (22 kW)",                nameNL:"Wallbox Pulsar Max (22 kW)",                price:820},
-      {ref:"WB-CM2",     nameFR:"Wallbox Commander 2 (22 kW)",               nameNL:"Wallbox Commander 2 (22 kW)",               price:1490},
-      {ref:"TS-WC3-11",  nameFR:"Tesla Wall Connector Gen 3 (11 kW)",        nameNL:"Tesla Wall Connector Gen 3 (11 kW)",        price:505},
-      {ref:"TS-WC3-22",  nameFR:"Tesla Wall Connector Gen 3 (22 kW)",        nameNL:"Tesla Wall Connector Gen 3 (22 kW)",        price:520},
-      {ref:"SM-EVB-11",  nameFR:"Smappee EV Base (11 kW)",                   nameNL:"Smappee EV Base (11 kW)",                   price:895},
-      {ref:"SM-EVW-11",  nameFR:"Smappee EV Wall (11 kW)",                   nameNL:"Smappee EV Wall (11 kW)",                   price:1145},
-      {ref:"SM-EVB-22",  nameFR:"Smappee EV Base (22 kW)",                   nameNL:"Smappee EV Base (22 kW)",                   price:945}
+      {ref:"WB-PM-1.2",  nameFR:"Wallbox Pulsar Max 1.2 (7,4 kW mono)",     nameNL:"Wallbox Pulsar Max 1.2 (7,4 kW eenfase)",  price:526.83, margin:1.12},
+      {ref:"WB-PM-3",    nameFR:"Wallbox Pulsar Max 3-phase (11 kW)",       nameNL:"Wallbox Pulsar Max driefase (11 kW)",       price:547.90, margin:1.12},
+      {ref:"WB-PM-22",   nameFR:"Wallbox Pulsar Max (22 kW)",                nameNL:"Wallbox Pulsar Max (22 kW)",                price:547.90, margin:1.12},
+      {ref:"WB-CM2",     nameFR:"Wallbox Commander 2 (22 kW)",               nameNL:"Wallbox Commander 2 (22 kW)",               price:724.92, margin:1.12},
+      {ref:"TS-WC3-11",  nameFR:"Tesla Wall Connector Gen 3 (11 kW)",        nameNL:"Tesla Wall Connector Gen 3 (11 kW)",        price:442.15, margin:1.08},
+      {ref:"TS-WC3-22",  nameFR:"Tesla Wall Connector Gen 3 (22 kW)",        nameNL:"Tesla Wall Connector Gen 3 (22 kW)",        price:442.15, margin:1.08},
+      {ref:"SM-EVB-11",  nameFR:"Smappee EV Base (11 kW)",                   nameNL:"Smappee EV Base (11 kW)",                   price:898.60, margin:1.15},
+      {ref:"SM-EVW-11",  nameFR:"Smappee EV Wall (11 kW)",                   nameNL:"Smappee EV Wall (11 kW)",                   price:887.52, margin:1.15},
+      {ref:"SM-EVB-22",  nameFR:"Smappee EV Base (22 kW)",                   nameNL:"Smappee EV Base (22 kW)",                   price:898.60, margin:1.15}
     ],
     cables: [
-      {ref:"3G6",   descFR:"XGB 3G6 · mono ≤ 20 m",                            descNL:"XGB 3G6 · eenfase ≤ 20 m",                              pricePerM:2.40},
-      {ref:"3G10",  descFR:"XGB 3G10 · mono > 20 m",                           descNL:"XGB 3G10 · eenfase > 20 m",                              pricePerM:3.85},
-      {ref:"5G6",   descFR:"XGB 5G6 · tri 11 kW ≤ 20 m",                       descNL:"XGB 5G6 · driefase 11 kW ≤ 20 m",                        pricePerM:4.10},
-      {ref:"5G10",  descFR:"XGB 5G10 · tri 11 kW > 20 m / 22 kW ≤ 20 m",       descNL:"XGB 5G10 · driefase 11 kW > 20 m / 22 kW ≤ 20 m",        pricePerM:6.45},
-      {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:9.85}
+      {ref:"3G6",   descFR:"XGB 3G6 · mono ≤ 20 m",                            descNL:"XGB 3G6 · eenfase ≤ 20 m",                              pricePerM:5.52},
+      {ref:"3G10",  descFR:"XGB 3G10 · mono > 20 m",                           descNL:"XGB 3G10 · eenfase > 20 m",                              pricePerM:8.98},
+      {ref:"5G6",   descFR:"XGB 5G6 · tri 11 kW ≤ 20 m",                       descNL:"XGB 5G6 · driefase 11 kW ≤ 20 m",                        pricePerM:8.54},
+      {ref:"5G10",  descFR:"XGB 5G10 · tri 11 kW > 20 m / 22 kW ≤ 20 m",       descNL:"XGB 5G10 · driefase 11 kW > 20 m / 22 kW ≤ 20 m",        pricePerM:14.12},
+      {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:23.45}
     ],
     prots: [
       // ── STANDARD BORNEXA : Type A 30 mA (suffisant car bornes BORNEXA = RDC-DD IEC 62955 intégré) ──
       // — MONO : différentiels BIPOLAIRES (2P) —
-      {ref:"DIF-A-40", descFR:"Différentiel Type A 30 mA 40 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:65},
-      {ref:"DIF-A-63", descFR:"Différentiel Type A 30 mA 63 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:110},
+      {ref:"DIF-A-40", descFR:"Différentiel Type A 30 mA 40 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:42.72},
+      {ref:"DIF-A-63", descFR:"Différentiel Type A 30 mA 63 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:57.52},
       // — TRI : différentiels TÉTRAPOLAIRES (4P) —
-      {ref:"DIF-A-40-4P", descFR:"Différentiel Type A 30 mA 40 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:145},
-      {ref:"DIF-A-63-4P", descFR:"Différentiel Type A 30 mA 63 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:195},
+      {ref:"DIF-A-40-4P", descFR:"Différentiel Type A 30 mA 40 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:45.11},
+      {ref:"DIF-A-63-4P", descFR:"Différentiel Type A 30 mA 63 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:74.73},
       // ── OPTION PREMIUM : Type B sur demande explicite client uniquement ──
       {ref:"DIF-B-40", descFR:"Différentiel Type B 30 mA 40 A bipolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 40 A tweepolig (op klantenvraag — extra beveiliging)", price:185},
       {ref:"DIF-B-63", descFR:"Différentiel Type B 30 mA 63 A bipolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 63 A tweepolig (op klantenvraag — extra beveiliging)", price:230},
       {ref:"DIF-B-40-4P", descFR:"Différentiel Type B 30 mA 40 A tétrapolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 40 A vierpolig (op klantenvraag — extra beveiliging)", price:390},
       {ref:"DIF-B-63-4P", descFR:"Différentiel Type B 30 mA 63 A tétrapolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 63 A vierpolig (op klantenvraag — extra beveiliging)", price:480},
-      // Disjoncteurs courbe C — MONO (unipolaire 1P)
-      {ref:"DIS-C16",  descFR:"Disjoncteur courbe C16",                        descNL:"Automaat curve C16",                                     price:18},
-      {ref:"DIS-C20",  descFR:"Disjoncteur courbe C20",                        descNL:"Automaat curve C20",                                     price:18},
-      {ref:"DIS-C32",  descFR:"Disjoncteur courbe C32",                        descNL:"Automaat curve C32",                                     price:22},
-      // Disjoncteurs courbe C — TRI (tripolaire 3P)
-      {ref:"DIS-C16-3P", descFR:"Disjoncteur courbe C16 tripolaire",           descNL:"Automaat curve C16 driepolig",                           price:48},
-      {ref:"DIS-C20-3P", descFR:"Disjoncteur courbe C20 tripolaire",           descNL:"Automaat curve C20 driepolig",                           price:50},
-      {ref:"DIS-C32-3P", descFR:"Disjoncteur courbe C32 tripolaire",           descNL:"Automaat curve C32 driepolig",                           price:58},
+      // Disjoncteurs courbe C — MONO (1P+N · ABB S200 6 kA)
+      {ref:"DIS-C16",  descFR:"Disjoncteur courbe C16 1P+N", descNL:"Automaat curve C16 1P+N", price:34.47},
+      {ref:"DIS-C20",  descFR:"Disjoncteur courbe C20 1P+N", descNL:"Automaat curve C20 1P+N", price:34.47},
+      {ref:"DIS-C32",  descFR:"Disjoncteur courbe C32 1P+N", descNL:"Automaat curve C32 1P+N", price:34.47},
+      // Disjoncteurs courbe C — TRI (3P+N · ABB S200 6 kA)
+      {ref:"DIS-C16-3P", descFR:"Disjoncteur courbe C16 3P+N (tétrapolaire)", descNL:"Automaat curve C16 3P+N (vierpolig)", price:80.48},
+      {ref:"DIS-C20-3P", descFR:"Disjoncteur courbe C20 3P+N (tétrapolaire)", descNL:"Automaat curve C20 3P+N (vierpolig)", price:80.48},
+      {ref:"DIS-C32-3P", descFR:"Disjoncteur courbe C32 3P+N (tétrapolaire)", descNL:"Automaat curve C32 3P+N (vierpolig)", price:80.48},
+      {ref:"DIS-C40-3P", descFR:"Disjoncteur courbe C40 3P+N (tétrapolaire)", descNL:"Automaat curve C40 3P+N (vierpolig)", price:82.71},
       // Accessoires
       {ref:"UTP",      descFR:"Câble UTP Cat6 (forfait 10 m)",                 descNL:"UTP Cat6 kabel (forfait 10 m)",                          price:8.5},
       {ref:"DIV",      descFR:"Matériel divers (cosses, wagos, fixations)",    descNL:"Divers materiaal (kabelschoenen, wago's, bevestigingen)", price:15},
+      {ref:"PIED",     descFR:"Pied/support pour borne (montage sur pied, sans mur)", descNL:"Voetstuk/statief voor laadpaal (vloermontage, geen muur)", price:311.02},
+      {ref:"PORTE-CABLE", descFR:"Support/porte-câble pour borne", descNL:"Kabelhouder voor laadpaal", price:30.84},
       {ref:"PLAN",     descFR:"Plan électrique fourni",                        descNL:"Elektrisch plan geleverd",                                price:18},
-      {ref:"GREENUP",  descFR:"Prise renforcée Legrand Green'Up (recharge mode 2 sécurisée)", descNL:"Versterkt stopcontact Legrand Green'Up (veilig mode 2 laden)", price:110},
+      {ref:"GREENUP",  descFR:"Prise renforcée Legrand Green'Up (recharge mode 2 sécurisée)", descNL:"Versterkt stopcontact Legrand Green'Up (veilig mode 2 laden)", price:93.56},
       // Upsells / options
       {ref:"SUR-T2",   descFR:"Parafoudre Type 2 (anti-surtension) — NBN HD 60364-5-534", descNL:"Overspanningsbeveiliging Type 2 — NBN HD 60364-5-534", price:95},
-      {ref:"SUB-COFF", descFR:"Coffret divisionnaire (sub-tableau dédié laadpaal)", descNL:"Verdeelkast (apart sub-bord laadpaal)",            price:85},
+      {ref:"SUB-COFF", descFR:"Coffret divisionnaire (sub-tableau dédié laadpaal)", descNL:"Verdeelkast (apart sub-bord laadpaal)",            price:32.39},
       // ── MODULES LOAD BALANCING & RECHARGE SOLAIRE ──
       // WALLBOX
-      {ref:"WB-P1",      descFR:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — Belgique/Pays-Bas natif", descNL:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — België/Nederland natief", price:170},
-      {ref:"WB-MID-1P",  descFR:"Wallbox Power Meter MID monophasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID eenfase (Power Boost + Eco-Smart)", price:165},
-      {ref:"WB-MID-3P",  descFR:"Wallbox Power Meter MID triphasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID driefase (Power Boost + Eco-Smart)", price:250},
+      {ref:"WB-P1",      descFR:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — Belgique/Pays-Bas natif", descNL:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — België/Nederland natief", price:159.28},
+      {ref:"WB-MID-1P",  descFR:"Wallbox Power Meter MID monophasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID eenfase (Power Boost + Eco-Smart)", price:83.88},
+      {ref:"WB-MID-3P",  descFR:"Wallbox Power Meter MID triphasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID driefase (Power Boost + Eco-Smart)", price:159.28},
       {ref:"WB-CT",      descFR:"Wallbox Power Boost avec pinces CT (alternative si pas de place DIN)", descNL:"Wallbox Power Boost met CT-klemmen (alternatief indien geen DIN-plaats)", price:185},
       // SMAPPEE
-      {ref:"SM-CONNECT", descFR:"Smappee Connect — passerelle P1 belge (Wi-Fi)", descNL:"Smappee Connect — Belgische P1-gateway (Wi-Fi)", price:200},
-      {ref:"SM-GENIUS",  descFR:"Smappee Genius — P1 + CT clamps + multi-bornes", descNL:"Smappee Genius — P1 + CT-klemmen + multi-laadpaal", price:330},
-      {ref:"SM-INFINITY",descFR:"Smappee Infinity B2B — système central entreprise", descNL:"Smappee Infinity B2B — centraal systeem bedrijven", price:650}
+      {ref:"SM-CONNECT", descFR:"Smappee Connect — passerelle P1 belge (Wi-Fi)", descNL:"Smappee Connect — Belgische P1-gateway (Wi-Fi)", price:146.54},
+      {ref:"SM-GENIUS",  descFR:"Smappee Genius — P1 + CT clamps + multi-bornes", descNL:"Smappee Genius — P1 + CT-klemmen + multi-laadpaal", price:244.23},
+      {ref:"SM-INFINITY",descFR:"Smappee Infinity B2B — système central entreprise", descNL:"Smappee Infinity B2B — centraal systeem bedrijven", price:296.60},
+      {ref:"SM-MID",     descFR:"Smappee MID meter (comptage certifié — split billing / sous-comptage)", descNL:"Smappee MID meter (gecertificeerde meting — split billing / submetering)", price:195.39},
+      {ref:"SM-4G",      descFR:"Smappee 4G Connect gateway (sites sans Wi-Fi)", descNL:"Smappee 4G Connect gateway (locaties zonder Wi-Fi)", price:167.64},
+      {ref:"SM-RFID",    descFR:"Smappee pack 10 cartes RFID (authentification)", descNL:"Smappee pak 10 RFID-kaarten (authenticatie)", price:42.48}
     ],
     labor: {
       // ★ Tarif horaire = PRIX DE VENTE FINAL (pas de multiplicateur additionnel)
       // Cohérent avec les pratiques installateur EV BE 2026 (€90-€110/h)
-      hourRate: 110,           // EUR/h HT — prix de vente final
-      baseHours: 4.5,          // Installation standard (était 3.5 — trop juste)
+      hourRate: 90,            // EUR/h HT — prix de vente final (compétitif marché BE)
+      baseHours: 4.0,          // Installation standard (compétitif ; 3.5 trop juste, 4.5 trop cher)
       triExtra: 1.0,
       longExtra: 1.0,
       complexExtra: 1.5,
@@ -1024,7 +1031,7 @@
     },
     // Marges : ×1,45 matériel (≈ 31 % marge sur vente — standard installateur)
     // Marge MO retirée : le taux horaire ci-dessus EST le prix de vente final
-    margins: { mat: 1.45, mo: 1.00, tva: 0.06 }
+    margins: { mat: 1.30, mo: 1.00, borne: 1.25, tva: 0.06 }
   };
 
   let tarifs = JSON.parse(JSON.stringify(DEFAULT_TARIFS));
@@ -1500,7 +1507,7 @@
     // 1) Borne — PRIX DE VENTE HT direct (pas de marge matériel : produit de marque, prix public connu).
     //    Exclue du devis si fournie par le client (installation seule).
     const b = find(tarifs.bornes, dim.chargerRef);
-    if (b && !form.borneByClient) lines.push({ desc: tName(b), qty: 1, puHT: b.price });
+    if (b && !form.borneByClient) lines.push({ desc: tName(b), qty: 1, puHT: b.price * (b.margin || tarifs.margins.borne || 1) });
 
     // REMPLACEMENT de borne : on réutilise câble/protections/circuit existants.
     // → nouvelle borne + main d'œuvre courte (dépose/pose/config) + déplacement. Pas de divers, plan ni keuring.
@@ -1996,6 +2003,7 @@
       <div class="tariff-row"><label>Remplacement borne (h)</label><input type="number" step="0.25" value="${lab.swapHours}" data-grp="laborSimple" data-key="swapHours"></div>
       <div class="tariff-row"><label>Pose Green'Up (h)</label><input type="number" step="0.25" value="${lab.greenupHours}" data-grp="laborSimple" data-key="greenupHours"></div>`;
     document.getElementById('m-mat').value = tarifs.margins.mat;
+    document.getElementById('m-borne').value = tarifs.margins.borne || 1.25;
     document.getElementById('m-mo').value  = tarifs.margins.mo;
     document.getElementById('m-tva').value = tarifs.margins.tva;
   }
@@ -2086,7 +2094,7 @@
         saveTarifs(); update();
       });
     });
-    ['mat','mo','tva'].forEach(k => {
+    ['mat','mo','borne','tva'].forEach(k => {
       const el = document.getElementById('m-' + k);
       el.addEventListener('input', () => {
         tarifs.margins[k] = parseFloat(el.value) || 0;
