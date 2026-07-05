@@ -449,6 +449,9 @@
             <label style="font-weight:400;font-size:.84rem" title="Si nouveau coffret divisionnaire nécessaire pour isoler le circuit borne.">
               <input type="checkbox" id="f-wantSubpanel"> Coffret divisionnaire dédié
             </label>
+            <label style="font-weight:400;font-size:.84rem" title="Pose apparente propre : câble en goulotte PVC + angles (intérieur). Ajoute la goulotte × longueur de câble + accessoires (angles, embouts, jonctions).">
+              <input type="checkbox" id="f-wantGoulotte"> Pose apparente en goulotte PVC <span style="color:var(--muted)">(intérieur propre)</span>
+            </label>
             <label style="font-weight:400;font-size:.84rem" title="Par défaut, le devis client présente la main d'œuvre en FORFAIT clé en main (déplacement inclus, sans heures ni taux — positionnement premium). Cochez cette case uniquement pour un client B2B qui exige le détail heures × taux + déplacement séparé. Le montant total reste identique.">
               <input type="checkbox" id="f-laborHours"> Afficher le détail en heures <span style="color:var(--muted)">(devis B2B uniquement)</span>
             </label>
@@ -962,7 +965,8 @@
       {ref:"3G10",  descFR:"XGB 3G10 · mono > 20 m",                           descNL:"XGB 3G10 · eenfase > 20 m",                              pricePerM:8.98},
       {ref:"5G6",   descFR:"XGB 5G6 · tri 11 kW ≤ 20 m",                       descNL:"XGB 5G6 · driefase 11 kW ≤ 20 m",                        pricePerM:8.54},
       {ref:"5G10",  descFR:"XGB 5G10 · tri 11 kW > 20 m / 22 kW ≤ 20 m",       descNL:"XGB 5G10 · driefase 11 kW > 20 m / 22 kW ≤ 20 m",        pricePerM:14.12},
-      {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:23.45}
+      {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:23.45},
+      {ref:"GOULOTTE", descFR:"Goulotte PVC (pose apparente) · €/m", descNL:"PVC kabelgoot (opbouwmontage) · €/m", pricePerM:3.00}
     ],
     prots: [
       // ── STANDARD BORNEXA : Type A 30 mA (suffisant car bornes BORNEXA = RDC-DD IEC 62955 intégré) ──
@@ -991,6 +995,7 @@
       {ref:"DIV",      descFR:"Matériel divers (cosses, wagos, fixations)",    descNL:"Divers materiaal (kabelschoenen, wago's, bevestigingen)", price:15},
       {ref:"PIED",     descFR:"Pied/support pour borne (montage sur pied, sans mur)", descNL:"Voetstuk/statief voor laadpaal (vloermontage, geen muur)", price:311.02},
       {ref:"PORTE-CABLE", descFR:"Support/porte-câble pour borne", descNL:"Kabelhouder voor laadpaal", price:30.84},
+      {ref:"GOULOTTE-ACC", descFR:"Accessoires goulotte PVC (angles, embouts, jonctions)", descNL:"PVC kabelgoot toebehoren (hoeken, eindstukken, koppelingen)", price:12},
       {ref:"PLAN",     descFR:"Plan électrique fourni",                        descNL:"Elektrisch plan geleverd",                                price:18},
       {ref:"GREENUP",  descFR:"Prise renforcée Legrand Green'Up (recharge mode 2 sécurisée)", descNL:"Versterkt stopcontact Legrand Green'Up (veilig mode 2 laden)", price:93.56},
       // Upsells / options
@@ -1069,7 +1074,7 @@
         });
       }
       // Restore tech option checkboxes + smart energy options
-      ['wantTypeB','wantSurge','wantSubpanel','wantLoadBalance','wantSolar','want2ndEV','laborHours','borneByClient','borneSwap','greenup','laadpark','energie'].forEach(k=>{
+      ['wantTypeB','wantSurge','wantSubpanel','wantGoulotte','wantLoadBalance','wantSolar','want2ndEV','laborHours','borneByClient','borneSwap','greenup','laadpark','energie'].forEach(k=>{
         const el = document.getElementById('f-'+k);
         if (el) el.checked = !!f[k];
       });
@@ -1116,7 +1121,7 @@
     });
     form.needs = Array.from(document.querySelectorAll('.need:checked')).map(c=>c.value);
     // Tech option checkboxes + smart energy options
-    ['wantTypeB','wantSurge','wantSubpanel','wantLoadBalance','wantSolar','want2ndEV','laborHours','borneByClient','borneSwap','greenup','laadpark','energie'].forEach(k=>{
+    ['wantTypeB','wantSurge','wantSubpanel','wantGoulotte','wantLoadBalance','wantSolar','want2ndEV','laborHours','borneByClient','borneSwap','greenup','laadpark','energie'].forEach(k=>{
       const el = document.getElementById('f-'+k);
       form[k] = !!(el && el.checked);
     });
@@ -1372,6 +1377,7 @@
     // 5) Options techniques cochées — rendues visibles aussi
     if (form.wantSurge)    push('Parafoudre Type 2 (anti-surtension)', 'Overspanningsbeveiliging Type 2');
     if (form.wantSubpanel) push('Coffret divisionnaire dédié',        'Apart verdeelbord voor de laadpaal');
+    if (form.wantGoulotte) push('Pose apparente propre en goulotte PVC', 'Nette opbouwmontage in PVC kabelgoot');
     if (form.wantTypeB)    push('Différentiel Type B (sur demande)',   'Differentieel Type B (op aanvraag)');
     if (form.want2ndEV)    push('Précâblage pour 2e borne (Power Sharing)', 'Voorbekabeling voor 2e laadpaal (Power Sharing)');
 
@@ -1548,6 +1554,12 @@
     if (form.wantSubpanel) {
       const sub = find(tarifs.prots, 'SUB-COFF');
       if (sub) lines.push({ desc: tDesc(sub), qty: 1, puHT: sub.price * tarifs.margins.mat });
+    }
+    if (form.wantGoulotte) {
+      const goul = find(tarifs.cables, 'GOULOTTE');
+      if (goul) lines.push({ desc: tDesc(goul), qty: form.length || 10, puHT: (goul.pricePerM || 0) * tarifs.margins.mat });
+      const goulAcc = find(tarifs.prots, 'GOULOTTE-ACC');
+      if (goulAcc) lines.push({ desc: tDesc(goulAcc), qty: 1, puHT: goulAcc.price * tarifs.margins.mat });
     }
 
     // 7c) Smart energy (load balancing / PV) — module auto-suggéré selon marque.
