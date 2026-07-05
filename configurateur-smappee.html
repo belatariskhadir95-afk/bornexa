@@ -210,16 +210,16 @@ const KB = {
   // Gateways
   products:{
     powerbox:  {ref:'I1-VAC-1', name:'Smappee Power Box', role:'Cœur · mesure tension + alimente les modules', price:102},
-    genius:    {ref:'I1-GW-1',  name:'Smappee Genius', role:'Passerelle intelligente · HEMS/BEMS, load balancing, contrôle', price:269},
+    genius:    {ref:'I1-GW-1',  name:'Smappee Genius', role:'Passerelle intelligente · HEMS/BEMS, load balancing, contrôle', price:244.23},
     geniusflex:{ref:'I1-GW-6',  name:'Smappee Genius Flex', role:'Passerelle + Power Box intégrés (install simplifiée)', price:290},
-    connect:   {ref:'I1-GW-3',  name:'Smappee Connect', role:'Passerelle monitoring · Ethernet/Wi-Fi (sans contrôle)', price:160},
+    connect:   {ref:'I1-GW-3',  name:'Smappee Connect', role:'Passerelle monitoring · Ethernet/Wi-Fi (sans contrôle)', price:146.54},
     wificonnect:{ref:'I1-GW-2', name:'Smappee Wi-Fi Connect', role:'Passerelle monitoring · Wi-Fi seul', price:150},
-    g4g:       {ref:'I1-GW-4',  name:'Smappee 4G Connect', role:'Passerelle 4G (eSIM EMEA) · sans Ethernet/Wi-Fi', price:180},
+    g4g:       {ref:'I1-GW-4',  name:'Smappee 4G Connect', role:'Passerelle 4G (eSIM EMEA) · sans Ethernet/Wi-Fi', price:167.64},
     cthub:     {ref:'I1-IAC-1', name:'Smappee CT Hub', role:'Mesure · jusqu’à 4 capteurs (CT/Rogowski)', price:81},
     sc3p:      {ref:'I1-IAC-2', name:'Solid Core 3-Phase CT', role:'Mesure 3φ compacte (=3 mesures, câble ≤6,7 mm)', price:75},
     output:    {ref:'I1-OUT-1', name:'Smappee Output module', role:'Pilotage · 2 sorties relais (NO/C/NF)', price:95},
     input:     {ref:'I1-INP-1', name:'Smappee Input module', role:'4 entrées (impulsions/état) · nécessite Genius', price:95},
-    mid:       {ref:'i1-EN3-1', name:'Smappee MID meter (3φ, 100 A)', role:'Comptage certifié MID · facturation copro/locataires', price:130},
+    mid:       {ref:'i1-EN3-1', name:'Smappee MID meter (3φ, 100 A)', role:'Comptage certifié MID · facturation copro/locataires', price:195.39},
     p1:        {ref:'MOD-P1-1', name:'Smappee P1 module', role:'Lecture compteur digital (P1) · Wi-Fi', price:180},
     teltonika: {ref:'AC-SP-LU2',name:'Routeur 4G Teltonika RUT240', role:'Connectivité 4G pour Genius/Connect', price:120},
     buscable:  {ref:'AC-IBCS-100m', name:'Câble Smappee Bus (100 m + 50 RJ10)', role:'Câblage bus A/B (consommable)', price:75},
@@ -293,14 +293,25 @@ function engine(){
 
   // ── Mesures → canaux ──
   let channels=0, sc3pUnits=0, ctList={}; // ctList: ref -> qty
+  const mainA = parseFloat(S.mainA)||0;
+  const isMainName = (n)=>/hoofdmeting|principal|\bmain\b|réseau|netmeting/i.test(n||'');
   S.meas.forEach(m=>{
     const ph = m.phases===3?3:1;
     channels += ph;
-    if(m.phases===3 && S.sc3p){ sc3pUnits++; }
+    // Le CT principal se dimensionne sur le disjoncteur général si l'ampérage n'est pas saisi
+    let amps = parseFloat(m.amps)||0;
+    if(amps===0 && isMainName(m.name) && mainA>0) amps = mainA;
+    // Solid Core 3-Phase CT : fils fins uniquement (≤6,7 mm ⇒ ~≤50 A) ET avec coupure (pas en rétrofit)
+    const sc3pOK = (m.phases===3 && S.sc3p && !S.split && amps>0 && amps<=50);
+    if(m.phases===3 && S.sc3p && !sc3pOK){
+      warns.push({c:'warn',t:'Solid Core 3φ non applicable pour « '+m.name+' »'+(amps>50?' (>50 A / gros câble)':'')+(S.split?' (rétrofit sans coupure)':'')+(amps===0?' (calibre inconnu)':'')+' → mesuré via CT Hub + Split Core CT (le Solid Core exige des fils ≤6,7 mm + déconnexion).'});
+      confidence-=3;
+    }
+    if(sc3pOK){ sc3pUnits++; }
     else {
-      const ct=pickCT(m.amps);
+      const ct=pickCT(amps);
       ctList[ct.ref]=(ctList[ct.ref]||0)+ph;
-      if((parseFloat(m.amps)||0)===0){ assumptions.push('Calibre CT estimé pour « '+m.name+' » (ampérage non renseigné → '+ct.ref+').'); confidence-=4; }
+      if(amps===0){ assumptions.push('Calibre CT estimé pour « '+m.name+' » (ampérage non renseigné → '+ct.ref+').'); confidence-=4; }
     }
   });
   if(margin){ channels=Math.ceil(channels*1.25); why.push('<b>Marge extension :</b> +25% de mesures provisionnées (extension future cochée).'); }
@@ -385,7 +396,7 @@ function engine(){
   add(P.teltonika,g4g); add(P.sw,parseInt(S.sw)||0);
   add(P.evwall,parseInt(S.ev)||0); add(P.evultra,parseInt(S.evu)||0);
 
-  return {bom,why,warns,assumptions,confidence,channels,hubs,locations,multigw,geniusQty,connectQty,sc3pUnits,ctList};
+  return {bom,why,warns,assumptions,confidence,channels,hubs,locations,multigw,geniusQty,connectQty,sc3pUnits,ctList,outputQty,inputQty,midQty};
 }
 
 /* ══════════════════════════════════════════════════════════════
