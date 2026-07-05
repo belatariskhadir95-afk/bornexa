@@ -206,30 +206,37 @@
    Ajouter un produit Smappee = ajouter une entrée ici. Aucune règle codée en dur.
    ══════════════════════════════════════════════════════════════ */
 const KB = {
-  limits:{ ctPerHub:4, hubsPerLoc:7, measPerLoc:28, hubDaisyM:100, busM:500, maxOutput:10, maxInput:10, relaysPerOutput:2, inputsPerInput:4 },
+  limits:{ ctPerHub:4, hubsPerLoc:7, measPerLoc:28, hubDaisyM:100, busM:500, maxModules:10, relaysPerOutput:2, inputsPerInput:4, sc3pDaisy:9 },
   // Gateways
   products:{
-    powerbox:{ref:'INF-POWERBOX', name:'Smappee Infinity Power Box', role:'Cœur · tension + alimentation', price:102},
-    genius:  {ref:'INF-GENIUS',   name:'Smappee Genius', role:'Passerelle · contrôle + automatisation + NILM', price:269},
-    connect: {ref:'INF-CONNECT',  name:'Smappee Connect', role:'Passerelle · monitoring seul', price:160},
-    cthub:   {ref:'INF-CTHUB',    name:'Smappee CT Hub', role:'Mesure · jusqu’à 4 capteurs', price:81},
-    sc3p:    {ref:'INF-SC3P',     name:'Solid Core 3-Phase CT', role:'Mesure 3φ compacte (=3 mesures)', price:75},
-    output:  {ref:'INF-OUTPUT',   name:'Smappee Output module', role:'Pilotage · 2 relais', price:95},
-    input:   {ref:'INF-INPUT',    name:'Smappee Input module', role:'I/O · 4 entrées impulsions', price:95},
-    p1:      {ref:'INF-P1',       name:'Smappee P1 module', role:'Lecture compteur digital', price:180},
-    g4g:     {ref:'INF-4G',       name:'Smappee 4G module', role:'Connectivité mobile', price:120},
-    sw:      {ref:'INF-SWITCH',   name:'Smappee Switch', role:'Prise/relais pilotable', price:60},
-    evwall:  {ref:'EV-WALL',      name:'Smappee EV Wall / One', role:'Borne de recharge', price:850},
-    evultra: {ref:'EV-ULTRA',     name:'Smappee EV Ultra', role:'Borne 22 kW avancée', price:1500}
+    powerbox:  {ref:'I1-VAC-1', name:'Smappee Power Box', role:'Cœur · mesure tension + alimente les modules', price:102},
+    genius:    {ref:'I1-GW-1',  name:'Smappee Genius', role:'Passerelle intelligente · HEMS/BEMS, load balancing, contrôle', price:269},
+    geniusflex:{ref:'I1-GW-6',  name:'Smappee Genius Flex', role:'Passerelle + Power Box intégrés (install simplifiée)', price:290},
+    connect:   {ref:'I1-GW-3',  name:'Smappee Connect', role:'Passerelle monitoring · Ethernet/Wi-Fi (sans contrôle)', price:160},
+    wificonnect:{ref:'I1-GW-2', name:'Smappee Wi-Fi Connect', role:'Passerelle monitoring · Wi-Fi seul', price:150},
+    g4g:       {ref:'I1-GW-4',  name:'Smappee 4G Connect', role:'Passerelle 4G (eSIM EMEA) · sans Ethernet/Wi-Fi', price:180},
+    cthub:     {ref:'I1-IAC-1', name:'Smappee CT Hub', role:'Mesure · jusqu’à 4 capteurs (CT/Rogowski)', price:81},
+    sc3p:      {ref:'I1-IAC-2', name:'Solid Core 3-Phase CT', role:'Mesure 3φ compacte (=3 mesures, câble ≤6,7 mm)', price:75},
+    output:    {ref:'I1-OUT-1', name:'Smappee Output module', role:'Pilotage · 2 sorties relais (NO/C/NF)', price:95},
+    input:     {ref:'I1-INP-1', name:'Smappee Input module', role:'4 entrées (impulsions/état) · nécessite Genius', price:95},
+    mid:       {ref:'i1-EN3-1', name:'Smappee MID meter (3φ, 100 A)', role:'Comptage certifié MID · facturation copro/locataires', price:130},
+    p1:        {ref:'MOD-P1-1', name:'Smappee P1 module', role:'Lecture compteur digital (P1) · Wi-Fi', price:180},
+    teltonika: {ref:'AC-SP-LU2',name:'Routeur 4G Teltonika RUT240', role:'Connectivité 4G pour Genius/Connect', price:120},
+    buscable:  {ref:'AC-IBCS-100m', name:'Câble Smappee Bus (100 m + 50 RJ10)', role:'Câblage bus A/B (consommable)', price:75},
+    sw:        {ref:'—',        name:'Smappee Switch', role:'Prise/relais Wi-Fi pilotable', price:60},
+    evwall:    {ref:'EVD-2332-C5', name:'Smappee EV Dual Wall (2 connecteurs)', role:'Borne murale · 2×22 kW, MID intégré', price:1600},
+    evultra:   {ref:'EVD-2332-B',  name:'Smappee EV Dual Base (sur socle)', role:'Borne sur pied · 2×22 kW, MID intégré', price:2100}
   },
   // Capteurs de courant (triés par calibre) — type: solid | split | rogowski
   cts:[
-    {ref:'CT-50',   amps:50,   type:'solid',    price:23},
-    {ref:'CT-100',  amps:100,  type:'solid',    price:33},
-    {ref:'CT-200',  amps:200,  type:'split',    price:46},
-    {ref:'CT-400',  amps:400,  type:'split',    price:79},
-    {ref:'ROG-400', amps:400,  type:'rogowski', price:95},
-    {ref:'ROG-1600',amps:1600, type:'rogowski', price:130}
+    {ref:'AC-CT-50A',   amps:50,   type:'split',    maxWire:10,  price:23},
+    {ref:'AC-CT-100A',  amps:100,  type:'split',    maxWire:16,  price:33},
+    {ref:'AC-CT-200A',  amps:200,  type:'split',    maxWire:24,  price:46},
+    {ref:'AC-CT-400A',  amps:400,  type:'split',    maxWire:36,  price:79},
+    {ref:'AC-RSCT-4CM', amps:400,  type:'rogowski', maxWire:40,  price:95},
+    {ref:'AC-RSCT-12CM',amps:1600, type:'rogowski', maxWire:120, price:130},
+    {ref:'AC-RSCT-19CM',amps:4000, type:'rogowski', maxWire:190, price:160},
+    {ref:'AC-RSCT-30CM',amps:10000,type:'rogowski', maxWire:300, price:190}
   ]
 };
 const PRICE_KEY='bornexa-smappee-kb-prices-v1';
@@ -304,8 +311,8 @@ function engine(){
   const multigw = locations>1;
 
   // ── Conflits (élimination) ──
-  if(multigw && S.pulse>0){ warns.push({c:'err',t:'Input modules (comptage impulsions) <b>incompatibles avec le multi-gateway</b>. Réduisez les mesures sous 28/site, ou supprimez le comptage impulsions.'}); confidence-=15; }
-  if(multigw && S.nilm){ warns.push({c:'warn',t:'NILM (détection d’appareils) <b>indisponible en multi-gateway</b>. Le NILM sera désactivé.'}); confidence-=5; }
+  if(multigw && S.pulse>0){ warns.push({c:'warn',t:'En multi-gateway, les Input modules (impulsions) se raccordent au <b>Genius parent</b> (les Connect enfants ne pilotent pas de modules I/O).'}); confidence-=5; }
+  if(multigw && S.nilm){ warns.push({c:'warn',t:'NILM (détection d’appareils) limité en multi-gateway — à confirmer selon firmware.'}); confidence-=3; }
 
   // ── CT Hubs (Passe 3) ──
   const totalCtChannels = Object.values(ctList).reduce((s,n)=>s+n,0);
@@ -334,21 +341,21 @@ function engine(){
   // ── Output / Input modules ──
   const ctrl = S.control + (margin? Math.ceil(S.control*0.25):0);
   let outputQty = ctrl>0 ? Math.ceil(ctrl / L.relaysPerOutput) : 0;
-  if(outputQty>L.maxOutput){ warns.push({c:'err',t:'Trop de points de pilotage ('+ctrl+'). Max '+(L.maxOutput*L.relaysPerOutput)+' relais ('+L.maxOutput+' Output modules).'}); outputQty=L.maxOutput; confidence-=8; }
   if(outputQty>0) why.push('<b>Output module ×'+outputQty+' :</b> '+ctrl+' charge(s) à piloter ÷ '+L.relaysPerOutput+' relais/module.');
 
   let inputQty = S.pulse>0 ? Math.ceil(S.pulse / L.inputsPerInput) : 0;
-  if(inputQty>L.maxInput){ warns.push({c:'err',t:'Trop de compteurs à impulsions. Max '+(L.maxInput*L.inputsPerInput)+' entrées.'}); inputQty=L.maxInput; confidence-=8; }
-  if(multigw) inputQty=0; // incompatible
   if(inputQty>0) why.push('<b>Input module ×'+inputQty+' :</b> '+S.pulse+' compteur(s) impulsions ÷ '+L.inputsPerInput+' entrées/module (nécessite Genius).');
+
+  // Limite combinée Smappee : max 10 modules (Input + Output) par Genius
+  if(outputQty+inputQty > L.maxModules){ warns.push({c:'err',t:'Trop de modules I/O ('+(outputQty+inputQty)+'). Maximum <b>'+L.maxModules+' modules Input + Output combinés</b> par Genius.'}); confidence-=8; }
 
   // ── CT Hub justification ──
   if(hubs>0) why.push('<b>CT Hub ×'+hubs+' :</b> '+totalCtChannels+' mesure(s) sur capteurs ÷ '+L.ctPerHub+' par hub.');
   if(sc3pUnits>0) why.push('<b>Solid Core 3-Phase CT ×'+sc3pUnits+' :</b> circuits triphasés mesurés en compact (1 unité = 3 mesures).');
 
   // ── Connectivité ──
-  const g4g = S.conn==='4g' ? geniusQty||1 : 0;
-  if(g4g>0) why.push('<b>Module 4G ×'+g4g+' :</b> pas de réseau filaire/Wi-Fi fiable sur place.');
+  const g4g = S.conn==='4g' ? (geniusQty+connectQty)||1 : 0;
+  if(g4g>0) why.push('<b>Connectivité 4G ×'+g4g+' :</b> pas de réseau filaire/Wi-Fi → routeur Teltonika RUT240 (ou passerelle 4G Connect I1-GW-4).');
 
   // ── Détection d'oublis (Passe 2 — questions auto) ──
   const hasPV = S.meas.some(m=>/pv|zonne|onduleur|solar/i.test(m.name));
@@ -357,6 +364,11 @@ function engine(){
   if(S.meter==='unknown'){ warns.push({c:'warn',t:'Type de compteur inconnu → à confirmer en visite.'}); assumptions.push('Type de compteur supposé digital.'); confidence-=4; }
   if((parseFloat(S.mainA)||0)===0){ assumptions.push('Calibre disjoncteur principal non renseigné → dimensionnement CT principal estimé.'); confidence-=4; }
   if(S.meas.length<=1){ warns.push({c:'warn',t:'1 seule mesure : pensez à ajouter PV / EV / pompe à chaleur / circuits clés pour un vrai monitoring.'}); }
+
+  // ── Sous-comptage certifié MID (facturation copro / locataires) ──
+  const billingUnits = S.meas.filter(m=>/huurder|unit|locataire|résident/i.test(m.name)).length;
+  const midQty = (S.building==='Copropriété' && billingUnits>0) ? billingUnits : 0;
+  if(midQty>0) why.push('<b>MID meter ×'+midQty+' :</b> comptage certifié MID (i1-EN3-1) requis pour <b>facturer légalement</b> chaque logement/locataire.');
 
   // ── Confiance plancher ──
   confidence=Math.max(20,Math.min(100,confidence));
@@ -368,9 +380,9 @@ function engine(){
   add(P.powerbox,powerbox); add(P.genius,geniusQty); add(P.connect,connectQty);
   add(P.cthub,hubs); add(P.sc3p,sc3pUnits);
   Object.keys(ctList).forEach(ref=>{ const c=KB.cts.find(x=>x.ref===ref); bom.push({ref:ref,name:'CT '+c.amps+'A '+c.type,qty:ctList[ref],price:c.price||0}); });
-  add(P.output,outputQty); add(P.input,inputQty);
+  add(P.output,outputQty); add(P.input,inputQty); add(P.mid,midQty);
   if(S.p1) add(P.p1,1);
-  add(P.g4g,g4g); add(P.sw,parseInt(S.sw)||0);
+  add(P.teltonika,g4g); add(P.sw,parseInt(S.sw)||0);
   add(P.evwall,parseInt(S.ev)||0); add(P.evultra,parseInt(S.evu)||0);
 
   return {bom,why,warns,assumptions,confidence,channels,hubs,locations,multigw,geniusQty,connectQty,sc3pUnits,ctList};
