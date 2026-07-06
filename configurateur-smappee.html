@@ -100,6 +100,7 @@
         <div><label class="fl">Nombre de tableaux électriques</label><input type="number" id="i-boards" min="1" step="1" value="1"></div>
         <div><label class="fl">Nombre de bâtiments / sites</label><input type="number" id="i-sites" min="1" step="1" value="1"></div>
       </div>
+      <button class="btn-ghost" style="margin-top:12px;width:100%;font-size:.82rem;padding:9px" onclick="presetCopro()">🏢 Préréglage « Copropriété parking » (4G · P1 par locataire · bornes EV Dual)</button>
     </div>
 
     <div class="card">
@@ -113,7 +114,7 @@
           <select id="i-meter"><option value="digital">Compteur digital (P1 dispo)</option><option value="mechanical">Compteur mécanique</option><option value="unknown">Inconnu</option></select>
         </div>
       </div>
-      <label class="toggle" style="margin-top:10px"><input type="checkbox" id="i-p1"> Ajouter le module P1 (lecture compteur digital)</label>
+      <div style="margin-top:10px"><label class="fl">Modules P1 <span style="color:var(--muted);font-weight:400">(1 par compteur digital / locataire · <b>Wi-Fi requis</b>)</span></label><input type="number" id="i-p1Count" min="0" step="1" value="0"></div>
     </div>
 
     <div class="card">
@@ -148,11 +149,11 @@
     <div class="card">
       <span class="seclabel">5 · Connectivité &amp; EV</span>
       <h2>Réseau &amp; bornes</h2>
-      <label class="fl">Connexion internet sur place</label>
+      <label class="fl">Internet disponible sur place</label>
       <div class="chips" id="ch-conn"></div>
       <div class="grid3" style="margin-top:12px">
-        <div><label class="fl">Bornes EV Wall/One</label><input type="number" id="i-ev" min="0" step="1" value="0"></div>
-        <div><label class="fl">Bornes EV Ultra</label><input type="number" id="i-evu" min="0" step="1" value="0"></div>
+        <div><label class="fl">EV Dual murale (2 conn.)</label><input type="number" id="i-ev" min="0" step="1" value="0"></div>
+        <div><label class="fl">EV Dual socle (2 conn.)</label><input type="number" id="i-evu" min="0" step="1" value="0"></div>
         <div><label class="fl">Smappee Switch (prises)</label><input type="number" id="i-switch" min="0" step="1" value="0"></div>
       </div>
     </div>
@@ -257,8 +258,8 @@ function savePrices(){ const p={}; Object.keys(KB.products).forEach(k=>{p['p_'+k
    ÉTAT
    ══════════════════════════════════════════════════════════════ */
 const STORE='bornexa-smappee-config-v1';
-let S = { building:'Woning', boards:1, sites:1, phase:'Driefasig', mainA:'', meter:'digital', p1:false,
-  meas:[], sc3p:false, split:false, control:0, pulse:0, nilm:false, future:false, conn:'wifi', ev:0, evu:0, sw:0 };
+let S = { building:'Woning', boards:1, sites:1, phase:'Driefasig', mainA:'', meter:'digital', p1Count:0,
+  meas:[], sc3p:false, split:false, control:0, pulse:0, nilm:false, future:false, conn:'Wi-Fi', ev:0, evu:0, sw:0 };
 let measSeq=1, _hadConfig=false;
 (function load(){
   try{
@@ -297,6 +298,7 @@ function engine(){
   const L=KB.limits, why=[], warns=[], assumptions=[];
   let confidence=100;
   const margin = S.future ? 1 : 0;
+  const p1Count = parseInt(S.p1Count)||0;
 
   // ── Mesures → canaux ──
   let channels=0, sc3pUnits=0, ctList={}; // ctList: ref -> qty
@@ -325,8 +327,10 @@ function engine(){
 
   // ── Plafonds & multi-gateway (Passe 1) ──
   const needGenius = (S.control>0) || S.nilm || (S.pulse>0);
+  const hasCTmon = (channels>0 || sc3pUnits>0);   // mesure via CT/Solid Core → Power Box + passerelle
+  const needCentral = hasCTmon || needGenius;      // sinon : modules P1 (Wi-Fi autonomes) + bornes suffisent
   let locations = Math.max(1, S.sites, Math.ceil(channels / L.measPerLoc));
-  const multigw = locations>1;
+  const multigw = needCentral && locations>1;
 
   // ── Conflits (élimination) ──
   if(multigw && S.pulse>0){ warns.push({c:'warn',t:'En multi-gateway, les Input modules (impulsions) se raccordent au <b>Genius parent</b> (les Connect enfants ne pilotent pas de modules I/O).'}); confidence-=5; }
@@ -335,12 +339,14 @@ function engine(){
   // ── CT Hubs (Passe 3) ──
   const totalCtChannels = Object.values(ctList).reduce((s,n)=>s+n,0);
   const hubs = Math.ceil(totalCtChannels / L.ctPerHub);
-  const hubsPerLoc = Math.ceil(hubs / locations);
+  const hubsPerLoc = Math.ceil(hubs / Math.max(1,locations));
   if(hubsPerLoc > L.hubsPerLoc){ warns.push({c:'err',t:'Trop de CT Hubs par site ('+hubsPerLoc+' > '+L.hubsPerLoc+'). Passez en multi-gateway ou réduisez les mesures.'}); confidence-=15; }
 
   // ── Gateways (Passe 3 + justification) ──
   let geniusQty=0, connectQty=0;
-  if(multigw){
+  if(!needCentral){
+    if(p1Count>0) why.push('<b>Aucune Power Box / passerelle centrale :</b> les modules P1 sont autonomes (Wi-Fi → Smappee Cloud). Aucune mesure CT centralisée demandée.');
+  } else if(multigw){
     geniusQty=1; connectQty=locations-1;
     why.push('<b>Multi-gateway ('+locations+' sites) :</b> '+channels+' mesures > '+L.measPerLoc+'/site. Parent = 1 Genius (obligatoire), enfants = '+connectQty+' Connect.');
   } else if(needGenius){
@@ -352,9 +358,9 @@ function engine(){
     why.push('<b>Connect :</b> monitoring seul, aucun pilotage/contrôle local nécessaire → solution la plus économique.');
   }
 
-  // ── Power Box (1/site) ──
-  const powerbox=locations;
-  why.push('<b>Power Box ×'+powerbox+' :</b> 1 par site (point de tension unique).');
+  // ── Power Box (1/site si mesure centralisée) ──
+  const powerbox = needCentral ? locations : 0;
+  if(powerbox>0) why.push('<b>Power Box ×'+powerbox+' :</b> 1 par site (point de tension + alimentation du bus).');
 
   // ── Output / Input modules ──
   const ctrl = S.control + (margin? Math.ceil(S.control*0.25):0);
@@ -371,9 +377,25 @@ function engine(){
   if(hubs>0) why.push('<b>CT Hub ×'+hubs+' :</b> '+totalCtChannels+' mesure(s) sur capteurs ÷ '+L.ctPerHub+' par hub.');
   if(sc3pUnits>0) why.push('<b>Solid Core 3-Phase CT ×'+sc3pUnits+' :</b> circuits triphasés mesurés en compact (1 unité = 3 mesures).');
 
-  // ── Connectivité ──
-  const g4g = S.conn==='4g' ? (geniusQty+connectQty)||1 : 0;
-  if(g4g>0) why.push('<b>Connectivité 4G ×'+g4g+' :</b> pas de réseau filaire/Wi-Fi → routeur Teltonika RUT240 (ou passerelle 4G Connect I1-GW-4).');
+  // ── Connectivité : internet + Wi-Fi pour les modules P1 ──
+  const connNoNet = /aucun|none|4g/i.test(S.conn||'');
+  const connWired = /ethernet|filaire/i.test(S.conn||'');
+  const connWifi  = /wi-?fi/i.test(S.conn||'') && !connNoNet;
+  const evTotal   = (parseInt(S.ev)||0)+(parseInt(S.evu)||0);
+  let teltonikaQty = 0;
+  if(connNoNet){
+    teltonikaQty = Math.max(1, locations); // 1 routeur 4G par site : internet + Wi-Fi local
+    why.push('<b>Routeur 4G Teltonika ×'+teltonikaQty+' :</b> aucun internet sur place → fournit la 4G ET un Wi-Fi local'+(p1Count>0?' (indispensable pour les modules P1)':'')+'.');
+  } else if(connWired && p1Count>0){
+    teltonikaQty = 1; // filaire OK pour une passerelle, mais les P1 exigent du Wi-Fi
+    warns.push({c:'warn',t:'Internet filaire mais les <b>modules P1 exigent du Wi-Fi 2,4 GHz</b> → ajoutez une source Wi-Fi locale (routeur type Teltonika, ou point d’accès sur le réseau filaire).'});
+  }
+  if(p1Count>0 && !connWifi && !connNoNet && !connWired){
+    warns.push({c:'warn',t:'Les modules P1 se connectent uniquement en <b>Wi-Fi 2,4 GHz</b> — prévoir un réseau Wi-Fi accessible depuis leur emplacement.'});
+  }
+  if(connNoNet && evTotal>0){
+    warns.push({c:'ok',t:'Les bornes EV Dual embarquent leur propre <b>4G LTE-M (5 ans inclus)</b> → pas de réseau nécessaire au parking. ⚠️ Vérifier le signal 4G si parking souterrain (sinon antenne externe ou Ethernet vers le routeur).'});
+  }
 
   // ── Détection d'oublis (Passe 2 — questions auto) ──
   const hasPV = S.meas.some(m=>/pv|zonne|onduleur|solar/i.test(m.name));
@@ -385,8 +407,9 @@ function engine(){
 
   // ── Sous-comptage certifié MID (facturation copro / locataires) ──
   const billingUnits = S.meas.filter(m=>/huurder|unit|locataire|résident/i.test(m.name)).length;
-  const midQty = (S.building==='Copropriété' && billingUnits>0) ? billingUnits : 0;
-  if(midQty>0) why.push('<b>MID meter ×'+midQty+' :</b> comptage certifié MID (i1-EN3-1) requis pour <b>facturer légalement</b> chaque logement/locataire.');
+  const midQty = (S.building==='Copropriété' && billingUnits>0 && p1Count < billingUnits) ? billingUnits : 0;
+  if(midQty>0) why.push('<b>MID meter ×'+midQty+' :</b> comptage certifié MID (i1-EN3-1) pour <b>facturer</b> chaque logement sur une connexion commune (split-billing).');
+  else if(S.building==='Copropriété' && billingUnits>0 && p1Count>=billingUnits) why.push('<b>Facturation par locataire via P1 :</b> chaque locataire recharge sur son propre compteur (P1 dédié) → facturé directement sur sa facture d’énergie, sans MID ni split-billing.');
 
   // ── Recommandation kit tout-fait (install simple, souvent moins cher que les composants séparés) ──
   const simpleBase = (!multigw && outputQty===0 && inputQty===0 && midQty===0);
@@ -410,8 +433,8 @@ function engine(){
   add(P.cthub,hubs); add(P.sc3p,sc3pUnits);
   Object.keys(ctList).forEach(ref=>{ const c=KB.cts.find(x=>x.ref===ref); bom.push({ref:ref,name:'CT '+c.amps+'A '+c.type,qty:ctList[ref],price:c.price||0}); });
   add(P.output,outputQty); add(P.input,inputQty); add(P.mid,midQty);
-  if(S.p1) add(P.p1,1);
-  add(P.teltonika,g4g); add(P.sw,parseInt(S.sw)||0);
+  if(p1Count>0) add(P.p1,p1Count);
+  add(P.teltonika,teltonikaQty); add(P.sw,parseInt(S.sw)||0);
   add(P.evwall,parseInt(S.ev)||0); add(P.evultra,parseInt(S.evu)||0);
 
   return {bom,why,warns,assumptions,confidence,channels,hubs,locations,multigw,geniusQty,connectQty,sc3pUnits,ctList,outputQty,inputQty,midQty};
@@ -541,7 +564,7 @@ function buildSchema(R){
   const gwLabel=R.geniusQty?('Genius'+(R.geniusQty>1?' ×'+R.geniusQty:'')):('Connect'+(R.connectQty>1?' ×'+R.connectQty:''));
   s+=box(gwX,gwY,gwW,gwH,navy,navy,['Gateway',gwLabel]);
   s+=box(pbX,pbY,pbW,pbH,light,green,['Power Box','×'+R.locations]);
-  s+=box(cmX,cmY,cmW,cmH,'#fff',border,['Compteur',S.meter==='digital'?('digital'+(S.p1?' + P1':'')):S.meter]);
+  s+=box(cmX,cmY,cmW,cmH,'#fff',border,['Compteur',S.meter==='digital'?('digital'+((parseInt(S.p1Count)||0)>0?' + '+(parseInt(S.p1Count)||0)+'×P1':'')):S.meter]);
   hubFills.forEach((k,i)=>{ const y=hubTop+i*(hubH+hubGap); s+=box(cmX,y,cmW,hubH,'#fff',green,['CT Hub '+(i+1),k+' capteur(s)']); });
   if(R.sc3pUnits){ const y=hubTop+R.hubs*(hubH+hubGap); s+=box(cmX,y,cmW,hubH,'#fff',green,['Solid Core 3φ','×'+R.sc3pUnits]); }
   let cy=110;
@@ -561,7 +584,7 @@ function applyVisiteData(j){
   const ph=deepFind(j,'phase'); if(ph) S.phase=/Een|Mono/i.test(ph)?'Monofasig':'Driefasig';
   const amp=deepFind(j,'ampere'); if(amp) S.mainA=amp;
   const dm=deepFind(j,'digitalMeter'); if(dm) S.meter=/ja|oui|yes/i.test(dm)?'digital':/nee|non|no/i.test(dm)?'mechanical':'unknown';
-  const p1=deepFind(j,'p1Port')||deepFind(j,'enP1'); if(p1&&/ja|oui|yes/i.test(p1)) S.p1=true;
+  const p1=deepFind(j,'p1Port')||deepFind(j,'enP1'); if(p1&&/ja|oui|yes/i.test(p1)) S.p1Count=Math.max(1,parseInt(S.p1Count)||0);
   S.meas=[{id:measSeq++,name:'Hoofdmeting',phases:S.phase==='Monofasig'?1:3,amps:parseFloat(amp)||0}];
   const pv=deepFind(j,'enPv')||deepFind(j,'hasSolar'); if(pv&&/ja|oui|yes/i.test(pv)) S.meas.push({id:measSeq++,name:'Zonnepanelen (PV)',phases:3,amps:0});
   const nc=parseInt(deepFind(j,'enCircuits'))||0; for(let i=0;i<Math.min(nc,12);i++) S.meas.push({id:measSeq++,name:'Meetkring '+(i+1),phases:1,amps:0});
@@ -571,7 +594,7 @@ function applyVisiteData(j){
   if(/ev|laadpaal|borne|voertuig/i.test(dev)) S.meas.push({id:measSeq++,name:'Laadpaal / EV',phases:1,amps:32});
   const eM=document.getElementById('i-mainA'); if(eM) eM.value=S.mainA||'';
   const eMe=document.getElementById('i-meter'); if(eMe) eMe.value=S.meter;
-  const eP=document.getElementById('i-p1'); if(eP) eP.checked=S.p1;
+  const eP=document.getElementById('i-p1Count'); if(eP) eP.value=parseInt(S.p1Count)||0;
   chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
   chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
   renderMeas(); render(); save();
@@ -593,12 +616,29 @@ function exportCSV(){
 
 function resetAll(){ BX.confirm('Réinitialiser la configuration ?',{title:'Réinitialiser',okText:'Réinitialiser',danger:true}).then(function(ok){ if(!ok)return; localStorage.removeItem(STORE); if(window.Bornexa && Bornexa.has && Bornexa.has()){ try{ Bornexa.put('config',{}); }catch(e){} } location.reload(); }); }
 
+/* ── Préréglage : copropriété parking (compteurs individuels, pas d'internet, P1 par locataire) ── */
+function presetCopro(){
+  S.building='Copropriété'; S.phase='Driefasig'; S.meter='digital'; S.conn='Aucun (4G)';
+  S.p1Count=4; S.ev=2; S.evu=0; S.sw=0;
+  S.control=0; S.pulse=0; S.nilm=false; S.future=false; S.sc3p=false; S.split=false;
+  S.meas=[]; // lecture via P1 par locataire (pas de mesure CT centralisée)
+  var set=function(id,v){ var e=document.getElementById(id); if(e){ if(e.type==='checkbox') e.checked=!!v; else e.value=v; } };
+  set('i-p1Count',4); set('i-ev',2); set('i-evu',0); set('i-switch',0);
+  set('i-control',0); set('i-pulse',0); set('i-meter','digital'); set('i-mainA','');
+  set('i-sc3p',false); set('i-split',false); set('i-nilm',false); set('i-future',false);
+  chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
+  chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
+  chipGroup('ch-conn','conn',['Wi-Fi','Ethernet','Aucun (4G)']);
+  renderMeas(); render(); save();
+  if(window.BX && BX.toast) BX.toast('Préréglage copro parking appliqué — ajustez le nombre de P1/locataires et de bornes','ok');
+}
+
 /* ── Init ── */
 chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
 chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
-chipGroup('ch-conn','conn',['wifi','ethernet','4g']);
+chipGroup('ch-conn','conn',['Wi-Fi','Ethernet','Aucun (4G)']);
 bindNum('i-boards','boards',true); bindNum('i-sites','sites',true);
-bindNum('i-mainA','mainA',false); bindSel('i-meter','meter'); bindChk('i-p1','p1');
+bindNum('i-mainA','mainA',false); bindSel('i-meter','meter'); bindNum('i-p1Count','p1Count',true);
 bindChk('i-sc3p','sc3p'); bindChk('i-split','split');
 bindNum('i-control','control',true); bindNum('i-pulse','pulse',true);
 bindChk('i-nilm','nilm'); bindChk('i-future','future');
