@@ -221,7 +221,10 @@ const KB = {
     input:     {ref:'I1-INP-1', name:'Smappee Input module', role:'4 entrées (impulsions/état) · nécessite Genius', price:97.69},
     mid:       {ref:'i1-EN3-1', name:'Smappee MID meter (3φ, 100 A)', role:'Comptage certifié MID · facturation copro/locataires', price:195.39},
     p1:        {ref:'I1-P1-1',  name:'Smappee P1 module', role:'Lecture compteur digital (P1) · Wi-Fi', price:154.75},
-    smartkit:  {ref:'EV-INFINITY-50A', name:'Smart Kit 50A (Connect+Power Box+CT Hub+4× CT 50A)', role:'Kit monitoring de base tout-fait (3 grid + 1 solar)', price:296.60},
+    smartkit:  {ref:'EV-INFINITY-50A', name:'Smart Kit 50A (Connect+Power Box+CT Hub+4× CT 50A)', role:'Kit monitoring tout-fait (Connect) — main ≤50 A', price:296.60},
+    smartkit100:{ref:'EV-INFINITY-100A', name:'Smart Kit 100A (Connect+Power Box+CT Hub+3× CT 100A+1× CT 50A)', role:'Kit monitoring tout-fait (Connect) — main >50 A', price:296.60},
+    introkit1p:{ref:'i1-SK4',  name:'Infinity Introduction Kit 1P (Genius, monophasé)', role:'Kit démarrage Genius monophasé (≤4 mesures)', price:514.58},
+    introkit3p:{ref:'i1-SK12', name:'Infinity Introduction Kit 3P (Genius, triphasé)', role:'Kit démarrage Genius triphasé (≤12 mesures)', price:817.43},
     solaraddon:{ref:'EVW-SOLAR', name:'Solar add-on (CT Hub + 2× CT 50A)', role:'Mesure PV pour load balancing solaire', price:112.35},
     teltonika: {ref:'AC-SP-LU2',name:'Routeur 4G Teltonika RUT240', role:'Connectivité 4G pour Genius/Connect', price:120},
     buscable:  {ref:'AC-IBCS-100m', name:'Câble Smappee Bus (100 m + 50 RJ10)', role:'Câblage bus A/B (consommable)', price:75},
@@ -386,8 +389,14 @@ function engine(){
   if(midQty>0) why.push('<b>MID meter ×'+midQty+' :</b> comptage certifié MID (i1-EN3-1) requis pour <b>facturer légalement</b> chaque logement/locataire.');
 
   // ── Recommandation kit tout-fait (install simple, souvent moins cher que les composants séparés) ──
-  if(!multigw && geniusQty===0 && connectQty>=1 && hubs<=1 && totalCtChannels<=4 && outputQty===0 && inputQty===0 && sc3pUnits===0 && midQty===0){
-    warns.push({c:'ok',t:'💡 Install simple : le <b>Smart Kit 50A</b> (EV-INFINITY-50A, 296,60 € HT) regroupe Connect + Power Box + CT Hub + 4× CT 50A — souvent <b>moins cher</b> que les composants séparés. À comparer.'});
+  const simpleBase = (!multigw && outputQty===0 && inputQty===0 && midQty===0);
+  if(simpleBase && geniusQty===0 && connectQty>=1 && hubs<=1 && totalCtChannels<=4 && sc3pUnits===0){
+    const kit = mainA>50 ? 'Smart Kit 100A (EV-INFINITY-100A)' : 'Smart Kit 50A (EV-INFINITY-50A)';
+    warns.push({c:'ok',t:'💡 Monitoring simple : le <b>'+kit+'</b> — 296,60 € HT (Connect + Power Box + CT Hub + 4 CT) — souvent <b>moins cher</b> que les composants séparés. À comparer.'});
+  } else if(simpleBase && geniusQty>=1 && S.phase==='Monofasig' && totalCtChannels<=4){
+    warns.push({c:'ok',t:'💡 Avec Genius (monophasé) : le <b>Infinity Introduction Kit 1P</b> (i1-SK4, 514,58 € HT) = kit de démarrage Genius. À comparer aux composants séparés.'});
+  } else if(simpleBase && geniusQty>=1 && S.phase!=='Monofasig' && (totalCtChannels+sc3pUnits*3)<=12){
+    warns.push({c:'ok',t:'💡 Avec Genius (triphasé) : le <b>Infinity Introduction Kit 3P</b> (i1-SK12, 817,43 € HT) = kit de démarrage Genius 3φ. À comparer aux composants séparés.'});
   }
 
   // ── Confiance plancher ──
