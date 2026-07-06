@@ -27,8 +27,8 @@
     fill="#fff" text-anchor="middle">BORNEXA</text>
 
   <!-- Tagline -->
-  <text x="200" y="310"
+  <text x="200" y="312"
     font-family="'Inter',Arial,sans-serif"
-    font-weight="400" font-size="14" letter-spacing="4"
-    fill="#00C896" text-anchor="middle">LAADPAAL INSTALLATEUR</text>
+    font-weight="600" font-size="15" letter-spacing="1.6"
+    fill="#00C896" text-anchor="middle">LAADPALEN &amp; SLIM ENERGIEBEHEER</text>
 </svg>
