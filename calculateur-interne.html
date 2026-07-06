@@ -711,7 +711,7 @@
   const STORAGE_FORM   = 'bornexa-calc-form-v1';
   // Clé formulaire scopée au dossier actif (anti-héritage des données entre dossiers)
   const formKey = () => (window.Bornexa && Bornexa.scopedKey) ? Bornexa.scopedKey(STORAGE_FORM) : STORAGE_FORM;
-  const STORAGE_TARIFS = 'bornexa-calc-tarifs-v3';   // v3 = vrais prix Cebeo (achat) + marge bornes auto
+  const STORAGE_TARIFS = 'bornexa-calc-tarifs-v4';   // v4 = màj prix Cebeo Wallbox (eM4 + Pulsar Max/Pro, socles POLE, meters)
   const STORAGE_QLANG  = 'bornexa-calc-quote-lang';
 
   // ── State: language of the generated DEVIS (independent of UI) ──
@@ -950,10 +950,15 @@
   // ── Default tariffs (bilingual) ──
   const DEFAULT_TARIFS = {
     bornes: [
-      {ref:"WB-PM-1.2",  nameFR:"Wallbox Pulsar Max 1.2 (7,4 kW mono)",     nameNL:"Wallbox Pulsar Max 1.2 (7,4 kW eenfase)",  price:526.83, margin:1.12},
-      {ref:"WB-PM-3",    nameFR:"Wallbox Pulsar Max 3-phase (11 kW)",       nameNL:"Wallbox Pulsar Max driefase (11 kW)",       price:547.90, margin:1.12},
-      {ref:"WB-PM-22",   nameFR:"Wallbox Pulsar Max (22 kW)",                nameNL:"Wallbox Pulsar Max (22 kW)",                price:547.90, margin:1.12},
-      {ref:"WB-CM2",     nameFR:"Wallbox Commander 2 (22 kW)",               nameNL:"Wallbox Commander 2 (22 kW)",               price:724.92, margin:1.12},
+      // ── WALLBOX — prix Cebeo réels 2026-07 (catalogue Wallbox 79 réf.) ──
+      {ref:"WB-PM-1.2",  nameFR:"Wallbox Pulsar Max 7,4 kW mono (prise T2)",  nameNL:"Wallbox Pulsar Max 7,4 kW eenfase (T2-stopcontact)",  price:526.83, margin:1.12},
+      {ref:"WB-PM-3",    nameFR:"Wallbox Pulsar Max 11 kW (câble 5 m)",       nameNL:"Wallbox Pulsar Max 11 kW (kabel 5 m)",               price:610.28, margin:1.12},
+      {ref:"WB-PM-22",   nameFR:"Wallbox Pulsar Max 22 kW (câble 5 m)",       nameNL:"Wallbox Pulsar Max 22 kW (kabel 5 m)",               price:547.90, margin:1.12},
+      {ref:"WB-CM2",     nameFR:"Wallbox Pulsar Pro 22 kW (4G · RFID · MID)", nameNL:"Wallbox Pulsar Pro 22 kW (4G · RFID · MID)",          price:687.54, margin:1.12},
+      {ref:"WB-EM4-1E",  nameFR:"Wallbox eM4 Single 22 kW — Extender (satellite)",    nameNL:"Wallbox eM4 Single 22 kW — Extender (satelliet)",     price:1154.90, margin:1.12},
+      {ref:"WB-EM4-1C",  nameFR:"Wallbox eM4 Single 22 kW — Controller (load mgmt)",  nameNL:"Wallbox eM4 Single 22 kW — Controller (loadbeheer)",  price:1355.64, margin:1.12},
+      {ref:"WB-EM4-2E",  nameFR:"Wallbox eM4 Twin 22 kW · 2 connecteurs — Extender",   nameNL:"Wallbox eM4 Twin 22 kW · 2 connectoren — Extender",   price:2302.85, margin:1.12},
+      {ref:"WB-EM4-2C",  nameFR:"Wallbox eM4 Twin 22 kW · 2 connecteurs — Controller", nameNL:"Wallbox eM4 Twin 22 kW · 2 connectoren — Controller", price:2761.68, margin:1.12},
       {ref:"TS-WC3-11",  nameFR:"Tesla Wall Connector Gen 3 (11 kW)",        nameNL:"Tesla Wall Connector Gen 3 (11 kW)",        price:442.15, margin:1.08},
       {ref:"TS-WC3-22",  nameFR:"Tesla Wall Connector Gen 3 (22 kW)",        nameNL:"Tesla Wall Connector Gen 3 (22 kW)",        price:442.15, margin:1.08},
       {ref:"SM-EVB-11",  nameFR:"Smappee EV Base (11 kW)",                   nameNL:"Smappee EV Base (11 kW)",                   price:898.60, margin:1.15},
@@ -1004,11 +1009,21 @@
       {ref:"SUR-T2",   descFR:"Parafoudre Type 2 (anti-surtension) — NBN HD 60364-5-534", descNL:"Overspanningsbeveiliging Type 2 — NBN HD 60364-5-534", price:95},
       {ref:"SUB-COFF", descFR:"Coffret divisionnaire (sub-tableau dédié laadpaal)", descNL:"Verdeelkast (apart sub-bord laadpaal)",            price:32.39},
       // ── MODULES LOAD BALANCING & RECHARGE SOLAIRE ──
-      // WALLBOX
-      {ref:"WB-P1",      descFR:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — Belgique/Pays-Bas natif", descNL:"Wallbox P1 loadbalancing module (WALL-MTR-P1PORT) — België/Nederland natief", price:159.28},
-      {ref:"WB-MID-1P",  descFR:"Wallbox Power Meter MID monophasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID eenfase (Power Boost + Eco-Smart)", price:83.88},
-      {ref:"WB-MID-3P",  descFR:"Wallbox Power Meter MID triphasé (Power Boost + Eco-Smart)", descNL:"Wallbox Power Meter MID driefase (Power Boost + Eco-Smart)", price:159.28},
-      {ref:"WB-CT",      descFR:"Wallbox Power Boost avec pinces CT (alternative si pas de place DIN)", descNL:"Wallbox Power Boost met CT-klemmen (alternatief indien geen DIN-plaats)", price:185},
+      // WALLBOX — prix Cebeo réels 2026-07
+      {ref:"WB-P1",      descFR:"Wallbox Power Meter P1 (lecture compteur digital · délestage dynamique BE/NL)", descNL:"Wallbox Power Meter P1 (uitlezing digitale meter · dynamisch laadbeheer BE/NL)", price:159.28},
+      {ref:"WB-MID-1P",  descFR:"Wallbox MID Meter monophasé ≤100 A (comptage certifié · Power Boost)", descNL:"Wallbox MID Meter eenfase ≤100 A (gecertificeerde meting · Power Boost)", price:83.88},
+      {ref:"WB-MID-3P",  descFR:"Wallbox MID Meter triphasé ≤65 A (comptage certifié · Power Boost)", descNL:"Wallbox MID Meter driefase ≤65 A (gecertificeerde meting · Power Boost)", price:159.28},
+      {ref:"WB-PB-1P",   descFR:"Wallbox Power Meter à pince monophasé ≤100 A (Power Boost)", descNL:"Wallbox stroomtang Power Meter eenfase ≤100 A (Power Boost)", price:65.97},
+      {ref:"WB-CT",      descFR:"Wallbox Power Meter à pince triphasé ≤250 A (Power Boost)", descNL:"Wallbox stroomtang Power Meter driefase ≤250 A (Power Boost)", price:390.18},
+      {ref:"WB-4G",      descFR:"Wallbox Dongle 4G Europe (connectivité sites sans Ethernet)", descNL:"Wallbox 4G-dongle Europa (connectiviteit locaties zonder Ethernet)", price:85.79},
+      {ref:"WB-RFID",    descFR:"Wallbox pack 10 cartes RFID (authentification)", descNL:"Wallbox pak 10 RFID-kaarten (authenticatie)", price:27.95},
+      {ref:"WB-EM4-METER",descFR:"Wallbox eM4 Energy Meter externe (requis Controller eM4 · Power Boost)", descNL:"Wallbox eM4 Energy Meter extern (vereist eM4 Controller · Power Boost)", price:404.32},
+      {ref:"WB-POLE-1",  descFR:"Wallbox POLEM4 socle (eM4 Single)", descNL:"Wallbox POLEM4 sokkel (eM4 Single)", price:663.50},
+      {ref:"WB-POLE-2",  descFR:"Wallbox POLEM4 socle (eM4 Twin · 2 connecteurs)", descNL:"Wallbox POLEM4 sokkel (eM4 Twin · 2 connectoren)", price:786.98},
+      {ref:"WB-POLESLIM-1",descFR:"Wallbox POLE Slim socle (eM4 Single)", descNL:"Wallbox POLE Slim sokkel (eM4 Single)", price:252.59},
+      {ref:"WB-POLESLIM-2",descFR:"Wallbox POLE Slim socle (eM4 Twin · 2 connecteurs)", descNL:"Wallbox POLE Slim sokkel (eM4 Twin · 2 connectoren)", price:353.43},
+      {ref:"WB-FOND-POLEM4",descFR:"Wallbox fondation béton (POLEM4 Twin)", descNL:"Wallbox betonfundering (POLEM4 Twin)", price:338.35},
+      {ref:"WB-FOND-SLIM",descFR:"Wallbox fondation béton (POLE Slim)", descNL:"Wallbox betonfundering (POLE Slim)", price:320.44},
       // SMAPPEE
       {ref:"SM-CONNECT", descFR:"Smappee Connect — passerelle P1 belge (Wi-Fi)", descNL:"Smappee Connect — Belgische P1-gateway (Wi-Fi)", price:146.54},
       {ref:"SM-GENIUS",  descFR:"Smappee Genius — P1 + CT clamps + multi-bornes", descNL:"Smappee Genius — P1 + CT-klemmen + multi-laadpaal", price:244.23},
