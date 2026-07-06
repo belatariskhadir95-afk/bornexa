@@ -209,20 +209,24 @@ const KB = {
   limits:{ ctPerHub:4, hubsPerLoc:7, measPerLoc:28, hubDaisyM:100, busM:500, maxModules:10, relaysPerOutput:2, inputsPerInput:4, sc3pDaisy:9 },
   // Gateways
   products:{
-    powerbox:  {ref:'I1-VAC-1', name:'Smappee Power Box', role:'Cœur · mesure tension + alimente les modules', price:102},
+    powerbox:  {ref:'I1-VAC-1', name:'Smappee Power Box', role:'Cœur · mesure tension + alimente les modules', price:97.69},
     genius:    {ref:'I1-GW-1',  name:'Smappee Genius', role:'Passerelle intelligente · HEMS/BEMS, load balancing, contrôle', price:244.23},
     geniusflex:{ref:'I1-GW-6',  name:'Smappee Genius Flex', role:'Passerelle + Power Box intégrés (install simplifiée)', price:290},
     connect:   {ref:'I1-GW-3',  name:'Smappee Connect', role:'Passerelle monitoring · Ethernet/Wi-Fi (sans contrôle)', price:146.54},
     wificonnect:{ref:'I1-GW-2', name:'Smappee Wi-Fi Connect', role:'Passerelle monitoring · Wi-Fi seul', price:150},
-    g4g:       {ref:'I1-GW-4',  name:'Smappee 4G Connect', role:'Passerelle 4G (eSIM EMEA) · sans Ethernet/Wi-Fi', price:167.64},
-    cthub:     {ref:'I1-IAC-1', name:'Smappee CT Hub', role:'Mesure · jusqu’à 4 capteurs (CT/Rogowski)', price:81},
-    sc3p:      {ref:'I1-IAC-2', name:'Solid Core 3-Phase CT', role:'Mesure 3φ compacte (=3 mesures, câble ≤6,7 mm)', price:75},
-    output:    {ref:'I1-OUT-1', name:'Smappee Output module', role:'Pilotage · 2 sorties relais (NO/C/NF)', price:95},
-    input:     {ref:'I1-INP-1', name:'Smappee Input module', role:'4 entrées (impulsions/état) · nécessite Genius', price:95},
+    g4g:       {ref:'I1-GW-4-EMEA', name:'Smappee 4G Connect (EMEA)', role:'Passerelle 4G (eSIM) · sans Ethernet/Wi-Fi', price:167.64},
+    cthub:     {ref:'I1-IAC-1', name:'Smappee CT Hub', role:'Mesure · jusqu’à 4 capteurs (CT/Rogowski)', price:73.27},
+    sc3p:      {ref:'I1-IAC-2', name:'Solid Core 3-Phase CT', role:'Mesure 3φ compacte (=3 mesures, câble ≤6,7 mm)', price:97.69},
+    output:    {ref:'I1-OUT-1', name:'Smappee Output module', role:'Pilotage · 2 sorties relais (NO/C/NF)', price:78.15},
+    input:     {ref:'I1-INP-1', name:'Smappee Input module', role:'4 entrées (impulsions/état) · nécessite Genius', price:97.69},
     mid:       {ref:'i1-EN3-1', name:'Smappee MID meter (3φ, 100 A)', role:'Comptage certifié MID · facturation copro/locataires', price:195.39},
-    p1:        {ref:'MOD-P1-1', name:'Smappee P1 module', role:'Lecture compteur digital (P1) · Wi-Fi', price:180},
+    p1:        {ref:'I1-P1-1',  name:'Smappee P1 module', role:'Lecture compteur digital (P1) · Wi-Fi', price:154.75},
+    smartkit:  {ref:'EV-INFINITY-50A', name:'Smart Kit 50A (Connect+Power Box+CT Hub+4× CT 50A)', role:'Kit monitoring de base tout-fait (3 grid + 1 solar)', price:296.60},
+    solaraddon:{ref:'EVW-SOLAR', name:'Solar add-on (CT Hub + 2× CT 50A)', role:'Mesure PV pour load balancing solaire', price:112.35},
     teltonika: {ref:'AC-SP-LU2',name:'Routeur 4G Teltonika RUT240', role:'Connectivité 4G pour Genius/Connect', price:120},
     buscable:  {ref:'AC-IBCS-100m', name:'Câble Smappee Bus (100 m + 50 RJ10)', role:'Câblage bus A/B (consommable)', price:75},
+    plateWall: {ref:'AC-IMPW-8', name:'Plaque de fixation murale (×8)', role:'Fixation modules', price:14.65},
+    plateDin:  {ref:'AC-IMPD-4', name:'Plaque de montage rail DIN (×4)', role:'Fixation modules', price:9.77},
     sw:        {ref:'—',        name:'Smappee Switch', role:'Prise/relais Wi-Fi pilotable', price:60},
     evwall:    {ref:'EVD-2332-C5', name:'Smappee EV Dual Wall (2 connecteurs)', role:'Borne murale · 2×22 kW, MID intégré', price:1600},
     evultra:   {ref:'EVD-2332-B',  name:'Smappee EV Dual Base (sur socle)', role:'Borne sur pied · 2×22 kW, MID intégré', price:2100}
@@ -231,9 +235,9 @@ const KB = {
   cts:[
     {ref:'AC-CT-50A',   amps:50,   type:'split',    maxWire:10,  price:23},
     {ref:'AC-CT-100A',  amps:100,  type:'split',    maxWire:16,  price:33},
-    {ref:'AC-CT-200A',  amps:200,  type:'split',    maxWire:24,  price:46},
+    {ref:'AC-CT-200A',  amps:200,  type:'split',    maxWire:24,  price:39.08},
     {ref:'AC-CT-400A',  amps:400,  type:'split',    maxWire:36,  price:79},
-    {ref:'AC-RSCT-4CM', amps:400,  type:'rogowski', maxWire:40,  price:95},
+    {ref:'AC-RSCT-4CM', amps:400,  type:'rogowski', maxWire:40,  price:67.41},
     {ref:'AC-RSCT-12CM',amps:1600, type:'rogowski', maxWire:120, price:130},
     {ref:'AC-RSCT-19CM',amps:4000, type:'rogowski', maxWire:190, price:160},
     {ref:'AC-RSCT-30CM',amps:10000,type:'rogowski', maxWire:300, price:190}
@@ -380,6 +384,11 @@ function engine(){
   const billingUnits = S.meas.filter(m=>/huurder|unit|locataire|résident/i.test(m.name)).length;
   const midQty = (S.building==='Copropriété' && billingUnits>0) ? billingUnits : 0;
   if(midQty>0) why.push('<b>MID meter ×'+midQty+' :</b> comptage certifié MID (i1-EN3-1) requis pour <b>facturer légalement</b> chaque logement/locataire.');
+
+  // ── Recommandation kit tout-fait (install simple, souvent moins cher que les composants séparés) ──
+  if(!multigw && geniusQty===0 && connectQty>=1 && hubs<=1 && totalCtChannels<=4 && outputQty===0 && inputQty===0 && sc3pUnits===0 && midQty===0){
+    warns.push({c:'ok',t:'💡 Install simple : le <b>Smart Kit 50A</b> (EV-INFINITY-50A, 296,60 € HT) regroupe Connect + Power Box + CT Hub + 4× CT 50A — souvent <b>moins cher</b> que les composants séparés. À comparer.'});
+  }
 
   // ── Confiance plancher ──
   confidence=Math.max(20,Math.min(100,confidence));
