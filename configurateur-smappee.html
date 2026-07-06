@@ -212,7 +212,7 @@ const KB = {
   products:{
     powerbox:  {ref:'I1-VAC-1', name:'Smappee Power Box', role:'Cœur · mesure tension + alimente les modules', price:97.69},
     genius:    {ref:'I1-GW-1',  name:'Smappee Genius', role:'Passerelle intelligente · HEMS/BEMS, load balancing, contrôle', price:244.23},
-    geniusflex:{ref:'I1-GW-6',  name:'Smappee Genius Flex', role:'Passerelle + Power Box intégrés (install simplifiée)', price:290},
+    geniusflex:{ref:'I1-GW-6',  name:'Smappee Genius Flex', role:'Passerelle + Power Box intégrés (install simplifiée · dispo limitée Q3)', price:280.34},
     connect:   {ref:'I1-GW-3',  name:'Smappee Connect', role:'Passerelle monitoring · Ethernet/Wi-Fi (sans contrôle)', price:146.54},
     wificonnect:{ref:'I1-GW-2', name:'Smappee Wi-Fi Connect', role:'Passerelle monitoring · Wi-Fi seul', price:150},
     g4g:       {ref:'I1-GW-4-EMEA', name:'Smappee 4G Connect (EMEA)', role:'Passerelle 4G (eSIM) · sans Ethernet/Wi-Fi', price:167.64},
@@ -227,24 +227,24 @@ const KB = {
     introkit1p:{ref:'i1-SK4',  name:'Infinity Introduction Kit 1P (Genius, monophasé)', role:'Kit démarrage Genius monophasé (≤4 mesures)', price:514.58},
     introkit3p:{ref:'i1-SK12', name:'Infinity Introduction Kit 3P (Genius, triphasé)', role:'Kit démarrage Genius triphasé (≤12 mesures)', price:817.43},
     solaraddon:{ref:'EVW-SOLAR', name:'Solar add-on (CT Hub + 2× CT 50A)', role:'Mesure PV pour load balancing solaire', price:112.35},
-    teltonika: {ref:'AC-SP-LU2',name:'Routeur 4G Teltonika RUT240', role:'Connectivité 4G pour Genius/Connect', price:120},
-    buscable:  {ref:'AC-IBCS-100m', name:'Câble Smappee Bus (100 m + 50 RJ10)', role:'Câblage bus A/B (consommable)', price:75},
+    teltonika: {ref:'AC-SP-LU2',name:'Routeur 4G Teltonika RUT241 (2 ports Ethernet)', role:'Internet 4G + Wi-Fi local (pour P1 / passerelles)', price:230.00},
+    buscable:  {ref:'AC-IBCS-100m', name:'Câble Smappee Bus (100 m + 50 RJ10)', role:'Câblage bus A/B (consommable)', price:146.54},
     plateWall: {ref:'AC-IMPW-8', name:'Plaque de fixation murale (×8)', role:'Fixation modules', price:14.65},
     plateDin:  {ref:'AC-IMPD-4', name:'Plaque de montage rail DIN (×4)', role:'Fixation modules', price:9.77},
-    sw:        {ref:'—',        name:'Smappee Switch', role:'Prise/relais Wi-Fi pilotable', price:60},
-    evwall:    {ref:'EVD-2332-C5', name:'Smappee EV Dual Wall (2 connecteurs)', role:'Borne murale · 2×22 kW, MID intégré', price:1600},
-    evultra:   {ref:'EVD-2332-B',  name:'Smappee EV Dual Base (sur socle)', role:'Borne sur pied · 2×22 kW, MID intégré', price:2100}
+    sw:        {ref:'S1-EUE',   name:'Smappee Switch (prise/relais Wi-Fi)', role:'Prise/relais Wi-Fi pilotable (vendu par 2)', price:69},
+    evwall:    {ref:'EVD-2332-C5', name:'Smappee EV Dual Wall complète (2 connecteurs)', role:'Murale · 2×22 kW, MID intégré (Core+kit+câbles)', price:2208.19},
+    evultra:   {ref:'EVD-2332-B',  name:'Smappee EV Dual Base sur socle (2 connecteurs)', role:'Sur pied · 2×22 kW, MID intégré (Core+kit+pied+câbles)', price:2378.05}
   },
   // Capteurs de courant (triés par calibre) — type: solid | split | rogowski
   cts:[
-    {ref:'AC-CT-50A',   amps:50,   type:'split',    maxWire:10,  price:23},
-    {ref:'AC-CT-100A',  amps:100,  type:'split',    maxWire:16,  price:33},
+    {ref:'AC-CT-50A',   amps:50,   type:'split',    maxWire:10,  price:19.54},
+    {ref:'AC-CT-100A',  amps:100,  type:'split',    maxWire:16,  price:28.33},
     {ref:'AC-CT-200A',  amps:200,  type:'split',    maxWire:24,  price:39.08},
-    {ref:'AC-CT-400A',  amps:400,  type:'split',    maxWire:36,  price:79},
+    {ref:'AC-CT-400A',  amps:400,  type:'split',    maxWire:36,  price:67.41},
     {ref:'AC-RSCT-4CM', amps:400,  type:'rogowski', maxWire:40,  price:67.41},
-    {ref:'AC-RSCT-12CM',amps:1600, type:'rogowski', maxWire:120, price:130},
-    {ref:'AC-RSCT-19CM',amps:4000, type:'rogowski', maxWire:190, price:160},
-    {ref:'AC-RSCT-30CM',amps:10000,type:'rogowski', maxWire:300, price:190}
+    {ref:'AC-RSCT-12CM',amps:1600, type:'rogowski', maxWire:120, price:122.12},
+    {ref:'AC-RSCT-19CM',amps:4000, type:'rogowski', maxWire:190, price:156.31},
+    {ref:'AC-RSCT-30CM',amps:10000,type:'rogowski', maxWire:300, price:195.39}
   ]
 };
 const PRICE_KEY='bornexa-smappee-kb-prices-v1';
