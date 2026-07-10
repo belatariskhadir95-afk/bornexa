@@ -36,6 +36,10 @@ Disallow: /pipeline
 Disallow: /pipeline.html
 Disallow: /planning
 Disallow: /planning.html
+Disallow: /diagnostic-interne
+Disallow: /diagnostic-interne.html
+Disallow: /diagnostic
+Disallow: /diagnose
 
 Sitemap: https://www.bornexa.be/sitemap.xml
 # RSS feed

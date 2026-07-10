@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#00C896">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Diagnostic &amp; rapport — BORNEXA</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <style>
+    :root{
+      --primary:#00C896; --primary-dark:#009E76; --primary-light:#E0FBF4;
+      --navy:#0B1E3C; --dark:#0C1018; --bg:#F6F8FB;
+      --text:#0F172A; --muted:#64748B; --border:#E2E8F0;
+      --danger:#EF4444; --danger-bg:#FEE2E2; --danger-dark:#B91C1C;
+      --warn:#D97706; --warn-bg:#FEF3C7;
+      --r-sm:10px; --r-md:14px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;font-size:16px;line-height:1.5}
+    body{min-height:100vh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+
+    /* ── Top bar ── */
+    .topbar{background:linear-gradient(135deg,var(--navy) 0%,var(--dark) 100%);color:#fff;padding:12px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+    .topbar svg{width:34px;height:34px;flex-shrink:0}
+    .topbar-t{flex:1;min-width:0}
+    .topbar-t b{font-weight:800;font-size:1rem;display:block}
+    .topbar-t span{font-size:.7rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+    .dossier-pill{font-size:.72rem;font-weight:700;background:rgba(0,200,150,.18);border:1px solid rgba(0,200,150,.45);color:#7CF5D4;padding:5px 11px;border-radius:999px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .hub-link{color:rgba(255,255,255,.75);text-decoration:none;font-size:.78rem;font-weight:700;border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:999px}
+    .hub-link:hover{background:rgba(255,255,255,.1)}
+
+    /* ── Stepper ── */
+    .stepper{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:49;padding:10px 12px}
+    .steps-row{display:flex;gap:6px;max-width:860px;margin:0 auto;overflow-x:auto;scrollbar-width:none}
+    .steps-row::-webkit-scrollbar{display:none}
+    .stepchip{flex:1;min-width:96px;border:1.5px solid var(--border);background:#fff;border-radius:10px;padding:8px 6px;text-align:center;cursor:pointer;font-family:inherit;transition:all .15s}
+    .stepchip .n{font-size:.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block}
+    .stepchip .t{font-size:.8rem;font-weight:800;color:var(--text);display:block;line-height:1.2}
+    .stepchip.active{border-color:var(--primary);background:var(--primary-light)}
+    .stepchip.active .n{color:var(--primary-dark)}
+    .stepchip.done .n::after{content:' ✓';color:var(--primary-dark)}
+    .progress-bar{height:4px;background:var(--border);border-radius:999px;overflow:hidden;max-width:860px;margin:9px auto 0}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:999px;transition:width .3s;width:0}
+
+    /* ── Layout ── */
+    .main{flex:1;padding:20px 14px 110px;max-width:860px;margin:0 auto;width:100%}
+    .step{display:none;animation:fadeIn .22s ease-out}
+    .step.active{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .step h2{font-size:1.35rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+    .step-sub{color:var(--muted);font-size:.92rem;margin-bottom:18px}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--r-md);padding:18px;margin-bottom:14px}
+    .card h3{font-size:.78rem;letter-spacing:1.1px;text-transform:uppercase;color:var(--primary-dark);margin-bottom:12px}
+
+    /* ── Form ── */
+    .field{margin-bottom:14px}
+    .field:last-child{margin-bottom:0}
+    .field-label{display:block;font-weight:700;font-size:.88rem;margin-bottom:6px}
+    .field-help{font-size:.76rem;color:var(--muted);margin-top:5px}
+    input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],input[type=time],textarea,select{
+      width:100%;padding:13px 15px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:1rem;color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s;font-family:inherit
+    }
+    input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.15)}
+    textarea{min-height:80px;resize:vertical}
+    select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748B' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    @media(max-width:560px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+    /* ── Cause chips ── */
+    .chip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    @media(min-width:640px){.chip-grid{grid-template-columns:repeat(3,1fr)}}
+    .chip{background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);padding:16px 12px;text-align:center;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:5px;min-height:92px;justify-content:center;user-select:none;position:relative;font-family:inherit}
+    .chip:active{transform:scale(.97)}
+    .chip.selected{background:var(--primary-light);border-color:var(--primary);box-shadow:0 4px 14px rgba(0,200,150,.18)}
+    .chip.selected::after{content:'✓';position:absolute;top:6px;right:9px;color:var(--primary-dark);font-weight:800}
+    .chip-icon{font-size:1.55rem;line-height:1}
+    .chip-title{font-weight:700;font-size:.85rem;line-height:1.25}
+    .chip-sub{font-size:.7rem;color:var(--muted);line-height:1.2}
+    .seg{display:inline-flex;border:1.5px solid var(--border);border-radius:9px;overflow:hidden;flex-wrap:wrap}
+    .seg button{background:#fff;border:none;padding:10px 14px;font-weight:700;font-size:.84rem;cursor:pointer;color:var(--muted);font-family:inherit;min-height:42px}
+    .seg button.on{background:var(--primary-light);color:var(--primary-dark)}
+    .seg button.on.v-nok{background:var(--danger-bg);color:var(--danger-dark)}
+    .seg button.on.v-warn{background:var(--warn-bg);color:var(--warn)}
+    .quick-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+    .quick-chips button{border:1.5px solid var(--border);background:#fff;border-radius:999px;padding:6px 12px;font-size:.76rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit}
+    .quick-chips button:active{background:var(--primary-light);border-color:var(--primary);color:var(--primary-dark)}
+
+    /* ── Measure cards ── */
+    .mcard{background:#fff;border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:14px;overflow:hidden}
+    .mcard.na{opacity:.55}
+    .mcard.v-ok{border-color:#86EFAC}
+    .mcard.v-nok{border-color:#FCA5A5}
+    .mcard.v-warn{border-color:#FCD34D}
+    .mhead{display:flex;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:#FBFCFE}
+    .mnum{background:var(--navy);color:#fff;font-weight:800;font-size:.82rem;border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .mtitle{font-weight:800;font-size:.95rem;flex:1;min-width:140px}
+    .mbadge{font-size:.62rem;font-weight:800;letter-spacing:.8px;padding:4px 9px;border-radius:6px;white-space:nowrap}
+    .mbadge.dead{background:var(--primary-light);color:var(--primary-dark)}
+    .mbadge.live{background:var(--danger-bg);color:var(--danger-dark)}
+    .vpill{font-size:.7rem;font-weight:800;padding:4px 11px;border-radius:999px;background:#F1F5F9;color:var(--muted);white-space:nowrap}
+    .vpill.ok{background:#DCFCE7;color:#166534}
+    .vpill.warn{background:var(--warn-bg);color:#92400E}
+    .vpill.nok{background:var(--danger-bg);color:var(--danger-dark)}
+    .na-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:5px 10px;font-size:.7rem;font-weight:800;color:var(--muted);cursor:pointer;font-family:inherit}
+    .na-btn.on{background:#F1F5F9;border-color:#94A3B8;color:var(--text)}
+    .rm-btn{border:none;background:transparent;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px 7px}
+    .mbody{padding:14px 15px}
+    .howto{margin-bottom:13px;border:1px solid #BBE9D9;border-radius:var(--r-sm);overflow:hidden}
+    .howto summary{list-style:none;cursor:pointer;padding:10px 14px;background:linear-gradient(180deg,rgba(0,200,150,.09),rgba(0,200,150,.05));font-weight:800;font-size:.8rem;color:var(--primary-dark);display:flex;align-items:center;gap:8px;user-select:none}
+    .howto summary::-webkit-details-marker{display:none}
+    .howto summary::after{content:'▾';margin-left:auto;transition:transform .15s}
+    .howto[open] summary::after{transform:rotate(180deg)}
+    .howto-body{padding:12px 14px;font-size:.86rem}
+    .howto-body ol{padding-left:20px;display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+    .howto-attendu{background:var(--primary-light);border-radius:8px;padding:8px 12px;font-size:.82rem;font-weight:600;color:var(--primary-dark);margin-top:4px}
+    .howto-danger{background:var(--danger-bg);border-radius:8px;padding:8px 12px;font-size:.82rem;font-weight:600;color:var(--danger-dark);margin-top:8px}
+    .mfields{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+    .mfield label{display:block;font-size:.74rem;font-weight:700;color:var(--muted);margin-bottom:4px}
+    .mfield .inwrap{position:relative}
+    .mfield input{padding-right:52px}
+    .mfield .unit{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:.78rem;font-weight:700;color:var(--muted);pointer-events:none}
+    .mfield input.f-ok{border-color:#4ADE80}
+    .mfield input.f-warn{border-color:#FBBF24}
+    .mfield input.f-nok{border-color:var(--danger)}
+    .mfield-full{grid-column:1/-1}
+    .mnote{margin-top:11px}
+    .mnote input{font-size:.9rem;padding:10px 13px}
+    .addm{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .addm select{flex:1;min-width:200px}
+
+    /* ── Photos ── */
+    .photo-zone{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    @media(min-width:600px){.photo-zone{grid-template-columns:repeat(3,1fr)}}
+    .photo-tile{position:relative;background:#fff;border:1.5px dashed var(--border);border-radius:var(--r-md);aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;overflow:hidden}
+    .photo-tile.filled{border-style:solid;border-color:var(--primary)}
+    .photo-tile input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
+    .photo-icon{font-size:1.7rem;opacity:.5}
+    .photo-label{font-size:.75rem;font-weight:700;color:var(--muted);text-align:center;padding:0 8px;line-height:1.25}
+    .photo-thumb{position:absolute;inset:0;object-fit:cover;width:100%;height:100%}
+    .photo-cap{position:absolute;left:0;right:0;bottom:0;background:rgba(11,30,60,.78);color:#fff;font-size:.68rem;font-weight:700;padding:4px 8px;z-index:1}
+    .photo-del{position:absolute;top:6px;right:6px;z-index:3;background:rgba(11,30,60,.8);color:#fff;border:none;border-radius:999px;width:26px;height:26px;font-size:.8rem;cursor:pointer}
+
+    /* ── Dégâts ── */
+    .degat-row{display:grid;grid-template-columns:1.2fr 1fr auto auto;gap:8px;align-items:center;margin-bottom:8px}
+    @media(max-width:560px){.degat-row{grid-template-columns:1fr 1fr;grid-auto-rows:auto}}
+    .degat-row select{padding:11px 34px 11px 12px;font-size:.88rem}
+    .degat-row input{padding:11px 12px;font-size:.88rem}
+
+    /* ── Options ── */
+    .opt-row{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:8px;cursor:pointer;user-select:none;flex-wrap:wrap}
+    .opt-row.selected{background:var(--primary-light);border-color:var(--primary)}
+    .opt-check{width:23px;height:23px;border:2px solid var(--border);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff}
+    .opt-row.selected .opt-check{background:var(--primary);border-color:var(--primary)}
+    .opt-check::after{content:'';opacity:0;width:10px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+    .opt-row.selected .opt-check::after{opacity:1}
+    .opt-text{flex:1;min-width:150px}
+    .opt-text b{font-size:.9rem;display:block}
+    .opt-text span{font-size:.74rem;color:var(--muted)}
+    .opt-price{width:110px}
+    .opt-price input{padding:9px 11px;font-size:.88rem;text-align:right}
+
+    /* ── Buttons / nav ── */
+    .btn{padding:13px 18px;border-radius:var(--r-sm);font-weight:800;font-size:.92rem;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;text-decoration:none}
+    .btn-p{background:var(--primary);color:var(--navy);box-shadow:0 5px 16px rgba(0,200,150,.3)}
+    .btn-p:active{transform:translateY(1px)}
+    .btn-o{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+    .btn-o:active{border-color:var(--primary)}
+    .btn-g{background:#F1F5F9;color:var(--text)}
+    .navbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:11px 14px calc(11px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:60;box-shadow:0 -4px 20px rgba(0,0,0,.06)}
+    .navbar .btn{flex:1;min-height:52px}
+    .navbar .btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .banner{background:var(--warn-bg);border:1px solid #FCD34D;color:#92400E;border-radius:var(--r-sm);padding:11px 14px;font-size:.84rem;font-weight:600;margin-bottom:14px}
+    .toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 20px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:100;white-space:nowrap}
+    .toast.show{opacity:1}
+    .savedot{font-size:.7rem;color:var(--muted);font-weight:700}
+
+    /* ── Documents A4 ── */
+    .doclang-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+    .doc{background:#fff;color:var(--navy);border:1px solid var(--border);border-radius:var(--r-md);padding:30px 34px;margin-bottom:18px;max-width:800px}
+    .doc-band{height:7px;background:var(--primary);border-radius:4px;margin-bottom:16px}
+    .doc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;margin-bottom:14px}
+    .doc-brand{display:flex;align-items:center;gap:11px}
+    .doc-brand svg{width:44px;height:44px}
+    .doc-brand .nm{font-size:1.5rem;font-weight:800;letter-spacing:.06em}
+    .doc-brand .tg{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+    .doc-meta{text-align:right;font-size:.8rem;color:var(--muted)}
+    .doc-meta b{color:var(--navy)}
+    .doc-title{font-size:1.12rem;font-weight:800;margin:6px 0 2px}
+    .doc-subtitle{font-size:.84rem;color:var(--muted);margin-bottom:12px}
+    .doc h3{font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--primary-dark);background:var(--primary-light);padding:5px 10px;border-radius:5px;display:inline-block;margin:15px 0 8px}
+    .doc p{font-size:.88rem;margin-bottom:8px}
+    .doc dl{display:grid;grid-template-columns:auto 1fr;gap:3px 16px;font-size:.86rem}
+    .doc dt{color:var(--muted)}.doc dd{font-weight:700}
+    .doc table{border-collapse:collapse;width:100%;font-size:.8rem;margin:6px 0}
+    .doc th{background:var(--primary-light);color:var(--primary-dark);text-align:left;padding:6px 9px;font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;border:1px solid var(--border)}
+    .doc td{padding:6px 9px;border:1px solid var(--border);vertical-align:top}
+    .doc td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .doc .ok{color:var(--primary-dark);font-weight:800}
+    .doc .warn{color:var(--warn);font-weight:800}
+    .doc .nok{color:var(--danger-dark);font-weight:800}
+    .doc ul{padding-left:20px;font-size:.88rem;margin-bottom:8px}
+    .doc li{margin-bottom:3px}
+    .doc-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+    .doc-photos figure{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .doc-photos img{width:100%;height:120px;object-fit:cover;display:block}
+    .doc-photos figcaption{font-size:.66rem;font-weight:700;color:var(--muted);padding:4px 7px}
+    .doc-concl{background:#FBFCFE;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:8px;padding:12px 14px;font-size:.9rem;white-space:pre-wrap}
+    .sign{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}
+    .sign h6{font-size:.74rem;margin-bottom:4px}
+    .sign .box{border:1px dashed #CBD5E1;border-radius:6px;height:64px;margin-top:4px;display:flex;align-items:center;padding:4px 10px}
+    .doc-foot{text-align:center;font-size:.68rem;color:var(--muted);margin-top:20px;padding-top:10px;border-top:1px solid var(--border)}
+
+    @media print{
+      @page{size:A4;margin:12mm}
+      body{background:#fff;padding:0}
+      .topbar,.stepper,.navbar,.toast,.toolbar,.doclang-bar,.step-sub,.no-print{display:none!important}
+      .main{padding:0;max-width:100%}
+      .step{display:none!important}
+      #step6{display:block!important}
+      .doc{border:none;border-radius:0;padding:0;max-width:100%;margin:0}
+      body[data-print="client"] #docExpert{display:none!important}
+      body[data-print="expert"] #docClient{display:none!important}
+      .doc-photos{page-break-inside:avoid}
+    }
+  </style>
+</head>
+<body data-bornexa-tool="diagnostic">
+
+<header class="topbar">
+  <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="hx" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#hx)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
+  <div class="topbar-t"><b>Diagnostic &amp; rapport</b><span>BORNEXA · dépannage guidé</span></div>
+  <span class="dossier-pill" id="dossierPill" style="display:none"></span>
+  <a class="hub-link" href="bornexa-hub">Hub</a>
+</header>
+
+<div class="stepper">
+  <div class="steps-row" id="stepsRow"></div>
+  <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+</div>
+
+<main class="main">
+
+  <!-- ══════════ ÉTAPE 1 · DOSSIER ══════════ -->
+  <section class="step" id="step1">
+    <h2>📁 Dossier</h2>
+    <p class="step-sub">Client, contexte assurance et référence du rapport. <span class="savedot" id="saveDot"></span></p>
+    <div class="card">
+      <h3>Client</h3>
+      <div class="grid-2">
+        <div class="field"><label class="field-label" for="c_name">Nom complet</label><input type="text" id="c_name" data-bind="client.name" autocomplete="off" placeholder="ex. Steven Gevaers"></div>
+        <div class="field"><label class="field-label" for="c_tel">Téléphone</label><input type="tel" id="c_tel" data-bind="client.tel" placeholder="04.."></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label class="field-label" for="c_addr">Adresse (rue + n°)</label><input type="text" id="c_addr" data-bind="client.addr" placeholder="Puursesteenweg 165"></div>
+        <div class="field"><label class="field-label" for="c_city">Code postal + commune</label><input type="text" id="c_city" data-bind="client.city" placeholder="2880 Bornem"></div>
+      </div>
+      <div class="field"><label class="field-label" for="c_email">E-mail</label><input type="email" id="c_email" data-bind="client.email" placeholder="client@..."></div>
+    </div>
+    <div class="card">
+      <h3>Assurance (si dossier sinistre)</h3>
+      <div class="grid-2">
+        <div class="field"><label class="field-label" for="s_ass">Compagnie d'assurance</label><input type="text" id="s_ass" data-bind="sinistre.assureur" placeholder="ex. AXA, Ethias…"></div>
+        <div class="field"><label class="field-label" for="s_nr">N° de dossier sinistre</label><input type="text" id="s_nr" data-bind="sinistre.dossierNr" placeholder="réf. assureur"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label class="field-label" for="s_date">Date du sinistre</label><input type="date" id="s_date" data-bind="sinistre.dateSinistre"></div>
+        <div class="field"><label class="field-label" for="s_exp">E-mail expert / courtier (optionnel)</label><input type="email" id="s_exp" data-bind="sinistre.expertMail"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Intervention</h3>
+      <div class="grid-3">
+        <div class="field"><label class="field-label" for="h_date">Date</label><input type="date" id="h_date" data-bind="heures.date"></div>
+        <div class="field"><label class="field-label" for="h_deb">Arrivée <button class="na-btn" type="button" onclick="setNow('h_deb')">maintenant</button></label><input type="time" id="h_deb" data-bind="heures.debut"></div>
+        <div class="field"><label class="field-label" for="h_fin">Départ <button class="na-btn" type="button" onclick="setNow('h_fin')">maintenant</button></label><input type="time" id="h_fin" data-bind="heures.fin"></div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="i_instr">Appareil(s) de mesure utilisé(s)</label>
+        <input type="text" id="i_instr" data-bind="inst.instrument" placeholder="ex. Fluke 1664 FC (s/n …), Fluke 376 FC">
+        <div class="quick-chips">
+          <button type="button" onclick="fillInstr('Fluke 1664 FC')">Fluke 1664 FC</button>
+          <button type="button" onclick="fillInstr('Fluke 117')">Fluke 117</button>
+          <button type="button" onclick="fillInstr('Fluke 323')">Fluke 323</button>
+          <button type="button" onclick="fillInstr('Fluke 376 FC')">Fluke 376 FC</button>
+        </div>
+        <div class="field-help">Mentionné dans le rapport assurance — ça crédibilise chaque valeur.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ÉTAPE 2 · SITUATION ══════════ -->
+  <section class="step" id="step2">
+    <h2>🔎 Situation</h2>
+    <p class="step-sub">Choisis la cause présumée : le tool ne te demandera <b>que</b> les mesures utiles pour ce cas.</p>
+    <div class="card">
+      <h3>Cause présumée du problème</h3>
+      <div class="chip-grid" id="causeGrid"></div>
+      <div class="field" style="margin-top:14px"><label class="field-label" for="causeNote">Description du problème (mots du client, historique…)</label><textarea id="causeNote" data-bind="causeNote" placeholder="ex. Neutre desserré dans le coffret principal → surtension ±400 V, plusieurs appareils détruits…"></textarea></div>
+    </div>
+    <div class="card">
+      <h3>Installation concernée</h3>
+      <div class="grid-2">
+        <div class="field"><label class="field-label" for="b_model">Borne — marque &amp; modèle</label><input type="text" id="b_model" data-bind="inst.modele" placeholder="ex. Wallbox Pulsar Plus"></div>
+        <div class="field"><label class="field-label" for="b_serial">N° de série borne</label><input type="text" id="b_serial" data-bind="inst.serial" placeholder="sur l'étiquette latérale"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label class="field-label">Raccordement</label>
+          <div class="seg" id="segRacc">
+            <button type="button" data-v="mono">Mono 230 V</button>
+            <button type="button" data-v="tri">Tri 3N400 V</button>
+          </div>
+        </div>
+        <div class="field"><label class="field-label" for="b_mcb">Disjoncteur du circuit</label><input type="text" id="b_mcb" data-bind="inst.mcb" placeholder="ex. C32 4P Teco"></div>
+      </div>
+      <div class="grid-3">
+        <div class="field"><label class="field-label" for="b_dtype">Différentiel — type</label>
+          <select id="b_dtype" data-bind="inst.diffType"><option value="">?</option><option>A</option><option>AC</option><option>B</option><option>F</option></select>
+        </div>
+        <div class="field"><label class="field-label" for="b_idn">Différentiel — IΔn</label>
+          <select id="b_idn" data-bind="inst.diffIdn"><option value="30">30 mA</option><option value="100">100 mA</option><option value="300">300 mA</option></select>
+        </div>
+        <div class="field"><label class="field-label" for="b_sec">Câble (section / long.)</label><input type="text" id="b_sec" data-bind="inst.cable" placeholder="ex. XVB 5G6 · 18 m"></div>
+      </div>
+      <div class="field"><label class="field-label" for="b_annee">Année de construction de l'habitation</label>
+        <input type="number" id="b_annee" data-bind="inst.anneeMaison" inputmode="numeric" placeholder="ex. 2005" style="max-width:180px">
+        <div class="field-help" id="tvaHint">Détermine la TVA du devis : ≥ 10 ans → 6 %, sinon 21 %.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ÉTAPE 3 · MESURES ══════════ -->
+  <section class="step" id="step3">
+    <h2>📐 Mesures</h2>
+    <p class="step-sub" id="measSub">Chaque carte : « Comment faire » + tes valeurs → verdict automatique. « N/A » écarte une mesure inutile.</p>
+    <div id="measList"></div>
+    <div class="card">
+      <h3>Ajouter une mesure</h3>
+      <div class="addm">
+        <select id="addMeasSel"></select>
+        <button class="btn btn-o" type="button" id="addMeasBtn">+ Ajouter</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ÉTAPE 4 · CONSTATS & PHOTOS ══════════ -->
+  <section class="step" id="step4">
+    <h2>📷 Constats &amp; photos</h2>
+    <p class="step-sub">Les photos partent en annexe du rapport assurance. Compressées automatiquement.</p>
+    <div class="card">
+      <h3>Photos du dossier</h3>
+      <div class="photo-zone" id="photoZone"></div>
+      <div class="toolbar" style="margin:12px 0 0"><button class="btn btn-o" type="button" id="addPhotoBtn">+ Photo libre</button></div>
+    </div>
+    <div class="card" id="degatsCard">
+      <h3>Appareils / matériel endommagés</h3>
+      <div id="degatsList"></div>
+      <button class="btn btn-o" type="button" id="addDegatBtn">+ Ajouter un élément</button>
+    </div>
+    <div class="card">
+      <h3>Observations libres</h3>
+      <textarea id="obsLibre" data-bind="obs" placeholder="Tout ce qui mérite d'être noté : état général du tableau, accès, remarques du client…"></textarea>
+    </div>
+  </section>
+
+  <!-- ══════════ ÉTAPE 5 · CONCLUSION ══════════ -->
+  <section class="step" id="step5">
+    <h2>⚖️ Conclusion</h2>
+    <p class="step-sub">Verdict global + texte de conclusion (proposé automatiquement, modifiable) + recommandations.</p>
+    <div class="card">
+      <h3>Verdict global</h3>
+      <div class="chip-grid" id="verdictGrid"></div>
+    </div>
+    <div class="card">
+      <h3>Texte de conclusion</h3>
+      <div class="toolbar"><button class="btn btn-p" type="button" id="genConclBtn">🪄 Proposer une conclusion (NL + FR)</button></div>
+      <div class="field"><label class="field-label" for="conclNL">Conclusie (NL) — utilisée dans les rapports NL</label><textarea id="conclNL" data-bind="conclusionNL" style="min-height:120px"></textarea></div>
+      <div class="field"><label class="field-label" for="conclFR">Conclusion (FR) — utilisée dans les rapports FR</label><textarea id="conclFR" data-bind="conclusionFR" style="min-height:120px"></textarea></div>
+    </div>
+    <div class="card">
+      <h3>Recommandations / options à proposer</h3>
+      <div id="optList"></div>
+      <div class="field" style="margin-top:10px"><label class="field-label" for="optCustom">Autre recommandation (libre)</label><input type="text" id="optCustom" data-bind="optionsCustom" placeholder="ex. remplacement du bornier N du coffret principal"></div>
+      <div class="field-help" style="margin-top:8px">💶 Prix indicatifs HTVA (optionnels) — pour le chiffrage précis : <a href="calculateur-interne" style="color:var(--primary-dark);font-weight:700">ouvrir le Calculateur</a>.</div>
+    </div>
+    <div class="card">
+      <h3>Prochaines étapes convenues</h3>
+      <textarea id="nextSteps" data-bind="nextSteps" placeholder="ex. Envoi du rapport à l'assureur → accord → commande du matériel → intervention (±½ journée)."></textarea>
+    </div>
+  </section>
+
+  <!-- ══════════ ÉTAPE 6 · DOCUMENTS ══════════ -->
+  <section class="step" id="step6">
+    <h2>📄 Documents</h2>
+    <p class="step-sub">Deux rapports générés en direct : version <b>client</b> (claire, rassurante) et version <b>assurance/expert</b> (technique, tableau de mesures).</p>
+    <div class="doclang-bar">
+      <span style="font-weight:800;font-size:.85rem">Langue des documents :</span>
+      <div class="seg" id="segDocLang">
+        <button type="button" data-v="nl">Nederlands</button>
+        <button type="button" data-v="fr">Français</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="btn btn-p" type="button" onclick="printDoc('client')">🖨 Imprimer / PDF — rapport client</button>
+      <button class="btn btn-p" type="button" onclick="printDoc('expert')">🖨 Imprimer / PDF — rapport assurance</button>
+    </div>
+    <div class="doc" id="docClient"></div>
+    <div class="doc" id="docExpert"></div>
+  </section>
+
+</main>
+
+<nav class="navbar">
+  <button class="btn btn-g" id="btnPrev">← Précédent</button>
+  <button class="btn btn-p" id="btnNext">Suivant →</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script src="js/bornexa-sync.js?v=2026-06-28"></script>
+<script src="js/supabase-config.js?v=2026-06-28"></script>
+<script src="js/bornexa-supabase.js?v=2026-06-28"></script>
+<script src="js/bornexa-ui.js?v=2026-06-28"></script>
+<script>
+'use strict';
+/* ═══════════════════ Helpers ═══════════════════ */
+var $=function(s){return document.querySelector(s);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove('show');},1800);}
+function num(v){if(v==null||v==='')return null;var n=parseFloat(String(v).replace(',','.'));return isNaN(n)?null:n;}
+function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function fmtDateBE(iso){if(!iso)return '';var p=iso.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:iso;}
+function worst(a,b){var r={nok:3,warn:2,ok:1,'':0};return (r[a]||0)>=(r[b]||0)?a:b;}
+
+/* ═══════════════════ Base de connaissances : MESURES ═══════════════════ */
+/* eval(v, S) → 'ok' | 'warn' | 'nok'.  S = state (accès racc, IΔn…) */
+function idn(){return num(state.inst.diffIdn)||30;}
+var MEASURES={
+  visuel_neutre:{
+    badge:'dead', fr:'Contrôle du neutre réparé', nl:'Controle herstelde nulgeleider',
+    howto:{steps:['Consigne : disjoncteur principal ouvert + adhésif « NE PAS RÉENCLENCHER ».','VAT en 3 temps : vérifie ton testeur sur une source sous tension → mesure 0 V sur le circuit → re-vérifie le testeur.','Resserre la borne du neutre principal + chaque vis du bornier N (couple gravé sur l’appareil, souvent 2–2,5 Nm).','Cherche les stigmates : isolant bruni, cuivre recuit (terne, cassant), odeur de chaud.','📷 Photographie AVANT / APRÈS — c’est le siège du sinistre.'],
+      attendu:'Serrage au couple · zéro brin coupé · zéro trace de chauffe non traitée.',
+      danger:'Rien ne se raccorde tant que ce point n’est pas irréprochable.'},
+    fields:[
+      {id:'serrage',t:'seg',fr:'Serrage au couple',nl:'Aandraaimoment',opts:[{v:'ok',l:'OK'},{v:'nok',l:'NOK'}],lim:{fr:'au couple constructeur',nl:'volgens fabrikant'}},
+      {id:'chauffe',t:'seg',fr:'Traces de chauffe',fr2:'',nl:'Warmtesporen',opts:[{v:'ok',l:'Aucune'},{v:'warn',l:'Traitées'},{v:'nok',l:'Présentes'}],lim:{fr:'aucune / traitées',nl:'geen / behandeld'},vals:{fr:{ok:'aucune',warn:'traitées',nok:'présentes'},nl:{ok:'geen',warn:'behandeld',nok:'aanwezig'}}},
+      {id:'photo',t:'seg',fr:'Photos avant/après',nl:'Foto’s voor/na',opts:[{v:'ok',l:'Faites'},{v:'nok',l:'À faire'}],doc:false}
+    ]},
+  tensions:{
+    badge:'live', fr:'Tensions statiques', nl:'Statische spanningsmetingen',
+    howto:{steps:['Multimètre en V~ (CAT III min.), une main dans la poche.','Mesure au coffret de la borne puis au coffret principal.','Mono : L-N et N-PE. Tri : les 3 L-N, les 3 L-L, puis N-PE.'],
+      attendu:'L-N : 207–253 V · L-L : ≈ 400 V · N-PE : < 3 V.',
+      danger:'Mesure sous tension : cordons CAT III, pas de bijoux.'},
+    fields:[
+      {id:'l1n',t:'num',fr:'L1-N',nl:'L1-N',u:'V',ev:function(v){return v>=207&&v<=253?'ok':(v>=195&&v<=264?'warn':'nok');},lim:'207–253 V'},
+      {id:'l2n',t:'num',fr:'L2-N',nl:'L2-N',u:'V',tri:true,ev:function(v){return v>=207&&v<=253?'ok':(v>=195&&v<=264?'warn':'nok');},lim:'207–253 V'},
+      {id:'l3n',t:'num',fr:'L3-N',nl:'L3-N',u:'V',tri:true,ev:function(v){return v>=207&&v<=253?'ok':(v>=195&&v<=264?'warn':'nok');},lim:'207–253 V'},
+      {id:'l12',t:'num',fr:'L1-L2',nl:'L1-L2',u:'V',tri:true,ev:function(v){return v>=380&&v<=420?'ok':(v>=360&&v<=440?'warn':'nok');},lim:'380–420 V'},
+      {id:'l23',t:'num',fr:'L2-L3',nl:'L2-L3',u:'V',tri:true,ev:function(v){return v>=380&&v<=420?'ok':(v>=360&&v<=440?'warn':'nok');},lim:'380–420 V'},
+      {id:'l31',t:'num',fr:'L3-L1',nl:'L3-L1',u:'V',tri:true,ev:function(v){return v>=380&&v<=420?'ok':(v>=360&&v<=440?'warn':'nok');},lim:'380–420 V'},
+      {id:'npe',t:'num',fr:'N-PE',nl:'N-PE',u:'V',ev:function(v){return v<3?'ok':(v<=5?'warn':'nok');},lim:'< 3 V'}
+    ]},
+  charge_neutre:{
+    badge:'live', fr:'Test de charge du neutre', nl:'Belastingstest nulgeleider', triOnly:true,
+    howto:{steps:['Allume une grosse charge mono (bouilloire, four) sur UNE phase.','Observe les L-N des DEUX autres phases pendant ~1 min.','Note la dérive maximale constatée.'],
+      attendu:'Dérive ≤ ±10 V = neutre solide. C’est LA preuve que la réparation tient.',
+      danger:'Si les L-N montent quand tu charges l’autre phase → neutre encore mauvais → STOP, aucune remise en service.'},
+    fields:[{id:'drift',t:'num',fr:'Dérive max. observée',nl:'Max. afwijking L-N',u:'V',ev:function(v){return v<=10?'ok':(v<=15?'warn':'nok');},lim:'≤ 10 V'}]},
+  isolement:{
+    badge:'dead', fr:'Isolement du câble (500 V DC)', nl:'Isolatiemeting kabel (500 V DC)',
+    howto:{steps:['Câble déconnecté AUX DEUX EXTRÉMITÉS : bornes de l’automate ET bornier de la borne.','Testeur en mode isolement, calibre 500 V DC.','Mesure : actifs entre eux, chaque actif↔N, chaque actif↔PE, N↔PE (bouquet actifs+N contre PE = raccourci propre).','Maintiens ~5 s jusqu’à stabilisation. Note la PIRE valeur par combinaison.','Après l’essai : attends la décharge (affichage < 30 V) avant de toucher.'],
+      attendu:'≥ 0,5 MΩ = minimum légal · câble sain : > 200 MΩ (souvent « OL » → note 999).',
+      danger:'500 V DC dans une borne connectée = borne détruite. Les DEUX extrémités déconnectées, toujours.'},
+    fields:[
+      {id:'ll',t:'num',fr:'Actifs ↔ actifs (pire)',nl:'Actieve ↔ actieve (slechtste)',u:'MΩ',tri:true,ev:function(v){return v>=1?'ok':(v>=0.5?'warn':'nok');},lim:'≥ 0,5 MΩ'},
+      {id:'ln',t:'num',fr:'L ↔ N (pire)',nl:'L ↔ N (slechtste)',u:'MΩ',ev:function(v){return v>=1?'ok':(v>=0.5?'warn':'nok');},lim:'≥ 0,5 MΩ'},
+      {id:'lpe',t:'num',fr:'L ↔ PE (pire)',nl:'L ↔ PE (slechtste)',u:'MΩ',ev:function(v){return v>=1?'ok':(v>=0.5?'warn':'nok');},lim:'≥ 0,5 MΩ'},
+      {id:'npe',t:'num',fr:'N ↔ PE',nl:'N ↔ PE',u:'MΩ',ev:function(v){return v>=1?'ok':(v>=0.5?'warn':'nok');},lim:'≥ 0,5 MΩ'}
+    ]},
+  continuite:{
+    badge:'dead', fr:'Continuité du PE', nl:'Continuïteit beschermingsgeleider (PE)',
+    howto:{steps:['Testeur en mode continuité R-LO (200 mA).','D’ABORD compense les cordons : pointes court-circuitées → touche ZERO.','Mesure : barrette PE du tableau ↔ conducteur PE côté borne.'],
+      attendu:'0,03–0,3 Ω pour 10–15 m en 6–10 mm². Alarme > 1 Ω.',
+      danger:'Sans compensation tu mesures tes propres cordons (~0,3 Ω) — valeur faussée.'},
+    fields:[{id:'rpe',t:'num',fr:'R PE tableau ↔ borne',nl:'R PE bord ↔ laadstation',u:'Ω',ev:function(v){return v<=1?'ok':(v<=2?'warn':'nok');},lim:'≤ 1 Ω'}]},
+  boucle:{
+    badge:'live', fr:'Terre & boucle de défaut', nl:'Aarding & foutlus',
+    howto:{steps:['Testeur en mode boucle « no-trip » (sinon le 30 mA saute pendant la mesure).','Mesure aux bornes d’arrivée de la borne (L + N + PE) ou sur une prise du même tableau.'],
+      attendu:'Régime TT belge : RA ≤ 30 Ω.',
+      danger:'30–100 Ω : différentiels 30 mA supplémentaires exigés par circuit · > 100 Ω : non conforme → terre à améliorer.'},
+    fields:[{id:'ra',t:'num',fr:'Résistance de terre RA',nl:'Aardingsweerstand RA',u:'Ω',ev:function(v){return v<=30?'ok':(v<=100?'warn':'nok');},lim:'≤ 30 Ω'}]},
+  diff:{
+    badge:'live', fr:'Test du différentiel', nl:'Test differentieelschakelaar',
+    howto:{steps:['① Bouton TEST mécanique.','② ½× IΔn : ne doit PAS déclencher.','③ Rampe : déclenchement attendu entre 50 % et 100 % de IΔn (30 mA → 15–30 mA, typ. 21–27).','④ ×1 IΔn : temps de coupure.','⑤ ×5 IΔn : temps de coupure.','Chaque essai en 0° ET 180° — note la pire valeur.'],
+      attendu:'×1 : ≤ 300 ms · ×5 : ≤ 40 ms · ½× : pas de déclenchement.',
+      danger:'Mauvaises valeurs ? Départage d’abord : fuite préexistante sur le circuit (pince mA sur L+N ensemble) ou appareil défectueux.'},
+    fields:[
+      {id:'btn',t:'seg',fr:'Bouton TEST',nl:'TEST-knop',opts:[{v:'ok',l:'OK'},{v:'nok',l:'NOK'}],lim:{fr:'déclenche',nl:'schakelt uit'},vals:{fr:{ok:'OK',nok:'NOK'},nl:{ok:'OK',nok:'NOK'}}},
+      {id:'demi',t:'seg',fr:'½× IΔn',nl:'½× IΔn',opts:[{v:'ok',l:'Pas de décl.'},{v:'nok',l:'Déclenche'}],lim:{fr:'pas de déclenchement',nl:'geen uitschakeling'},vals:{fr:{ok:'pas de déclenchement',nok:'déclenche'},nl:{ok:'geen uitschakeling',nok:'schakelt uit'}}},
+      {id:'rampe',t:'num',fr:'Rampe — courant de décl.',nl:'Ramp — uitschakelstroom',u:'mA',ev:function(v){var i=idn();return (v>=i/2&&v<=i)?'ok':(v<i/2?'warn':'nok');},lim:function(){return (idn()/2)+'–'+idn()+' mA';}},
+      {id:'x1',t:'num',fr:'×1 IΔn — temps',nl:'×1 IΔn — tijd',u:'ms',ev:function(v){return v<=300?'ok':'nok';},lim:'≤ 300 ms'},
+      {id:'x5',t:'num',fr:'×5 IΔn — temps',nl:'×5 IΔn — tijd',u:'ms',ev:function(v){return v<=40?'ok':'nok';},lim:'≤ 40 ms'}
+    ]},
+  fuite:{
+    badge:'live', fr:'Courant de fuite du circuit', nl:'Lekstroom van de kring',
+    howto:{steps:['Pince de fuite (mA) autour de L + N ENSEMBLE (PE exclu), circuit en service.','Mesure au repos, puis pendant une charge si possible.'],
+      attendu:'≤ 30 % de IΔn (30 mA → ≤ 9 mA) : marge saine.',
+      danger:'> 50 % de IΔn : déclenchements aléatoires garantis → assainir le circuit avant de condamner le différentiel.'},
+    fields:[{id:'il',t:'num',fr:'Fuite mesurée',nl:'Gemeten lekstroom',u:'mA',ev:function(v){var i=idn();return v<=0.3*i?'ok':(v<=0.5*i?'warn':'nok');},lim:function(){return '≤ '+(0.3*idn()).toFixed(0)+' mA';}}]},
+  courants:{
+    badge:'live', fr:'Courants de charge', nl:'Laadstromen',
+    howto:{steps:['Lance une session de charge (voiture branchée).','Pince ampèremétrique sur chaque phase, une à une.','Compare au réglage de courant de la borne.'],
+      attendu:'Courants ≤ réglage de la borne, équilibrés entre phases (tri).',
+      danger:'Courant > réglage → borne mal configurée ou compteur de délestage muet.'},
+    fields:[
+      {id:'set',t:'num',fr:'Réglage borne',nl:'Ingestelde laadstroom',u:'A',ev:function(){return 'ok';},lim:'—'},
+      {id:'i1',t:'num',fr:'I L1',nl:'I L1',u:'A',ev:function(v,S){var s=num(S.meas.courants&&S.meas.courants.f.set);return s?(v<=s+1?'ok':'nok'):'ok';},lim:{fr:'≤ réglage',nl:'≤ instelling'}},
+      {id:'i2',t:'num',fr:'I L2',nl:'I L2',u:'A',tri:true,ev:function(v,S){var s=num(S.meas.courants&&S.meas.courants.f.set);return s?(v<=s+1?'ok':'nok'):'ok';},lim:{fr:'≤ réglage',nl:'≤ instelling'}},
+      {id:'i3',t:'num',fr:'I L3',nl:'I L3',u:'A',tri:true,ev:function(v,S){var s=num(S.meas.courants&&S.meas.courants.f.set);return s?(v<=s+1?'ok':'nok'):'ok';},lim:{fr:'≤ réglage',nl:'≤ instelling'}}
+    ]},
+  rotation:{
+    badge:'live', fr:'Ordre des phases', nl:'Fasevolgorde', triOnly:true,
+    howto:{steps:['Testeur en mode rotation de phases, aux bornes d’arrivée de la borne (L1-L2-L3).'],
+      attendu:'Sens horaire « 1-2-3 ».',
+      danger:'Mauvais ordre : certaines bornes/voitures refusent de charger → intervertir deux phases HORS TENSION, remesurer.'},
+    fields:[{id:'rot',t:'seg',fr:'Sens',nl:'Volgorde',opts:[{v:'ok',l:'Horaire 1-2-3'},{v:'nok',l:'Inverse'}],lim:{fr:'horaire',nl:'rechtsdraaiend'},vals:{fr:{ok:'horaire 1-2-3',nok:'inverse'},nl:{ok:'rechtsdraaiend 1-2-3',nok:'omgekeerd'}}}]},
+  borne_fonc:{
+    badge:'live', fr:'Test fonctionnel de la borne', nl:'Functionele test laadstation',
+    howto:{steps:['Réenclenche le circuit, observe la séquence LED de démarrage.','Connecte l’app du fabricant, vérifie l’état et les codes d’erreur.','Lance une session de charge test (voiture ou adaptateur EV).'],
+      attendu:'Démarrage normal · app connectée · session de charge démarre et se maintient.',
+      danger:'Note tout code d’erreur exact (photo de l’écran/app) — précieux pour la garantie ou l’expert.'},
+    fields:[
+      {id:'led',t:'seg',fr:'Démarrage / LED',nl:'Opstart / LED',opts:[{v:'ok',l:'Normal'},{v:'nok',l:'Anormal'}],vals:{fr:{ok:'normal',nok:'anormal'},nl:{ok:'normaal',nok:'abnormaal'}}},
+      {id:'app',t:'seg',fr:'App / connectivité',nl:'App / connectiviteit',opts:[{v:'ok',l:'OK'},{v:'nok',l:'NOK'},{v:'warn',l:'Partiel'}],vals:{fr:{ok:'OK',nok:'NOK',warn:'partiel'},nl:{ok:'OK',nok:'NOK',warn:'gedeeltelijk'}}},
+      {id:'charge',t:'seg',fr:'Session de charge',nl:'Laadsessie',opts:[{v:'ok',l:'Démarre'},{v:'nok',l:'Échoue'}],vals:{fr:{ok:'démarre',nok:'échoue'},nl:{ok:'start',nok:'faalt'}}},
+      {id:'err',t:'text',fr:'Code(s) d’erreur',nl:'Foutcode(s)'}
+    ]},
+  pboost:{
+    badge:'live', fr:'Compteur de délestage (MID / P1)', nl:'Meter dynamisch laden (MID / P1)',
+    howto:{steps:['Vérifie l’affichage du compteur (alimenté, valeurs plausibles).','Dans l’app de la borne : la consommation de la maison doit remonter.','Silence radio → contrôle RS485 : polarité A/B, continuité, terminaison. P1 : LED du module + Wi-Fi.'],
+      attendu:'Communication active, délestage visible quand la maison consomme.',
+      danger:'Sans délestage opérationnel : risque de déclenchement du général → corrige avant de partir.'},
+    fields:[
+      {id:'aff',t:'seg',fr:'Compteur alimenté',nl:'Meter gevoed',opts:[{v:'ok',l:'Oui'},{v:'nok',l:'Non'}],vals:{fr:{ok:'oui',nok:'non'},nl:{ok:'ja',nok:'nee'}}},
+      {id:'comm',t:'seg',fr:'Communication borne',nl:'Communicatie laadstation',opts:[{v:'ok',l:'OK'},{v:'nok',l:'NOK'},{v:'warn',l:'Instable'}],vals:{fr:{ok:'OK',nok:'NOK',warn:'instable'},nl:{ok:'OK',nok:'NOK',warn:'onstabiel'}}}
+    ]},
+  serrages:{
+    badge:'dead', fr:'Serrages & état du tableau', nl:'Aansluitingen & staat verdeelbord',
+    howto:{steps:['HORS TENSION (VAT complet).','Resserre les bornes du circuit concerné (couple gravé).','Inspecte : décoloration, odeur, peignes, sections cohérentes avec les calibres.'],
+      attendu:'Tout au couple, aucune trace de chauffe, calibres cohérents.',
+      danger:'Une connexion desserrée chauffe → c’est une cause d’incendie, pas un détail.'},
+    fields:[
+      {id:'serr',t:'seg',fr:'Serrages',nl:'Aandraaimomenten',opts:[{v:'ok',l:'OK'},{v:'warn',l:'Repris'},{v:'nok',l:'Problème'}],vals:{fr:{ok:'OK',warn:'repris',nok:'problème'},nl:{ok:'OK',warn:'aangespannen',nok:'probleem'}}},
+      {id:'etat',t:'seg',fr:'Traces de chauffe',nl:'Warmtesporen',opts:[{v:'ok',l:'Aucune'},{v:'nok',l:'Présentes'}],vals:{fr:{ok:'aucune',nok:'présentes'},nl:{ok:'geen',nok:'aanwezig'}}}
+    ]}
+};
+
+/* ═══════════════════ CAUSES ═══════════════════ */
+var CAUSES={
+  surtension:{icon:'⚡',fr:'Surtension / rupture de neutre',nl:'Overspanning / nul-onderbreking',sub:'Appareils grillés, ±400 V',
+    meas:['visuel_neutre','tensions','charge_neutre','isolement','continuite','boucle','diff','rotation','borne_fonc','pboost'],
+    photos:[['p_n','Bornier N réparé (avant/après)'],['p_tab','Tableau / coffret EV'],['p_borne','Borne + n° de série'],['p_deg','Appareils endommagés'],['p_mid','Compteur MID / P1']],
+    opts:[['relais','Relais de surtension 3F+N (coupe > 253 V)','La vraie protection anti-récidive en cas de rupture de neutre'],['spd','Parafoudre type 2 (SPD)','Protège des transitoires (foudre, manœuvres réseau)'],['borne','Remplacement de la borne par le modèle successeur','Électronique exposée à la surtension = dégâts latents'],['prot','Remplacement des protections du circuit','Diff + disjoncteur exposés : remplacement préventif']]},
+  diff_declenche:{icon:'🔌',fr:'Différentiel qui déclenche',nl:'Differentieel schakelt uit',sub:'Sauts aléatoires ou immédiats',
+    meas:['tensions','fuite','diff','isolement','continuite','boucle'],
+    photos:[['p_tab','Tableau / différentiel'],['p_borne','Borne + n° de série']],
+    opts:[['assain','Assainissement du circuit en fuite','Localiser et corriger la fuite (humidité, appareil défectueux)'],['diff_new','Remplacement du différentiel','Si l’appareil est hors tolérances au test'],['split','Séparation des circuits','Répartir les fuites cumulées sur plusieurs différentiels']]},
+  disjoncteur:{icon:'🔥',fr:'Disjoncteur qui déclenche / surchauffe',nl:'Automaat schakelt uit / oververhitting',sub:'Surcharge, échauffement',
+    meas:['tensions','courants','serrages','borne_fonc'],
+    photos:[['p_tab','Tableau / disjoncteur'],['p_borne','Borne + réglage courant']],
+    opts:[['limit','Ajustement du courant de charge de la borne','Adapter au calibre réel du circuit'],['lb','Délestage dynamique (P1 / compteur)','Module la charge selon la consommation de la maison'],['mcb_new','Remplacement du disjoncteur','Si échauffement anormal ou hors calibre']]},
+  borne_panne:{icon:'🚫',fr:'Borne ne charge pas / panne',nl:'Laadstation laadt niet / defect',sub:'Pas de session, erreurs',
+    meas:['tensions','diff','rotation','borne_fonc','pboost','courants'],
+    photos:[['p_borne','Borne + n° de série'],['p_err','Écran / LED / code erreur'],['p_tab','Tableau électrique']],
+    opts:[['garantie','Intervention sous garantie fabricant','Si la borne est encore couverte'],['borne','Remplacement de la borne','Si hors garantie et réparation non économique'],['config','Reconfiguration / mise à jour firmware','Souvent suffisant après une coupure ou un changement réseau']]},
+  defaut_isolement:{icon:'💧',fr:'Défaut d’isolement',nl:'Isolatiefout',sub:'Humidité, câble abîmé',
+    meas:['isolement','fuite','continuite','tensions','diff'],
+    photos:[['p_cable','Trajet du câble / boîtes'],['p_tab','Tableau électrique']],
+    opts:[['troncon','Remplacement du tronçon de câble défectueux','Après localisation par sectionnement'],['boites','Remplacement / étanchéification des boîtes','Humidité = cause n°1 en extérieur']]},
+  pre_service:{icon:'✅',fr:'Contrôle pré-mise en service',nl:'Controle vóór indienststelling',sub:'Avant keuring / livraison',
+    meas:['tensions','isolement','continuite','boucle','diff','rotation','courants','borne_fonc','pboost'],
+    photos:[['p_tab','Tableau / protections'],['p_borne','Borne posée'],['p_cable','Trajet du câble']],
+    opts:[]},
+  autre:{icon:'🔍',fr:'Autre / diagnostic libre',nl:'Andere / vrije diagnose',sub:'Compose tes mesures',
+    meas:[],photos:[['p_tab','Tableau électrique'],['p_borne','Borne']],opts:[]}
+};
+var VERDICTS=[
+  ['conforme','✅','Conforme','Installatie conform — geen ingreep nodig','Installation conforme — aucune intervention nécessaire'],
+  ['reparation','🔧','Réparation nécessaire','Herstelling nodig','Réparation nécessaire'],
+  ['remplacement','♻️','Remplacement nécessaire','Vervanging nodig','Remplacement nécessaire'],
+  ['rep_rempl','🔧♻️','Réparation + remplacement','Herstelling + vervanging nodig','Réparation + remplacement nécessaires'],
+  ['investigation','🔬','À approfondir','Bijkomend onderzoek nodig','Investigation complémentaire nécessaire']
+];
+
+/* ═══════════════════ State ═══════════════════ */
+var STORAGE_KEY='bornexa-diagnostic-v1';
+function skey(){return (window.Bornexa&&Bornexa.scopedKey)?Bornexa.scopedKey(STORAGE_KEY):STORAGE_KEY;}
+function newRef(){var k='bornexa-diag-seq';var n=parseInt(localStorage.getItem(k)||'0',10)+1;localStorage.setItem(k,String(n));return 'DX-'+new Date().getFullYear()+'-'+String(n).padStart(4,'0');}
+function blankState(){return {ref:'',createdAt:Date.now(),step:1,docLang:'nl',
+  client:{name:'',tel:'',addr:'',city:'',email:''},
+  sinistre:{assureur:'',dossierNr:'',dateSinistre:'',expertMail:''},
+  heures:{date:today(),debut:'',fin:''},
+  inst:{modele:'',serial:'',racc:'tri',mcb:'',diffType:'A',diffIdn:'30',cable:'',anneeMaison:'',instrument:''},
+  cause:'',causeNote:'',meas:{},extra:[],photos:{},photoSeq:0,degats:[],obs:'',
+  verdict:'',options:{},optionsCustom:'',conclusionNL:'',conclusionFR:'',nextSteps:''};}
+var state=blankState();
+
+function loadState(){
+  try{var s=JSON.parse(localStorage.getItem(skey())||'null');if(s&&s.client){state=Object.assign(blankState(),s);}}catch(e){}
+  if(!state.ref)state.ref=newRef();
+}
+var saveT=null;
+function scheduleSave(){clearTimeout(saveT);saveT=setTimeout(doSave,600);var d=$('#saveDot');if(d)d.textContent='…';}
+function doSave(){
+  try{
+    localStorage.setItem(skey(),JSON.stringify(state));
+    if(window.Bornexa&&Bornexa.has()){
+      var vl=VERDICTS.filter(function(v){return v[0]===state.verdict;})[0];
+      try{Bornexa.put('diagnostic',{v:1,savedAt:Date.now(),ref:state.ref,verdictLabel:vl?vl[2]:'',cause:state.cause,data:state});}catch(e){}
+    }
+    var d=$('#saveDot');if(d)d.textContent='💾 enregistré';
+  }catch(e){toast('⚠ Stockage plein — supprime des photos');}
+}
+
+/* ═══════════════════ Prefill depuis le dossier hub ═══════════════════ */
+function prefill(){
+  if(!(window.Bornexa&&Bornexa.has()))return;
+  var a=Bornexa.active();
+  $('#dossierPill').style.display='inline-block';
+  $('#dossierPill').textContent='📁 '+(a.name||a.id);
+  if(state.client.name)return; // déjà rempli → on ne touche pas
+  var v=(a.visite&&a.visite.data)||{}, dc=(a.devis&&a.devis.client)||{};
+  state.client.name=v.clientName||dc.name||a.name||'';
+  state.client.addr=v.clientAddress||dc.address||'';
+  state.client.tel=v.clientPhone||v.clientTel||dc.phone||'';
+  state.client.email=v.clientEmail||dc.email||'';
+  if(a.devis&&a.devis.dimensioning&&a.devis.dimensioning.chargerName)state.inst.modele=a.devis.dimensioning.chargerName;
+}
+
+/* ═══════════════════ Bindings simples (data-bind="obj.prop") ═══════════════════ */
+function bindInputs(){
+  document.querySelectorAll('[data-bind]').forEach(function(el){
+    var path=el.getAttribute('data-bind').split('.');
+    var get=function(){return path.length===2?state[path[0]][path[1]]:state[path[0]];};
+    var set=function(v){if(path.length===2)state[path[0]][path[1]]=v;else state[path[0]]=v;};
+    el.value=get()||'';
+    el.addEventListener('input',function(){set(el.value);scheduleSave();
+      if(el.id==='b_annee')tvaHint();
+    });
+  });
+  tvaHint();
+}
+function tvaHint(){
+  var y=num(state.inst.anneeMaison),h=$('#tvaHint');
+  if(!y){h.textContent='Détermine la TVA du devis : ≥ 10 ans → 6 %, sinon 21 %.';return;}
+  var age=new Date().getFullYear()-y;
+  h.innerHTML=age>=10?'🏠 '+age+' ans → <b style="color:var(--primary-dark)">TVA 6 %</b> (avec mention sur facture)':'🏠 '+age+' ans (< 10) → <b style="color:var(--danger-dark)">TVA 21 % obligatoire</b>';
+}
+function setNow(id){var d=new Date();var v=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');$('#'+id).value=v;var b=$('#'+id).getAttribute('data-bind').split('.');state[b[0]][b[1]]=v;scheduleSave();}
+function fillInstr(t){var el=$('#i_instr');el.value=el.value?(el.value+', '+t):t;state.inst.instrument=el.value;scheduleSave();}
+
+/* ═══════════════════ Segments génériques ═══════════════════ */
+function initSeg(id,get,set){
+  var seg=$('#'+id);
+  function paint(){var v=get();seg.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v);});}
+  seg.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;set(b.dataset.v);paint();});
+  paint();
+}
+
+/* ═══════════════════ Étape 2 : causes ═══════════════════ */
+function renderCauses(){
+  $('#causeGrid').innerHTML=Object.keys(CAUSES).map(function(k){var c=CAUSES[k];
+    return '<button type="button" class="chip'+(state.cause===k?' selected':'')+'" data-cause="'+k+'"><span class="chip-icon">'+c.icon+'</span><span class="chip-title">'+esc(c.fr)+'</span><span class="chip-sub">'+esc(c.sub)+'</span></button>';
+  }).join('');
+}
+$('#causeGrid').addEventListener('click',function(e){
+  var b=e.target.closest('[data-cause]');if(!b)return;
+  var k=b.dataset.cause;
+  if(state.cause===k)return;
+  state.cause=k;
+  renderCauses();renderMeasures();renderPhotos();renderOptions();updateProgress();scheduleSave();
+  toast(CAUSES[k].icon+' Mesures adaptées : '+activeMeasures().length+' cartes');
+});
+
+/* ═══════════════════ Étape 3 : mesures ═══════════════════ */
+function activeMeasures(){
+  var base=state.cause?CAUSES[state.cause].meas.slice():[];
+  state.extra.forEach(function(m){if(base.indexOf(m)<0)base.push(m);});
+  return base.filter(function(m){var d=MEASURES[m];return !(d.triOnly&&state.inst.racc!=='tri');});
+}
+function measState(mid){if(!state.meas[mid])state.meas[mid]={na:false,note:'',f:{}};return state.meas[mid];}
+function fieldVerdict(mid,f){
+  var ms=measState(mid),v=ms.f[f.id];
+  if(f.t==='num'){var n=num(v);if(n==null)return '';return f.ev?f.ev(n,state):'';}
+  if(f.t==='seg'){return v||'';}
+  return '';
+}
+function measVerdict(mid){
+  var d=MEASURES[mid],ms=measState(mid);
+  if(ms.na)return 'na';
+  var r='';
+  d.fields.forEach(function(f){
+    if(f.tri&&state.inst.racc!=='tri')return;
+    if(f.t==='text')return;
+    r=worst(r,fieldVerdict(mid,f));
+  });
+  return r;
+}
+function measHasData(mid){
+  var d=MEASURES[mid],ms=measState(mid);
+  if(ms.na)return true;
+  return d.fields.some(function(f){if(f.tri&&state.inst.racc!=='tri')return false;var v=ms.f[f.id];return v!=null&&v!=='';});
+}
+function limStr(f,lang){
+  var l=typeof f.lim==='function'?f.lim():f.lim;
+  if(!l)return '—';
+  return typeof l==='object'?(l[lang]||l.fr):l;
+}
+function renderMeasures(){
+  var list=activeMeasures(),host=$('#measList');
+  if(!state.cause){host.innerHTML='<div class="banner">👉 Choisis d’abord la <b>cause présumée</b> à l’étape Situation — les mesures s’adapteront automatiquement.</div>';renderAddSel();return;}
+  if(!list.length){host.innerHTML='<div class="banner">Diagnostic libre : ajoute les mesures dont tu as besoin ci-dessous.</div>';renderAddSel();return;}
+  host.innerHTML=list.map(function(mid,i){
+    var d=MEASURES[mid],ms=measState(mid),isExtra=CAUSES[state.cause].meas.indexOf(mid)<0;
+    var fields=d.fields.filter(function(f){return !(f.tri&&state.inst.racc!=='tri');}).map(function(f){
+      if(f.t==='num'){
+        var fv=fieldVerdict(mid,f);
+        return '<div class="mfield"><label>'+esc(f.fr)+' <span style="font-weight:400">('+limStr(f,'fr')+')</span></label><div class="inwrap"><input type="number" step="any" inputmode="decimal" class="'+(fv?'f-'+fv:'')+'" data-m="'+mid+'" data-f="'+f.id+'" value="'+esc(ms.f[f.id]||'')+'"><span class="unit">'+f.u+'</span></div></div>';
+      }
+      if(f.t==='seg'){
+        var cur=ms.f[f.id]||'';
+        return '<div class="mfield"><label>'+esc(f.fr)+'</label><div class="seg">'+f.opts.map(function(o){
+          return '<button type="button" data-m="'+mid+'" data-f="'+f.id+'" data-v="'+o.v+'" class="'+(cur===o.v?('on v-'+o.v):'')+'">'+esc(o.l)+'</button>';
+        }).join('')+'</div></div>';
+      }
+      return '<div class="mfield mfield-full"><label>'+esc(f.fr)+'</label><input type="text" data-m="'+mid+'" data-f="'+f.id+'" value="'+esc(ms.f[f.id]||'')+'"></div>';
+    }).join('');
+    var v=measVerdict(mid);
+    var pill=ms.na?'<span class="vpill">N/A</span>':(v?'<span class="vpill '+v+'">'+({ok:'✓ Conforme',warn:'⚠ Attention',nok:'✗ Non conforme'}[v])+'</span>':'<span class="vpill">—</span>');
+    return '<article class="mcard'+(ms.na?' na':(v?' v-'+v:''))+'" id="mc_'+mid+'">'
+      +'<div class="mhead"><span class="mnum">'+(i+1)+'</span><span class="mtitle">'+esc(d.fr)+'</span>'
+      +'<span class="mbadge '+d.badge+'">'+(d.badge==='dead'?'HORS TENSION':'SOUS TENSION')+'</span>'+pill
+      +'<button type="button" class="na-btn'+(ms.na?' on':'')+'" data-na="'+mid+'">N/A</button>'
+      +(isExtra?'<button type="button" class="rm-btn" data-rm="'+mid+'" title="Retirer">✕</button>':'')
+      +'</div>'
+      +(ms.na?'':'<div class="mbody">'
+        +'<details class="howto"><summary>📖 Comment faire</summary><div class="howto-body"><ol>'+d.howto.steps.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ol>'
+        +'<div class="howto-attendu">🎯 Attendu : '+d.howto.attendu+'</div>'
+        +(d.howto.danger?'<div class="howto-danger">⚠ '+d.howto.danger+'</div>':'')+'</div></details>'
+        +'<div class="mfields">'+fields+'</div>'
+        +'<div class="mnote"><input type="text" placeholder="Note (contexte, valeur particulière…)" data-mnote="'+mid+'" value="'+esc(ms.note||'')+'"></div>'
+        +'</div>')
+      +'</article>';
+  }).join('');
+  renderAddSel();
+}
+function renderAddSel(){
+  var act=activeMeasures();
+  var rest=Object.keys(MEASURES).filter(function(m){return act.indexOf(m)<0&&!(MEASURES[m].triOnly&&state.inst.racc!=='tri');});
+  $('#addMeasSel').innerHTML=rest.length?rest.map(function(m){return '<option value="'+m+'">'+esc(MEASURES[m].fr)+'</option>';}).join(''):'<option value="">— toutes les mesures sont actives —</option>';
+}
+$('#addMeasBtn').addEventListener('click',function(){
+  var m=$('#addMeasSel').value;if(!m)return;
+  state.extra.push(m);renderMeasures();updateProgress();scheduleSave();toast('Mesure ajoutée');
+});
+$('#measList').addEventListener('click',function(e){
+  var na=e.target.closest('[data-na]');
+  if(na){var ms=measState(na.dataset.na);ms.na=!ms.na;renderMeasures();updateProgress();scheduleSave();return;}
+  var rm=e.target.closest('[data-rm]');
+  if(rm){state.extra=state.extra.filter(function(x){return x!==rm.dataset.rm;});delete state.meas[rm.dataset.rm];renderMeasures();updateProgress();scheduleSave();return;}
+  var sb=e.target.closest('button[data-m][data-v]');
+  if(sb){var ms2=measState(sb.dataset.m);ms2.f[sb.dataset.f]=(ms2.f[sb.dataset.f]===sb.dataset.v)?'':sb.dataset.v;refreshCard(sb.dataset.m);updateProgress();scheduleSave();}
+});
+$('#measList').addEventListener('input',function(e){
+  var el=e.target;
+  if(el.dataset.mnote){measState(el.dataset.mnote).note=el.value;scheduleSave();return;}
+  if(el.dataset.m&&el.dataset.f){
+    var ms=measState(el.dataset.m);ms.f[el.dataset.f]=el.value;
+    if(el.type==='number'){var f=MEASURES[el.dataset.m].fields.filter(function(x){return x.id===el.dataset.f;})[0];var fv=fieldVerdict(el.dataset.m,f);el.className=fv?'f-'+fv:'';}
+    refreshPill(el.dataset.m);updateProgress();scheduleSave();
+  }
+});
+function refreshPill(mid){
+  var card=$('#mc_'+mid);if(!card)return;
+  var v=measVerdict(mid),pill=card.querySelector('.vpill');
+  card.className='mcard'+(measState(mid).na?' na':(v&&v!=='na'?' v-'+v:''));card.id='mc_'+mid;
+  if(pill)pill.outerHTML=measState(mid).na?'<span class="vpill">N/A</span>':(v?'<span class="vpill '+v+'">'+({ok:'✓ Conforme',warn:'⚠ Attention',nok:'✗ Non conforme'}[v]||'—')+'</span>':'<span class="vpill">—</span>');
+}
+function refreshCard(mid){
+  // re-render segs of one card without full redraw
+  var d=MEASURES[mid],ms=measState(mid),card=$('#mc_'+mid);if(!card)return;
+  card.querySelectorAll('button[data-v][data-m="'+mid+'"]').forEach(function(b){
+    var on=ms.f[b.dataset.f]===b.dataset.v;
+    b.className=on?('on v-'+b.dataset.v):'';
+  });
+  refreshPill(mid);
+}
+
+/* ═══════════════════ Étape 4 : photos & dégâts ═══════════════════ */
+function compressImage(file,maxDim,q){
+  return new Promise(function(res,rej){
+    var r=new FileReader();
+    r.onload=function(){var img=new Image();img.onload=function(){
+      var w=img.width,h=img.height;
+      if(w>h&&w>maxDim){h=Math.round(h*maxDim/w);w=maxDim;}else if(h>=w&&h>maxDim){w=Math.round(w*maxDim/h);h=maxDim;}
+      var c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      res(c.toDataURL('image/jpeg',q));
+    };img.onerror=rej;img.src=r.result;};
+    r.onerror=rej;r.readAsDataURL(file);
+  });
+}
+function photoDefs(){
+  var base=state.cause?CAUSES[state.cause].photos.slice():[['p_tab','Tableau électrique'],['p_borne','Borne']];
+  Object.keys(state.photos).forEach(function(k){
+    if(k.indexOf('px_')===0)base.push([k,state.photos[k].label||'Photo']);
+  });
+  return base;
+}
+function renderPhotos(){
+  var host=$('#photoZone');
+  host.innerHTML=photoDefs().map(function(p){
+    var id=p[0],label=p[1],ph=state.photos[id];
+    return '<div class="photo-tile'+(ph&&ph.src?' filled':'')+'">'
+      +(ph&&ph.src?'<img class="photo-thumb" src="'+ph.src+'" alt=""><span class="photo-cap">'+esc(label)+'</span><button type="button" class="photo-del" data-pdel="'+id+'">✕</button>':'<span class="photo-icon">📷</span><span class="photo-label">'+esc(label)+'</span>')
+      +'<input type="file" accept="image/*" capture="environment" data-photo="'+id+'" data-plabel="'+esc(label)+'">'
+      +'</div>';
+  }).join('');
+}
+$('#photoZone').addEventListener('change',function(e){
+  var el=e.target;if(!el.dataset.photo||!el.files||!el.files[0])return;
+  compressImage(el.files[0],1000,0.55).then(function(url){
+    state.photos[el.dataset.photo]={label:el.dataset.plabel,src:url};
+    renderPhotos();scheduleSave();toast('Photo ajoutée ✓');
+  }).catch(function(){toast('Photo illisible');});
+});
+$('#photoZone').addEventListener('click',function(e){
+  var d=e.target.closest('[data-pdel]');if(!d)return;
+  e.preventDefault();delete state.photos[d.dataset.pdel];renderPhotos();scheduleSave();
+});
+$('#addPhotoBtn').addEventListener('click',function(){
+  var fn=(window.BX&&BX.prompt)?BX.prompt('Légende de la photo :',{title:'Photo libre',placeholder:'ex. boîte de dérivation extérieure'}):Promise.resolve(prompt('Légende de la photo :'));
+  fn.then(function(l){if(l==null)return;state.photoSeq++;var id='px_'+state.photoSeq;state.photos[id]={label:l||('Photo '+state.photoSeq),src:''};renderPhotos();scheduleSave();});
+});
+/* dégâts */
+var ETATS=[['hs','Hors service'],['repare','Déjà réparé'],['controler','À contrôler']];
+var ETATS_NL={hs:'defect',repare:'reeds hersteld',controler:'te controleren'};
+var ETATS_FR={hs:'hors service',repare:'déjà réparé',controler:'à contrôler'};
+function renderDegats(){
+  $('#degatsList').innerHTML=state.degats.map(function(d,i){
+    return '<div class="degat-row">'
+      +'<input type="text" placeholder="Appareil (ex. Wallbox Pulsar Plus)" data-dg="'+i+'" data-k="app" value="'+esc(d.app||'')+'">'
+      +'<input type="text" placeholder="Détail / n° série" data-dg="'+i+'" data-k="detail" value="'+esc(d.detail||'')+'">'
+      +'<select data-dg="'+i+'" data-k="etat">'+ETATS.map(function(e){return '<option value="'+e[0]+'"'+(d.etat===e[0]?' selected':'')+'>'+e[1]+'</option>';}).join('')+'</select>'
+      +'<button type="button" class="rm-btn" data-dgdel="'+i+'">✕</button></div>';
+  }).join('')||'<p class="field-help" style="margin-bottom:10px">Rien d’encodé — utile surtout pour un dossier surtension (liste des appareils touchés).</p>';
+}
+$('#addDegatBtn').addEventListener('click',function(){state.degats.push({app:'',detail:'',etat:'hs'});renderDegats();scheduleSave();});
+$('#degatsList').addEventListener('input',function(e){var el=e.target;if(el.dataset.dg!=null&&el.dataset.k){state.degats[+el.dataset.dg][el.dataset.k]=el.value;scheduleSave();}});
+$('#degatsList').addEventListener('click',function(e){var d=e.target.closest('[data-dgdel]');if(!d)return;state.degats.splice(+d.dataset.dgdel,1);renderDegats();scheduleSave();});
+
+/* ═══════════════════ Étape 5 : verdict, options, conclusion ═══════════════════ */
+function renderVerdicts(){
+  $('#verdictGrid').innerHTML=VERDICTS.map(function(v){
+    return '<button type="button" class="chip'+(state.verdict===v[0]?' selected':'')+'" data-verdict="'+v[0]+'"><span class="chip-icon">'+v[1]+'</span><span class="chip-title">'+esc(v[2])+'</span></button>';
+  }).join('');
+}
+$('#verdictGrid').addEventListener('click',function(e){
+  var b=e.target.closest('[data-verdict]');if(!b)return;
+  state.verdict=state.verdict===b.dataset.verdict?'':b.dataset.verdict;
+  renderVerdicts();scheduleSave();
+});
+function renderOptions(){
+  var opts=state.cause?CAUSES[state.cause].opts:[];
+  $('#optList').innerHTML=opts.length?opts.map(function(o){
+    var st=state.options[o[0]]||{};
+    return '<div class="opt-row'+(st.on?' selected':'')+'" data-opt="'+o[0]+'"><span class="opt-check"></span>'
+      +'<span class="opt-text"><b>'+esc(o[1])+'</b><span>'+esc(o[2])+'</span></span>'
+      +'<span class="opt-price" onclick="event.stopPropagation()"><input type="number" step="any" inputmode="decimal" placeholder="€ HT" data-optprice="'+o[0]+'" value="'+esc(st.price||'')+'"></span></div>';
+  }).join(''):'<p class="field-help">Pas d’options prédéfinies pour ce cas — utilise le champ libre.</p>';
+}
+$('#optList').addEventListener('click',function(e){
+  var r=e.target.closest('[data-opt]');if(!r)return;
+  var id=r.dataset.opt;if(!state.options[id])state.options[id]={on:false,price:''};
+  state.options[id].on=!state.options[id].on;renderOptions();scheduleSave();
+});
+$('#optList').addEventListener('input',function(e){
+  var el=e.target;if(!el.dataset.optprice)return;
+  if(!state.options[el.dataset.optprice])state.options[el.dataset.optprice]={on:true,price:''};
+  state.options[el.dataset.optprice].price=el.value;scheduleSave();
+});
+
+/* ── Générateur de conclusion NL + FR ── */
+function findingsList(lang){
+  var out=[];
+  activeMeasures().forEach(function(mid){
+    var d=MEASURES[mid],ms=measState(mid);
+    if(ms.na||!measHasData(mid))return;
+    var v=measVerdict(mid);
+    var lbl=lang==='nl'?d.nl:d.fr;
+    var W={nl:{ok:'conform',warn:'aandachtspunt',nok:'NIET conform'},fr:{ok:'conforme',warn:'point d’attention',nok:'NON conforme'}}[lang];
+    if(v)out.push({mid:mid,label:lbl,v:v,txt:lbl+' : '+(W[v]||'')});
+  });
+  return out;
+}
+function genConclusion(){
+  var c=state.cause?CAUSES[state.cause]:null;
+  var iso=measVerdict('isolement'), neutre=worst(measVerdict('visuel_neutre'),worst(measVerdict('tensions'),measVerdict('charge_neutre')));
+  var noks=findingsList('fr').filter(function(f){return f.v==='nok';});
+  var vNL=VERDICTS.filter(function(v){return v[0]===state.verdict;})[0];
+  var nl=[],fr=[];
+  // Intro
+  if(c){nl.push('Vaststelling na diagnose ter plaatse ('+(fmtDateBE(state.heures.date)||'')+') — vermoedelijke oorzaak: '+c.nl.toLowerCase()+'.');
+        fr.push('Constat après diagnostic sur place ('+(fmtDateBE(state.heures.date)||'')+') — cause présumée : '+c.fr.toLowerCase()+'.');}
+  // Spécifique surtension
+  if(state.cause==='surtension'){
+    if(neutre==='ok'){nl.push('De herstelling van de nulgeleider werd gecontroleerd en is in orde; de spanningen zijn stabiel, ook onder belasting.');fr.push('La réparation du neutre a été contrôlée et est en ordre ; les tensions sont stables, y compris en charge.');}
+    else if(neutre==='nok'){nl.push('⚠ De oorspronkelijke fout is NIET opgelost: de spanningen zijn niet stabiel. Geen herindienststelling mogelijk vóór herstelling.');fr.push('⚠ Le défaut d’origine n’est PAS résolu : les tensions ne sont pas stables. Aucune remise en service possible avant réparation.');}
+    if(iso==='ok'){nl.push('De bestaande voedingskabel is geschikt voor hergebruik (gunstige isolatiemeting bij 500 V DC).');fr.push('Le câble d’alimentation existant est apte au réemploi (mesure d’isolement favorable à 500 V DC).');}
+    else if(iso==='nok'){nl.push('De voedingskabel vertoont een isolatiefout en dient (gedeeltelijk) vervangen te worden.');fr.push('Le câble d’alimentation présente un défaut d’isolement et doit être (partiellement) remplacé.');}
+    if(state.degats.length){nl.push('Beschadigd door de overspanning: '+state.degats.map(function(d){return d.app+(d.etat?' ('+ETATS_NL[d.etat]+')':'');}).join(', ')+'.');
+      fr.push('Endommagé par la surtension : '+state.degats.map(function(d){return d.app+(d.etat?' ('+ETATS_FR[d.etat]+')':'');}).join(', ')+'.');}
+    if(state.verdict==='remplacement'||state.verdict==='rep_rempl'){nl.push('Het laadstation werd door de aanhoudende overspanning onherstelbaar beschadigd en dient vervangen te worden door het evenwaardige actuele model. De beveiligingen van de laadkring worden preventief vervangen conform de richtlijnen van de fabrikant.');
+      fr.push('Le poste de charge a été irrémédiablement endommagé par la surtension entretenue et doit être remplacé par le modèle actuel équivalent. Les protections du circuit sont remplacées préventivement conformément aux prescriptions du fabricant.');}
+  }else{
+    if(noks.length){
+      var nlN=findingsList('nl').filter(function(f){return f.v==='nok';});
+      nl.push('Niet conform bevonden: '+nlN.map(function(f){return f.label.toLowerCase();}).join('; ')+'.');
+      fr.push('Constaté non conforme : '+noks.map(function(f){return f.label.toLowerCase();}).join(' ; ')+'.');
+    }else if(findingsList('fr').length){
+      nl.push('Alle uitgevoerde metingen zijn conform de geldende grenswaarden (zie meettabel).');
+      fr.push('Toutes les mesures effectuées sont conformes aux limites en vigueur (voir tableau).');
+    }
+  }
+  if(vNL){nl.push('Besluit: '+vNL[3]+'.');fr.push('Verdict : '+vNL[4]+'.');}
+  state.conclusionNL=nl.join('\n');state.conclusionFR=fr.join('\n');
+  $('#conclNL').value=state.conclusionNL;$('#conclFR').value=state.conclusionFR;
+  scheduleSave();toast('🪄 Conclusion proposée — relis et ajuste');
+}
+$('#genConclBtn').addEventListener('click',genConclusion);
+
+/* ═══════════════════ Étape 6 : documents ═══════════════════ */
+var T={
+  nl:{repC:'DIAGNOSEVERSLAG',repCsub:'Verslag voor de klant',repE:'TECHNISCH MEETVERSLAG',repEsub:'Verslag voor verzekering / expert',
+    client:'Klant',adres:'Adres',tel:'Telefoon',email:'E-mail',datum:'Datum interventie',ref:'Referentie',
+    ctx:'Situatie',install:'Installatie',borne:'Laadstation',racc:'Aansluiting',prot:'Beveiliging',cable:'Kabel',
+    checks:'Wat we gecontroleerd hebben',concl:'Onze vaststelling',advies:'Ons advies',next:'Volgende stappen',
+    metingen:'Meetresultaten',mesure:'Meting',valeur:'Waarde',limite:'Grenswaarde',result:'Resultaat',
+    schade:'Vastgestelde schade',app:'Toestel',etat:'Staat',photos:'Foto’s (bijlage)',
+    sinistre:'Schadedossier',assureur:'Verzekeraar',dossier:'Dossiernr.',dateSin:'Schadedatum',
+    instr:'Meettoestel(len)',dispo:'Het defecte materiaal wordt ter beschikking gehouden van de expert.',
+    signT:'Voor BORNEXA',signC:'De klant (voor kennisname)',
+    prix:'richtprijs excl. btw',mono:'eenfasig 230 V',tri:'driefasig 3N400 V',
+    okW:'Conform',warnW:'Aandachtspunt',nokW:'Niet conform',naW:'n.v.t.',
+    footer:'BORNEXA — Laadpalen & slim energiebeheer · info@bornexa.be · bornexa.be',
+    heures:'Uren',van:'van',tot:'tot'},
+  fr:{repC:'RAPPORT DE DIAGNOSTIC',repCsub:'Rapport pour le client',repE:'RAPPORT TECHNIQUE DE MESURES',repEsub:'Rapport pour assurance / expert',
+    client:'Client',adres:'Adresse',tel:'Téléphone',email:'E-mail',datum:'Date d’intervention',ref:'Référence',
+    ctx:'Situation',install:'Installation',borne:'Borne de charge',racc:'Raccordement',prot:'Protection',cable:'Câble',
+    checks:'Ce que nous avons contrôlé',concl:'Notre constat',advies:'Notre conseil',next:'Prochaines étapes',
+    metingen:'Résultats de mesures',mesure:'Mesure',valeur:'Valeur',limite:'Limite',result:'Résultat',
+    schade:'Dommages constatés',app:'Appareil',etat:'État',photos:'Photos (annexe)',
+    sinistre:'Dossier sinistre',assureur:'Assureur',dossier:'N° dossier',dateSin:'Date du sinistre',
+    instr:'Appareil(s) de mesure',dispo:'Le matériel défectueux est tenu à la disposition de l’expert.',
+    signT:'Pour BORNEXA',signC:'Le client (pour prise de connaissance)',
+    prix:'prix indicatif HTVA',mono:'monophasé 230 V',tri:'triphasé 3N400 V',
+    okW:'Conforme',warnW:'Point d’attention',nokW:'Non conforme',naW:'n/a',
+    footer:'BORNEXA — Laadpalen & slim energiebeheer · info@bornexa.be · bornexa.be',
+    heures:'Heures',van:'de',tot:'à'}
+};
+function docHead(t,title,sub){
+  return '<div class="doc-band"></div><div class="doc-head">'
+    +'<div class="doc-brand"><svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="dh'+title.length+'" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#dh'+title.length+')"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>'
+    +'<div><div class="nm">BORNEXA</div><div class="tg">Laadpalen &amp; slim energiebeheer</div></div></div>'
+    +'<div class="doc-meta"><b>'+esc(state.ref)+'</b><br>'+esc(fmtDateBE(state.heures.date)||'')+'<br>info@bornexa.be · bornexa.be</div></div>'
+    +'<div class="doc-title">'+title+'</div><div class="doc-subtitle">'+sub+'</div>';
+}
+function docClientBlock(t){
+  var rows=[[t.client,state.client.name],[t.adres,[state.client.addr,state.client.city].filter(Boolean).join(', ')],[t.tel,state.client.tel],[t.email,state.client.email]];
+  return '<h3>'+t.client+'</h3><dl>'+rows.filter(function(r){return r[1];}).map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl>';
+}
+function docInstallBlock(t,lang){
+  var rows=[
+    [t.borne,[state.inst.modele,state.inst.serial?('s/n '+state.inst.serial):''].filter(Boolean).join(' · ')],
+    [t.racc,state.inst.racc==='tri'?t.tri:t.mono],
+    [t.prot,[state.inst.mcb,state.inst.diffType?('diff. '+state.inst.diffIdn+' mA type '+state.inst.diffType):''].filter(Boolean).join(' · ')],
+    [t.cable,state.inst.cable]];
+  return '<h3>'+t.install+'</h3><dl>'+rows.filter(function(r){return r[1];}).map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl>';
+}
+function verdictWord(t,v){return {ok:'<span class="ok">✓ '+t.okW+'</span>',warn:'<span class="warn">⚠ '+t.warnW+'</span>',nok:'<span class="nok">✗ '+t.nokW+'</span>'}[v]||'—';}
+function measTableRows(t,lang){
+  var rows='';
+  activeMeasures().forEach(function(mid){
+    var d=MEASURES[mid],ms=measState(mid);
+    if(ms.na||!measHasData(mid))return;
+    var first=true;
+    d.fields.forEach(function(f){
+      if(f.tri&&state.inst.racc!=='tri')return;
+      if(f.doc===false)return;
+      var raw=ms.f[f.id];if(raw==null||raw==='')return;
+      var val, fv=fieldVerdict(mid,f);
+      if(f.t==='num'){var n=num(raw);val=(n!=null?String(raw).replace('.',','):esc(raw))+' '+f.u;if(f.u==='MΩ'&&n>=999)val='> 500 MΩ (OL)';}
+      else if(f.t==='seg'){val=f.vals?((f.vals[lang]||f.vals.fr)[raw]||raw):({ok:t.okW,warn:t.warnW,nok:t.nokW}[raw]||raw);fv=raw;}
+      else{val=esc(raw);fv='';}
+      rows+='<tr>'+(first?'<td><b>'+esc(lang==='nl'?d.nl:d.fr)+'</b> — '+esc(lang==='nl'?f.nl:f.fr)+'</td>':'<td style="padding-left:22px">'+esc(lang==='nl'?f.nl:f.fr)+'</td>')
+        +'<td class="num">'+val+'</td><td>'+esc(limStr(f,lang))+'</td><td>'+(f.t==='text'?'—':verdictWord(t,fv))+'</td></tr>';
+      first=false;
+    });
+    if(ms.note)rows+='<tr><td colspan="4" style="font-style:italic;color:var(--muted)">↳ '+esc(ms.note)+'</td></tr>';
+  });
+  return rows;
+}
+function optsBlock(t,lang){
+  var c=state.cause?CAUSES[state.cause]:null,items=[];
+  if(c)c.opts.forEach(function(o){var st=state.options[o[0]];if(st&&st.on)items.push('<li><b>'+esc(o[1])+'</b>'+(st.price?' — '+String(st.price).replace('.',',')+' € <span style="color:var(--muted)">('+t.prix+')</span>':'')+'<br><span style="color:var(--muted);font-size:.8rem">'+esc(o[2])+'</span></li>');});
+  if(state.optionsCustom)items.push('<li>'+esc(state.optionsCustom)+'</li>');
+  return items.length?'<h3>'+t.advies+'</h3><ul>'+items.join('')+'</ul>':'';
+}
+function renderDocClient(){
+  var lang=state.docLang,t=T[lang];
+  var checks=findingsList(lang).map(function(f){return '<li>'+({ok:'<span class="ok">✓</span>',warn:'<span class="warn">⚠</span>',nok:'<span class="nok">✗</span>'}[f.v]||'•')+' '+esc(f.label)+' — '+({ok:t.okW,warn:t.warnW,nok:t.nokW}[f.v]||'')+'</li>';}).join('');
+  var concl=lang==='nl'?state.conclusionNL:state.conclusionFR;
+  $('#docClient').innerHTML=docHead(t,t.repC,t.repCsub)
+    +docClientBlock(t)
+    +(state.causeNote?'<h3>'+t.ctx+'</h3><p>'+esc(state.causeNote)+'</p>':'')
+    +docInstallBlock(t,lang)
+    +(checks?'<h3>'+t.checks+'</h3><ul>'+checks+'</ul>':'')
+    +(concl?'<h3>'+t.concl+'</h3><div class="doc-concl">'+esc(concl)+'</div>':'')
+    +optsBlock(t,lang)
+    +(state.nextSteps?'<h3>'+t.next+'</h3><p>'+esc(state.nextSteps)+'</p>':'')
+    +'<div class="sign"><div><h6>'+t.signT+'</h6><div class="box" id="signBoxC"></div></div><div><h6>'+t.signC+'</h6><div class="box"></div></div></div>'
+    +'<div class="doc-foot">'+t.footer+'</div>';
+  if(window.Bornexa&&Bornexa.injectSignature)Bornexa.injectSignature($('#signBoxC'),48);
+}
+function renderDocExpert(){
+  var lang=state.docLang,t=T[lang];
+  var rows=measTableRows(t,lang);
+  var degRows=state.degats.filter(function(d){return d.app;}).map(function(d){
+    return '<tr><td>'+esc(d.app)+'</td><td>'+esc(d.detail||'')+'</td><td>'+esc((lang==='nl'?ETATS_NL:ETATS_FR)[d.etat]||'')+'</td></tr>';}).join('');
+  var phs=Object.keys(state.photos).filter(function(k){return state.photos[k].src;}).map(function(k){
+    return '<figure><img src="'+state.photos[k].src+'" alt=""><figcaption>'+esc(state.photos[k].label)+'</figcaption></figure>';}).join('');
+  var concl=lang==='nl'?state.conclusionNL:state.conclusionFR;
+  var sin=state.sinistre, sinRows=[[t.assureur,sin.assureur],[t.dossier,sin.dossierNr],[t.dateSin,fmtDateBE(sin.dateSinistre)]].filter(function(r){return r[1];});
+  var heures=state.heures.debut?(' · '+t.heures+' : '+state.heures.debut+(state.heures.fin?' – '+state.heures.fin:'')):'';
+  $('#docExpert').innerHTML=docHead(t,t.repE,t.repEsub)
+    +docClientBlock(t)
+    +(sinRows.length?'<h3>'+t.sinistre+'</h3><dl>'+sinRows.map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl>':'')
+    +(state.causeNote?'<h3>'+t.ctx+'</h3><p>'+esc(state.causeNote)+'</p>':'')
+    +docInstallBlock(t,lang)
+    +(state.inst.instrument?'<p style="font-size:.8rem;color:var(--muted)"><b>'+t.instr+' :</b> '+esc(state.inst.instrument)+' — '+esc(fmtDateBE(state.heures.date))+heures+'</p>':'')
+    +(rows?'<h3>'+t.metingen+'</h3><table><thead><tr><th>'+t.mesure+'</th><th>'+t.valeur+'</th><th>'+t.limite+'</th><th>'+t.result+'</th></tr></thead><tbody>'+rows+'</tbody></table>':'')
+    +(degRows?'<h3>'+t.schade+'</h3><table><thead><tr><th>'+t.app+'</th><th></th><th>'+t.etat+'</th></tr></thead><tbody>'+degRows+'</tbody></table>':'')
+    +(state.obs?'<p style="font-size:.84rem"><b>Obs. :</b> '+esc(state.obs)+'</p>':'')
+    +(concl?'<h3>'+t.concl+'</h3><div class="doc-concl">'+esc(concl)+'</div>':'')
+    +optsBlock(t,lang)
+    +(state.sinistre.assureur||state.sinistre.dossierNr?'<p style="font-size:.82rem;font-style:italic">'+t.dispo+'</p>':'')
+    +(phs?'<h3>'+t.photos+'</h3><div class="doc-photos">'+phs+'</div>':'')
+    +'<div class="sign"><div><h6>'+t.signT+'</h6><div class="box" id="signBoxE"></div></div><div><h6>'+t.signC+'</h6><div class="box"></div></div></div>'
+    +'<div class="doc-foot">'+t.footer+'</div>';
+  if(window.Bornexa&&Bornexa.injectSignature)Bornexa.injectSignature($('#signBoxE'),48);
+}
+function renderDocs(){renderDocClient();renderDocExpert();}
+function printDoc(which){
+  document.body.setAttribute('data-print',which);
+  renderDocs();
+  setTimeout(function(){window.print();},60);
+}
+window.addEventListener('afterprint',function(){document.body.removeAttribute('data-print');});
+
+/* ═══════════════════ Navigation & progression ═══════════════════ */
+var STEPS=[[1,'Dossier'],[2,'Situation'],[3,'Mesures'],[4,'Constats'],[5,'Conclusion'],[6,'Documents']];
+function stepDone(n){
+  if(n===1)return !!state.client.name;
+  if(n===2)return !!state.cause;
+  if(n===3){var a=activeMeasures();return a.length>0&&a.every(measHasData);}
+  if(n===4)return Object.keys(state.photos).some(function(k){return state.photos[k].src;});
+  if(n===5)return !!(state.verdict&&(state.conclusionNL||state.conclusionFR));
+  return false;
+}
+function renderStepper(){
+  $('#stepsRow').innerHTML=STEPS.map(function(s){
+    return '<button type="button" class="stepchip'+(state.step===s[0]?' active':'')+(stepDone(s[0])?' done':'')+'" data-step="'+s[0]+'"><span class="n">Étape '+s[0]+'</span><span class="t">'+s[1]+'</span></button>';
+  }).join('');
+}
+$('#stepsRow').addEventListener('click',function(e){var b=e.target.closest('[data-step]');if(b)goStep(+b.dataset.step);});
+function goStep(n){
+  state.step=Math.max(1,Math.min(6,n));
+  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active');});
+  $('#step'+state.step).classList.add('active');
+  $('#btnPrev').disabled=state.step===1;
+  $('#btnNext').textContent=state.step===6?'✓ Terminé':'Suivant →';
+  if(state.step===6)renderDocs();
+  renderStepper();updateProgress();scheduleSave();
+  window.scrollTo({top:0});
+}
+$('#btnPrev').addEventListener('click',function(){goStep(state.step-1);});
+$('#btnNext').addEventListener('click',function(){
+  if(state.step===6){doSave();toast('Diagnostic enregistré ✓');return;}
+  goStep(state.step+1);
+});
+function updateProgress(){
+  var a=activeMeasures(),done=a.filter(measHasData).length;
+  var pct=0;
+  pct+= state.client.name?15:0;
+  pct+= state.cause?15:0;
+  pct+= a.length?Math.round(40*done/a.length):0;
+  pct+= Object.keys(state.photos).some(function(k){return state.photos[k].src;})?10:0;
+  pct+= state.verdict?10:0;
+  pct+= (state.conclusionNL||state.conclusionFR)?10:0;
+  $('#progFill').style.width=pct+'%';
+  var sub=$('#measSub');
+  if(a.length)sub.innerHTML='Cause « '+(state.cause?CAUSES[state.cause].fr:'')+'» : <b>'+done+'/'+a.length+' mesures</b> complétées. « N/A » écarte une mesure inutile.';
+}
+
+/* ═══════════════════ Init ═══════════════════ */
+function initAll(){
+  loadState();prefill();
+  bindInputs();
+  initSeg('segRacc',function(){return state.inst.racc;},function(v){state.inst.racc=v;renderMeasures();updateProgress();scheduleSave();});
+  initSeg('segDocLang',function(){return state.docLang;},function(v){state.docLang=v;renderDocs();scheduleSave();});
+  renderCauses();renderMeasures();renderPhotos();renderDegats();renderVerdicts();renderOptions();
+  goStep(state.step||1);
+}
+initAll();
+document.addEventListener('bornexa:synced',function(){
+  // après une synchro cloud : recharge l'état scoped si le dossier a changé ailleurs
+  var cur=JSON.stringify(state);
+  loadState();prefill();
+  if(JSON.stringify(state)!==cur){bindInputs();renderCauses();renderMeasures();renderPhotos();renderDegats();renderVerdicts();renderOptions();renderStepper();updateProgress();}
+});
+</script>
+</body>
+</html>

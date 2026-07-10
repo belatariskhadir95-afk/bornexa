@@ -74,6 +74,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
       <a href="documenten-installatie"><span class="step">Étape 5</span><b>📄 Documents / contrôle</b><span>Unifilaire, plan de position, dossier</span></a>
       <a href="facturation"><span class="step">Étape 6</span><b>🧾 Facturation</b><span>Acompte &amp; solde · conforme loi belge · numérotation auto</span></a>
       <a href="configurateur-smappee"><span class="step">Énergie</span><b>⚡ Configurateur Smappee Infinity</b><span>Dimensionnement expert · BOM · dossier technique</span></a>
+      <a href="diagnostic-interne"><span class="step">Dépannage</span><b>🩺 Diagnostic &amp; rapport</b><span>Mesures guidées selon la panne · rapport client + assurance</span></a>
     </div>
     <div style="margin-top:16px"><h2 style="font-size:.9rem">Résumé</h2><div class="summary"><dl id="summary"></dl></div></div>
     <div class="toolbar" style="margin-top:14px">
@@ -129,6 +130,7 @@ function renderSummary(a){
   if(d&&d.smartEnergy)rows.push(['Load balancing', d.smartEnergy.loadBalance?('Oui ('+(d.smartEnergy.moduleRef||'')+')'):'Non']);
   if(d&&d.ttc!=null)rows.push(['Total TTC','€ '+Number(d.ttc).toLocaleString('fr-BE',{minimumFractionDigits:2,maximumFractionDigits:2})]);
   if(c&&c.measures){var m=c.measures,e=m.earthOhm&&m.earthOhm.value;if(e)rows.push(['Terre mesurée',e+' Ω']);}
+  if(a.diagnostic&&a.diagnostic.ref)rows.push(['Diagnostic', a.diagnostic.ref+(a.diagnostic.verdictLabel?' · '+a.diagnostic.verdictLabel:'')]);
   rows.push(['État', a.status||'Nouveau']);
   $('#summary').innerHTML=rows.map(function(r){return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd>';}).join('');
 }

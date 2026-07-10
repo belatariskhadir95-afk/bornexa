@@ -233,3 +233,6 @@
 /suivi                       /pipeline                301!
 /planning.html               /planning                301!
 /agenda                      /planning                301!
+/diagnostic-interne.html     /diagnostic-interne      301!
+/diagnostic                  /diagnostic-interne      301!
+/diagnose                    /diagnostic-interne      301!
