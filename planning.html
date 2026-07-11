@@ -41,7 +41,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0
 <body data-bornexa-tool="planning">
 <header class="topbar">
   <svg viewBox="0 0 80 80" aria-hidden="true"><defs><linearGradient id="h" x1="10%" y1="0" x2="90%" y2="100%"><stop offset="0" stop-color="#1ADBA8"/><stop offset="1" stop-color="#009E76"/></linearGradient></defs><polygon points="40,12 64,24 64,52 40,64 16,52 16,24" fill="url(#h)"/><polygon points="46,22 34,42 40,42 33,60 50,40 43,40" fill="#fff"/></svg>
-  <div><b>BORNEXA Planning</b><span>Agenda visites & chantiers</span></div>
+  <div style="flex:1"><b>BORNEXA Planning</b><span>Agenda visites & chantiers</span></div>
+  <button class="btn btn-o btn-sm" id="gcalCfg" title="Synchroniser avec Google Agenda via Make">⚙ Agenda</button>
 </header>
 <div class="wrap">
 
@@ -83,6 +84,58 @@ function fmtDay(iso){try{return new Date(iso+'T00:00:00').toLocaleDateString('fr
 
 var pType='visite';
 
+/* ── Synchro Google Agenda (webhook Make) ──
+   Chaque RDV part avec un uid stable "BXPLAN-<dossier>-<type>" ; côté Make :
+   Router → route 1 (Search Events par uid → Delete) puis route 2 (Create).
+   Résultat : upsert sans doublon. URL stockée PAR APPAREIL (localStorage). */
+var GKEY='bornexa-gcal-webhook', GQ='bornexa-gcal-queue';
+function gcalUrl(){ return localStorage.getItem(GKEY)||''; }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function tzOff(d){ var m=-d.getTimezoneOffset(), s=m<0?'-':'+'; m=Math.abs(m); return s+pad2(Math.floor(m/60))+':'+pad2(m%60); }
+function isoLocal(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate())+'T'+pad2(d.getHours())+':'+pad2(d.getMinutes())+':00'+tzOff(d); }
+function gcalPayload(dossId,type,e,client,addr){
+  var uid='BXPLAN-'+dossId+'-'+type;
+  var p={uid:uid,action:'upsert',
+    title:(type==='visite'?'📋 Visite — ':'🔧 Chantier — ')+client+(e.done?' ✓':''),
+    location:addr||'',
+    description:(e.note?e.note+'\n':'')+'Dossier '+dossId+' · BORNEXA\n'+uid};
+  if(e.time){
+    var st=new Date(e.date+'T'+e.time+':00');
+    var en=new Date(st.getTime()+(type==='visite'?90:510)*60000); // visite 1h30 · chantier 8h30
+    p.allDay=false; p.start=isoLocal(st); p.end=isoLocal(en);
+  }else{
+    var nx=new Date(e.date+'T00:00:00'); nx.setDate(nx.getDate()+1);
+    p.allDay=true; p.start=e.date; p.end=nx.getFullYear()+'-'+pad2(nx.getMonth()+1)+'-'+pad2(nx.getDate());
+  }
+  return p;
+}
+function gcalSend(p){
+  var url=gcalUrl(); if(!url) return;
+  fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})
+    .then(function(r){ if(!r.ok) throw 0; gcalFlush(); })
+    .catch(function(){
+      var q=[]; try{q=JSON.parse(localStorage.getItem(GQ))||[];}catch(e){}
+      q=q.filter(function(x){return x.uid!==p.uid;}); q.push(p);
+      localStorage.setItem(GQ,JSON.stringify(q));
+      toast('⚠ Agenda : envoi différé (hors-ligne)');
+    });
+}
+function gcalFlush(){
+  if(!gcalUrl()) return;
+  var q=[]; try{q=JSON.parse(localStorage.getItem(GQ))||[];}catch(e){}
+  if(!q.length) return;
+  localStorage.setItem(GQ,'[]');
+  q.forEach(gcalSend);
+}
+function gcalPush(dossId,type){
+  if(!gcalUrl()) return;
+  var d=fullDossiers().filter(function(x){return x.id===dossId;})[0]; if(!d) return;
+  var e=d.planning&&d.planning[type]; if(!e||!e.date) return;
+  var addr=(d.devis&&d.devis.client&&d.devis.client.address)||(d.visite&&d.visite.data&&d.visite.data.clientAddress)||'';
+  gcalSend(gcalPayload(dossId,type,e,clientName(d),addr));
+}
+function paintCfg(){ var b=document.getElementById('gcalCfg'); if(b) b.textContent=gcalUrl()?'⚙ Agenda ✓':'⚙ Agenda'; }
+
 function dossiers(){ try{return (window.Bornexa&&Bornexa.list)?Bornexa.list():[];}catch(e){return [];} }
 function fullDossiers(){ try{var a=(window.Bornexa&&Bornexa.exportAll)?Bornexa.exportAll():null; var d=(a&&a.dossiers)||{}; return Object.keys(d).map(function(k){return d[k];});}catch(e){return [];} }
 function clientName(d){ var v=d.visite&&d.visite.data; return (d.devis&&d.devis.client&&d.devis.client.name)||(v&&v.clientName)||d.name||'(sans nom)'; }
@@ -106,12 +159,13 @@ function schedule(id,type,date,time,note){
   var p=Bornexa.get('planning')||{};
   p[type]={date:date,time:time,note:note,done:(p[type]&&p[type].done)||false};
   Bornexa.put('planning',p);
+  gcalPush(id,type);
   toast('RDV enregistré ✓'); render();
 }
 function toggleDone(id,type){
   Bornexa.setCurrent(id);
   var p=Bornexa.get('planning')||{};
-  if(p[type]){ p[type].done=!p[type].done; Bornexa.put('planning',p); render(); }
+  if(p[type]){ p[type].done=!p[type].done; Bornexa.put('planning',p); gcalPush(id,type); render(); }
 }
 
 function render(){
@@ -145,6 +199,26 @@ function render(){
 $('pType').addEventListener('click',function(e){ var b=e.target.closest('[data-t]'); if(!b)return; pType=b.dataset.t; Array.prototype.forEach.call(this.children,function(x){x.classList.toggle('on',x===b);}); });
 $('pSave').addEventListener('click',function(){ schedule($('pDoss').value,pType,$('pDate').value,$('pTime').value,$('pNote').value.trim()); $('pNote').value=''; });
 $('agenda').addEventListener('click',function(e){ var dn=e.target.closest('[data-done]'), op=e.target.closest('[data-open]'); if(dn){ toggleDone(dn.dataset.done,dn.dataset.ty); } else if(op){ Bornexa.setCurrent(op.dataset.open); location.href='bornexa-hub'; } });
+
+document.getElementById('gcalCfg').addEventListener('click',function(){
+  BX.prompt('URL du webhook Make (scénario « Planning → Google Agenda ») :',{title:'Synchro Google Agenda',default:gcalUrl(),placeholder:'https://hook.eu2.make.com/…',okText:'Enregistrer'}).then(function(v){
+    if(v==null) return;
+    v=v.trim();
+    if(!v){ localStorage.removeItem(GKEY); paintCfg(); toast('Synchro agenda désactivée'); return; }
+    localStorage.setItem(GKEY,v); paintCfg();
+    BX.confirm('Envoyer un rendez-vous TEST (demain 10:00) pour vérifier la connexion ?',{title:'Tester la connexion',okText:'Envoyer le test'}).then(function(ok){
+      if(!ok) return;
+      var st=new Date(); st.setDate(st.getDate()+1); st.setHours(10,0,0,0);
+      gcalSend({uid:'BXPLAN-TEST',action:'upsert',title:'✅ Test BORNEXA Planning',location:'',
+        description:'Connexion réussie — tu peux supprimer cet événement.\nBXPLAN-TEST',
+        allDay:false,start:isoLocal(st),end:isoLocal(new Date(st.getTime()+30*60000))});
+      toast('Test envoyé → vérifie Make puis ton agenda');
+    });
+  });
+});
+paintCfg();
+window.addEventListener('online',gcalFlush);
+gcalFlush();
 
 render();
 document.addEventListener('bornexa:synced', render);
