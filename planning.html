@@ -99,26 +99,25 @@ function gcalPayload(dossId,type,e,client,addr){
     title:(type==='visite'?'📋 Visite — ':'🔧 Chantier — ')+client+(e.done?' ✓':''),
     location:addr||'',
     description:(e.note?e.note+'\n':'')+'Dossier '+dossId+' · BORNEXA\n'+uid};
-  if(e.time){
-    var st=new Date(e.date+'T'+e.time+':00');
-    var en=new Date(st.getTime()+(type==='visite'?90:510)*60000); // visite 1h30 · chantier 8h30
-    p.allDay=false; p.start=isoLocal(st); p.end=isoLocal(en);
-  }else{
-    var nx=new Date(e.date+'T00:00:00'); nx.setDate(nx.getDate()+1);
-    p.allDay=true; p.start=e.date; p.end=nx.getFullYear()+'-'+pad2(nx.getMonth()+1)+'-'+pad2(nx.getDate());
-  }
+  var t=e.time||(type==='visite'?'09:00':'08:00'); // sans heure : défaut 9h visite / 8h chantier
+  var st=new Date(e.date+'T'+t+':00');
+  var en=new Date(st.getTime()+(type==='visite'?90:510)*60000); // visite 1h30 · chantier 8h30
+  p.start=isoLocal(st); p.end=isoLocal(en);
   return p;
+}
+function gcalQueue(p){
+  var q=[]; try{q=JSON.parse(localStorage.getItem(GQ))||[];}catch(e){}
+  q=q.filter(function(x){return x.uid!==p.uid;}); q.push(p);
+  localStorage.setItem(GQ,JSON.stringify(q));
+  toast('⚠ Agenda : envoi différé (hors-ligne)');
 }
 function gcalSend(p){
   var url=gcalUrl(); if(!url) return;
-  fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})
-    .then(function(r){ if(!r.ok) throw 0; gcalFlush(); })
-    .catch(function(){
-      var q=[]; try{q=JSON.parse(localStorage.getItem(GQ))||[];}catch(e){}
-      q=q.filter(function(x){return x.uid!==p.uid;}); q.push(p);
-      localStorage.setItem(GQ,JSON.stringify(q));
-      toast('⚠ Agenda : envoi différé (hors-ligne)');
-    });
+  if(!navigator.onLine){ gcalQueue(p); return; }
+  // POST url-encodé en no-cors : requête "simple" → jamais bloquée par le navigateur (pas de preflight)
+  fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(p).toString()})
+    .then(function(){ gcalFlush(); })
+    .catch(function(){ gcalQueue(p); });
 }
 function gcalFlush(){
   if(!gcalUrl()) return;
