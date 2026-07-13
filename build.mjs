@@ -15,7 +15,7 @@ const DIST = 'dist';
 // Éléments racine à NE PAS publier (build, vcs, sources lourdes, docs internes)
 const SKIP = new Set([
   'node_modules', 'dist', '.git', '.github', '.claude',
-  'photos-gbp', 'print-qr',
+  'photos-gbp', 'print-qr', 'vetements',
   'build.mjs', 'package.json', 'package-lock.json',
   'CLAUDE.md', 'PROJECT_CONTEXT.md', 'VALIDATION-TECHNIQUE.md',
   'MARKETING-PRELANCEMENT.md', 'GUIDE-SEARCH-CONSOLE.md', 'annuaires-bornexa.md',
