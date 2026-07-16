@@ -101,6 +101,7 @@
         <div><label class="fl">Nombre de bâtiments / sites</label><input type="number" id="i-sites" min="1" step="1" value="1"></div>
       </div>
       <button class="btn-ghost" style="margin-top:12px;width:100%;font-size:.82rem;padding:9px" onclick="presetCopro()">🏢 Préréglage « Copropriété parking » (4G · P1 par locataire · bornes EV Dual)</button>
+      <button class="btn-ghost" style="margin-top:8px;width:100%;font-size:.82rem;padding:9px" onclick="presetAppart()">🚗 Préréglage « Appartement · borne au parking » (mono 40 A · délestage · Ethernet vers -1)</button>
     </div>
 
     <div class="card">
@@ -149,13 +150,37 @@
     <div class="card">
       <span class="seclabel">5 · Connectivité &amp; EV</span>
       <h2>Réseau &amp; bornes</h2>
-      <label class="fl">Internet disponible sur place</label>
+      <label class="fl">Internet disponible sur place (au tableau / local technique)</label>
       <div class="chips" id="ch-conn"></div>
       <div class="grid3" style="margin-top:12px">
+        <div><label class="fl">EV Wall (1 conn.)</label><input type="number" id="i-evw" min="0" step="1" value="0"></div>
         <div><label class="fl">EV Dual murale (2 conn.)</label><input type="number" id="i-ev" min="0" step="1" value="0"></div>
         <div><label class="fl">EV Dual socle (2 conn.)</label><input type="number" id="i-evu" min="0" step="1" value="0"></div>
-        <div><label class="fl">Smappee Switch (prises)</label><input type="number" id="i-switch" min="0" step="1" value="0"></div>
       </div>
+      <div id="evw-var-wrap" class="hidden" style="margin-top:8px">
+        <label class="fl">Variante EV Wall</label>
+        <div class="chips" id="ch-evwvar"></div>
+      </div>
+      <div style="margin-top:10px"><label class="fl">Smappee Switch (prises)</label><input type="number" id="i-switch" min="0" step="1" value="0" style="max-width:140px"></div>
+    </div>
+
+    <div class="card" id="card-implant">
+      <span class="seclabel">6 · Implantation &amp; contraintes</span>
+      <h2>Où va quoi — le vrai problème du terrain</h2>
+      <p class="sub">Le moteur décide : communication de la borne, protections, section de câble, divisionnaire, placement du CT.</p>
+      <div class="grid2">
+        <div><label class="fl">Distance tableau → borne (m)</label><input type="number" id="i-dist" min="0" step="1" placeholder="ex. 22"></div>
+        <div><label class="fl">Emplacement de la borne</label>
+          <select id="i-borneplace"><option value="meme">Même local / proche tableau</option><option value="autre">Autre local (même niveau)</option><option value="soussol">Sous-sol / parking béton</option><option value="ext">Extérieur</option></select>
+        </div>
+      </div>
+      <label class="fl">Réseau possible à l'emplacement de la borne</label>
+      <div class="chips" id="ch-bornenet"></div>
+      <label class="fl">Signal 4G à l'emplacement de la borne</label>
+      <div class="chips" id="ch-sig4g"></div>
+      <label class="toggle" style="margin-top:10px"><input type="checkbox" id="i-grouped"> Chemin de câble <b style="margin:0 4px">chargé / groupé</b> avec d'autres câbles (déclassement)</label>
+      <label class="toggle"><input type="checkbox" id="i-boardfull"> Tableau principal <b style="margin:0 4px">plein</b> → tableau divisionnaire nécessaire</label>
+      <label class="toggle"><input type="checkbox" id="i-firewall"> Traversée de dalle / mur coupe-feu (rebouchage EI)</label>
     </div>
 
     <details class="kb card no-print" id="kb-editor">
@@ -207,7 +232,8 @@
    Ajouter un produit Smappee = ajouter une entrée ici. Aucune règle codée en dur.
    ══════════════════════════════════════════════════════════════ */
 const KB = {
-  limits:{ ctPerHub:4, hubsPerLoc:7, measPerLoc:28, hubDaisyM:100, busM:500, maxModules:10, relaysPerOutput:2, inputsPerInput:4, sc3pDaisy:9 },
+  limits:{ ctPerHub:4, hubsPerLoc:7, measPerLoc:28, hubDaisyM:100, busM:500, maxModules:10, relaysPerOutput:2, inputsPerInput:4, sc3pDaisy:9,
+           ctCableM:1.8, evwMaxBreakerA:40, duMaxPct:3 },
   // Gateways
   products:{
     powerbox:  {ref:'I1-VAC-1', name:'Smappee Power Box', role:'Cœur · mesure tension + alimente les modules', price:97.69},
@@ -233,7 +259,25 @@ const KB = {
     plateDin:  {ref:'AC-IMPD-4', name:'Plaque de montage rail DIN (×4)', role:'Fixation modules', price:9.77},
     sw:        {ref:'S1-EUE',   name:'Smappee Switch (prise/relais Wi-Fi)', role:'Prise/relais Wi-Fi pilotable (vendu par 2)', price:69},
     evwall:    {ref:'EVD-2332-C5', name:'Smappee EV Dual Wall complète (2 connecteurs)', role:'Murale · 2×22 kW, MID intégré (Core+kit+câbles)', price:2208.19},
-    evultra:   {ref:'EVD-2332-B',  name:'Smappee EV Dual Base sur socle (2 connecteurs)', role:'Sur pied · 2×22 kW, MID intégré (Core+kit+pied+câbles)', price:2378.05}
+    evultra:   {ref:'EVD-2332-B',  name:'Smappee EV Dual Base sur socle (2 connecteurs)', role:'Sur pied · 2×22 kW, MID intégré (Core+kit+pied+câbles)', price:2378.05},
+    // EV Wall single (nouvelle génération EVW4 — datasheet 4.0 / 05-2026) · Cebeo confirmé 15/07/2026
+    evw4cable: {ref:'EVW4-332-C8R-B', name:'EV Wall (EVW4) câble T2 8 m — écran LCD, Plug&Charge, MID cl. B', role:'Borne 1 conn. · mono 7,4 kW / tri 22 kW · 30mA A + 6mA DC intégrés · Ethernet + 4G LTE-M (2 ans) · Cebeo 8779631', price:972.45},
+    evw4socket:{ref:'EVW4-332-BR',   name:'EV Wall (EVW4) prise T2 — écran LCD, Plug&Charge, MID cl. B', role:'Idem version prise (obturateur) · PRIX CEBEO À CONFIRMER', price:0},
+    evwcsocket:{ref:'EVWC-332-BR-E-W', name:'EV Wall Base (anc. gén. EVWC) prise T2 — sans écran, sans P&C', role:'Borne 1 conn. éco · mono 7,4 / tri 22 kW · Cebeo 8273893', price:760.12},
+    antenna:   {ref:'EV-ANTENNA-2', name:'Antenne LTE / Wi-Fi déportée 30 cm (EV Line)', role:'Améliore la 4G en sous-sol · PRIX À CONFIRMER', price:0}
+  },
+  // Matériel d'installation (hors Smappee) — prix Cebeo RÉELS confirmés · 0 = à confirmer, ne jamais inventer
+  install:{
+    c40:     {ref:'Disjoncteur C40 1P+N ABB S200 (type C)', cebeo:'4008794', price:35.98},
+    c20:     {ref:'Disjoncteur C20 2P Eaton (type C)',      cebeo:'5277174', price:12.69},
+    c6:      {ref:'Disjoncteur C6 1P+N (alim Power Box)',   cebeo:'à confirmer', price:0},
+    b40_4p:  {ref:'Disjoncteur 4P ≤40 A type B/C (borne tri)', cebeo:'à confirmer', price:0},
+    diffA63: {ref:'Différentiel 30 mA type A 2P 63 A ABB VYA', cebeo:'7675959', price:57.52},
+    coffret: {ref:'Coffret divisionnaire Eaton BC-O 1/12 ECO IP40', cebeo:'—', price:32.39},
+    xgb3g6:  {ref:'Câble XGB 3G6 (€/m)',  cebeo:'à confirmer', price:0},
+    xgb3g10: {ref:'Câble XGB 3G10 (€/m)', cebeo:'—', price:8.98},
+    xgb5g:   {ref:'Câble XGB 5G6/5G10 tri (€/m)', cebeo:'à confirmer', price:0},
+    cat5e:   {ref:'Câble data Draka F/UTP Cat5E extérieur (€/m)', cebeo:'3711188', price:2.09}
   },
   // Capteurs de courant (triés par calibre) — type: solid | split | rogowski
   cts:[
@@ -250,16 +294,18 @@ const KB = {
 const PRICE_KEY='bornexa-smappee-kb-prices-v1';
 (function loadPrices(){ try{const p=JSON.parse(localStorage.getItem(PRICE_KEY)||'{}');
   Object.keys(KB.products).forEach(k=>{if(p['p_'+k]!=null)KB.products[k].price=p['p_'+k];if(p['r_'+k])KB.products[k].ref=p['r_'+k];});
+  Object.keys(KB.install).forEach(k=>{if(p['i_'+k]!=null)KB.install[k].price=p['i_'+k];});
   KB.cts.forEach(c=>{if(p['p_'+c.ref]!=null)c.price=p['p_'+c.ref];});
 }catch(e){} })();
-function savePrices(){ const p={}; Object.keys(KB.products).forEach(k=>{p['p_'+k]=KB.products[k].price;p['r_'+k]=KB.products[k].ref;}); KB.cts.forEach(c=>p['p_'+c.ref]=c.price); localStorage.setItem(PRICE_KEY,JSON.stringify(p)); }
+function savePrices(){ const p={}; Object.keys(KB.products).forEach(k=>{p['p_'+k]=KB.products[k].price;p['r_'+k]=KB.products[k].ref;}); Object.keys(KB.install).forEach(k=>{p['i_'+k]=KB.install[k].price;}); KB.cts.forEach(c=>p['p_'+c.ref]=c.price); localStorage.setItem(PRICE_KEY,JSON.stringify(p)); }
 
 /* ══════════════════════════════════════════════════════════════
    ÉTAT
    ══════════════════════════════════════════════════════════════ */
 const STORE='bornexa-smappee-config-v1';
 let S = { building:'Woning', boards:1, sites:1, phase:'Driefasig', mainA:'', meter:'digital', p1Count:0,
-  meas:[], sc3p:false, split:false, control:0, pulse:0, nilm:false, future:false, conn:'Wi-Fi', ev:0, evu:0, sw:0 };
+  meas:[], sc3p:false, split:false, control:0, pulse:0, nilm:false, future:false, conn:'Wi-Fi', ev:0, evu:0, sw:0,
+  evw:0, evwVar:'Câble 8 m', dist:'', bornePlace:'meme', borneNet:'Ethernet (présent ou à tirer)', sig4g:'Inconnu', grouped:false, boardFull:false, firewall:false };
 let measSeq=1, _hadConfig=false;
 (function load(){
   try{
@@ -381,7 +427,9 @@ function engine(){
   const connNoNet = /aucun|none|4g/i.test(S.conn||'');
   const connWired = /ethernet|filaire/i.test(S.conn||'');
   const connWifi  = /wi-?fi/i.test(S.conn||'') && !connNoNet;
-  const evTotal   = (parseInt(S.ev)||0)+(parseInt(S.evu)||0);
+  const evDualQty = (parseInt(S.ev)||0)+(parseInt(S.evu)||0);
+  const evwQty    = (parseInt(S.evw)||0);
+  const evTotal   = evDualQty + evwQty;
   let teltonikaQty = 0;
   if(connNoNet){
     teltonikaQty = Math.max(1, locations); // 1 routeur 4G par site : internet + Wi-Fi local
@@ -393,8 +441,96 @@ function engine(){
   if(p1Count>0 && !connWifi && !connNoNet && !connWired){
     warns.push({c:'warn',t:'Les modules P1 se connectent uniquement en <b>Wi-Fi 2,4 GHz</b> — prévoir un réseau Wi-Fi accessible depuis leur emplacement.'});
   }
-  if(connNoNet && evTotal>0){
+  if(connNoNet && evDualQty>0){
     warns.push({c:'ok',t:'Les bornes EV Dual embarquent leur propre <b>4G LTE-M (5 ans inclus)</b> → pas de réseau nécessaire au parking. ⚠️ Vérifier le signal 4G si parking souterrain (sinon antenne externe ou Ethernet vers le routeur).'});
+  }
+
+  /* ── BORNES EV : implantation, communication, protections, câble (moteur de contraintes v5) ──
+     Sources : datasheet EV Wall EVW4 4.0 (05/2026) + manuel Infinity 2.8.1. Prix Cebeo réels (0 = à confirmer). */
+  const I=KB.install, installBom=[];
+  const addInst=(item,qty,label)=>{ if(qty>0) installBom.push({ref:(item.cebeo && item.cebeo!=='—' && item.cebeo!=='à confirmer')?('Cebeo '+item.cebeo):(item.cebeo==='à confirmer'?'à conf.':'—'), name:(label||item.ref), qty:qty, price:item.price||0}); };
+  const dist = parseFloat(S.dist)||0;
+  const mono = S.phase==='Monofasig';
+  let autoKit=false, lbNeed='none';
+
+  if(evTotal>0){
+    // 1) Délestage dynamique : nécessaire ?
+    if(mainA>0){ if(mainA<=40) lbNeed='must'; else if(mainA<=63) lbNeed='should'; }
+    else { lbNeed='unknown'; warns.push({c:'warn',t:'Borne prévue mais <b>calibre du raccordement inconnu</b> → impossible de trancher le délestage. Renseignez le disjoncteur principal.'}); confidence-=8; }
+    const hasMainMeas = S.meas.some(m=>isMainName(m.name));
+    if(lbNeed==='must'){
+      warns.push({c:'warn',t:'<b>Délestage dynamique OBLIGATOIRE :</b> borne 32 A sur raccordement '+mainA+' A → sans délestage, le disjoncteur principal saute (protection anti-surcharge en cascade Smappee requise).'});
+      if(!hasMainMeas && p1Count===0 && !hasCTmon){
+        autoKit=true;
+        why.push('<b>Smart Kit '+(mainA>50?'100A':'50A')+' (ajouté automatiquement) :</b> le délestage exige la mesure du réseau — aucune mesure principale ni P1 configurée. Kit = Connect + Power Box + CT Hub + 4 CT ('+(mainA>50?'EV-INFINITY-100A':'EV-INFINITY-50A')+', moins cher que les modules séparés + CT de réserve).');
+      } else if(p1Count>0 && !hasMainMeas && !hasCTmon){
+        warns.push({c:'ok',t:'Mesure réseau pour le délestage = <b>module P1</b> — valable UNIQUEMENT si Wi-Fi 2,4 GHz au compteur. Sinon → Smart Kit (CT sur l’arrivée).'});
+      } else {
+        why.push('<b>Délestage :</b> s’appuie sur la mesure principale déjà configurée (CT arrivée → Power Box → passerelle).');
+      }
+    } else if(lbNeed==='should'){
+      warns.push({c:'warn',t:'Raccordement '+mainA+' A : délestage dynamique <b>fortement recommandé</b> (borne 32 A + consommation existante).'});
+    }
+    // 2) Règles CT pour le délestage
+    if(lbNeed!=='none' && (autoKit||hasMainMeas||hasCTmon)){
+      warns.push({c:'ok',t:'<b>Placement CT :</b> sur l’arrivée générale, en <b>AMONT du départ borne</b> (le CT doit « voir » bâtiment + borne). Départ/divisionnaire borne piqué <b>EN AVAL du CT</b>. Câble du CT = <b>1,8 m max</b> jusqu’au CT Hub.'});
+    }
+    // 3) Passerelles & latence délestage (fait vérifié : l'EV Wall/EV Dual intègre sa propre passerelle Connect)
+    if(lbNeed!=='none' && geniusQty===0){
+      warns.push({c:'warn',t:'<b>Architecture passerelles :</b> la borne intègre sa propre passerelle (Connect) → avec le Connect de la mesure = 2 Connect sans Genius → coordination du délestage <b>via le cloud Smappee</b> (latence ~secondes, PAS local garanti). Acceptable thermiquement (courbe du disjoncteur) → config plafond = calibre réel + <b>test de bridage à la mise en service</b>. Délestage local exigé → envisager un <b>Genius</b> (à confirmer avec le support Smappee).'});
+    }
+  }
+
+  if(evwQty>0){
+    // 4) Connectivité EV Wall — PAS de Wi-Fi (datasheet : Ethernet 100BASE-T + 4G LTE-M uniquement)
+    const netNone = /aucun|rien/i.test(S.borneNet||'');
+    if(netNone){
+      if(/nul/i.test(S.sig4g)){
+        warns.push({c:'err',t:'<b>IMPASSE connectivité :</b> l’EV Wall n’a <b>PAS de Wi-Fi</b> (Ethernet + 4G LTE-M uniquement) ; 4G testée nulle + pas d’Ethernet → <b>tirer un câble data est OBLIGATOIRE</b> (le long de l’alimentation).'});
+        confidence-=15;
+      } else if(/faible|inconnu/i.test(S.sig4g)){
+        warns.push({c:'warn',t:'EV Wall sans Ethernet → repose sur la <b>4G LTE-M</b> (2 ans inclus, service payant ensuite). Signal « '+S.sig4g+' » '+(/soussol/.test(S.bornePlace)?'en sous-sol béton ':'')+'→ <b>TESTER sur place avant commande</b> ; options : antenne déportée EV-ANTENNA-2 ou repli câble data.'});
+        confidence-=8;
+      } else {
+        warns.push({c:'ok',t:'EV Wall en <b>4G LTE-M</b> (signal bon confirmé) — 2 ans inclus, renouvellement annuel payant ensuite. Retirer le presse-étoupe M20 et poser le <b>bouchon ⌀20 fourni</b>.'});
+      }
+    } else {
+      warns.push({c:'ok',t:'EV Wall en <b>Ethernet</b> (recommandé : déterministe, pas de coût récurrent) : câble data blindé → presse-étoupe <b>M20</b> → <b>port RJ45 gauche</b> du contrôleur. RJ45 à sertir (non fourni). Alim = presse-étoupe <b>M32 droit</b>.'});
+      addInst(I.cat5e, dist>0?Math.ceil(dist+3):0, 'Câble data Cat5E F/UTP blindé — '+(dist>0?Math.ceil(dist+3)+' m':'?')+' (même chemin que la puissance)');
+      if(dist===0){ assumptions.push('Distance tableau→borne non renseignée → métré des câbles à compléter.'); confidence-=4; }
+    }
+    // 5) Protections EV Wall — différentiels INTÉGRÉS (datasheet verbatim)
+    warns.push({c:'ok',t:'<b>Protections EV Wall :</b> 30 mA AC type A + 6 mA DC RCM <b>intégrés</b> → datasheet : protection externe = <b>disjoncteur ≤40 A type B/C UNIQUEMENT</b>. Pas de différentiel externe (redondant). Imprimer la page specs pour le contrôleur (keuring). Terre TT : Ra < 100 Ω.'});
+    if(mono) addInst(I.c40, evwQty); else addInst(I.b40_4p, evwQty);
+    why.push('<b>Protection borne ×'+evwQty+' :</b> disjoncteur dédié '+(mono?'C40 1P+N':'4P ≤40 A type B/C')+' par borne — SANS différentiel externe (intégré à l’EV Wall).');
+    if(/prise/i.test(S.evwVar) && !/anc/i.test(S.evwVar)){
+      warns.push({c:'warn',t:'EV Wall <b>prise T2 (EVW4-332-BR)</b> : prix Cebeo <b>à confirmer</b> avant devis (la version câble 8 m EVW4-332-C8R-B = 972,45 € confirmé).'});
+    }
+  }
+  if(evDualQty>0){
+    warns.push({c:'warn',t:'EV Dual : protections par connecteur → <b>vérifier la datasheet EV Dual</b> (disjoncteur par point de charge ; différentiels intégrés à confirmer selon version).'});
+  }
+
+  // 6) Câble d'alimentation borne : section par ΔU (≤3 % datasheet) + groupement
+  if(evTotal>0 && dist>0){
+    const duPct=(L,Iamp,Smm)=> mono ? (2*0.0225*L*Iamp/Smm)/230*100 : (Math.sqrt(3)*0.0225*L*Iamp/Smm)/400*100;
+    let sec=6, du=duPct(dist,32,6);
+    if(S.grouped || du>KB.limits.duMaxPct){ sec=10; du=duPct(dist,32,10); }
+    if(du>KB.limits.duMaxPct){ sec=16; du=duPct(dist,32,16); }
+    const cableItem = mono ? (sec===6?I.xgb3g6 : sec===10?I.xgb3g10 : {ref:'Câble XGB 3G16 (€/m)',cebeo:'à confirmer',price:0}) : I.xgb5g;
+    addInst(cableItem, Math.ceil(dist+3), 'Câble XGB '+(mono?'3G':'5G')+sec+' — '+Math.ceil(dist+3)+' m (ΔU '+du.toFixed(1)+' %'+(S.grouped?' · groupement':'')+')'+(evTotal>1?' — PAR borne, à multiplier':''));
+    why.push('<b>Câble borne '+(mono?'3G':'5G')+sec+' :</b> '+dist+' m @ 32 A → ΔU '+du.toFixed(1)+' % (limite 3 %)'+(S.grouped?' · section montée pour le groupement (chemin de câble chargé → déclassement)':'')+'.');
+  }
+
+  // 7) Divisionnaire / coupe-feu / alim Power Box
+  if(S.boardFull && evTotal>0){
+    addInst(I.coffret, 1);
+    why.push('<b>Divisionnaire :</b> tableau principal plein → coffret dédié (disjoncteurs borne + Power Box + CT Hub sur rail DIN), piqué <b>en aval du CT</b>.');
+  }
+  if(S.firewall){ warns.push({c:'ok',t:'Traversée dalle/mur coupe-feu → <b>rebouchage EI</b> à prévoir (petit matériel + MO).'}); }
+  if((needCentral && locations>0) || autoKit){
+    addInst(I.c6, (autoKit?1:locations), 'Disjoncteur C6 1P+N — alim Power Box (manuel Infinity : 6 A dédié)');
+    why.push('<b>Disjoncteur C6 :</b> chaque Power Box exige son propre disjoncteur 6 A (câble 90 cm fourni).');
   }
 
   // ── Détection d'oublis (Passe 2 — questions auto) ──
@@ -430,14 +566,18 @@ function engine(){
   const P=KB.products, bom=[];
   const add=(prod,qty)=>{ if(qty>0) bom.push({ref:prod.ref,name:prod.name,qty:qty,price:prod.price||0}); };
   add(P.powerbox,powerbox); add(P.genius,geniusQty); add(P.connect,connectQty);
+  if(autoKit) add(mainA>50?P.smartkit100:P.smartkit,1);
   add(P.cthub,hubs); add(P.sc3p,sc3pUnits);
   Object.keys(ctList).forEach(ref=>{ const c=KB.cts.find(x=>x.ref===ref); bom.push({ref:ref,name:'CT '+c.amps+'A '+c.type,qty:ctList[ref],price:c.price||0}); });
   add(P.output,outputQty); add(P.input,inputQty); add(P.mid,midQty);
   if(p1Count>0) add(P.p1,p1Count);
   add(P.teltonika,teltonikaQty); add(P.sw,parseInt(S.sw)||0);
+  const evwProd = /anc/i.test(S.evwVar||'') ? P.evwcsocket : (/prise/i.test(S.evwVar||'') ? P.evw4socket : P.evw4cable);
+  add(evwProd, evwQty);
   add(P.evwall,parseInt(S.ev)||0); add(P.evultra,parseInt(S.evu)||0);
+  installBom.forEach(l=>bom.push(l));
 
-  return {bom,why,warns,assumptions,confidence,channels,hubs,locations,multigw,geniusQty,connectQty,sc3pUnits,ctList,outputQty,inputQty,midQty};
+  return {bom,why,warns,assumptions,confidence,channels,hubs,locations,multigw,geniusQty,connectQty,sc3pUnits,ctList,outputQty,inputQty,midQty,evwQty,evDualQty,lbNeed,autoKit};
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -447,6 +587,7 @@ function eur(n){ return '€ '+(Math.round((n||0)*100)/100).toLocaleString('fr-B
 
 function render(){
   const R=engine();
+  const _vw=document.getElementById('evw-var-wrap'); if(_vw) _vw.classList.toggle('hidden', !(parseInt(S.evw)||0));
   // BOM
   let total=0;
   document.getElementById('bom-body').innerHTML = R.bom.map(l=>{ const sub=(l.qty*l.price); total+=sub;
@@ -495,7 +636,7 @@ function buildDossier(){
     <div style="font-size:.85rem;line-height:1.6">${R.warns.length?R.warns.map(w=>'• '+w.t).join('<br>'):'Aucun.'}</div>
     <h2 style="color:#0B1E3C;font-size:1.1rem;margin:16px 0 4px">7. Hypothèses &amp; niveau de confiance</h2>
     <div style="font-size:.85rem;line-height:1.6">Confiance : <b>${R.confidence}%</b>.<br>${R.assumptions.length?('Hypothèses faute d’infos :<br>• '+R.assumptions.join('<br>• ')):'Aucune hypothèse — toutes les données nécessaires sont renseignées.'}</div>
-    <p style="margin-top:18px;border-top:1px solid #ddd;padding-top:10px;font-size:.78rem;color:#888">Dossier indicatif généré par le configurateur BORNEXA · à confirmer par l'installateur certifié Smappee. Limites appliquées : 4 CT/hub · 7 hubs · 28 mesures/site · 10 Output · 10 Input · Input=Genius · NILM=single-gateway.</p>`;
+    <p style="margin-top:18px;border-top:1px solid #ddd;padding-top:10px;font-size:.78rem;color:#888">Dossier indicatif généré par le configurateur BORNEXA · à confirmer par l'installateur certifié Smappee. Limites appliquées : 4 CT/hub · 7 hubs · 28 mesures/site · 10 I/O combinés · Input=Genius · NILM=single-gateway · câble CT ≤1,8 m · ΔU ≤3 % · EV Wall (EVW4) : Ethernet 100BASE-T + 4G LTE-M uniquement (PAS de Wi-Fi), différentiels 30 mA type A + 6 mA DC intégrés → protection externe = disjoncteur ≤40 A type B/C seul (datasheet 4.0 · 05/2026).</p>`;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -530,9 +671,13 @@ function renderKB(){
   Object.keys(KB.products).forEach(k=>{const p=KB.products[k];
     h+=`<div class="kbrow"><span>${p.name}</span><input data-pk="${k}" data-t="ref" value="${p.ref}"><input data-pk="${k}" data-t="price" type="number" value="${p.price}" placeholder="€"></div>`;});
   KB.cts.forEach(c=>{ h+=`<div class="kbrow"><span>CT ${c.amps}A ${c.type}</span><input value="${c.ref}" disabled><input data-ct="${c.ref}" type="number" value="${c.price}" placeholder="€"></div>`;});
+  h+=`<div style="font-weight:700;color:var(--navy);margin:10px 0 4px;font-size:.85rem">Matériel d'installation (Cebeo — hors Smappee)</div>`;
+  Object.keys(KB.install).forEach(k=>{const p=KB.install[k];
+    h+=`<div class="kbrow"><span>${p.ref}</span><input value="${p.cebeo||''}" disabled><input data-ik="${k}" type="number" step="0.01" value="${p.price}" placeholder="€ (0 = à confirmer)"></div>`;});
   el.innerHTML=h;
   el.querySelectorAll('[data-pk]').forEach(inp=>inp.addEventListener('input',e=>{const k=e.target.dataset.pk,t=e.target.dataset.t; if(t==='price')KB.products[k].price=parseFloat(e.target.value)||0; else KB.products[k].ref=e.target.value; savePrices(); render();}));
   el.querySelectorAll('[data-ct]').forEach(inp=>inp.addEventListener('input',e=>{const c=KB.cts.find(x=>x.ref===e.target.dataset.ct); c.price=parseFloat(e.target.value)||0; savePrices(); render();}));
+  el.querySelectorAll('[data-ik]').forEach(inp=>inp.addEventListener('input',e=>{KB.install[e.target.dataset.ik].price=parseFloat(e.target.value)||0; savePrices(); render();}));
 }
 
 function bindNum(id,field,isInt){ const el=document.getElementById(id); el.value=S[field]; el.addEventListener('input',e=>{ S[field]= isInt?(parseInt(e.target.value)||0):e.target.value; render(); }); }
@@ -570,7 +715,8 @@ function buildSchema(R){
   let cy=110;
   if(R.outputQty){ s+=box(oX,cy,180,44,light,greenL,['Output ×'+R.outputQty,S.control+' charge(s)']); cy+=54; }
   if(R.inputQty){ s+=box(oX,cy,180,44,'#fff',border,['Input ×'+R.inputQty,S.pulse+' impulsion(s)']); cy+=54; }
-  const evTot=(parseInt(S.ev)||0)+(parseInt(S.evu)||0); if(evTot){ s+=box(oX,cy,180,44,'#fff',border,['Bornes EV','×'+evTot]); cy+=54; }
+  const evTot=(parseInt(S.ev)||0)+(parseInt(S.evu)||0)+(parseInt(S.evw)||0);
+  if(evTot){ s+=box(oX,cy,180,44,'#fff',border,(parseInt(S.evw)||0)?['Bornes EV ×'+evTot,'EV Wall : ETH / 4G']:['Bornes EV','×'+evTot]); cy+=54; }
   if(parseInt(S.sw)||0){ s+=box(oX,cy,180,44,'#fff',border,['Switch','×'+(parseInt(S.sw)||0)]); }
   if(R.multigw) s+=`<rect x="20" y="${H-28}" width="${W-40}" height="22" rx="6" fill="#fff7e6" stroke="#F59E0B"/><text x="${W/2}" y="${H-13}" text-anchor="middle" font-size="11" fill="#92610a">Multi-gateway : ${R.locations} sites (1 Genius parent + ${R.connectQty} Connect) — schéma = 1 site représentatif</text>`;
   s+='</svg>'; return s;
@@ -616,33 +762,58 @@ function exportCSV(){
 
 function resetAll(){ BX.confirm('Réinitialiser la configuration ?',{title:'Réinitialiser',okText:'Réinitialiser',danger:true}).then(function(ok){ if(!ok)return; localStorage.removeItem(STORE); if(window.Bornexa && Bornexa.has && Bornexa.has()){ try{ Bornexa.put('config',{}); }catch(e){} } location.reload(); }); }
 
-/* ── Préréglage : copropriété parking (compteurs individuels, pas d'internet, P1 par locataire) ── */
-function presetCopro(){
-  S.building='Copropriété'; S.phase='Driefasig'; S.meter='digital'; S.conn='Aucun (4G)';
-  S.p1Count=4; S.ev=2; S.evu=0; S.sw=0;
-  S.control=0; S.pulse=0; S.nilm=false; S.future=false; S.sc3p=false; S.split=false;
-  S.meas=[]; // lecture via P1 par locataire (pas de mesure CT centralisée)
+/* ── Préréglages ── */
+function _applyPresetUI(){
   var set=function(id,v){ var e=document.getElementById(id); if(e){ if(e.type==='checkbox') e.checked=!!v; else e.value=v; } };
-  set('i-p1Count',4); set('i-ev',2); set('i-evu',0); set('i-switch',0);
-  set('i-control',0); set('i-pulse',0); set('i-meter','digital'); set('i-mainA','');
-  set('i-sc3p',false); set('i-split',false); set('i-nilm',false); set('i-future',false);
+  set('i-p1Count',S.p1Count); set('i-ev',S.ev); set('i-evu',S.evu); set('i-switch',S.sw); set('i-evw',S.evw);
+  set('i-control',S.control); set('i-pulse',S.pulse); set('i-meter',S.meter); set('i-mainA',S.mainA);
+  set('i-sc3p',S.sc3p); set('i-split',S.split); set('i-nilm',S.nilm); set('i-future',S.future);
+  set('i-dist',S.dist); set('i-borneplace',S.bornePlace); set('i-grouped',S.grouped); set('i-boardfull',S.boardFull); set('i-firewall',S.firewall);
   chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
   chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
   chipGroup('ch-conn','conn',['Wi-Fi','Ethernet','Aucun (4G)']);
+  chipGroup('ch-evwvar','evwVar',['Câble 8 m','Prise T2','Prise T2 anc. gén. (éco)']);
+  chipGroup('ch-bornenet','borneNet',['Ethernet (présent ou à tirer)','Aucun réseau possible']);
+  chipGroup('ch-sig4g','sig4g',['Bon','Faible','Inconnu','Testé nul']);
   renderMeas(); render(); save();
+}
+/* Copropriété parking : compteurs individuels, pas d'internet, P1 par locataire */
+function presetCopro(){
+  S.building='Copropriété'; S.phase='Driefasig'; S.meter='digital'; S.conn='Aucun (4G)';
+  S.p1Count=4; S.ev=2; S.evu=0; S.sw=0; S.evw=0;
+  S.control=0; S.pulse=0; S.nilm=false; S.future=false; S.sc3p=false; S.split=false;
+  S.mainA=''; S.dist=''; S.bornePlace='soussol'; S.borneNet='Aucun réseau possible'; S.sig4g='Inconnu'; S.grouped=false; S.boardFull=false; S.firewall=false;
+  S.meas=[]; // lecture via P1 par locataire (pas de mesure CT centralisée)
+  _applyPresetUI();
   if(window.BX && BX.toast) BX.toast('Préréglage copro parking appliqué — ajustez le nombre de P1/locataires et de bornes','ok');
+}
+/* Appartement, borne à la place de parking (type Spiessens) : mono 40 A → délestage + Ethernet vers le sous-sol */
+function presetAppart(){
+  S.building='Woning'; S.phase='Monofasig'; S.meter='digital'; S.conn='Ethernet';
+  S.mainA=40; S.p1Count=0; S.ev=0; S.evu=0; S.sw=0; S.evw=1; S.evwVar='Câble 8 m';
+  S.control=0; S.pulse=0; S.nilm=false; S.future=false; S.sc3p=false; S.split=true;
+  S.dist=22; S.bornePlace='soussol'; S.borneNet='Ethernet (présent ou à tirer)'; S.sig4g='Inconnu';
+  S.grouped=true; S.boardFull=true; S.firewall=true;
+  S.meas=[]; // le Smart Kit est ajouté automatiquement par le moteur (délestage obligatoire)
+  _applyPresetUI();
+  if(window.BX && BX.toast) BX.toast('Préréglage appartement/parking appliqué — ajustez distance, calibre et variante de borne','ok');
 }
 
 /* ── Init ── */
 chipGroup('ch-building','building',['Woning','Copropriété','Bureaux','Industrie','Parking','Multi-bâtiments']);
 chipGroup('ch-phase','phase',['Monofasig','Driefasig']);
 chipGroup('ch-conn','conn',['Wi-Fi','Ethernet','Aucun (4G)']);
+chipGroup('ch-evwvar','evwVar',['Câble 8 m','Prise T2','Prise T2 anc. gén. (éco)']);
+chipGroup('ch-bornenet','borneNet',['Ethernet (présent ou à tirer)','Aucun réseau possible']);
+chipGroup('ch-sig4g','sig4g',['Bon','Faible','Inconnu','Testé nul']);
 bindNum('i-boards','boards',true); bindNum('i-sites','sites',true);
 bindNum('i-mainA','mainA',false); bindSel('i-meter','meter'); bindNum('i-p1Count','p1Count',true);
 bindChk('i-sc3p','sc3p'); bindChk('i-split','split');
 bindNum('i-control','control',true); bindNum('i-pulse','pulse',true);
 bindChk('i-nilm','nilm'); bindChk('i-future','future');
 bindNum('i-ev','ev',true); bindNum('i-evu','evu',true); bindNum('i-switch','sw',true);
+bindNum('i-evw','evw',true); bindNum('i-dist','dist',false); bindSel('i-borneplace','bornePlace');
+bindChk('i-grouped','grouped'); bindChk('i-boardfull','boardFull'); bindChk('i-firewall','firewall');
 document.getElementById('i-importvisite').addEventListener('change',e=>{ if(e.target.files&&e.target.files[0]) importVisite(e.target.files[0]); e.target.value=''; });
 // Pré-remplissage automatique depuis la visite du dossier actif (si aucune config existante)
 if(!_hadConfig && window.Bornexa && Bornexa.has && Bornexa.has() && Bornexa.get){ try{ const _v=Bornexa.get('visite'); if(_v) applyVisiteData(_v.data||_v); }catch(e){} }
