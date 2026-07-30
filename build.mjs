@@ -9,6 +9,7 @@ import esbuild from 'esbuild';
 import sharp from 'sharp';
 import { cpSync, rmSync, existsSync, readdirSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { execSync } from 'node:child_process';
 
 const DIST = 'dist';
 
@@ -81,4 +82,37 @@ function rewriteHtml(dir) {
 }
 rewriteHtml(DIST);
 
-console.log(`✅ Build terminé → dist/ (CSS + JS minifiés, ${webpCount} images en WebP)`);
+// 7) rafraîchir sitemap.xml : <lastmod> = date du dernier commit git du fichier source
+//    (fallback : on garde la date déjà présente si git est indisponible — ex. clone shallow)
+function sourceFileForLoc(loc) {
+  let path = loc.replace(/^https?:\/\/[^/]+\//, '').replace(/\/$/, '');
+  if (path === '') path = 'index';
+  return path.endsWith('.html') ? path : `${path}.html`;
+}
+function gitLastMod(file) {
+  try {
+    const d = execSync(`git log -1 --format=%cs -- "${file}"`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null;
+  } catch { return null; }
+}
+const sitemapPath = join(DIST, 'sitemap.xml');
+let sitemapUpdated = 0;
+if (existsSync(sitemapPath)) {
+  let xml = readFileSync(sitemapPath, 'utf8');
+  xml = xml.replace(/<url>[\s\S]*?<\/url>/g, (block) => {
+    const loc = (block.match(/<loc>([^<]+)<\/loc>/) || [])[1];
+    if (!loc) return block;
+    const file = sourceFileForLoc(loc);
+    if (!existsSync(file)) return block;
+    const date = gitLastMod(file);
+    if (!date) return block;
+    if (/<lastmod>[^<]*<\/lastmod>/.test(block)) {
+      sitemapUpdated++;
+      return block.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${date}</lastmod>`);
+    }
+    return block;
+  });
+  writeFileSync(sitemapPath, xml);
+}
+
+console.log(`✅ Build terminé → dist/ (CSS + JS minifiés, ${webpCount} images en WebP, ${sitemapUpdated} lastmod sitemap rafraîchis)`);
