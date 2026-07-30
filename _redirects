@@ -31,8 +31,10 @@
 
 /blog-boortmeerbeek.html          /laadpaal-boortmeerbeek      301!
 /blog-boortmeerbeek               /laadpaal-boortmeerbeek      301!
-/blog-tesla.html                  /blog-tesla                  301!
-/blog-solar.html                  /blog-solar                  301!
+/blog-tesla.html                  /comparateur                 301!
+/blog-tesla                       /comparateur                 301!
+/blog-solar.html                  /blog-recharge-solaire-load-balancing  301!
+/blog-solar                       /blog-recharge-solaire-load-balancing  301!
 /blog-economie.html               /blog-economie               301!
 /blog-appartement.html            /blog-appartement            301!
 /blog-business.html               /blog-business               301!

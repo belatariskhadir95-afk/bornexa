@@ -245,22 +245,6 @@
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.bornexa.be/blog-tesla</loc>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-tesla"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-tesla"/>
-    <lastmod>2026-05-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://www.bornexa.be/blog-solar</loc>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-solar"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-solar"/>
-    <lastmod>2026-05-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-  <url>
     <loc>https://www.bornexa.be/blog-appartement</loc>
     <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-appartement"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-appartement"/>
