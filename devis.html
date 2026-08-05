@@ -1240,11 +1240,17 @@
         .catch(function() { clearTimeout(safety); finish(); });
     });
 
+    var leadTracked = false;
     function showOK() {
       document.getElementById('devis-form').style.display = 'none';
       document.getElementById('dots-wrap').style.display = 'none';
       document.getElementById('prog-wrap').style.display = 'none';
       document.getElementById('success-screen').classList.add('show');
+      // Conversion : devis envoyé → événement GA4 (importable dans Google Ads via le lien GA4↔Ads)
+      if (!leadTracked && typeof window.gtag === 'function') {
+        leadTracked = true;
+        window.gtag('event', 'generate_lead', { currency: 'EUR', value: 1 });
+      }
       applyLang();
     }
 
