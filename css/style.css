@@ -918,3 +918,52 @@ p  { font-size: 1rem; line-height: 1.7; }
 .footer-cert-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.22);border-radius:var(--r-full);font-size:.72rem;font-weight:600;color:rgba(255,255,255,.88);letter-spacing:.2px}
 .footer-cert-pill svg{width:11px;height:11px;color:var(--primary);flex-shrink:0}
 .footer-cert-pill strong{color:#fff;font-weight:700}
+
+/* ==========================================================================
+   AUDIT MOBILE — correctifs (2026-08) · overrides en fin de feuille
+   ========================================================================== */
+
+/* A11y — focus clavier visible (WCAG 2.4.7) */
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px;border-radius:4px}
+
+/* Ancres sous le header fixe (72px) — évite les titres décapités */
+html{scroll-padding-top:84px}
+:target{scroll-margin-top:84px}
+
+/* iOS : select ≥16px pour ne pas déclencher l'auto-zoom au focus */
+.sim-select{font-size:1rem}
+
+/* Contraste : vert de marque en TEXTE sur fond clair (WCAG 1.4.3) */
+.brand-link{color:#0A7150}
+
+/* Maillage interne : 4 colonnes → 2 → 1 (illisible à 320px sinon) */
+@media (max-width:768px){ .internal-links-grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:420px){ .internal-links-grid{grid-template-columns:1fr} }
+
+/* Menu mobile défilable (sinon CTA/langue inatteignables en paysage) */
+.nav-mobile{max-height:calc(100dvh - 72px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* Zones tactiles ≥44px (Apple HIG / WCAG 2.5.5) */
+.nav-toggle{min-width:44px;min-height:44px;align-items:center;justify-content:center;padding:0}
+.btn-lang{min-height:44px}
+
+/* Hamburger → croix quand le menu est ouvert (feedback d'état) */
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* Scroll-lock du body quand le menu mobile est ouvert */
+body.nav-lock{overflow:hidden}
+
+/* Hero mobile : ne plus occuper 100vh → remonte stats/certifs au-dessus du fold */
+@media (max-width:768px){ .hero{min-height:auto} }
+
+/* CTA du hero pleine largeur sur mobile (au lieu de petites pilules à gauche) */
+@media (max-width:640px){
+  .hero-actions{align-items:stretch}
+  .hero-actions .btn{width:100%;justify-content:center}
+}
+
+/* Une seule barre fixe sur /devis : le pill local est masqué sur mobile
+   (la barre globale Offerte/Bellen/WhatsApp le remplace) */
+@media (max-width:768px){ .devis-sticky-call{display:none} }

@@ -43,8 +43,8 @@
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/manifest.json">
   <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
-  <link rel="preload" href="css/style.css?v=2026-06-28c" as="style">
-  <link rel="stylesheet" href="css/style.css?v=2026-06-28c">
+  <link rel="preload" href="css/style.css?v=2026-08-05" as="style">
+  <link rel="stylesheet" href="css/style.css?v=2026-08-05">
   <style>
     /* ── Devis page ── */
     .devis-hero {
@@ -1146,10 +1146,16 @@
 
     /* ── Option cards ── */
     document.querySelectorAll('.option-card').forEach(function(card) {
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+      });
       card.addEventListener('click', function() {
         var grid = card.closest('.options-grid');
-        if (grid) grid.querySelectorAll('.option-card').forEach(function(c){ c.classList.remove('selected'); });
+        if (grid) grid.querySelectorAll('.option-card').forEach(function(c){ c.classList.remove('selected'); c.setAttribute('aria-pressed', 'false'); });
         card.classList.add('selected');
+        card.setAttribute('aria-pressed', 'true');
         var fld = document.getElementById(card.dataset.field);
         if (fld) fld.value = card.dataset.value;
 
@@ -1169,7 +1175,7 @@
         var nb = panel ? panel.querySelector('.btn-next') : null;
         if (nb) nb.disabled = false;
 
-        setTimeout(window.nextStep, 380);
+        setTimeout(window.nextStep, 550);
       });
     });
 
@@ -1220,7 +1226,24 @@
       // La confirmation ne doit JAMAIS rester bloquée sur « Envoi… » → showOK() garanti.
       var done = false;
       function finish() { if (done) return; done = true; showOK(); }
-      var safety = setTimeout(finish, 6000); // filet de sécurité
+      function showFallback() {
+        if (done) return; done = true;
+        try { localStorage.setItem('bornexa-devis-retry', JSON.stringify(emailParams)); } catch (e) {}
+        var wrap = document.querySelector('.form-wrapper') || form.parentElement;
+        form.style.display = 'none';
+        var d = document.createElement('div');
+        d.style.cssText = 'text-align:center;padding:34px 20px';
+        d.innerHTML = (lang === 'fr'
+          ? '<h3 style="margin:0 0 10px;font-size:1.25rem">Envoi incertain</h3><p style="opacity:.75;margin:0 0 20px">La connexion a échoué. Contactez-nous directement — nous traitons votre demande tout de suite :</p>'
+          : '<h3 style="margin:0 0 10px;font-size:1.25rem">Verzending onzeker</h3><p style="opacity:.75;margin:0 0 20px">De verbinding is mislukt. Neem even rechtstreeks contact op — we behandelen uw aanvraag meteen:</p>')
+          + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
+          + '<a href="tel:+32489247760" style="background:#00C896;color:#0B1E3C;padding:13px 22px;border-radius:12px;font-weight:800;text-decoration:none">☎ +32 489 24 77 60</a>'
+          + '<a href="https://wa.me/32489247760" target="_blank" rel="noopener noreferrer" style="background:#25D366;color:#fff;padding:13px 22px;border-radius:12px;font-weight:800;text-decoration:none">WhatsApp</a>'
+          + '</div>';
+        (wrap || document.body).appendChild(d);
+        d.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      var safety = setTimeout(showFallback, 10000); // si rien ne répond → contact direct (jamais de faux succès)
 
       // Notification e-mail (EmailJS) — best effort, ne bloque jamais l'envoi
       try {
@@ -1236,8 +1259,8 @@
 
       // Enregistrement du lead (Netlify Forms) + confirmation
       fetch('/', { method: 'POST', body: new FormData(form) })
-        .then(function() { clearTimeout(safety); finish(); })
-        .catch(function() { clearTimeout(safety); finish(); });
+        .then(function(r) { clearTimeout(safety); (r && r.ok) ? finish() : showFallback(); })
+        .catch(function() { clearTimeout(safety); showFallback(); });
     });
 
     var leadTracked = false;
@@ -1263,7 +1286,7 @@
 
   <script defer src="js/translations.js?v=2026-06-28"></script>
   <script defer src="js/lang.js?v=2026-08-04"></script>
-  <script defer src="js/main.js?v=2026-06-28b"></script>
+  <script defer src="js/main.js?v=2026-08-05"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </body>
 </html>

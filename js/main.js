@@ -18,12 +18,27 @@
   const toggle = document.getElementById('nav-toggle');
   const mobileMenu = document.getElementById('nav-mobile');
   if (toggle && mobileMenu) {
+    const closeMenu = () => {
+      mobileMenu.classList.remove('open');
+      toggle.classList.remove('open');
+      document.body.classList.remove('nav-lock');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Menu openen');
+    };
     toggle.addEventListener('click', () => {
       const open = mobileMenu.classList.toggle('open');
+      toggle.classList.toggle('open', open);          // anime le hamburger en croix
+      document.body.classList.toggle('nav-lock', open); // scroll-lock
       toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? 'Menu sluiten' : 'Menu openen');
     });
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    // Fermeture au clic extérieur + touche Échap
+    document.addEventListener('click', (e) => {
+      if (mobileMenu.classList.contains('open') && !e.target.closest('#nav')) closeMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
     });
   }
 
