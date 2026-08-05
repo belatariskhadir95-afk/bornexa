@@ -8,6 +8,8 @@
       var p = new URLSearchParams(location.search).get('lang');
       if (p === 'fr' || p === 'nl') return p;
     } catch (e) {}
+    // L'URL /fr/ est autoritaire : ces pages sont servies en français.
+    if (location.pathname.indexOf('/fr/') === 0) return 'fr';
     var stored = localStorage.getItem(LANG_KEY);
     if (stored === 'fr' || stored === 'nl') return stored;
     var htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
@@ -105,8 +107,22 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     function toggleLang() {
-      lang = lang === 'nl' ? 'fr' : 'nl';
-      localStorage.setItem(LANG_KEY, lang);
+      var target = lang === 'nl' ? 'fr' : 'nl';
+      localStorage.setItem(LANG_KEY, target);
+      // Si une URL dédiée existe pour la langue cible (via hreflang), on y navigue
+      // (les pages NL à la racine ont un jumeau /fr/ ; le corps FR est servi en dur).
+      var alt = document.querySelector('link[rel="alternate"][hreflang="' + target + '"]');
+      if (alt && alt.getAttribute('href')) {
+        try {
+          var dest = new URL(alt.getAttribute('href'), location.href);
+          if (dest.pathname.replace(/\/$/, '') !== location.pathname.replace(/\/$/, '')) {
+            location.href = dest.href;
+            return;
+          }
+        } catch (e) {}
+      }
+      // Sinon (pas de jumeau : page FR native, outil…), bascule JS classique.
+      lang = target;
       applyLang();
     }
     var btn = document.getElementById('lang-btn');
