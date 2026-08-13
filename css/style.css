@@ -1136,3 +1136,8 @@ h2{font-weight:800;letter-spacing:-.02em}
 :root[data-theme="dark"] .sim-result-fuel{background:rgba(200,48,48,.12);border-color:rgba(200,48,48,.32)}
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .sim-result-fuel .sim-result-label,:root:not([data-theme="light"]) .sim-result-fuel .sim-result-amount{color:#ff9b9b} }
 :root[data-theme="dark"] .sim-result-fuel .sim-result-label,:root[data-theme="dark"] .sim-result-fuel .sim-result-amount{color:#ff9b9b}
+
+/* logo affiche un peu plus grand (baseline plus lisible) — FICHIER LOGO INCHANGE */
+.nav-logo img{height:52px}
+.footer-brand-name img{height:58px}
+@media (max-width:768px){.nav-logo img{height:46px}}
