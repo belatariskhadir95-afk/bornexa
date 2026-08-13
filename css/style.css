@@ -3,20 +3,29 @@
    System fonts · No Google Fonts · ~14KB
    =========================== */
 
-/* ── Variables ── */
+/* ── Design tokens · LIGHT (default) ── */
 :root {
   --primary:       #00C896;
   --primary-dark:  #009E76;
+  --primary-2:     #12E3A6;
   --primary-light: #E0FBF4;
   --secondary:     #0057FF;
-  --dark:          #0C1018;
-  --dark2:         #141C28;
-  --dark3:         #1C2838;
-  --light:         #FFFFFF;
-  --bg:            #F6F8FB;
-  --text:          #111827;
-  --text-muted:    #6B7280;
-  --border:        #E5E7EB;
+  --grad:          linear-gradient(115deg,#12E3A6 0%,#00C896 45%,#009E76 100%);
+  --grad-soft:     linear-gradient(115deg,rgba(18,227,166,.12),rgba(0,158,118,.07));
+  --on-primary:    #04140E;
+  /* dark "panel" grounds (hero / footer / dark cards) — dark in BOTH themes */
+  --dark:          #05140E;
+  --dark2:         #0A2018;
+  --dark3:         #0F2A20;
+  --light:         #FFFFFF;        /* white / text-on-dark — constant */
+  /* themed grounds & text */
+  --page:          #FFFFFF;
+  --surface:       #FFFFFF;
+  --surface-2:     #F1F6F4;
+  --bg:            #F1F6F4;
+  --text:          #0C1A15;
+  --text-muted:    #5C7168;
+  --border:        #E4EDE9;
   --font-body:     -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-head:     -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
   --r-sm:          8px;
@@ -24,20 +33,43 @@
   --r-lg:          20px;
   --r-xl:          28px;
   --r-full:        9999px;
-  --sh-sm:         0 2px 8px rgba(0,0,0,.06);
-  --sh-md:         0 6px 20px rgba(0,0,0,.08);
-  --sh-lg:         0 16px 40px rgba(0,0,0,.10);
-  --sh-primary:    0 8px 32px rgba(0,200,150,.25);
+  --sh-sm:         0 2px 8px rgba(10,40,30,.06);
+  --sh-md:         0 10px 30px rgba(10,50,38,.10);
+  --sh-lg:         0 24px 60px rgba(10,50,38,.14);
+  --sh-primary:    0 12px 40px rgba(0,200,150,.28);
   --t-fast:        150ms ease;
   --t-base:        300ms ease;
   --t-slow:        600ms ease;
   --container:     1200px;
+  color-scheme:    light;
+}
+/* ── DARK (follows OS unless toggled to light) ── */
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --primary:#12D9A2; --primary-dark:#00C896; --primary-2:#5CF3C8; --primary-light:rgba(18,217,162,.14);
+  --grad:linear-gradient(115deg,#5CF3C8 0%,#1ADBA8 45%,#00A57C 100%);
+  --grad-soft:linear-gradient(115deg,rgba(92,243,200,.14),rgba(0,158,118,.10));
+  --dark:#0C1310; --dark2:#111A16; --dark3:#16211B;
+  --page:#080D0B; --surface:#0F1613; --surface-2:#0C1210; --bg:#0C1210;
+  --text:#E7F3EE; --text-muted:#8FA69D; --border:rgba(120,224,190,.13);
+  --sh-sm:0 2px 10px rgba(0,0,0,.4); --sh-md:0 14px 34px rgba(0,0,0,.5); --sh-lg:0 26px 60px rgba(0,0,0,.6); --sh-primary:0 14px 44px rgba(0,180,135,.42);
+  color-scheme:dark;
+}}
+/* ── DARK (explicit toggle) ── */
+:root[data-theme="dark"]{
+  --primary:#12D9A2; --primary-dark:#00C896; --primary-2:#5CF3C8; --primary-light:rgba(18,217,162,.14);
+  --grad:linear-gradient(115deg,#5CF3C8 0%,#1ADBA8 45%,#00A57C 100%);
+  --grad-soft:linear-gradient(115deg,rgba(92,243,200,.14),rgba(0,158,118,.10));
+  --dark:#0C1310; --dark2:#111A16; --dark3:#16211B;
+  --page:#080D0B; --surface:#0F1613; --surface-2:#0C1210; --bg:#0C1210;
+  --text:#E7F3EE; --text-muted:#8FA69D; --border:rgba(120,224,190,.13);
+  --sh-sm:0 2px 10px rgba(0,0,0,.4); --sh-md:0 14px 34px rgba(0,0,0,.5); --sh-lg:0 26px 60px rgba(0,0,0,.6); --sh-primary:0 14px 44px rgba(0,180,135,.42);
+  color-scheme:dark;
 }
 
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-body { font-family: var(--font-body); color: var(--text); background: var(--light); line-height: 1.65; overflow-x: hidden; }
+body { font-family: var(--font-body); color: var(--text); background: var(--page); line-height: 1.65; overflow-x: hidden; transition: background var(--t-base), color var(--t-base); }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
@@ -95,7 +127,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 }
 .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
 .nav-toggle { display: none; flex-direction: column; gap: 5px; padding: 4px; }
-.nav-toggle span { display: block; width: 24px; height: 2px; background: var(--light); border-radius: 2px; transition: var(--t-base); }
+.nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: var(--t-base); }
 .nav-mobile { display: none; flex-direction: column; background: var(--dark); padding: 16px 24px 24px; }
 .nav-mobile a { color: rgba(255,255,255,.85); padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: .95rem; }
 .nav-mobile a:last-child { border-bottom: none; }
@@ -106,7 +138,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 /* ── Hero ── */
 .hero {
   min-height: 100vh; display: flex; align-items: center;
-  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 50%, #0A1420 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 50%, #04160F 100%);
   position: relative; overflow: hidden; padding-top: 72px;
 }
 .hero::before {
@@ -157,7 +189,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 /* ── Why cards / Feature grid ── */
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .why-card {
-  background: var(--light); border: 1px solid var(--border); border-radius: var(--r-lg);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
   padding: 32px 28px; transition: transform var(--t-base), box-shadow var(--t-base);
 }
 .why-card:hover { transform: translateY(-4px); box-shadow: var(--sh-md); }
@@ -183,7 +215,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 /* ── Brand section ── */
 .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .brand-card {
-  background: var(--light); border: 1px solid var(--border); border-radius: var(--r-lg);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
   padding: 36px 30px; text-align: center;
   transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
 }
@@ -242,7 +274,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 
 /* ── Brand model cards ── */
 .brand-model-card {
-  background: var(--light); border: 1px solid var(--border); border-radius: var(--r-lg);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
   padding: 28px; transition: transform var(--t-base), box-shadow var(--t-base);
 }
 .brand-model-card:hover { transform: translateY(-4px); box-shadow: var(--sh-md); }
@@ -286,7 +318,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 
 /* ── FAQ ── */
 .faq-list { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-.faq-item { background: var(--light); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
 .faq-q {
   width: 100%; display: flex; align-items: center; justify-content: space-between;
   padding: 20px 24px; font-size: .98rem; font-weight: 600; text-align: left;
@@ -325,7 +357,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 .form-group select,
 .form-group textarea {
   padding: 12px 16px; border: 1.5px solid var(--border); border-radius: var(--r-sm);
-  font-size: 16px; background: var(--light); color: var(--text);
+  font-size: 16px; background: var(--surface); color: var(--text);
   transition: border-color var(--t-fast), box-shadow var(--t-fast);
 }
 .form-group input:focus,
@@ -339,7 +371,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 /* ── Testimonials ── */
 .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .testimonial-card {
-  background: var(--light); border: 1px solid var(--border); border-radius: var(--r-lg);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
   padding: 28px; display: flex; flex-direction: column; gap: 16px;
 }
 .testimonial-stars { color: #F59E0B; font-size: 1rem; letter-spacing: 2px; }
@@ -357,7 +389,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 /* ── Blog / Posts ── */
 .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .blog-card {
-  background: var(--light); border: 1px solid var(--border); border-radius: var(--r-lg);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
   overflow: hidden; transition: transform var(--t-base), box-shadow var(--t-base);
 }
 .blog-card:hover { transform: translateY(-4px); box-shadow: var(--sh-md); }
@@ -391,7 +423,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 
 /* ── Local page hero ── */
 .local-hero {
-  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #0A1420 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #04160F 100%);
   padding: 120px 0 72px; color: var(--light);
 }
 .local-hero h1 { margin-bottom: 16px; }
@@ -442,7 +474,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 
 /* ── Compatibility aliases (local landing pages) ── */
 .page-hero {
-  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #0A1420 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #04160F 100%);
   padding: 120px 0 72px; color: var(--light); position: relative; overflow: hidden;
 }
 .page-hero-bg {
@@ -628,7 +660,7 @@ p  { font-size: 1rem; line-height: 1.7; }
    SIMULATOR PAGE
 ══════════════════════════════════════════ */
 .sim-hero {
-  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #0A1420 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #04160F 100%);
   padding: 120px 0 72px; color: var(--light); position: relative; overflow: hidden;
 }
 .sim-hero::before {
@@ -650,7 +682,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 
 /* Simulator card (inputs) */
 .sim-card {
-  background: var(--light); border: 1px solid var(--border); border-radius: var(--r-xl);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl);
   padding: 36px 32px; box-shadow: var(--sh-md);
 }
 .sim-card-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
@@ -683,7 +715,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 }
 .sim-select {
   width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
-  border-radius: var(--r-sm); font-size: .93rem; background: var(--light);
+  border-radius: var(--r-sm); font-size: .93rem; background: var(--surface);
   color: var(--text); cursor: pointer; outline: none;
   transition: border-color var(--t-fast);
 }
@@ -775,7 +807,7 @@ p  { font-size: 1rem; line-height: 1.7; }
 ══════════════════════════════════════════ */
 .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .comp-brand-card {
-  background: var(--light); border: 1px solid var(--border); border-radius: var(--r-xl);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl);
   padding: 32px 26px; text-align: center;
   transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
   display: flex; flex-direction: column;
@@ -861,7 +893,7 @@ p  { font-size: 1rem; line-height: 1.7; }
   .comp-table { min-width: 0; width: 100%; }
   .comp-table thead { display: none; }
   .comp-table tr {
-    display: block; margin-bottom: 16px; background: var(--light);
+    display: block; margin-bottom: 16px; background: var(--surface);
     border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden;
   }
   .comp-table tr:nth-child(even) td { background: transparent; }
@@ -967,3 +999,140 @@ body.nav-lock{overflow:hidden}
 /* Une seule barre fixe sur /devis : le pill local est masqué sur mobile
    (la barre globale Offerte/Bellen/WhatsApp le remplace) */
 @media (max-width:768px){ .devis-sticky-call{display:none} }
+/* ══════════════════════════════════════════
+   PREMIUM REDESIGN LAYER (2026-08) · overrides en fin de feuille
+   Bi-thème clair/foncé · dégradé de marque · verre · micro-interactions
+   ══════════════════════════════════════════ */
+
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* transitions douces au changement de thème */
+.section,.footer,.hero,.card,.why-card,.brand-card,.blog-card,.testimonial-card,.faq-item,.faq-answer,
+.service-card,.area-card,.form-card,.sim-card,.comp-brand-card,.info-card,.internal-link-card{
+  transition:background var(--t-base),border-color var(--t-base),color var(--t-base),box-shadow var(--t-base),transform var(--t-base);
+}
+
+/* boutons — dégradé de marque + halo */
+.btn-primary{background:var(--grad);color:var(--on-primary);box-shadow:var(--sh-primary)}
+.btn-primary:hover{filter:brightness(1.04);transform:translateY(-2px);box-shadow:0 18px 46px -12px rgba(0,200,150,.5)}
+.nav-cta{background:var(--grad);color:var(--on-primary) !important}
+.nav-cta:hover{filter:brightness(1.05)}
+
+/* nav — verre premium au scroll (toujours foncé, lisible sur clair ou foncé) */
+.nav.scrolled{
+  background:rgba(9,14,12,.88);
+  backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);
+  border-bottom:1px solid rgba(0,224,168,.16);
+  box-shadow:0 14px 36px -16px rgba(0,0,0,.6);
+}
+
+/* cartes claires — bordure de marque + élévation au survol */
+.why-card:hover,.brand-card:hover,.blog-card:hover,.testimonial-card:hover,
+.brand-model-card:hover,.comp-brand-card:hover{border-color:var(--primary);box-shadow:var(--sh-lg)}
+
+/* badges / eyebrow — léger dégradé */
+.badge,.hero-badge,.brand-hero-badge,.sim-hero-badge{
+  background:var(--grad-soft);border-color:rgba(0,200,150,.32);
+}
+
+/* CTA final — dégradé de marque net */
+.cta-banner{background:var(--grad)}
+
+/* liseré supérieur discret sur les cartes de service foncées */
+.service-card,.area-card{position:relative}
+.service-card::after,.area-card::after{
+  content:'';position:absolute;left:0;right:0;top:0;height:2px;border-radius:2px 2px 0 0;
+  background:var(--grad);opacity:0;transition:opacity var(--t-base);
+}
+.service-card:hover::after,.area-card:hover::after{opacity:.9}
+
+/* bascule de thème (bouton injecté par main.js dans la nav) */
+.theme-btn{
+  width:40px;height:40px;min-width:40px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);
+  color:#fff;cursor:pointer;transition:all var(--t-fast);margin-left:6px;flex-shrink:0;
+}
+.theme-btn:hover{background:rgba(0,200,150,.22);border-color:var(--primary)}
+.theme-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* respect des préférences de mouvement réduit */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
+}
+
+/* ══ HERO — champ d'énergie animé (homepage) ══ */
+.hero .container{position:relative;z-index:2}
+.hero-inner{position:relative;z-index:2}
+#hero-field{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.9}
+#hero-glow{
+  position:absolute;left:0;top:0;width:480px;height:480px;margin:-240px 0 0 -240px;z-index:1;
+  border-radius:50%;background:radial-gradient(circle,rgba(54,232,177,.16),transparent 62%);
+  opacity:0;transition:opacity .45s ease;pointer-events:none;mix-blend-mode:screen;
+}
+@media (prefers-reduced-motion:reduce){ #hero-glow{display:none} }
+
+/* ══ SIGNATURE BORNEXA — hexagones de marque « le flux » (homepage hero) ══ */
+.hero-hex{position:absolute;z-index:0;pointer-events:none;fill:none;stroke:#1ADBA8;stroke-width:.8;opacity:.07;transform-origin:center}
+.hero-hex-1{width:560px;height:560px;top:-140px;right:-90px;animation:hexspin 64s linear infinite}
+.hero-hex-2{width:320px;height:320px;bottom:-90px;left:-70px;opacity:.05;animation:hexspin 52s linear infinite reverse}
+@keyframes hexspin{to{transform:rotate(360deg)}}
+@media (max-width:768px){ .hero-hex-1{width:360px;top:-90px;right:-120px} .hero-hex-2{display:none} }
+@media (prefers-reduced-motion:reduce){ .hero-hex{animation:none} }
+
+/* ══ SIGNATURE BORNEXA — cadres d'icônes HEXAGONAUX (écho du signe du logo) ══ */
+.brand-dot,.comp-brand-icon,.cert-icon,.contact-icon,.info-item-icon,.blog-img-icon{
+  clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+  border-radius:0 !important;border:0 !important;
+}
+/* la puce marque en hexagone : léger dégradé de profondeur */
+.cert-icon,.contact-icon,.info-item-icon{background:var(--grad-soft)}
+.cert-icon svg,.contact-icon svg,.info-item-icon svg{color:var(--primary)}
+/* survol : l'hexagone de l'icône s'illumine légèrement */
+.cert-badge:hover .cert-icon,.brand-card:hover .brand-dot,.comp-brand-card:hover .comp-brand-icon{
+  filter:drop-shadow(0 6px 16px rgba(0,200,150,.4));
+}
+
+/* ══ SIGNATURE BORNEXA — footer : liseré « flux d'énergie » + hexagone filigrane ══ */
+.footer{
+  position:relative;overflow:hidden;
+  border-top:2px solid transparent;
+  background:
+    linear-gradient(var(--dark),var(--dark)) padding-box,
+    var(--grad) border-box;
+}
+.footer::before{
+  content:'';position:absolute;top:-70px;right:-50px;width:300px;height:300px;z-index:0;pointer-events:none;opacity:.05;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='98,50 74,92 26,92 2,50 26,8 74,8' fill='none' stroke='%231ADBA8' stroke-width='0.8'/%3E%3C/svg%3E");
+}
+.footer .container{position:relative;z-index:1}
+
+/* espacement logo <-> menu (le premier lien etait trop colle) */
+.nav-logo{margin-right:clamp(1.75rem,3vw,3rem)}
+@media (max-width:768px){.nav-logo{margin-right:0}}
+
+/* ══════════════════════════════════════════
+   FINITION IDENTITÉ BORNEXA
+   ══════════════════════════════════════════ */
+
+/* ── Signature hexagone sur les hero internes (discret, coin haut-droit) ── */
+.local-hero,.page-hero,.brand-hero,.sim-hero{position:relative;overflow:hidden}
+.local-hero>.container,.page-hero>.container,.brand-hero>.container,.brand-hero .brand-hero-inner,.sim-hero>.container,.sim-hero .sim-hero-inner{position:relative;z-index:1}
+.local-hero::after,.page-hero::after,.brand-hero::after,.sim-hero::after{
+  content:'';position:absolute;top:-90px;right:-70px;width:340px;height:340px;z-index:0;pointer-events:none;opacity:.05;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='98,50 74,92 26,92 2,50 26,8 74,8' fill='none' stroke='%231ADBA8' stroke-width='0.8'/%3E%3C/svg%3E");
+  animation:hexspin 90s linear infinite;
+}
+@media (max-width:768px){ .local-hero::after,.page-hero::after,.brand-hero::after,.sim-hero::after{width:220px;top:-50px;right:-90px} }
+@media (prefers-reduced-motion:reduce){ .local-hero::after,.page-hero::after,.brand-hero::after,.sim-hero::after{animation:none} }
+
+/* ── Typographie premium (system fonts — rapide, sans dépendance) ── */
+h1{font-weight:800;letter-spacing:-.025em}
+h2{font-weight:800;letter-spacing:-.02em}
+.badge,.hero-badge,.brand-hero-badge,.sim-hero-badge,.area-badge{letter-spacing:.12em;font-weight:700}
+
+/* ── Polish mode foncé : carte « carburant » du simulateur ── */
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .sim-result-fuel{background:rgba(200,48,48,.12);border-color:rgba(200,48,48,.32)} }
+:root[data-theme="dark"] .sim-result-fuel{background:rgba(200,48,48,.12);border-color:rgba(200,48,48,.32)}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .sim-result-fuel .sim-result-label,:root:not([data-theme="light"]) .sim-result-fuel .sim-result-amount{color:#ff9b9b} }
+:root[data-theme="dark"] .sim-result-fuel .sim-result-label,:root[data-theme="dark"] .sim-result-fuel .sim-result-amount{color:#ff9b9b}
