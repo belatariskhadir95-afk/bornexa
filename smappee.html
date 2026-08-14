@@ -101,42 +101,42 @@
   <link rel="preload" href="css/style.css?v=2026-08-05" as="style">
   <link rel="stylesheet" href="css/style.css?v=2026-08-05">
   <style>
-    .byline{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:12px;padding:12px 18px;margin:18px 0 0;font-size:.86rem;color:var(--muted,#64748B)}
-    .byline b{color:var(--dark,#0B1E3C)}
+    .byline{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:12px;padding:12px 18px;margin:18px 0 0;font-size:.86rem;color:var(--text-muted)}
+    .byline b{color:var(--text)}
     .byline .dot{width:9px;height:9px;border-radius:50%;background:#00C896;flex:0 0 auto}
     .toc-chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
-    .toc-chips a{background:#F1F5F9;border:1px solid #E2E8F0;border-radius:999px;padding:7px 15px;font-size:.85rem;font-weight:600;color:#0B1E3C;text-decoration:none;transition:all .15s}
-    .toc-chips a:hover{background:#E0FBF4;border-color:#00C896}
-    .kort{background:#E0FBF4;border:1px solid rgba(0,200,150,.35);border-radius:14px;padding:20px 24px;margin:20px 0 0}
-    .kort h2{font-size:1.05rem;margin:0 0 10px;color:#0B1E3C}
+    .toc-chips a{background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:7px 15px;font-size:.85rem;font-weight:600;color:var(--text);text-decoration:none;transition:all .15s}
+    .toc-chips a:hover{background:var(--tint-mint);border-color:#00C896}
+    .kort{background:var(--tint-mint);border:1px solid rgba(0,200,150,.35);border-radius:14px;padding:20px 24px;margin:20px 0 0}
+    .kort h2{font-size:1.05rem;margin:0 0 10px;color:var(--text)}
     .kort ul{margin:0;padding-left:1.25rem;line-height:1.75}
     .prodgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:24px}
-    .prod{background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .prod{background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
     .prod.hero-prod{grid-column:1/-1;display:grid;grid-template-columns:minmax(240px,380px) 1fr;gap:0}
     @media(max-width:700px){.prod.hero-prod{grid-template-columns:1fr}}
     .prod img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:1/1}
     .prod .pbody{padding:20px 22px}
-    .prod h3{margin:0 0 2px;font-size:1.2rem;color:#0B1E3C}
-    .prod .ptag{display:inline-block;background:#E0FBF4;color:#009E76;font-size:.74rem;font-weight:800;border-radius:999px;padding:2px 10px;margin-bottom:10px}
+    .prod h3{margin:0 0 2px;font-size:1.2rem;color:var(--text)}
+    .prod .ptag{display:inline-block;background:var(--tint-mint);color:#009E76;font-size:.74rem;font-weight:800;border-radius:999px;padding:2px 10px;margin-bottom:10px}
     .prod ul{margin:.5rem 0 0;padding-left:1.15rem;line-height:1.65;font-size:.92rem}
-    .prod .pnote{margin-top:10px;font-size:.85rem;color:var(--muted,#64748B)}
-    .cmp{width:100%;border-collapse:collapse;margin:22px 0 6px;font-size:.9rem;background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:14px;overflow:hidden}
+    .prod .pnote{margin-top:10px;font-size:.85rem;color:var(--text-muted)}
+    .cmp{width:100%;border-collapse:collapse;margin:22px 0 6px;font-size:.9rem;background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:14px;overflow:hidden}
     .cmp th,.cmp td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--border,#E2E8F0);vertical-align:top}
     .cmp thead th{background:#0B1E3C;color:#fff;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
     .cmp tbody tr:last-child td{border-bottom:none}
-    .cmp .hl{background:#E0FBF4;font-weight:700;color:#0B1E3C}
+    .cmp .hl{background:var(--tint-mint);font-weight:700;color:var(--text)}
     .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
     .tscroll .cmp{min-width:560px}
     .mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:22px}
-    .mod{background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:18px 20px}
-    .mod h3{margin:0 0 .35rem;color:#0B1E3C;font-size:1.02rem}
-    .mod p{font-size:.9rem;color:var(--muted,#64748B);margin:0;line-height:1.6}
+    .mod{background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:18px 20px}
+    .mod h3{margin:0 0 .35rem;color:var(--text);font-size:1.02rem}
+    .mod p{font-size:.9rem;color:var(--text-muted);margin:0;line-height:1.6}
     .scen{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:22px}
-    .scencard{background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:20px 22px}
-    .scencard h3{margin:0 0 .4rem;font-size:1.02rem;color:#0B1E3C}
+    .scencard{background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:20px 22px}
+    .scencard h3{margin:0 0 .4rem;font-size:1.02rem;color:var(--text)}
     .scencard p{font-size:.92rem;line-height:1.65;margin:0;color:var(--text,#0F172A)}
     .scencard .sicon{font-size:1.3rem;margin-bottom:8px}
-    .pricecard{background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:16px;overflow:hidden;margin-top:22px}
+    .pricecard{background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:16px;overflow:hidden;margin-top:22px}
     .pricecard table{width:100%;border-collapse:collapse;font-size:.94rem;table-layout:fixed}
     .pricecard td,.pricecard th{overflow-wrap:break-word}
     .pricecard th:first-child{width:27%}
@@ -151,31 +151,31 @@
     }
     .pricecard th{background:#0B1E3C;color:#fff;text-align:left;padding:12px 16px;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
     .pricecard td{padding:13px 16px;border-top:1px solid var(--border,#E2E8F0);vertical-align:top}
-    .pricecard td.pr{white-space:nowrap;font-weight:800;color:#0B1E3C;font-variant-numeric:tabular-nums}
-    .pricecard .sub{display:block;font-size:.82rem;color:var(--muted,#64748B);font-weight:400;margin-top:2px}
-    .pricenote{font-size:.82rem;color:var(--muted,#64748B);margin:12px 2px 0;line-height:1.6}
+    .pricecard td.pr{white-space:nowrap;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums}
+    .pricecard .sub{display:block;font-size:.82rem;color:var(--text-muted);font-weight:400;margin-top:2px}
+    .pricenote{font-size:.82rem;color:var(--text-muted);margin:12px 2px 0;line-height:1.6}
     .honest{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:22px}
-    .hcard{background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:20px 22px}
-    .hcard h3{margin:0 0 .6rem;font-size:1rem;color:#0B1E3C}
+    .hcard{background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:20px 22px}
+    .hcard h3{margin:0 0 .6rem;font-size:1rem;color:var(--text)}
     .hcard ul{margin:0;padding-left:1.2rem;line-height:1.7;font-size:.92rem}
     .hcard.hplus{border-top:4px solid #00C896}
     .hcard.hmin{border-top:4px solid #F59E0B}
-    .case{display:grid;grid-template-columns:minmax(240px,420px) 1fr;gap:0;background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:16px;overflow:hidden;margin-top:22px}
+    .case{display:grid;grid-template-columns:minmax(240px,420px) 1fr;gap:0;background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:16px;overflow:hidden;margin-top:22px}
     @media(max-width:700px){.case{grid-template-columns:1fr}}
     .case img{width:100%;height:100%;object-fit:cover;display:block}
     .case .cbody{padding:22px 24px}
-    .case h3{margin:0 0 .5rem;color:#0B1E3C}
+    .case h3{margin:0 0 .5rem;color:var(--text)}
     .case p{font-size:.93rem;line-height:1.7;margin:.4rem 0}
-    .case .ctag{display:inline-block;background:#E0FBF4;color:#009E76;font-size:.74rem;font-weight:800;border-radius:999px;padding:2px 10px;margin-bottom:8px}
+    .case .ctag{display:inline-block;background:var(--tint-mint);color:#009E76;font-size:.74rem;font-weight:800;border-radius:999px;padding:2px 10px;margin-bottom:8px}
     .trustgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:22px}
-    .trustitem{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:12px;padding:14px 16px}
+    .trustitem{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:12px;padding:14px 16px}
     .trustitem .ck{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:#00C896;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;margin-top:2px}
     .trustitem p{margin:0;font-size:.9rem;line-height:1.55}
-    .trustitem b{color:#0B1E3C}
+    .trustitem b{color:var(--text)}
     .readmore{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:20px}
-    .readmore a{display:block;background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:12px;padding:14px 18px;text-decoration:none;color:#0B1E3C;font-weight:600;font-size:.92rem;transition:all .15s}
-    .readmore a:hover{border-color:#00C896;background:#E0FBF4}
-    .readmore a span{display:block;font-weight:400;font-size:.82rem;color:var(--muted,#64748B);margin-top:3px}
+    .readmore a{display:block;background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:12px;padding:14px 18px;text-decoration:none;color:var(--text);font-weight:600;font-size:.92rem;transition:all .15s}
+    .readmore a:hover{border-color:#00C896;background:var(--tint-mint)}
+    .readmore a span{display:block;font-weight:400;font-size:.82rem;color:var(--text-muted);margin-top:3px}
     .anchor-offset{scroll-margin-top:90px}
   </style>
 </head>
@@ -331,7 +331,7 @@
           <div class="pbody">
             <span class="ptag" data-nl="Meest gekozen bij BORNEXA" data-fr="La plus choisie chez BORNEXA">Meest gekozen bij BORNEXA</span>
             <h3>Smappee EV Wall</h3>
-            <p style="margin:.3rem 0 .2rem;color:var(--muted);font-size:.95rem" data-nl="Dé thuislader: compact (30 × 30 cm), kleurenscherm, en de nieuwste generatie met Plug &amp; Charge." data-fr="LA borne résidentielle : compacte (30 × 30 cm), écran couleur, et la nouvelle génération avec Plug &amp; Charge.">Dé thuislader: compact (30 × 30 cm), kleurenscherm, en de nieuwste generatie met Plug &amp; Charge.</p>
+            <p style="margin:.3rem 0 .2rem;color:var(--text-muted);font-size:.95rem" data-nl="Dé thuislader: compact (30 × 30 cm), kleurenscherm, en de nieuwste generatie met Plug &amp; Charge." data-fr="LA borne résidentielle : compacte (30 × 30 cm), écran couleur, et la nouvelle génération avec Plug &amp; Charge.">Dé thuislader: compact (30 × 30 cm), kleurenscherm, en de nieuwste generatie met Plug &amp; Charge.</p>
             <ul>
               <li data-nl="7,4 kW (monofase) of 22 kW (driefase), vaste kabel 8 m of stopcontact type 2" data-fr="7,4 kW (mono) ou 22 kW (tri), câble fixe 8 m ou prise type 2">7,4 kW (monofase) of 22 kW (driefase), vaste kabel 8 m of stopcontact type 2</li>
               <li data-nl="<strong>Ethernet + 4G</strong> (2 jaar inbegrepen) — bewust géén wifi: betrouwbaar, ook in kelders en parkings" data-fr="<strong>Ethernet + 4G</strong> (2 ans inclus) — volontairement sans Wi-Fi : fiable, même en cave ou parking"><strong>Ethernet + 4G</strong> (2 jaar inbegrepen) — bewust géén wifi: betrouwbaar, ook in kelders en parkings</li>
@@ -381,7 +381,7 @@
         <p data-nl="Alle vier zijn degelijke merken. Het échte verschil zit niet in de laadpaal zelf, maar in wat er rond zit: meet en stuurt het systeem uw hele woning aan? Daar staat Smappee alleen." data-fr="Les quatre sont de bonnes marques. La vraie différence n'est pas la borne elle-même, mais ce qu'il y a autour : le système mesure-t-il et pilote-t-il toute votre maison ? C'est là que Smappee est seul.">Alle vier zijn degelijke merken. Het échte verschil zit niet in de laadpaal zelf, maar in wat er rond zit: meet en stuurt het systeem uw hele woning aan? Daar staat Smappee alleen.</p>
       </div>
       <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
-        <table style="width:100%;min-width:660px;border-collapse:collapse;font-size:.94rem;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden">
+        <table style="width:100%;min-width:660px;border-collapse:collapse;font-size:.94rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden">
           <thead>
             <tr style="background:#0B1E3C;color:#fff;text-align:left">
               <th style="padding:.7rem .9rem;font-weight:600" data-nl="Kenmerk" data-fr="Critère">Kenmerk</th>
@@ -392,44 +392,44 @@
             </tr>
           </thead>
           <tbody>
-            <tr style="border-top:1px solid #e5e7eb">
-              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:#0B1E3C;font-weight:600" data-nl="Energiebeheer van hele woning inbegrepen" data-fr="Gestion d'énergie de toute la maison incluse">Energiebeheer van hele woning inbegrepen</th>
-              <td style="padding:.65rem .9rem;background:#f0f7f4;font-weight:600" data-nl="✓ Ja — via Infinity" data-fr="✓ Oui — via Infinity">✓ Ja — via Infinity</td>
+            <tr style="border-top:1px solid var(--border)">
+              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:var(--text);font-weight:600" data-nl="Energiebeheer van hele woning inbegrepen" data-fr="Gestion d'énergie de toute la maison incluse">Energiebeheer van hele woning inbegrepen</th>
+              <td style="padding:.65rem .9rem;background:var(--tint-mint);font-weight:600" data-nl="✓ Ja — via Infinity" data-fr="✓ Oui — via Infinity">✓ Ja — via Infinity</td>
               <td style="padding:.65rem .9rem" data-nl="Beperkt (Power Boost)" data-fr="Limité (Power Boost)">Beperkt (Power Boost)</td>
               <td style="padding:.65rem .9rem" data-nl="Nee" data-fr="Non">Nee</td>
               <td style="padding:.65rem .9rem" data-nl="Nee" data-fr="Non">Nee</td>
             </tr>
-            <tr style="border-top:1px solid #e5e7eb;background:#fafafa">
-              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:#0B1E3C;font-weight:600" data-nl="Beveiligingen ingebouwd (30 mA A + 6 mA DC)" data-fr="Protections intégrées (30 mA A + 6 mA DC)">Beveiligingen ingebouwd (30 mA A + 6 mA DC)</th>
-              <td style="padding:.65rem .9rem;background:#f0f7f4;font-weight:600" data-nl="✓ Standaard" data-fr="✓ De série">✓ Standaard</td>
+            <tr style="border-top:1px solid var(--border);background:var(--surface-2)">
+              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:var(--text);font-weight:600" data-nl="Beveiligingen ingebouwd (30 mA A + 6 mA DC)" data-fr="Protections intégrées (30 mA A + 6 mA DC)">Beveiligingen ingebouwd (30 mA A + 6 mA DC)</th>
+              <td style="padding:.65rem .9rem;background:var(--tint-mint);font-weight:600" data-nl="✓ Standaard" data-fr="✓ De série">✓ Standaard</td>
               <td style="padding:.65rem .9rem" data-nl="6 mA DC; type A apart" data-fr="6 mA DC ; type A séparé">6 mA DC; type A apart</td>
               <td style="padding:.65rem .9rem" data-nl="6 mA DC; type A apart" data-fr="6 mA DC ; type A séparé">6 mA DC; type A apart</td>
               <td style="padding:.65rem .9rem" data-nl="Model-afhankelijk" data-fr="Selon le modèle">Model-afhankelijk</td>
             </tr>
-            <tr style="border-top:1px solid #e5e7eb">
-              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:#0B1E3C;font-weight:600" data-nl="MID-meter (terugbetaling werkgever)" data-fr="Compteur MID (remboursement employeur)">MID-meter (terugbetaling werkgever)</th>
-              <td style="padding:.65rem .9rem;background:#f0f7f4;font-weight:600" data-nl="✓ Standaard" data-fr="✓ De série">✓ Standaard</td>
+            <tr style="border-top:1px solid var(--border)">
+              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:var(--text);font-weight:600" data-nl="MID-meter (terugbetaling werkgever)" data-fr="Compteur MID (remboursement employeur)">MID-meter (terugbetaling werkgever)</th>
+              <td style="padding:.65rem .9rem;background:var(--tint-mint);font-weight:600" data-nl="✓ Standaard" data-fr="✓ De série">✓ Standaard</td>
               <td style="padding:.65rem .9rem" data-nl="Model-afhankelijk" data-fr="Selon le modèle">Model-afhankelijk</td>
               <td style="padding:.65rem .9rem">✓</td>
               <td style="padding:.65rem .9rem" data-nl="✓ (optie)" data-fr="✓ (option)">✓ (optie)</td>
             </tr>
-            <tr style="border-top:1px solid #e5e7eb;background:#fafafa">
-              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:#0B1E3C;font-weight:600" data-nl="Capaciteitstarief-bewaking (Vlaanderen)" data-fr="Surveillance du tarif capacitaire (Flandre)">Capaciteitstarief-bewaking (Vlaanderen)</th>
-              <td style="padding:.65rem .9rem;background:#f0f7f4;font-weight:600" data-nl="✓ Kernfunctie" data-fr="✓ Fonction clé">✓ Kernfunctie</td>
+            <tr style="border-top:1px solid var(--border);background:var(--surface-2)">
+              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:var(--text);font-weight:600" data-nl="Capaciteitstarief-bewaking (Vlaanderen)" data-fr="Surveillance du tarif capacitaire (Flandre)">Capaciteitstarief-bewaking (Vlaanderen)</th>
+              <td style="padding:.65rem .9rem;background:var(--tint-mint);font-weight:600" data-nl="✓ Kernfunctie" data-fr="✓ Fonction clé">✓ Kernfunctie</td>
               <td style="padding:.65rem .9rem" data-nl="Beperkt" data-fr="Limité">Beperkt</td>
               <td style="padding:.65rem .9rem" data-nl="Beperkt" data-fr="Limité">Beperkt</td>
               <td style="padding:.65rem .9rem" data-nl="Beperkt" data-fr="Limité">Beperkt</td>
             </tr>
-            <tr style="border-top:1px solid #e5e7eb">
-              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:#0B1E3C;font-weight:600" data-nl="Connectiviteit" data-fr="Connectivité">Connectiviteit</th>
-              <td style="padding:.65rem .9rem;background:#f0f7f4;font-weight:600" data-nl="Ethernet + 4G (geen wifi)" data-fr="Ethernet + 4G (sans Wi-Fi)">Ethernet + 4G (geen wifi)</td>
+            <tr style="border-top:1px solid var(--border)">
+              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:var(--text);font-weight:600" data-nl="Connectiviteit" data-fr="Connectivité">Connectiviteit</th>
+              <td style="padding:.65rem .9rem;background:var(--tint-mint);font-weight:600" data-nl="Ethernet + 4G (geen wifi)" data-fr="Ethernet + 4G (sans Wi-Fi)">Ethernet + 4G (geen wifi)</td>
               <td style="padding:.65rem .9rem">Wifi / 4G / BT</td>
               <td style="padding:.65rem .9rem">Wifi / 4G</td>
               <td style="padding:.65rem .9rem">Ethernet / 4G</td>
             </tr>
-            <tr style="border-top:1px solid #e5e7eb;background:#fafafa">
-              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:#0B1E3C;font-weight:600" data-nl="Herkomst merk" data-fr="Origine de la marque">Herkomst merk</th>
-              <td style="padding:.65rem .9rem;background:#f0f7f4;font-weight:600" data-nl="België (Harelbeke)" data-fr="Belgique (Harelbeke)">België (Harelbeke)</td>
+            <tr style="border-top:1px solid var(--border);background:var(--surface-2)">
+              <th scope="row" style="padding:.65rem .9rem;text-align:left;color:var(--text);font-weight:600" data-nl="Herkomst merk" data-fr="Origine de la marque">Herkomst merk</th>
+              <td style="padding:.65rem .9rem;background:var(--tint-mint);font-weight:600" data-nl="België (Harelbeke)" data-fr="Belgique (Harelbeke)">België (Harelbeke)</td>
               <td style="padding:.65rem .9rem" data-nl="Spanje" data-fr="Espagne">Spanje</td>
               <td style="padding:.65rem .9rem" data-nl="Noorwegen" data-fr="Norvège">Noorwegen</td>
               <td style="padding:.65rem .9rem" data-nl="Nederland" data-fr="Pays-Bas">Nederland</td>
@@ -437,7 +437,7 @@
           </tbody>
         </table>
       </div>
-      <p style="font-size:.82rem;color:var(--muted);margin-top:.8rem" data-nl="Indicatieve vergelijking op basis van de courante residentiële modellen (juli 2026). BORNEXA is merkonafhankelijk en plaatst ook Wallbox, Zaptec en Alfen — we adviseren wat bij ú past, niet wat we willen verkopen." data-fr="Comparaison indicative sur base des modèles résidentiels courants (juillet 2026). BORNEXA est indépendant des marques et installe aussi Wallbox, Zaptec et Alfen — nous conseillons ce qui vous convient, pas ce que nous voulons vendre.">Indicatieve vergelijking op basis van de courante residentiële modellen (juli 2026). BORNEXA is merkonafhankelijk en plaatst ook Wallbox, Zaptec en Alfen — we adviseren wat bij ú past, niet wat we willen verkopen.</p>
+      <p style="font-size:.82rem;color:var(--text-muted);margin-top:.8rem" data-nl="Indicatieve vergelijking op basis van de courante residentiële modellen (juli 2026). BORNEXA is merkonafhankelijk en plaatst ook Wallbox, Zaptec en Alfen — we adviseren wat bij ú past, niet wat we willen verkopen." data-fr="Comparaison indicative sur base des modèles résidentiels courants (juillet 2026). BORNEXA est indépendant des marques et installe aussi Wallbox, Zaptec et Alfen — nous conseillons ce qui vous convient, pas ce que nous voulons vendre.">Indicatieve vergelijking op basis van de courante residentiële modellen (juli 2026). BORNEXA is merkonafhankelijk en plaatst ook Wallbox, Zaptec en Alfen — we adviseren wat bij ú past, niet wat we willen verkopen.</p>
       <p style="margin-top:1rem"><a href="comparateur" class="btn btn-outline" data-nl="Vergelijk alle laadpalen →" data-fr="Comparer toutes les bornes →">Vergelijk alle laadpalen →</a></p>
     </div>
   </section>
@@ -457,7 +457,7 @@
         <div class="mod"><h3 data-nl="App &amp; dashboard" data-fr="App &amp; tableau de bord">App &amp; dashboard</h3><p data-nl="Realtime verbruik, zonneproductie, laadsessies, piekbewaking en rapporten — op telefoon en web, ook voor meerdere gebouwen." data-fr="Consommation en temps réel, production solaire, sessions de charge, surveillance du pic et rapports — mobile et web, même multi-bâtiments.">Realtime verbruik, zonneproductie, laadsessies, piekbewaking en rapporten — op telefoon en web, ook voor meerdere gebouwen.</p></div>
       </div>
 
-      <h3 style="margin-top:34px;color:#0B1E3C" data-nl="Genius of Connect? De keuze die uw installateur voor u moet maken" data-fr="Genius ou Connect ? Le choix que votre installateur doit faire pour vous">Genius of Connect? De keuze die uw installateur voor u moet maken</h3>
+      <h3 style="margin-top:34px;color:var(--text)" data-nl="Genius of Connect? De keuze die uw installateur voor u moet maken" data-fr="Genius ou Connect ? Le choix que votre installateur doit faire pour vous">Genius of Connect? De keuze die uw installateur voor u moet maken</h3>
       <div class="tscroll">
       <table class="cmp">
         <thead><tr>
@@ -544,7 +544,7 @@
       <p class="pricenote" data-nl="Richtprijzen juli 2026, incl. 6% btw (woning ouder dan 10 jaar; anders 21%). Langere kabeltrajecten, driefasige installaties of parkings rekenen wij transparant door — elke offerte is gedetailleerd per post, met echte materiaalprijzen. Geen verborgen kosten, geen 'vanaf'-prijs die nooit klopt." data-fr="Prix indicatifs juillet 2026, TVA 6% incluse (habitation de plus de 10 ans ; sinon 21%). Trajets de câble plus longs, installations triphasées ou parkings : facturés en toute transparence — chaque devis est détaillé poste par poste, avec les vrais prix du matériel. Pas de coûts cachés, pas de prix « à partir de » jamais tenu.">Richtprijzen juli 2026, incl. 6% btw (woning ouder dan 10 jaar; anders 21%). Langere kabeltrajecten, driefasige installaties of parkings rekenen wij transparant door — elke offerte is gedetailleerd per post, met echte materiaalprijzen. Geen verborgen kosten, geen 'vanaf'-prijs die nooit klopt.</p>
       <div style="margin-top:18px;display:flex;gap:14px;flex-wrap:wrap">
         <a href="devis" class="btn btn-primary" data-nl="Vraag uw exacte prijs (24u)" data-fr="Demandez votre prix exact (24h)">Vraag uw exacte prijs (24u)</a>
-        <a href="prijsberekening" class="btn btn-outline" style="border-color:#0B1E3C;color:#0B1E3C" data-nl="Hoe wij prijzen berekenen" data-fr="Comment nous calculons nos prix">Hoe wij prijzen berekenen</a>
+        <a href="prijsberekening" class="btn btn-outline" style="border-color:#0B1E3C;color:var(--text)" data-nl="Hoe wij prijzen berekenen" data-fr="Comment nous calculons nos prix">Hoe wij prijzen berekenen</a>
       </div>
     </div>
   </section>

@@ -151,7 +151,7 @@
                 <span class="sim-label-val" id="lbl-sub">onbekend</span>
               </div>
               <input type="range" class="sim-range" id="sim-sub" min="0" max="250" step="5" value="0" aria-label="Aansluitvermogen">
-              <small style="color:var(--muted,#64748B);font-size:.8rem" data-nl="0 = onbekend (we schatten de piek). Staat op de factuur of de teller." data-fr="0 = inconnu (on estime la pointe). Indiqué sur la facture ou le compteur.">0 = onbekend (we schatten de piek). Staat op de factuur of de teller.</small>
+              <small style="color:var(--text-muted);font-size:.8rem" data-nl="0 = onbekend (we schatten de piek). Staat op de factuur of de teller." data-fr="0 = inconnu (on estime la pointe). Indiqué sur la facture ou le compteur.">0 = onbekend (we schatten de piek). Staat op de factuur of de teller.</small>
             </div>
 
             <div class="sim-group">
@@ -185,12 +185,12 @@
           <div class="sim-results reveal delay-2">
 
             <div class="sim-result-card" id="score-card" style="background:linear-gradient(135deg,#0B1E3C,#13315c);color:#fff;text-align:center">
-              <div class="sim-result-label" style="color:#cbd5e1" data-nl="Eligibiliteitsscore van uw gebouw" data-fr="Score d'éligibilité de votre immeuble">Eligibiliteitsscore van uw gebouw</div>
+              <div class="sim-result-label" style="color:var(--border)" data-nl="Eligibiliteitsscore van uw gebouw" data-fr="Score d'éligibilité de votre immeuble">Eligibiliteitsscore van uw gebouw</div>
               <div style="display:flex;align-items:baseline;justify-content:center;gap:6px;margin:4px 0">
                 <span id="res-score" style="font-size:2.6rem;font-weight:800;line-height:1">72</span>
-                <span style="font-size:1.1rem;color:#94a3b8">/ 100</span>
+                <span style="font-size:1.1rem;color:var(--text-muted)">/ 100</span>
               </div>
-              <div id="res-score-tag" style="display:inline-block;font-weight:700;padding:3px 12px;border-radius:999px;background:#00C896;color:#0B1E3C;font-size:.9rem">Bon</div>
+              <div id="res-score-tag" style="display:inline-block;font-weight:700;padding:3px 12px;border-radius:999px;background:#00C896;color:var(--text);font-size:.9rem">Bon</div>
               <div style="height:8px;border-radius:999px;background:rgba(255,255,255,.15);margin:12px 0 0;overflow:hidden"><div id="res-score-bar" style="height:100%;width:72%;background:#00C896;transition:width .3s,background .3s"></div></div>
               <ul id="res-score-list" style="list-style:none;margin:14px 0 0;padding:0;text-align:left;font-size:.86rem;line-height:1.5"></ul>
             </div>
@@ -216,12 +216,12 @@
               </div>
             </div>
 
-            <div style="background:#fff;border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:14px 16px;font-size:.9rem;line-height:1.55">
+            <div style="background:var(--surface);border:1px solid var(--border,#E2E8F0);border-radius:14px;padding:14px 16px;font-size:.9rem;line-height:1.55">
               <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:5px"><span data-nl="Infrastructuur collectief" data-fr="Infrastructure collective">Infrastructuur collectief</span><strong id="res-infra">—</strong></div>
               <div style="display:flex;justify-content:space-between;gap:8px"><span data-nl="Per laadpunt × aantal" data-fr="Par point × nombre">Per laadpunt × aantal</span><strong id="res-points">—</strong></div>
             </div>
 
-            <p style="font-size:.82rem;color:var(--muted,#64748B);margin:2px 0 0" data-nl="Richtprijs indicatief. TVA 6 % mogelijk voor woongebouwen ouder dan 10 jaar. Definitieve prijs na gratis audit." data-fr="Prix indicatif. TVA 6 % possible pour les immeubles d'habitation de plus de 10 ans. Prix définitif après audit gratuit.">Richtprijs indicatief. TVA 6 % mogelijk voor woongebouwen ouder dan 10 jaar. Definitieve prijs na gratis audit.</p>
+            <p style="font-size:.82rem;color:var(--text-muted);margin:2px 0 0" data-nl="Richtprijs indicatief. TVA 6 % mogelijk voor woongebouwen ouder dan 10 jaar. Definitieve prijs na gratis audit." data-fr="Prix indicatif. TVA 6 % possible pour les immeubles d'habitation de plus de 10 ans. Prix définitif après audit gratuit.">Richtprijs indicatief. TVA 6 % mogelijk voor woongebouwen ouder dan 10 jaar. Definitieve prijs na gratis audit.</p>
 
             <div class="sim-cta-card">
               <h4 data-nl="Klaar voor uw laadpark?" data-fr="Prêt pour votre laadpark ?">Klaar voor uw laadpark?</h4>
@@ -245,21 +245,21 @@
         </div>
         <div class="insights-grid reveal">
           <div class="sim-insight">
-            <div class="sim-insight-icon" style="background:#ECFDF5">⚖️</div>
+            <div class="sim-insight-icon" style="background:var(--tint-mint)">⚖️</div>
             <div>
               <h4 data-nl="Foisonnement" data-fr="Foisonnement">Foisonnement</h4>
               <p data-nl="Alle bornes laden nooit samen op vol vermogen. Het foisonnement (Ks) verlaagt het nodige vermogen — zo blijft de aansluiting realistisch en betaalbaar." data-fr="Toutes les bornes ne chargent jamais ensemble à pleine puissance. Le foisonnement (Ks) réduit la puissance nécessaire — le raccordement reste réaliste et abordable.">Alle bornes laden nooit samen op vol vermogen. Het foisonnement (Ks) verlaagt het nodige vermogen — zo blijft de aansluiting realistisch en betaalbaar.</p>
             </div>
           </div>
           <div class="sim-insight">
-            <div class="sim-insight-icon" style="background:#ECFDF5">🔀</div>
+            <div class="sim-insight-icon" style="background:var(--tint-mint)">🔀</div>
             <div>
               <h4 data-nl="Pilotage = geen verzwaring" data-fr="Pilotage = pas de verzwaring">Pilotage = geen verzwaring</h4>
               <p data-nl="Als de vraag de reserve overschrijdt, verdeelt de dynamische lastverdeling het beschikbare vermogen real-time. Dat vermijdt een dure verzwaring bij Fluvius of Sibelga." data-fr="Si la demande dépasse la réserve, la gestion de charge dynamique répartit la puissance disponible en temps réel. Cela évite un renforcement coûteux chez Fluvius ou Sibelga.">Als de vraag de reserve overschrijdt, verdeelt de dynamische lastverdeling het beschikbare vermogen real-time. Dat vermijdt een dure verzwaring bij Fluvius of Sibelga.</p>
             </div>
           </div>
           <div class="sim-insight">
-            <div class="sim-insight-icon" style="background:#ECFDF5">🧩</div>
+            <div class="sim-insight-icon" style="background:var(--tint-mint)">🧩</div>
             <div>
               <h4 data-nl="Eén keer infra, dan uitbreidbaar" data-fr="Infra une fois, puis évolutif">Eén keer infra, dan uitbreidbaar</h4>
               <p data-nl="De collectieve backbone (Fase 1) wordt één keer gestemd op de AV. Daarna voegt elke bewoner eenvoudig een punt toe (Fase 2) — logica EPBD." data-fr="La backbone collective (Phase 1) se vote une fois en AG. Ensuite, chaque résident ajoute simplement un point (Phase 2) — logique EPBD.">De collectieve backbone (Fase 1) wordt één keer gestemd op de AV. Daarna voegt elke bewoner eenvoudig een punt toe (Fase 2) — logica EPBD.</p>

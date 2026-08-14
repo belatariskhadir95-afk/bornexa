@@ -91,8 +91,8 @@
     /* ── Article body ── */
     .post-body h2{font-size:1.45rem;margin:2.5rem 0 .85rem;color:var(--text);padding-top:.5rem}
     .post-body h3{font-size:1.1rem;margin:1.75rem 0 .5rem;color:var(--text)}
-    .post-body p{margin-bottom:1.1rem;line-height:1.8;color:#4B5563}
-    .post-body ul,.post-body ol{margin:.75rem 0 1.25rem 1.5rem;color:#4B5563;line-height:1.8}
+    .post-body p{margin-bottom:1.1rem;line-height:1.8;color:var(--text-muted)}
+    .post-body ul,.post-body ol{margin:.75rem 0 1.25rem 1.5rem;color:var(--text-muted);line-height:1.8}
     .post-body li{margin-bottom:.4rem}
     .post-body strong{color:var(--text)}
     .post-body a{color:var(--primary);text-decoration:none;font-weight:600}
@@ -119,8 +119,8 @@
     /* ── Highlight / info boxes ── */
     .highlight-box{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin:1.75rem 0}
     .highlight-box strong{color:var(--primary-dark)}
-    .warning-box{background:#FFF7ED;border-left:4px solid #F59E0B;border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin:1.75rem 0}
-    .warning-box strong{color:#92400E}
+    .warning-box{background:var(--tint-amber);border-left:4px solid #F59E0B;border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin:1.75rem 0}
+    .warning-box strong{color:var(--on-amber)}
 
     /* ── Inline CTA ── */
     .inline-cta{background:linear-gradient(135deg,var(--dark) 0%,var(--dark2) 100%);color:#fff;border-radius:var(--r-xl);padding:2rem 2.25rem;margin:2.5rem 0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
@@ -144,13 +144,13 @@
     .savings-scenario{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
     @media(max-width:600px){.savings-scenario{grid-template-columns:1fr}}
     .scenario-card{border-radius:var(--r-lg);padding:1.5rem;border:2px solid}
-    .scenario-card.gas{border-color:#EF4444;background:#FEF2F2}
+    .scenario-card.gas{border-color:#EF4444;background:var(--tint-red)}
     .scenario-card.ev{border-color:var(--primary);background:var(--primary-light)}
     .scenario-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
     .scenario-card.gas .scenario-label{color:#EF4444}
     .scenario-card.ev .scenario-label{color:var(--primary-dark)}
     .scenario-price{font-size:2rem;font-weight:800;line-height:1}
-    .scenario-card.gas .scenario-price{color:#DC2626}
+    .scenario-card.gas .scenario-price{color:var(--on-red)}
     .scenario-card.ev .scenario-price{color:var(--primary-dark)}
     .scenario-desc{font-size:.82rem;color:var(--text-muted);margin-top:.4rem}
   </style>

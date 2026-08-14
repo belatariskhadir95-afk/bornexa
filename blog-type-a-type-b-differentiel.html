@@ -115,8 +115,8 @@
     @media(max-width:900px){.post-layout{grid-template-columns:1fr}}
     .post-body h2{font-size:1.4rem;margin:2.25rem 0 .85rem;color:var(--text);padding-top:.5rem;border-top:2px solid var(--primary);display:inline-block;padding-top:14px}
     .post-body h3{font-size:1.1rem;margin:1.65rem 0 .5rem;color:var(--text)}
-    .post-body p{margin-bottom:1.05rem;line-height:1.75;color:#4B5563}
-    .post-body ul,.post-body ol{margin:.75rem 0 1.25rem 1.5rem;color:#4B5563;line-height:1.75}
+    .post-body p{margin-bottom:1.05rem;line-height:1.75;color:var(--text-muted)}
+    .post-body ul,.post-body ol{margin:.75rem 0 1.25rem 1.5rem;color:var(--text-muted);line-height:1.75}
     .post-body strong{color:var(--text)}
     .post-body a{color:var(--primary);text-decoration:none;font-weight:600}
     .post-body a:hover{text-decoration:underline}
@@ -131,22 +131,22 @@
     .compare-table td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text)}
     .compare-table tr:last-child td{border-bottom:none}
     .compare-table .ok{color:var(--primary-dark);font-weight:700}
-    .compare-table .warn{color:#B45309;font-weight:600}
-    .info-box{background:#F0F9FF;border-left:3px solid #0EA5E9;border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0;font-size:.92rem;line-height:1.6;color:#0C4A6E}
-    .info-box strong{color:#0C4A6E}
+    .compare-table .warn{color:var(--on-amber);font-weight:600}
+    .info-box{background:#F0F9FF;border-left:3px solid #0EA5E9;border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0;font-size:.92rem;line-height:1.6;color:var(--on-blue)}
+    .info-box strong{color:var(--on-blue)}
     .post-sidebar{position:sticky;top:20px;align-self:start}
-    .sidebar-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+    .sidebar-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px}
     .sidebar-card h4{font-size:.84rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--primary-dark);font-weight:800;margin-bottom:10px}
     .sidebar-card ul{list-style:none;padding:0;margin:0}
     .sidebar-card li{margin-bottom:7px;font-size:.88rem}
     .sidebar-card a{color:var(--text);text-decoration:none;font-weight:500}
     .sidebar-card a:hover{color:var(--primary-dark)}
-    .sources{background:#F9FAFB;border:1px dashed var(--border);border-radius:10px;padding:14px 18px;margin-top:28px;font-size:.84rem;color:var(--text-muted)}
+    .sources{background:var(--surface-2);border:1px dashed var(--border);border-radius:10px;padding:14px 18px;margin-top:28px;font-size:.84rem;color:var(--text-muted)}
     .sources strong{color:var(--text)}
     .cta-final{background:var(--dark);color:#fff;padding:28px 32px;border-radius:16px;margin:32px 0 16px;text-align:center}
     .cta-final h3{color:#fff;font-size:1.3rem;margin-bottom:8px}
     .cta-final p{color:rgba(255,255,255,.78);margin-bottom:18px}
-    .cta-final .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;background:var(--primary);color:var(--dark);font-weight:700;border-radius:10px;text-decoration:none}
+    .cta-final .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;background:var(--primary);color:var(--text);font-weight:700;border-radius:10px;text-decoration:none}
   </style>
 </head>
 <body data-page="blog">
@@ -216,7 +216,7 @@
 
             <h2>1. Het probleem dat veel klanten niet weten</h2>
             <p>Wanneer u een offerte vraagt voor een laadpaal in België, ziet u vaak deze regel verschijnen :</p>
-            <p style="text-align:center;font-style:italic;color:var(--muted);padding:10px;background:#F9FAFB;border-radius:8px">"Differentieel Type B 30 mA — €180 à €230 HT"</p>
+            <p style="text-align:center;font-style:italic;color:var(--text-muted);padding:10px;background:var(--surface-2);border-radius:8px">"Differentieel Type B 30 mA — €180 à €230 HT"</p>
             <p>Sommige installateurs presenteren deze post als <strong>"wettelijk verplicht"</strong>. Dat is technisch niet correct voor de meeste moderne laadpalen — en dit artikel legt u uit waarom.</p>
 
             <h2>2. Wat is een differentieel en waarom is het belangrijk?</h2>
@@ -321,7 +321,7 @@
               </tbody>
             </table>
 
-            <p style="font-size:.86rem;color:var(--muted);font-style:italic">Bronnen : officiële installatiehandleidingen van Tesla, Wallbox en Smappee (geverifieerd in hun edities 2024-2026).</p>
+            <p style="font-size:.86rem;color:var(--text-muted);font-style:italic">Bronnen : officiële installatiehandleidingen van Tesla, Wallbox en Smappee (geverifieerd in hun edities 2024-2026).</p>
 
             <h2>6. Wat kost u dat — concrete cijfers</h2>
 
@@ -400,7 +400,7 @@
 
             <h2>1. Le problème que beaucoup de clients ne connaissent pas</h2>
             <p>Lorsque vous demandez un devis pour une borne de recharge en Belgique, vous voyez fréquemment cette ligne apparaître :</p>
-            <p style="text-align:center;font-style:italic;color:var(--muted);padding:10px;background:#F9FAFB;border-radius:8px">"Différentiel Type B 30 mA — €180 à €230 HT"</p>
+            <p style="text-align:center;font-style:italic;color:var(--text-muted);padding:10px;background:var(--surface-2);border-radius:8px">"Différentiel Type B 30 mA — €180 à €230 HT"</p>
             <p>Certains installateurs présentent ce poste comme <strong>"légalement obligatoire"</strong>. Ce n'est techniquement pas correct pour la plupart des bornes modernes — et cet article vous explique pourquoi.</p>
 
             <h2>2. Qu'est-ce qu'un différentiel et pourquoi est-il important ?</h2>
@@ -505,7 +505,7 @@
               </tbody>
             </table>
 
-            <p style="font-size:.86rem;color:var(--muted);font-style:italic">Sources : manuels d'installation officiels de Tesla, Wallbox et Smappee (vérifiés sur leurs éditions 2024-2026).</p>
+            <p style="font-size:.86rem;color:var(--text-muted);font-style:italic">Sources : manuels d'installation officiels de Tesla, Wallbox et Smappee (vérifiés sur leurs éditions 2024-2026).</p>
 
             <h2>6. Ce que cela vous coûte — chiffres concrets</h2>
 
@@ -602,7 +602,7 @@
             <div class="sidebar-card" style="background:var(--dark);color:#fff;border-color:var(--dark)">
               <h4 style="color:var(--primary)" data-nl="Een vraag?" data-fr="Une question ?">Een vraag?</h4>
               <p style="font-size:.86rem;color:rgba(255,255,255,.78);margin-bottom:12px" data-nl="Wij beantwoorden binnen 24u." data-fr="Nous répondons sous 24h.">Wij beantwoorden binnen 24u.</p>
-              <a href="devis" style="display:block;text-align:center;padding:10px;background:var(--primary);color:var(--dark);font-weight:700;border-radius:8px;text-decoration:none" data-nl="Gratis offerte" data-fr="Devis gratuit">Gratis offerte</a>
+              <a href="devis" style="display:block;text-align:center;padding:10px;background:var(--primary);color:var(--text);font-weight:700;border-radius:8px;text-decoration:none" data-nl="Gratis offerte" data-fr="Devis gratuit">Gratis offerte</a>
             </div>
           </aside>
 
