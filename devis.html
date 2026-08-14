@@ -1279,10 +1279,12 @@
       document.getElementById('dots-wrap').style.display = 'none';
       document.getElementById('prog-wrap').style.display = 'none';
       document.getElementById('success-screen').classList.add('show');
-      // Conversion : devis envoyé → événement GA4 (importable dans Google Ads via le lien GA4↔Ads)
+      // Conversion : devis envoyé → événements GA4 importés dans Google Ads.
+      // On envoie les deux noms pour matcher la conversion Ads (manual_event_SUBMIT_LEAD_FORM) ET le standard GA4.
       if (!leadTracked && typeof window.gtag === 'function') {
         leadTracked = true;
         window.gtag('event', 'generate_lead', { currency: 'EUR', value: 1 });
+        window.gtag('event', 'SUBMIT_LEAD_FORM', { currency: 'EUR', value: 1 });
       }
       applyLang();
     }
