@@ -26,6 +26,7 @@
   --text:          #0C1A15;
   --text-muted:    #5C7168;
   --border:        #E4EDE9;
+  --bg-alt:        var(--surface-2);
   --tint-mint:     #E0FBF4;
   --tint-amber:    #FEF3C7;
   --tint-red:      #FEE2E2;
@@ -1153,3 +1154,7 @@ h2{font-weight:800;letter-spacing:-.02em}
 .nav-logo img{height:52px}
 .footer-brand-name img{height:58px}
 @media (max-width:768px){.nav-logo img{height:46px}}
+
+/* Dark mode — vignettes blog : icones lisibles sur teinte sombre */
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .blog-card-thumb .thumb-icon{color:var(--primary)} }
+:root[data-theme="dark"] .blog-card-thumb .thumb-icon{color:var(--primary)}
