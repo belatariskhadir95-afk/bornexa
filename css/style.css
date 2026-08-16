@@ -1158,3 +1158,7 @@ h2{font-weight:800;letter-spacing:-.02em}
 /* Dark mode — vignettes blog : icones lisibles sur teinte sombre */
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .blog-card-thumb .thumb-icon{color:var(--primary)} }
 :root[data-theme="dark"] .blog-card-thumb .thumb-icon{color:var(--primary)}
+
+/* btn-outline lisible sur sections de contenu : themable (fonce sur clair, clair sur sombre). Le hero (.hero, fond toujours sombre) garde le blanc. */
+.section .btn-outline, .section-alt .btn-outline { color: var(--text); border-color: var(--border); }
+.section .btn-outline:hover, .section-alt .btn-outline:hover { color: var(--primary); border-color: var(--primary); }
