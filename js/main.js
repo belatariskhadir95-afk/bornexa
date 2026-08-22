@@ -147,31 +147,36 @@
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   })();
 
-  /* ── Google Analytics 4 + bannière de consentement RGPD (load-on-consent) ──
+  /* ── Google Analytics 4 + Google Consent Mode v2 + bannière RGPD ──
      ⚠️ ÉTAPE REQUISE : remplacer 'G-XXXXXXXXXX' par le vrai ID GA4 (Admin → Flux de données).
-     Tant que l'ID reste le placeholder, AUCUN script ne se charge et AUCUNE bannière ne s'affiche.
-     Aucune donnée n'est collectée avant le clic « Accepter » (conforme RGPD/Belgique). */
+     gtag se charge toujours, mais le consentement est REFUSÉ par défaut : tant que l'utilisateur n'a
+     pas accepté, GA n'envoie que des signaux anonymes SANS cookies (cookieless pings) — ce qui permet
+     la modélisation des conversions dans Google Ads. À l'acceptation → mesure complète (cookies). */
   (function () {
     var GA_ID = 'G-RVC22RR3N9'; // ID GA4 BORNEXA
     if (GA_ID === 'G-XXXXXXXXXX' || !/^G-[A-Z0-9]{4,}$/.test(GA_ID)) return; // pas configuré → ne rien faire
     var KEY = 'bornexa-consent'; // 'granted' | 'denied'
 
-    function loadGA() {
-      if (window.__gaLoaded) return;
-      window.__gaLoaded = true;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-      document.head.appendChild(s);
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () { window.dataLayer.push(arguments); };
-      window.gtag('js', new Date());
-      window.gtag('config', GA_ID, { anonymize_ip: true });
-    }
-
+    // Consent Mode v2 : gtag toujours chargé ; consentement refusé par défaut (pings cookieless + modeling Google Ads).
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
     var consent = localStorage.getItem(KEY);
-    if (consent === 'granted') { loadGA(); return; }
-    if (consent === 'denied') { return; }
+    window.gtag('consent', 'default', { ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
+    if (consent === 'granted') {
+      window.gtag('consent', 'update', { ad_storage: 'granted', analytics_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted' });
+    }
+    var gs = document.createElement('script');
+    gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(gs);
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID, { anonymize_ip: true });
+    function setConsent(state) {
+      var v = (state === 'granted') ? 'granted' : 'denied';
+      localStorage.setItem(KEY, v);
+      window.gtag('consent', 'update', { ad_storage: v, analytics_storage: v, ad_user_data: v, ad_personalization: v });
+    }
+    if (consent === 'granted' || consent === 'denied') return; // choix déjà fait → pas de bannière
 
     var lang = document.documentElement.lang || localStorage.getItem('bornexa-lang') || 'nl';
     var T = {
@@ -196,8 +201,8 @@
     var ok = document.createElement('button');
     ok.type = 'button'; ok.textContent = l.ok;
     ok.style.cssText = 'background:#00C896;border:none;color:#0B1E3C;padding:9px 16px;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit';
-    no.addEventListener('click', function () { localStorage.setItem(KEY, 'denied'); bar.remove(); });
-    ok.addEventListener('click', function () { localStorage.setItem(KEY, 'granted'); bar.remove(); loadGA(); });
+    no.addEventListener('click', function () { setConsent('denied'); bar.remove(); });
+    ok.addEventListener('click', function () { setConsent('granted'); bar.remove(); });
     btns.appendChild(no); btns.appendChild(ok); bar.appendChild(btns);
     document.body.appendChild(bar);
   })();
