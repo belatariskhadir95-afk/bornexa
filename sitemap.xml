@@ -815,5 +815,29 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url>
+    <loc>https://www.bornexa.be/alfen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/alfen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/alfen"/>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/easee</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/easee"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/easee"/>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zaptec</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zaptec"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zaptec"/>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
 </urlset>
