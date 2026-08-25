@@ -357,6 +357,7 @@
           <input type="hidden" name="Type_Aanvraag"    id="f-path">
           <input type="hidden" name="Type_Project"     id="f-project">
           <input type="hidden" name="Merk_Voertuig"    id="f-vehicle">
+          <input type="hidden" name="Gewenst_Merk_Borne" id="f-merkwens">
           <input type="hidden" name="Type_Service"     id="f-service">
           <input type="hidden" name="Energie_Doel"     id="f-energiedoel">
           <input type="hidden" name="Type_Installatie" id="f-install">
@@ -589,6 +590,54 @@
             <div class="step-nav">
               <button type="button" class="btn-prev" id="s2-prev" onclick="prevStep()">&#8592; Terug</button>
               <button type="button" class="btn-next" id="next-2" onclick="nextStep()">Volgende &#8594;</button>
+            </div>
+          </div>
+
+          <!-- ── Étape : Gewenst merk laadpaal ── -->
+          <div class="step-panel" id="step-merk">
+            <div class="step-label">Stap</div>
+            <h2 data-nl="Welk merk laadpaal wenst u?" data-fr="Quelle marque de borne souhaitez-vous ?">Welk merk laadpaal wenst u?</h2>
+            <p class="step-sub" data-nl="Kies uw voorkeur — het model bepalen we later samen. Geen idee? Kies gerust &lsquo;Geen voorkeur&rsquo;." data-fr="Choisissez votre pr&eacute;f&eacute;rence — le mod&egrave;le, on le voit ensemble plus tard. Aucune id&eacute;e ? Choisissez &laquo;&nbsp;Sans pr&eacute;f&eacute;rence&nbsp;&raquo;.">Kies uw voorkeur — het model bepalen we later samen. Geen idee? Kies gerust &lsquo;Geen voorkeur&rsquo;.</p>
+            <div class="options-grid g3">
+              <div class="option-card" data-field="f-merkwens" data-value="Smappee">
+                <span class="opt-icon">&#9889;</span>
+                <span class="opt-title">Smappee</span>
+                <span class="opt-sub" data-nl="Slim energiebeheer" data-fr="Gestion d'&eacute;nergie">Slim energiebeheer</span>
+              </div>
+              <div class="option-card" data-field="f-merkwens" data-value="Tesla">
+                <span class="opt-icon">&#9889;</span>
+                <span class="opt-title">Tesla</span>
+                <span class="opt-sub">Wall Connector</span>
+              </div>
+              <div class="option-card" data-field="f-merkwens" data-value="Wallbox">
+                <span class="opt-icon">&#9889;</span>
+                <span class="opt-title">Wallbox</span>
+                <span class="opt-sub">Pulsar / Commander</span>
+              </div>
+              <div class="option-card" data-field="f-merkwens" data-value="Alfen">
+                <span class="opt-icon">&#9889;</span>
+                <span class="opt-title">Alfen</span>
+                <span class="opt-sub" data-nl="Pro &amp; appartement" data-fr="Pro &amp; copropri&eacute;t&eacute;">Pro &amp; appartement</span>
+              </div>
+              <div class="option-card" data-field="f-merkwens" data-value="Easee">
+                <span class="opt-icon">&#9889;</span>
+                <span class="opt-title">Easee</span>
+                <span class="opt-sub" data-nl="Compact &amp; slim" data-fr="Compact &amp; intelligent">Compact &amp; slim</span>
+              </div>
+              <div class="option-card" data-field="f-merkwens" data-value="Zaptec">
+                <span class="opt-icon">&#9889;</span>
+                <span class="opt-title">Zaptec</span>
+                <span class="opt-sub" data-nl="Appartement &amp; parking" data-fr="Copropri&eacute;t&eacute; &amp; parking">Appartement &amp; parking</span>
+              </div>
+              <div class="option-card" data-field="f-merkwens" data-value="Geen voorkeur">
+                <span class="opt-icon">&#128172;</span>
+                <span class="opt-title" data-nl="Geen voorkeur" data-fr="Sans pr&eacute;f&eacute;rence">Geen voorkeur</span>
+                <span class="opt-sub" data-nl="Advies van BORNEXA" data-fr="Conseil de BORNEXA">Advies van BORNEXA</span>
+              </div>
+            </div>
+            <div class="step-nav">
+              <button type="button" class="btn-prev" onclick="prevStep()">&#8592; Terug</button>
+              <button type="button" class="btn-next" disabled onclick="nextStep()">Volgende &#8594;</button>
             </div>
           </div>
 
@@ -1038,7 +1087,7 @@
     var lang = 'nl';
     // Elke voie heeft haar eigen reeks panelen (id's). De engine navigeert door deze array.
     var FLOWS = {
-      'Laadpaal':                ['step-intent','step-1','step-3','step-2','step-4','step-5','step-6'],
+      'Laadpaal':                ['step-intent','step-1','step-3','step-2','step-merk','step-4','step-5','step-6'],
       'Energiebeheer':           ['step-intent','step-1','step-energiedoel','step-energieq','step-5','step-6'],
       'Herstelling / depannage': ['step-intent','step-herstel','step-5','step-6'],
       'Advies':                  ['step-intent','step-advies','step-6']
@@ -1231,6 +1280,7 @@
         request_type: val('f-path'),
         project_type: val('f-project'),
         vehicle:      val('f-vehicle'),
+        charger_brand_wish: val('f-merkwens'),
         service:      val('f-service'),
         energy_goal:  val('f-energiedoel'),
         solar:        val('inp-zon'),
