@@ -839,5 +839,77 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://www.bornexa.be/alfen-leuven</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/alfen-leuven"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/alfen-leuven"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/alfen-mechelen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/alfen-mechelen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/alfen-mechelen"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/alfen-vilvoorde</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/alfen-vilvoorde"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/alfen-vilvoorde"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/easee-leuven</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/easee-leuven"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/easee-leuven"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/easee-mechelen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/easee-mechelen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/easee-mechelen"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/easee-vilvoorde</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/easee-vilvoorde"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/easee-vilvoorde"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zaptec-leuven</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zaptec-leuven"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zaptec-leuven"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zaptec-mechelen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zaptec-mechelen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zaptec-mechelen"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zaptec-vilvoorde</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zaptec-vilvoorde"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zaptec-vilvoorde"/>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
 </urlset>
