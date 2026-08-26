@@ -911,5 +911,77 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.bornexa.be/alfen-aarschot</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/alfen-aarschot"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/alfen-aarschot"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/alfen-tienen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/alfen-tienen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/alfen-tienen"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/alfen-tervuren</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/alfen-tervuren"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/alfen-tervuren"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/easee-aarschot</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/easee-aarschot"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/easee-aarschot"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/easee-tienen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/easee-tienen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/easee-tienen"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/easee-tervuren</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/easee-tervuren"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/easee-tervuren"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zaptec-aarschot</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zaptec-aarschot"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zaptec-aarschot"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zaptec-tienen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zaptec-tienen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zaptec-tienen"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/zaptec-tervuren</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/zaptec-tervuren"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/zaptec-tervuren"/>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 
 </urlset>
