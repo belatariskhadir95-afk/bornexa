@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00C896">
+  <title data-fr="Recharge bidirectionnelle en Belgique : V2H, V2G, fonctionnement et avenir (2026) | BORNEXA">Bidirectioneel laden in België: V2H, V2G, werking en toekomst (2026) | BORNEXA</title>
+  <meta name="description" content="Alles over bidirectioneel laden in België in 2026: V2L, V2H en V2G uitgelegd, hoe het werkt, de regelgeving (Synergrid, Fluvius), compatibele wagens, voordelen, grenzen en hoe u uw installatie nu al voorbereidt." data-fr="Tout sur la recharge bidirectionnelle en Belgique en 2026 : V2L, V2H et V2G expliqués, fonctionnement, réglementation (Synergrid, Fluvius), véhicules compatibles, avantages, limites et comment préparer votre installation dès maintenant.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique">
+  <link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique">
+  <link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique">
+  <meta property="og:title" content="Bidirectioneel laden in België: V2H, V2G, werking en toekomst (2026) | BORNEXA">
+  <meta property="og:description" content="V2L, V2H en V2G uitgelegd voor de Belgische context: werking, regelgeving, compatibele wagens en hoe u uw installatie nu al voorbereidt.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:locale:alternate" content="fr_BE">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {"@type":["LocalBusiness","ElectricalContractor"],"@id":"https://www.bornexa.be/#business","name":"BORNEXA","url":"https://www.bornexa.be/","image":"https://www.bornexa.be/images/og-smappee.jpg","logo":{"@type":"ImageObject","url":"https://www.bornexa.be/images/logo-bornexa.svg"},"telephone":"+32489247760","email":"info@bornexa.be","priceRange":"€€","address":{"@type":"PostalAddress","addressLocality":"Boortmeerbeek","postalCode":"3190","addressRegion":"Vlaams-Brabant","addressCountry":"BE"},"areaServed":{"@type":"State","name":"Vlaams-Brabant"}},
+      {
+        "@type": "BlogPosting",
+        "headline": "Bidirectioneel laden in België: V2H, V2G, werking en toekomst",
+        "description": "Uitgebreide gids over bidirectioneel laden in België in 2026: V2L, V2H en V2G, werking, regelgeving (Synergrid, Fluvius), compatibele wagens, voordelen en grenzen.",
+        "datePublished": "2026-09-12",
+        "dateModified": "2026-09-12",
+        "author": { "@id": "https://www.bornexa.be/#business" },
+        "publisher": { "@id": "https://www.bornexa.be/#business" },
+        "inLanguage": ["nl-BE", "fr-BE"],
+        "mainEntityOfPage": "https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique",
+        "articleSection": "Bidirectioneel laden"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type":"Question","name":"Is bidirectioneel laden al mogelijk in België in 2026?","acceptedAnswer":{"@type":"Answer","text":"Gedeeltelijk. V2L (de wagen als stopcontact) werkt vandaag als uw voertuig die functie heeft. V2H en V2G bevinden zich in België in 2026 grotendeels in de pilootfase: de techniek bestaat, maar een bidirectionele laadpaal wordt door de netbeheerder als productie-/opslageenheid beschouwd, moet op de Synergrid C10/26-lijst staan, moet aangemeld worden bij Fluvius/Sibelga/ORES en moet binnen 0,2 s ontkoppelen bij netuitval. Er is nog geen breed wettelijk kader; de eerste homologaties per fabrikant verschijnen nu."}},
+          {"@type":"Question","name":"Wat is het verschil tussen V2L, V2H en V2G?","acceptedAnswer":{"@type":"Answer","text":"V2L (Vehicle-to-Load) = de wagen levert stroom aan een apparaat via een stopcontact. V2H (Vehicle-to-Home) = de wagen levert energie aan uw woninginstallatie (bv. zonne-overschot 's avonds hergebruiken). V2G (Vehicle-to-Grid) = de wagen injecteert energie in het openbare net en kan deelnemen aan flexibiliteit. V2G is technisch en administratief het meest complex."}},
+          {"@type":"Question","name":"Welke wagens ondersteunen bidirectioneel laden?","acceptedAnswer":{"@type":"Answer","text":"Bidirectioneel laden hangt af van de wagen én het protocol, niet enkel van het feit dat de wagen elektrisch is. Veel recente wagens bieden V2L. Voor V2H/V2G is het beperkter: o.a. de Nissan Leaf (CHAdeMO, oudere generatie), de Renault 5 en Mégane E-Tech (AC via Mobilize), de BMW Neue Klasse (iX3, i3, iX5) met de bidirectionele BMW Wallbox Professional, en de Kia EV9 met bepaalde bidirectionele wallboxen. Controleer altijd de exacte voorwaarden bij de constructeur."}},
+          {"@type":"Question","name":"Heb ik zonnepanelen nodig voor bidirectioneel laden?","acceptedAnswer":{"@type":"Answer","text":"Niet verplicht, maar V2H komt vooral tot zijn recht mét zonnepanelen: uw wagen slaat overdag het zonne-overschot op en levert het 's avonds terug aan de woning. Zonder zonnepanelen blijft V2H mogelijk (bv. laden op goedkope uren), maar het economische voordeel is doorgaans kleiner."}},
+          {"@type":"Question","name":"Is het interessant om nu al een bidirectionele laadpaal te plaatsen?","acceptedAnswer":{"@type":"Answer","text":"Voor de meeste huishoudens is de slimste stap vandaag een goed voorbereide, toekomstgerichte installatie in plaats van een overhaaste aankoop. Wie al een compatibele wagen (of bestelling), zonnepanelen en een driefasige aansluiting heeft, kan een concreet project bekijken. Voor de rest loont het om de installatie nu al 'bidi-ready' te maken en te wachten op een breder aanbod en kader."}}
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "BORNEXA", "item": "https://www.bornexa.be/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.bornexa.be/blog" },
+          { "@type": "ListItem", "position": 3, "name": "Bidirectioneel laden in België", "item": "https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <meta property="og:image" content="https://www.bornexa.be/images/og-smappee.jpg">
+  <meta property="og:image:alt" content="BORNEXA - Bidirectioneel laden V2H V2G in België">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.bornexa.be/images/og-smappee.jpg">
+
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/icon-192.png">
+  <link rel="apple-touch-icon" href="/images/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
+  <link rel="stylesheet" href="css/style.css?v=2026-08-22">
+  <style>
+    .post-hero{padding:5rem 0 3rem;background:var(--bg-dark,#0f172a);color:#fff}
+    .post-hero .badge{display:inline-block;margin-bottom:1rem;background:rgba(0,200,150,.15);color:var(--primary);border:1px solid rgba(0,200,150,.3);padding:.35rem .85rem;border-radius:var(--r-full);font-size:.78rem;font-weight:700;letter-spacing:.5px}
+    .post-hero h1{font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.25;margin-bottom:1rem}
+    .post-meta{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.875rem;opacity:.7;margin-top:.75rem}
+    .breadcrumb{font-size:.8rem;opacity:.6;margin-bottom:1.25rem}
+    .breadcrumb a{color:inherit;text-decoration:none}
+    .post-layout{display:grid;grid-template-columns:1fr 300px;gap:3rem;align-items:start;margin-top:3rem}
+    @media(max-width:900px){.post-layout{grid-template-columns:1fr}.post-sidebar{order:-1}}
+    .post-body h2{font-size:1.4rem;margin:2.25rem 0 .75rem;color:var(--text)}
+    .post-body h3{font-size:1.1rem;margin:1.75rem 0 .5rem;color:var(--text)}
+    .post-body p{margin-bottom:1rem;line-height:1.75;color:var(--text-muted,#64748b)}
+    .post-body ul,.post-body ol{margin:.75rem 0 1rem 1.5rem;color:var(--text-muted,#64748b);line-height:1.75}
+    .post-body li{margin-bottom:.35rem}
+    .post-body strong{color:var(--text)}
+    .post-body a{color:var(--primary);text-decoration:none}
+    .post-body a:hover{text-decoration:underline}
+    .toc{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.25rem 1.5rem;margin:1.5rem 0 2rem}
+    .toc strong{display:block;margin-bottom:.5rem;color:var(--text);font-size:.9rem;text-transform:uppercase;letter-spacing:.04em}
+    .toc ol{margin:0 0 0 1.1rem;columns:2;font-size:.9rem}
+    @media(max-width:600px){.toc ol{columns:1}}
+    .info-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:.9rem}
+    .info-table th{background:var(--dark);color:#fff;padding:.7rem .8rem;text-align:left;font-size:.8rem;letter-spacing:.3px}
+    .info-table td{padding:.7rem .8rem;border-bottom:1px solid var(--border);vertical-align:top}
+    .info-table tr:nth-child(even) td{background:var(--bg)}
+    .info-table .yes{color:var(--primary);font-weight:700}
+    .info-table .no{color:#DC2626;font-weight:700}
+    .highlight-box{background:var(--bg);border-left:4px solid var(--primary);border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin:1.5rem 0}
+    .warn-box{background:rgba(220,38,38,.05);border-left:4px solid #DC2626;border-radius:0 var(--r-md) var(--r-md) 0;padding:1.25rem 1.5rem;margin:1.5rem 0}
+    .flow-box{background:linear-gradient(135deg,rgba(0,200,150,.1) 0%,rgba(0,200,150,.03) 100%);border:1px solid rgba(0,200,150,.22);border-radius:var(--r-xl);padding:1.5rem 1.75rem;margin:1.75rem 0;text-align:center;font-weight:600;color:var(--text);line-height:2}
+    .flow-box .arrow{color:var(--primary);margin:0 .35rem}
+    .cta-inline{background:var(--bg-dark,#0f172a);color:#fff;border-radius:var(--r-xl);padding:1.75rem 2rem;margin:2rem 0;text-align:center}
+    .cta-inline p{color:rgba(255,255,255,.8)!important;margin-bottom:1rem}
+    .sticky-card{position:sticky;top:100px;background:var(--bg-dark,#0f172a);color:#fff;border-radius:var(--r-xl);padding:2rem}
+    .sticky-card h3{font-size:1.05rem;margin-bottom:1rem}
+    .sticky-card p{font-size:.875rem;opacity:.8;margin-bottom:1.25rem;line-height:1.6}
+    .sticky-card .btn{display:block;text-align:center;margin-bottom:.75rem}
+    .related-links{margin-top:2rem}
+    .related-links h4{font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;opacity:.6;margin-bottom:.75rem}
+    .related-links a{display:block;font-size:.875rem;color:var(--primary);text-decoration:none;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .related-links a:last-child{border-bottom:none}
+    .faq-block{margin-top:2.5rem}
+    .faq-block h2{font-size:1.4rem;margin-bottom:1rem}
+    .faq-item{border-bottom:1px solid var(--border);padding:1rem 0}
+    .faq-item h3{font-size:1.02rem;margin:0 0 .5rem;color:var(--text)}
+    .faq-item p{font-size:.95rem;line-height:1.7;color:var(--text-muted,#64748b);margin:0}
+    .sources{margin-top:2.5rem;font-size:.85rem;color:var(--text-muted)}
+    .sources h2{font-size:1.2rem;color:var(--text);margin-bottom:.75rem}
+    .sources ul{margin:.5rem 0 0 1.2rem;line-height:1.7}
+    .verify-note{font-style:italic;background:var(--bg);border-radius:var(--r-md);padding:1rem 1.25rem;margin-top:1.25rem;font-size:.85rem;color:var(--text-muted)}
+  </style>
+</head>
+<body>
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
+      <div class="nav-links">
+        <a href="/" data-key="navHome">Home</a>
+        <a href="services" data-key="navServices">Diensten</a>
+        <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+        <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+        <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+        <a href="faq">FAQ</a>
+        <a href="blog" aria-current="page" data-key="navBlog">Blog</a>
+        <a href="regios" data-nl="Regio's" data-fr="R&eacute;gions">Regio's</a>
+        <a href="devis" class="nav-cta">Offerte aanvragen</a>
+        <button class="btn-lang" id="lang-btn">FR</button>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+      <a href="/" data-key="navHome">Home</a>
+      <a href="services" data-key="navServices">Diensten</a>
+      <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
+      <a href="comparateur" data-nl="Vergelijken" data-fr="Comparer">Vergelijken</a>
+      <a href="simulator" data-nl="Simulator" data-fr="Simulateur">Simulator</a>
+      <a href="faq">FAQ</a>
+      <a href="blog" aria-current="page" data-key="navBlog">Blog</a>
+      <a href="regios" data-nl="Regio's" data-fr="R&eacute;gions">Regio's</a>
+      <a href="smappee">Smappee</a>
+      <a href="tesla">Tesla</a>
+      <a href="wallbox">Wallbox</a>
+      <a href="alfen">Alfen</a>
+      <a href="easee">Easee</a>
+      <a href="zaptec">Zaptec</a>
+      <a href="borne-entreprise" data-nl="Bedrijven" data-fr="Entreprises">Bedrijven</a>
+      <a href="devis" class="nav-cta" data-key="navQuote">Offerte aanvragen</a>
+      <button class="btn-lang" id="lang-btn-mobile">FR</button>
+    </div>
+  </nav>
+
+  <header class="post-hero" id="hero-nl">
+    <div class="container">
+      <div class="breadcrumb"><a href="/" data-key="navHome">Home</a> › <a href="blog" data-key="navBlog">Blog</a> › Bidirectioneel laden in België</div>
+      <div class="badge">Slim energiebeheer – 2026</div>
+      <h1>Bidirectioneel laden in België: V2H, V2G, werking, voordelen en toekomst</h1>
+      <div class="post-meta"><span>✍ BORNEXA</span><span>📅 12 september 2026</span><span>⏱ 12 min leestijd</span></div>
+    </div>
+  </header>
+  <header class="post-hero" id="hero-fr" style="display:none">
+    <div class="container">
+      <div class="breadcrumb"><a href="/" data-key="navHome">Accueil</a> › <a href="blog" data-key="navBlog">Blog</a> › Recharge bidirectionnelle en Belgique</div>
+      <div class="badge">Gestion d'énergie – 2026</div>
+      <h2 style="font-size:clamp(1.6rem,4vw,2.4rem);line-height:1.25;margin-bottom:1rem">Recharge bidirectionnelle en Belgique : V2H, V2G, fonctionnement, avantages et avenir</h2>
+      <div class="post-meta"><span>✍ BORNEXA</span><span>📅 12 septembre 2026</span><span>⏱ 12 min de lecture</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="post-layout">
+          <div>
+
+            <!-- NL CONTENT -->
+            <article class="post-body" id="content-nl">
+              <p>Uw elektrische wagen staat gemiddeld meer dan 90% van de tijd stil. In die tijd is hij eigenlijk een grote batterij op wielen. <strong>Bidirectioneel laden</strong> — ook wel V2X genoemd — laat die batterij niet alleen laden, maar ook energie <em>terugleveren</em>: aan uw woning (V2H), aan een gebouw (V2B) of aan het net (V2G). In deze gids leggen we helder uit wat dat betekent, hoe zo'n installatie werkt, en vooral: <strong>wat er in België in 2026 écht al kan</strong> — zonder marketingbeloftes.</p>
+
+              <div class="verify-note">Informatie geverifieerd in september 2026. De technische, reglementaire en commerciële voorwaarden rond bidirectioneel laden evolueren snel. Een compatibiliteitsstudie is aanbevolen vóór elke installatie.</div>
+
+              <div class="toc">
+                <strong>In dit artikel</strong>
+                <ol>
+                  <li>Wat is bidirectioneel laden?</li>
+                  <li>Hoe werkt een bidirectionele installatie?</li>
+                  <li>V2H: uw wagen voedt uw woning</li>
+                  <li>V2G: uw wagen voedt het net</li>
+                  <li>Waar staat België in 2026?</li>
+                  <li>Welke wagens zijn compatibel?</li>
+                  <li>Voordelen voor een eigenaar</li>
+                  <li>Nadelen en grenzen</li>
+                  <li>De rol van zonnepanelen</li>
+                  <li>De rol van een HEMS</li>
+                  <li>Nu al plaatsen of wachten?</li>
+                  <li>Uw installatie vandaag voorbereiden</li>
+                </ol>
+              </div>
+
+              <h2>1. Wat is bidirectioneel laden?</h2>
+              <p>Bij <strong>klassiek laden</strong> stroomt de elektriciteit maar in één richting: van het net (of uw zonnepanelen) naar de wagen. Bidirectioneel laden voegt de omgekeerde richting toe: de wagen kan energie <em>teruggeven</em>. Tussen die twee uitersten bestaan er verschillende niveaus:</p>
+              <table class="info-table">
+                <thead><tr><th>Type</th><th>Wat het doet</th><th>Concreet voorbeeld</th><th>Nu in BE?</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Klassiek laden</strong></td><td>Net/zon → wagen</td><td>Uw laadpaal laadt de wagen op</td><td class="yes">Ja</td></tr>
+                  <tr><td><strong>V1G / Smart charging</strong></td><td>Slim sturen van het laden (uur, vermogen)</td><td>Laden op goedkope uren of op zonne-overschot</td><td class="yes">Ja</td></tr>
+                  <tr><td><strong>V2L</strong> (Vehicle-to-Load)</td><td>Wagen → toestel via stopcontact</td><td>Een barbecue of e-bike voeden vanuit de wagen</td><td class="yes">Ja (indien wagen dit heeft)</td></tr>
+                  <tr><td><strong>V2H</strong> (Vehicle-to-Home)</td><td>Wagen → uw woninginstallatie</td><td>'s Avonds de woning voeden met zonne-overschot uit de wagen</td><td class="no">Opstartend</td></tr>
+                  <tr><td><strong>V2B</strong> (Vehicle-to-Building)</td><td>Wagen → gebouw (bedrijf)</td><td>Wagenpark dat de piek van een KMO afvlakt</td><td class="no">Opstartend</td></tr>
+                  <tr><td><strong>V2G</strong> (Vehicle-to-Grid)</td><td>Wagen → openbaar net</td><td>Injecteren en deelnemen aan flexibiliteit</td><td class="no">Pilootfase</td></tr>
+                </tbody>
+              </table>
+              <p>Kort samengevat: <strong>V2L</strong> is de wagen als mobiel stopcontact, <strong>V2H/V2B</strong> is de wagen als thuisbatterij, en <strong>V2G</strong> is de wagen als kleine spelen op de energiemarkt. Hoe verder u in die lijst gaat, hoe interessanter — maar ook hoe complexer op technisch en reglementair vlak.</p>
+
+              <h2>2. Hoe werkt een bidirectionele installatie?</h2>
+              <p>Een bidirectionele installatie is meer dan enkel een bijzondere laadpaal. Ze bestaat uit meerdere schakels die samen moeten werken:</p>
+              <ul>
+                <li><strong>Een compatibele wagen</strong> — dé voorwaarde. De wagen (batterij + software) moet ontladen ondersteunen via het juiste protocol.</li>
+                <li><strong>Een bidirectionele laadpaal</strong> — een borne die in beide richtingen kan werken. Bij een <em>DC-oplossing</em> zit de omvormer in de laadpaal; bij een <em>AC-oplossing</em> zit hij in de wagen.</li>
+                <li><strong>De elektrische installatie</strong> — voldoende vermogen, correcte kabelsectie, beveiligingen en een aparte kring.</li>
+                <li><strong>De meter</strong> — een digitale meter maakt slim sturen en meten mogelijk.</li>
+                <li><strong>Een energiebeheersysteem (HEMS)</strong> — de "dirigent" die beslist wanneer er geladen of ontladen wordt.</li>
+                <li><strong>Eventueel zonnepanelen en een thuisbatterij</strong> — om zonne-overschot slim te sturen.</li>
+                <li><strong>Het net</strong> — bij V2G, met de bijhorende netbeheerder (Fluvius, Sibelga, ORES, RESA…).</li>
+              </ul>
+              <div class="highlight-box"><strong>Belangrijk:</strong> omdat een bidirectionele laadpaal stroom kan terugsturen, beschouwt de netbeheerder ze als een <strong>productie-/opslageenheid</strong> — vergelijkbaar met een omvormer van zonnepanelen of een thuisbatterij. Dat verandert de installatie en de administratie grondig (zie punt 5).</div>
+
+              <h2>3. V2H: uw wagen voedt uw woning</h2>
+              <p>V2H (Vehicle-to-Home) laat toe om energie uit de autobatterij terug in uw woninginstallatie te sturen. Het typische scenario:</p>
+              <div class="flow-box">☀️ Zon overdag <span class="arrow">→</span> 🚗 wagen laadt op zonne-overschot <span class="arrow">→</span> 🌙 's avonds <span class="arrow">→</span> 🚗 wagen levert energie terug <span class="arrow">→</span> 🏠 woning verbruikt minder van het net</div>
+              <p>Zo verhoogt u uw <strong>zonne-autoconsumptie</strong>: in plaats van uw overschot goedkoop te injecteren en 's avonds duur van het net te kopen, "parkeert" u de energie tijdelijk in uw wagen. Voorwaarden en grenzen:</p>
+              <ul>
+                <li>De wagen moet V2H ondersteunen én voldoende geladen zijn wanneer u thuis energie nodig heeft.</li>
+                <li>U hebt de wagen thuis nodig op het moment van teruglevering (een wagen die overdag weg is, kan 's avonds pas terugleveren).</li>
+                <li>De installatie moet correct aangemeld en beveiligd zijn (zie punt 5).</li>
+                <li><strong>Opgelet:</strong> standaard V2H is meestal <em>netgekoppeld</em> en valt weg bij een stroompanne. Een échte <strong>back-up</strong> (de woning voeden tijdens een stroomonderbreking) vereist bijkomende hardware.</li>
+              </ul>
+
+              <h2>4. V2G: uw wagen voedt het net</h2>
+              <p>Bij V2G (Vehicle-to-Grid) injecteert de wagen energie in het openbare net. Het idee: duizenden wagens samen vormen een enorme, flexibele batterij die helpt om productie en verbruik in evenwicht te houden. Voordelen en principes:</p>
+              <ul>
+                <li><strong>Voor het net:</strong> pieken afvlakken, hernieuwbare energie beter benutten, minder nood aan dure piekcentrales.</li>
+                <li><strong>De wagen als tijdelijke opslag:</strong> laden wanneer er overvloed is, terugleveren wanneer er schaarste is.</li>
+                <li><strong>Mogelijke vergoeding in de toekomst:</strong> via flexibiliteits- en dynamische tarieven zou de eigenaar vergoed kunnen worden — maar dit hangt af van marktmodellen en contracten die nog volop in ontwikkeling zijn.</li>
+              </ul>
+              <div class="warn-box"><strong>Geen loze beloftes:</strong> V2G is technisch én administratief veel complexer dan V2H, omdat u actief in het openbare net injecteert. In België is dit in 2026 nog geen algemeen beschikbaar product voor particulieren. Beschouw V2G als een <strong>toekomstige mogelijkheid</strong>, niet als iets dat vandaag overal werkt.</div>
+
+              <h2>5. Waar staat België in 2026?</h2>
+              <p>Dit is het belangrijkste deel — en waar veel commerciële communicatie te enthousiast is. De eerlijke stand van zaken in september 2026:</p>
+              <ul>
+                <li><strong>Pilootfase.</strong> Netbeheerders en Elia voeren proefprojecten uit. Grootschalige, algemene uitrol wordt eerder rond 2027-2028 verwacht.</li>
+                <li><strong>Technisch toegelaten, kader in opbouw.</strong> V2G is in principe toegelaten mits melding aan de netbeheerder en naleving van de veiligheidsnormen, maar een volledig uitgewerkt en eenvoudig wettelijk kader ontbreekt nog.</li>
+                <li><strong>Productie-/opslageenheid.</strong> Een bidirectionele laadpaal valt onder de aansluitregels voor decentrale productie (voorschrift <strong>Synergrid C10/11</strong>), óók bij zuiver V2H. Ze moet <strong>aangemeld</strong> worden bij uw netbeheerder (Fluvius in Vlaanderen, Sibelga in Brussel, ORES/RESA in Wallonië).</li>
+                <li><strong>Netontkoppeling.</strong> Bij een netuitval moet het toestel binnen <strong>0,2 seconden</strong> stoppen met leveren, zodat een technicus op de lijn niet onder spanning komt.</li>
+                <li><strong>Homologatie (C10/26).</strong> Elke omvormer of externe bidirectionele lader moet op de <strong>Synergrid-lijst C10/26</strong> staan. Lange tijd stonden hier enkel enkele oudere CHAdeMO-toestellen op; sinds 2026 verschijnen de eerste gehomologeerde oplossingen voor moderne wagens.</li>
+                <li><strong>Terugdraaiende teller weg.</strong> De terugdraaiende teller is definitief afgeschaft (sinds 1 april 2026). Injecteren wordt dus vergoed aan het injectietarief, niet meer via compensatie — wat zelf verbruiken (en dus V2H) net interessanter maakt.</li>
+                <li><strong>Europese richting (AFIR).</strong> Nieuwe laadpunten die vanaf 1 januari 2027 geplaatst worden, moeten de communicatiestandaard voor bidirectioneel laden ondersteunen. De norm komt er dus aan.</li>
+              </ul>
+              <div class="highlight-box"><strong>Conclusie voor 2026:</strong> V2L kan vandaag. V2H is opstartend en gebeurt in een <em>gehomologeerd, aangemeld</em> kader — het is geen doe-het-zelf. V2G blijft grotendeels toekomstmuziek. Wie vandaag investeert, doet dat het best <strong>doordacht en toekomstgericht</strong>.</div>
+
+              <h2>6. Welke wagens zijn compatibel?</h2>
+              <p>Een cruciaal misverstand: <strong>niet elke elektrische wagen kan bidirectioneel laden</strong>. Compatibiliteit hangt af van meerdere factoren:</p>
+              <ul>
+                <li><strong>De wagen zelf</strong> — batterij en boordelektronica moeten ontladen ondersteunen.</li>
+                <li><strong>Het protocol</strong> — CHAdeMO (ouder), of CCS met ISO 15118-20 (de nieuwe standaard), of een AC-oplossing van de constructeur.</li>
+                <li><strong>De juiste laadpaal</strong> — die de wagen en het protocol ondersteunt.</li>
+                <li><strong>Software en HEMS</strong> — de functies moeten geactiveerd én vrijgegeven zijn voor uw markt.</li>
+                <li><strong>Voorwaarden van de constructeur</strong> — soms afhankelijk van model, batterijgrootte, bouwjaar of softwareversie.</li>
+              </ul>
+              <p>Voorbeelden die in 2026 met bidirectionele functies in verband worden gebracht (steeds te controleren bij de constructeur): de <strong>Nissan Leaf</strong> (CHAdeMO, oudere generatie), de <strong>Renault 5</strong> en <strong>Mégane E-Tech</strong> (AC, via het Mobilize-ecosysteem), de <strong>BMW Neue Klasse</strong> (iX3, i3, iX5) met de bidirectionele <strong>BMW Wallbox Professional</strong>, en de <strong>Kia EV9</strong> met bepaalde bidirectionele wallboxen. Rijdt u BMW? Lees dan ook onze aparte gids: <a href="blog-bmw-wallbox-professional-v2h">BMW Wallbox Professional &amp; SolarWatt Manager</a>.</p>
+              <p><strong>V2L</strong> is veel ruimer beschikbaar (o.a. Kia, Hyundai, MG, BYD, Renault 5…) omdat het geen speciale laadpaal vereist — enkel een stopcontact-adapter in of bij de wagen.</p>
+
+              <h2>7. Voordelen voor een eigenaar</h2>
+              <ul>
+                <li><strong>Meer zonne-autoconsumptie</strong> — uw eigen zonne-energie beter benutten in plaats van goedkoop te injecteren.</li>
+                <li><strong>Minder afname van het net</strong> op dure momenten (en potentieel een lagere factuur).</li>
+                <li><strong>Energie-optimalisatie</strong> in combinatie met een HEMS en dynamische tarieven.</li>
+                <li><strong>De autobatterij als opslag</strong> — vaak veel groter dan een klassieke thuisbatterij.</li>
+                <li><strong>Potentiële energie-resiliëntie</strong> (mits back-up-hardware).</li>
+                <li><strong>Toekomstgerichte woning</strong> die klaar is voor slim energiebeheer.</li>
+              </ul>
+              <div class="highlight-box"><strong>Belangrijk onderscheid:</strong> spreek altijd over <em>potentieel voordeel</em>, niet over een <em>gegarandeerde besparing</em>. De reële winst hangt af van uw verbruiksprofiel, uw zonnepanelen, uw tarief en uw rijgedrag.</div>
+
+              <h2>8. Nadelen en grenzen</h2>
+              <ul>
+                <li><strong>Kostprijs</strong> — bidirectionele laadpalen zijn duurder dan klassieke laadpalen.</li>
+                <li><strong>Beschikbaarheid</strong> — het aanbod (wagens én bornes) is nog beperkt in België.</li>
+                <li><strong>Compatibiliteit</strong> — vaak gebonden aan één merk of ecosysteem.</li>
+                <li><strong>Batterij-slijtage</strong> — extra laad-/ontlaadcycli; constructeurs beheren dit via software, maar het blijft een aandachtspunt (garantievoorwaarden nakijken).</li>
+                <li><strong>Technische randvoorwaarden</strong> — voldoende vermogen, correcte beveiligingen, aparte kring.</li>
+                <li><strong>Regelgeving</strong> — aanmelding, homologatie en netontkoppeling zijn verplicht.</li>
+                <li><strong>Afhankelijkheid van software/HEMS</strong> — het systeem staat of valt met correcte configuratie en cloud/updates.</li>
+              </ul>
+
+              <h2>9. De rol van zonnepanelen</h2>
+              <p>Bidirectioneel laden en zonnepanelen zijn een logisch duo. Het slimme scenario:</p>
+              <div class="flow-box">☀️ PV <span class="arrow">→</span> 🏠 woning <span class="arrow">→</span> 🚗 overschot naar de wagenbatterij <span class="arrow">→</span> 🏠 's avonds terug naar de woning</div>
+              <p>Een slim systeem <em>arbitreert</em> tussen de verschillende gebruikers van uw zonne-energie: eerst de directe verbruikers in huis, dan de wagen, eventueel een thuisbatterij, en pas daarna injectie. Zo haalt u het maximum uit elke geproduceerde kWh. Meer hierover leest u in onze gids <a href="blog-zonne-autoconsumptie">zonnepanelen zonder terugdraaiende teller</a> en op onze pagina <a href="zonnepanelen-optimaliseren">zonnepanelen optimaliseren</a>.</p>
+
+              <h2>10. De rol van een HEMS</h2>
+              <p>Een <strong>HEMS</strong> (Home Energy Management System) is het brein van een slimme energiewoning. Het meet, coördineert en stuurt. Een HEMS kan onder meer samenbrengen:</p>
+              <ul>
+                <li>uw <strong>zonnepanelen</strong> (productie);</li>
+                <li>uw <strong>laadpaal</strong> en <strong>wagen</strong> (verbruik én, bij bidi, opslag);</li>
+                <li>een eventuele <strong>thuisbatterij</strong>;</li>
+                <li>het <strong>verbruik van de woning</strong> (warmtepomp, boiler, huishoudtoestellen);</li>
+                <li>het <strong>net</strong> (afname/injectie, dynamische tarieven, capaciteitstarief).</li>
+              </ul>
+              <p>Bij BORNEXA is slim energiebeheer onze corebusiness — bijvoorbeeld met <a href="smappee">Smappee</a> voor de coördinatie van zon, laadpaal en verbruik. Ontdek onze aanpak op <a href="slim-energiebeheer">slim energiebeheer</a>.</p>
+
+              <h2>11. Nu al plaatsen of wachten?</h2>
+              <p>Het eerlijke antwoord is genuanceerd. Bidirectioneel laden is bijzonder interessant voor wie:</p>
+              <ul>
+                <li>al een <strong>compatibele wagen</strong> heeft (of besteld);</li>
+                <li><strong>zonnepanelen</strong> bezit en de autoconsumptie wil maximaliseren;</li>
+                <li>een <strong>driefasige aansluiting</strong> en voldoende vermogen heeft;</li>
+                <li>zijn woning wil klaarmaken voor slim energiebeheer.</li>
+              </ul>
+              <p>Wachten is verstandiger voor wie (nog) geen compatibele wagen heeft, wiens elektrische installatie verouderd is, of die enkel op basis van V2G-beloftes zou investeren. Voor die situaties is de beste stap vandaag: <strong>de installatie toekomstklaar maken</strong>.</p>
+
+              <h2>12. Uw installatie vandaag voorbereiden</h2>
+              <p>Ook als u vandaag nog geen bidirectionele laadpaal plaatst, kunt u uw woning nu al <strong>"bidi-ready"</strong> maken. Zo vermijdt u dubbel werk later. Aandachtspunten:</p>
+              <ul>
+                <li><strong>Elektrische dimensionering</strong> — voldoende beschikbaar vermogen en, waar mogelijk, een driefasige aansluiting.</li>
+                <li><strong>Zekeringkast</strong> — plaats voor bijkomende beveiligingen en een aparte kring.</li>
+                <li><strong>Kabeling</strong> — een correct gedimensioneerde kabel (bv. 5G6) tot de gewenste plaats.</li>
+                <li><strong>Plaatsing</strong> — de wagen parkeert thuis op het moment dat u wil terugleveren.</li>
+                <li><strong>Zonnepanelen &amp; meter</strong> — een digitale meter en, idealiter, zonnepanelen.</li>
+                <li><strong>HEMS</strong> — een energiebeheersysteem dat later kan uitbreiden.</li>
+                <li><strong>Toekomstige compatibiliteit</strong> — kabels, buizen en ruimte voorzien voor een latere upgrade.</li>
+              </ul>
+              <p>Een goed doordachte installatie vandaag maakt de overstap naar bidirectioneel laden morgen veel eenvoudiger — en goedkoper.</p>
+
+              <div class="cta-inline">
+                <p><strong>Bezit u een elektrische wagen en wil u uw woning voorbereiden op bidirectioneel laden?</strong></p>
+                <a href="devis" class="btn btn-primary" data-key="navQuote">Vraag een studie op maat aan</a>
+              </div>
+
+              <h2>13. BORNEXA: klaar voor de energie van morgen</h2>
+              <p>BORNEXA begeleidt particulieren en bedrijven bij het ontwerp en de installatie van laadpalen en slim energiebeheer. Wij verkopen u geen technologie die (nog) niet beschikbaar of gehomologeerd is in België — maar wij <strong>anticiperen wél</strong> op de evolutie naar bidirectioneel laden, zodat uw installatie er klaar voor is wanneer het zover is. Van dimensionering en zonne-integratie tot de aanmelding bij de netbeheerder en de keuring: wij bekijken uw volledige installatie.</p>
+
+              <div class="faq-block">
+                <h2>Veelgestelde vragen</h2>
+                <div class="faq-item"><h3>Is bidirectioneel laden al mogelijk in België in 2026?</h3><p>Gedeeltelijk. V2L (de wagen als stopcontact) werkt vandaag als uw voertuig die functie heeft. V2H is opstartend binnen een gehomologeerd, aangemeld kader. V2G bevindt zich grotendeels in de pilootfase. Een bidirectionele laadpaal telt als productie-/opslageenheid en moet aangemeld worden.</p></div>
+                <div class="faq-item"><h3>Wat is het verschil tussen V2L, V2H en V2G?</h3><p>V2L = de wagen levert stroom aan een toestel via een stopcontact. V2H = de wagen levert energie aan uw woning. V2G = de wagen injecteert in het openbare net. V2G is het meest complex, technisch én administratief.</p></div>
+                <div class="faq-item"><h3>Welke wagens ondersteunen bidirectioneel laden?</h3><p>Dat hangt af van de wagen én het protocol. Veel recente wagens bieden V2L. Voor V2H/V2G is het beperkter (o.a. Nissan Leaf, Renault 5/Mégane via Mobilize, BMW Neue Klasse, Kia EV9). Controleer altijd de exacte voorwaarden bij de constructeur.</p></div>
+                <div class="faq-item"><h3>Heb ik zonnepanelen nodig?</h3><p>Niet verplicht, maar V2H komt vooral tot zijn recht mét zonnepanelen: u slaat het zonne-overschot op in de wagen en gebruikt het 's avonds. Zonder PV blijft V2H mogelijk, maar het voordeel is doorgaans kleiner.</p></div>
+                <div class="faq-item"><h3>Moet ik nu al een bidirectionele laadpaal plaatsen?</h3><p>Voor de meeste huishoudens is de slimste stap vandaag een toekomstgerichte, "bidi-ready" installatie. Wie al een compatibele wagen, zonnepanelen en driefasig heeft, kan een concreet project bekijken.</p></div>
+              </div>
+
+              <div class="sources">
+                <h2>Bronnen &amp; referenties</h2>
+                <ul>
+                  <li><a href="https://www.synergrid.be/" rel="nofollow" target="_blank">Synergrid</a> — voorschriften C10/11 (decentrale productie) en C10/26 (homologatielijst).</li>
+                  <li><a href="https://www.fluvius.be/" rel="nofollow" target="_blank">Fluvius</a> — aanmelding productie-/opslageenheden (Vlaanderen).</li>
+                  <li><a href="https://www.sibelga.be/" rel="nofollow" target="_blank">Sibelga</a> — netbeheerder Brussel.</li>
+                  <li><a href="https://www.elia.be/" rel="nofollow" target="_blank">Elia</a> — flexibiliteit en netbalancering, V2G-pilots.</li>
+                  <li><a href="https://www.creg.be/" rel="nofollow" target="_blank">CREG</a> — federale energieregulator.</li>
+                  <li>Europese AFIR-verordening (bidirectionele communicatiestandaard vanaf 2027).</li>
+                </ul>
+                <div class="verify-note">Informatie geverifieerd in september 2026. De voorwaarden rond bidirectioneel laden kunnen evolueren. Een compatibiliteitsstudie is aanbevolen vóór elke installatie.</div>
+              </div>
+
+            </article>
+
+            <!-- FR CONTENT -->
+            <article class="post-body" id="content-fr" style="display:none">
+              <p>Votre voiture électrique reste immobile en moyenne plus de 90% du temps. Pendant ce temps, c'est en réalité une grande batterie sur roues. La <strong>recharge bidirectionnelle</strong> — aussi appelée V2X — permet non seulement de charger cette batterie, mais aussi de <em>restituer</em> de l'énergie : à votre maison (V2H), à un bâtiment (V2B) ou au réseau (V2G). Dans ce guide, nous expliquons clairement ce que cela signifie, comment fonctionne une telle installation, et surtout : <strong>ce qui est réellement possible en Belgique en 2026</strong> — sans promesses marketing.</p>
+
+              <div class="verify-note">Informations vérifiées en septembre 2026. Les conditions techniques, réglementaires et commerciales liées à la recharge bidirectionnelle évoluent rapidement. Une étude de compatibilité est recommandée avant toute installation.</div>
+
+              <div class="toc">
+                <strong>Dans cet article</strong>
+                <ol>
+                  <li>Qu'est-ce que la recharge bidirectionnelle ?</li>
+                  <li>Comment fonctionne une installation bidirectionnelle ?</li>
+                  <li>V2H : votre voiture alimente votre maison</li>
+                  <li>V2G : votre voiture alimente le réseau</li>
+                  <li>Où en est la Belgique en 2026 ?</li>
+                  <li>Quels véhicules sont compatibles ?</li>
+                  <li>Les avantages pour un propriétaire</li>
+                  <li>Les inconvénients et limites</li>
+                  <li>Le rôle des panneaux solaires</li>
+                  <li>Le rôle d'un HEMS</li>
+                  <li>Installer maintenant ou attendre ?</li>
+                  <li>Préparer votre installation dès aujourd'hui</li>
+                </ol>
+              </div>
+
+              <h2>1. Qu'est-ce que la recharge bidirectionnelle ?</h2>
+              <p>Avec la <strong>recharge classique</strong>, l'électricité ne circule que dans un sens : du réseau (ou de vos panneaux solaires) vers la voiture. La recharge bidirectionnelle ajoute le sens inverse : la voiture peut <em>redonner</em> de l'énergie. Entre ces deux extrêmes, il existe plusieurs niveaux :</p>
+              <table class="info-table">
+                <thead><tr><th>Type</th><th>Ce qu'il fait</th><th>Exemple concret</th><th>Dispo en BE ?</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Recharge classique</strong></td><td>Réseau/solaire → voiture</td><td>Votre borne recharge la voiture</td><td class="yes">Oui</td></tr>
+                  <tr><td><strong>V1G / Smart charging</strong></td><td>Piloter intelligemment la charge (heure, puissance)</td><td>Charger aux heures creuses ou sur surplus solaire</td><td class="yes">Oui</td></tr>
+                  <tr><td><strong>V2L</strong> (Vehicle-to-Load)</td><td>Voiture → appareil via une prise</td><td>Alimenter un barbecue ou un vélo électrique depuis la voiture</td><td class="yes">Oui (si la voiture le permet)</td></tr>
+                  <tr><td><strong>V2H</strong> (Vehicle-to-Home)</td><td>Voiture → votre installation domestique</td><td>Le soir, alimenter la maison avec le surplus solaire stocké</td><td class="no">En démarrage</td></tr>
+                  <tr><td><strong>V2B</strong> (Vehicle-to-Building)</td><td>Voiture → bâtiment (entreprise)</td><td>Une flotte qui écrête le pic d'une PME</td><td class="no">En démarrage</td></tr>
+                  <tr><td><strong>V2G</strong> (Vehicle-to-Grid)</td><td>Voiture → réseau public</td><td>Injecter et participer à la flexibilité</td><td class="no">Phase pilote</td></tr>
+                </tbody>
+              </table>
+              <p>En résumé : le <strong>V2L</strong> transforme la voiture en prise mobile, le <strong>V2H/V2B</strong> en batterie domestique, et le <strong>V2G</strong> en petit acteur du marché de l'énergie. Plus on avance dans cette liste, plus c'est intéressant — mais aussi plus complexe sur le plan technique et réglementaire.</p>
+
+              <h2>2. Comment fonctionne une installation bidirectionnelle ?</h2>
+              <p>Une installation bidirectionnelle est bien plus qu'une simple borne particulière. Elle repose sur plusieurs maillons qui doivent fonctionner ensemble :</p>
+              <ul>
+                <li><strong>Un véhicule compatible</strong> — LA condition. La voiture (batterie + logiciel) doit prendre en charge la décharge via le bon protocole.</li>
+                <li><strong>Une borne bidirectionnelle</strong> — une borne capable de fonctionner dans les deux sens. Dans une <em>solution DC</em>, l'onduleur est dans la borne ; dans une <em>solution AC</em>, il est dans la voiture.</li>
+                <li><strong>L'installation électrique</strong> — puissance suffisante, section de câble correcte, protections et circuit dédié.</li>
+                <li><strong>Le compteur</strong> — un compteur digital permet le pilotage et la mesure intelligents.</li>
+                <li><strong>Un système de gestion énergétique (HEMS)</strong> — le "chef d'orchestre" qui décide quand charger ou décharger.</li>
+                <li><strong>Éventuellement des panneaux solaires et une batterie domestique</strong> — pour piloter intelligemment le surplus solaire.</li>
+                <li><strong>Le réseau</strong> — en V2G, avec le gestionnaire de réseau concerné (Fluvius, Sibelga, ORES, RESA…).</li>
+              </ul>
+              <div class="highlight-box"><strong>Important :</strong> parce qu'une borne bidirectionnelle peut renvoyer du courant, le gestionnaire de réseau la considère comme une <strong>unité de production/stockage</strong> — comparable à un onduleur de panneaux solaires ou une batterie domestique. Cela change profondément l'installation et les démarches (voir point 5).</div>
+
+              <h2>3. V2H : votre voiture alimente votre maison</h2>
+              <p>Le V2H (Vehicle-to-Home) permet de renvoyer l'énergie de la batterie de la voiture dans votre installation domestique. Le scénario typique :</p>
+              <div class="flow-box">☀️ Soleil en journée <span class="arrow">→</span> 🚗 la voiture se charge sur le surplus solaire <span class="arrow">→</span> 🌙 le soir <span class="arrow">→</span> 🚗 la voiture restitue de l'énergie <span class="arrow">→</span> 🏠 la maison prélève moins sur le réseau</div>
+              <p>Vous augmentez ainsi votre <strong>autoconsommation solaire</strong> : au lieu d'injecter votre surplus à bas prix et de racheter cher au réseau le soir, vous "garez" temporairement l'énergie dans votre voiture. Conditions et limites :</p>
+              <ul>
+                <li>La voiture doit supporter le V2H et être suffisamment chargée au moment où vous avez besoin d'énergie.</li>
+                <li>Vous devez avoir la voiture à la maison au moment de la restitution (une voiture absente en journée ne restitue que le soir).</li>
+                <li>L'installation doit être correctement déclarée et protégée (voir point 5).</li>
+                <li><strong>Attention :</strong> le V2H standard est généralement <em>couplé au réseau</em> et se coupe en cas de panne de courant. Un véritable <strong>back-up</strong> (alimenter la maison pendant une coupure) nécessite du matériel supplémentaire.</li>
+              </ul>
+
+              <h2>4. V2G : votre voiture alimente le réseau</h2>
+              <p>Avec le V2G (Vehicle-to-Grid), la voiture injecte de l'énergie dans le réseau public. L'idée : des milliers de voitures forment ensemble une énorme batterie flexible qui aide à équilibrer production et consommation. Avantages et principes :</p>
+              <ul>
+                <li><strong>Pour le réseau :</strong> écrêter les pics, mieux valoriser les énergies renouvelables, réduire le besoin de centrales de pointe coûteuses.</li>
+                <li><strong>La voiture comme stockage temporaire :</strong> charger quand il y a abondance, restituer quand il y a rareté.</li>
+                <li><strong>Rémunération possible à l'avenir :</strong> via des tarifs de flexibilité et dynamiques, le propriétaire pourrait être rémunéré — mais cela dépend de modèles de marché et de contrats encore en plein développement.</li>
+              </ul>
+              <div class="warn-box"><strong>Pas de fausses promesses :</strong> le V2G est bien plus complexe que le V2H, techniquement et administrativement, car vous injectez activement dans le réseau public. En Belgique, en 2026, ce n'est pas encore un produit largement disponible pour les particuliers. Considérez le V2G comme une <strong>possibilité future</strong>, pas comme quelque chose qui fonctionne partout aujourd'hui.</div>
+
+              <h2>5. Où en est la Belgique en 2026 ?</h2>
+              <p>C'est la partie la plus importante — et celle où beaucoup de communications commerciales sont trop enthousiastes. L'état des lieux honnête en septembre 2026 :</p>
+              <ul>
+                <li><strong>Phase pilote.</strong> Les gestionnaires de réseau et Elia mènent des projets tests. Un déploiement de masse est plutôt attendu autour de 2027-2028.</li>
+                <li><strong>Techniquement autorisé, cadre en construction.</strong> Le V2G est en principe autorisé moyennant notification au gestionnaire de réseau et respect des normes de sécurité, mais un cadre légal clair et complet n'existe pas encore.</li>
+                <li><strong>Unité de production/stockage.</strong> Une borne bidirectionnelle relève des règles de raccordement des unités de production décentralisée (prescription <strong>Synergrid C10/11</strong>), même en pur V2H. Elle doit être <strong>déclarée</strong> auprès de votre gestionnaire de réseau (Fluvius en Flandre, Sibelga à Bruxelles, ORES/RESA en Wallonie).</li>
+                <li><strong>Découplage réseau.</strong> En cas de coupure, l'appareil doit cesser de fournir dans les <strong>0,2 seconde</strong>, afin qu'un technicien travaillant sur la ligne ne soit pas mis sous tension.</li>
+                <li><strong>Homologation (C10/26).</strong> Tout onduleur ou chargeur bidirectionnel externe doit figurer sur la <strong>liste Synergrid C10/26</strong>. Longtemps, seuls quelques anciens appareils CHAdeMO y figuraient ; depuis 2026, les premières solutions homologuées pour les véhicules modernes apparaissent.</li>
+                <li><strong>Compteur qui tourne à l'envers supprimé.</strong> Le compteur qui tourne à l'envers a définitivement disparu (depuis le 1er avril 2026). L'injection est donc rémunérée au tarif d'injection, plus par compensation — ce qui rend l'autoconsommation (et donc le V2H) d'autant plus intéressante.</li>
+                <li><strong>Direction européenne (AFIR).</strong> Les nouveaux points de charge installés à partir du 1er janvier 2027 devront supporter la norme de communication pour la recharge bidirectionnelle. La norme arrive donc.</li>
+              </ul>
+              <div class="highlight-box"><strong>Conclusion pour 2026 :</strong> le V2L est possible aujourd'hui. Le V2H démarre, dans un cadre <em>homologué et déclaré</em> — ce n'est pas du bricolage. Le V2G reste en grande partie de la musique d'avenir. Qui investit aujourd'hui a intérêt à le faire de façon <strong>réfléchie et tournée vers l'avenir</strong>.</div>
+
+              <h2>6. Quels véhicules sont compatibles ?</h2>
+              <p>Un malentendu crucial : <strong>toutes les voitures électriques ne peuvent pas charger de façon bidirectionnelle</strong>. La compatibilité dépend de plusieurs facteurs :</p>
+              <ul>
+                <li><strong>La voiture elle-même</strong> — la batterie et l'électronique de bord doivent supporter la décharge.</li>
+                <li><strong>Le protocole</strong> — CHAdeMO (plus ancien), ou CCS avec ISO 15118-20 (la nouvelle norme), ou une solution AC du constructeur.</li>
+                <li><strong>La bonne borne</strong> — qui prend en charge la voiture et le protocole.</li>
+                <li><strong>Logiciel et HEMS</strong> — les fonctions doivent être activées et débloquées pour votre marché.</li>
+                <li><strong>Conditions du constructeur</strong> — parfois liées au modèle, à la taille de batterie, à la date de production ou à une version logicielle.</li>
+              </ul>
+              <p>Exemples associés à des fonctions bidirectionnelles en 2026 (toujours à vérifier auprès du constructeur) : la <strong>Nissan Leaf</strong> (CHAdeMO, génération plus ancienne), la <strong>Renault 5</strong> et la <strong>Mégane E-Tech</strong> (AC, via l'écosystème Mobilize), la <strong>BMW Neue Klasse</strong> (iX3, i3, iX5) avec la <strong>BMW Wallbox Professional</strong> bidirectionnelle, et la <strong>Kia EV9</strong> avec certaines bornes bidirectionnelles. Vous roulez en BMW ? Lisez alors notre guide dédié : <a href="blog-bmw-wallbox-professional-v2h">BMW Wallbox Professional &amp; SolarWatt Manager</a>.</p>
+              <p>Le <strong>V2L</strong> est bien plus largement disponible (Kia, Hyundai, MG, BYD, Renault 5…) car il ne nécessite pas de borne spéciale — seulement un adaptateur-prise dans ou près de la voiture.</p>
+
+              <h2>7. Les avantages pour un propriétaire</h2>
+              <ul>
+                <li><strong>Plus d'autoconsommation solaire</strong> — mieux valoriser votre propre énergie solaire plutôt que de l'injecter à bas prix.</li>
+                <li><strong>Moins de prélèvement sur le réseau</strong> aux moments chers (et potentiellement une facture plus basse).</li>
+                <li><strong>Optimisation énergétique</strong> en combinaison avec un HEMS et des tarifs dynamiques.</li>
+                <li><strong>La batterie de la voiture comme stockage</strong> — souvent bien plus grande qu'une batterie domestique classique.</li>
+                <li><strong>Résilience énergétique potentielle</strong> (avec du matériel de back-up).</li>
+                <li><strong>Une maison tournée vers l'avenir</strong>, prête pour la gestion énergétique intelligente.</li>
+              </ul>
+              <div class="highlight-box"><strong>Distinction importante :</strong> parlez toujours d'<em>avantage potentiel</em>, pas d'<em>économie garantie</em>. Le gain réel dépend de votre profil de consommation, de vos panneaux solaires, de votre tarif et de vos habitudes.</div>
+
+              <h2>8. Les inconvénients et limites</h2>
+              <ul>
+                <li><strong>Coût</strong> — les bornes bidirectionnelles sont plus chères que les bornes classiques.</li>
+                <li><strong>Disponibilité</strong> — l'offre (voitures et bornes) est encore limitée en Belgique.</li>
+                <li><strong>Compatibilité</strong> — souvent liée à une seule marque ou un seul écosystème.</li>
+                <li><strong>Usure de la batterie</strong> — cycles de charge/décharge supplémentaires ; les constructeurs gèrent cela par logiciel, mais cela reste un point d'attention (vérifiez les conditions de garantie).</li>
+                <li><strong>Contraintes techniques</strong> — puissance suffisante, protections correctes, circuit dédié.</li>
+                <li><strong>Réglementation</strong> — déclaration, homologation et découplage réseau obligatoires.</li>
+                <li><strong>Dépendance au logiciel/HEMS</strong> — le système dépend d'une configuration correcte et du cloud/des mises à jour.</li>
+              </ul>
+
+              <h2>9. Le rôle des panneaux solaires</h2>
+              <p>Recharge bidirectionnelle et panneaux solaires forment un duo logique. Le scénario intelligent :</p>
+              <div class="flow-box">☀️ PV <span class="arrow">→</span> 🏠 maison <span class="arrow">→</span> 🚗 surplus vers la batterie de la voiture <span class="arrow">→</span> 🏠 le soir, retour vers la maison</div>
+              <p>Un système intelligent <em>arbitre</em> entre les différents usages de votre énergie solaire : d'abord les consommateurs directs dans la maison, puis la voiture, éventuellement une batterie domestique, et seulement ensuite l'injection. Vous tirez ainsi le maximum de chaque kWh produit. Plus d'informations dans notre guide <a href="blog-zonne-autoconsumptie">panneaux solaires sans compteur inversé</a> et sur notre page <a href="zonnepanelen-optimaliseren">optimiser ses panneaux solaires</a>.</p>
+
+              <h2>10. Le rôle d'un HEMS</h2>
+              <p>Un <strong>HEMS</strong> (Home Energy Management System) est le cerveau d'une maison énergétiquement intelligente. Il mesure, coordonne et pilote. Un HEMS peut notamment réunir :</p>
+              <ul>
+                <li>vos <strong>panneaux solaires</strong> (production) ;</li>
+                <li>votre <strong>borne</strong> et votre <strong>voiture</strong> (consommation et, en bidi, stockage) ;</li>
+                <li>une éventuelle <strong>batterie domestique</strong> ;</li>
+                <li>la <strong>consommation de la maison</strong> (pompe à chaleur, boiler, électroménager) ;</li>
+                <li>le <strong>réseau</strong> (prélèvement/injection, tarifs dynamiques, tarif capacitaire).</li>
+              </ul>
+              <p>Chez BORNEXA, la gestion énergétique intelligente est notre cœur de métier — par exemple avec <a href="smappee">Smappee</a> pour coordonner le solaire, la borne et la consommation. Découvrez notre approche sur <a href="slim-energiebeheer">gestion d'énergie intelligente</a>.</p>
+
+              <h2>11. Installer maintenant ou attendre ?</h2>
+              <p>La réponse honnête est nuancée. La recharge bidirectionnelle est particulièrement intéressante pour qui :</p>
+              <ul>
+                <li>possède déjà un <strong>véhicule compatible</strong> (ou en commande) ;</li>
+                <li>a des <strong>panneaux solaires</strong> et veut maximiser l'autoconsommation ;</li>
+                <li>dispose d'un <strong>raccordement triphasé</strong> et d'une puissance suffisante ;</li>
+                <li>veut préparer sa maison à la gestion énergétique intelligente.</li>
+              </ul>
+              <p>Attendre est plus sage pour qui n'a pas (encore) de véhicule compatible, dont l'installation électrique est ancienne, ou qui investirait uniquement sur base de promesses V2G. Pour ces situations, la meilleure étape aujourd'hui est de <strong>rendre l'installation prête pour l'avenir</strong>.</p>
+
+              <h2>12. Préparer votre installation dès aujourd'hui</h2>
+              <p>Même si vous n'installez pas encore de borne bidirectionnelle aujourd'hui, vous pouvez rendre votre maison <strong>"bidi-ready"</strong> dès maintenant. Vous évitez ainsi de refaire le travail plus tard. Points d'attention :</p>
+              <ul>
+                <li><strong>Dimensionnement électrique</strong> — puissance disponible suffisante et, si possible, un raccordement triphasé.</li>
+                <li><strong>Tableau électrique</strong> — de la place pour des protections supplémentaires et un circuit dédié.</li>
+                <li><strong>Câblage</strong> — un câble correctement dimensionné (ex. 5G6) jusqu'à l'emplacement souhaité.</li>
+                <li><strong>Emplacement</strong> — la voiture est garée à la maison au moment où vous voulez restituer.</li>
+                <li><strong>Panneaux solaires &amp; compteur</strong> — un compteur digital et, idéalement, des panneaux solaires.</li>
+                <li><strong>HEMS</strong> — un système de gestion énergétique évolutif.</li>
+                <li><strong>Compatibilité future</strong> — prévoir câbles, gaines et espace pour une mise à niveau ultérieure.</li>
+              </ul>
+              <p>Une installation bien pensée aujourd'hui rend le passage à la recharge bidirectionnelle demain bien plus simple — et moins coûteux.</p>
+
+              <div class="cta-inline">
+                <p><strong>Vous possédez une voiture électrique et souhaitez préparer votre maison à la recharge bidirectionnelle ?</strong></p>
+                <a href="devis" class="btn btn-primary" data-key="navQuote">Demandez une étude personnalisée</a>
+              </div>
+
+              <h2>13. BORNEXA : prêt pour l'énergie de demain</h2>
+              <p>BORNEXA accompagne les particuliers et les entreprises dans la conception et l'installation de solutions de recharge et de gestion énergétique intelligente. Nous ne vous vendons pas une technologie qui n'est pas (encore) disponible ou homologuée en Belgique — mais nous <strong>anticipons</strong> l'évolution vers la recharge bidirectionnelle, pour que votre installation soit prête le moment venu. Du dimensionnement et de l'intégration solaire jusqu'à la déclaration auprès du gestionnaire de réseau et le contrôle (keuring) : nous étudions l'ensemble de votre installation.</p>
+
+              <div class="faq-block">
+                <h2>Questions fréquentes</h2>
+                <div class="faq-item"><h3>La recharge bidirectionnelle est-elle déjà possible en Belgique en 2026 ?</h3><p>Partiellement. Le V2L (la voiture comme prise) fonctionne aujourd'hui si votre véhicule le permet. Le V2H démarre dans un cadre homologué et déclaré. Le V2G est en grande partie en phase pilote. Une borne bidirectionnelle compte comme unité de production/stockage et doit être déclarée.</p></div>
+                <div class="faq-item"><h3>Quelle est la différence entre V2L, V2H et V2G ?</h3><p>V2L = la voiture alimente un appareil via une prise. V2H = la voiture alimente votre maison. V2G = la voiture injecte dans le réseau public. Le V2G est le plus complexe, techniquement et administrativement.</p></div>
+                <div class="faq-item"><h3>Quels véhicules supportent la recharge bidirectionnelle ?</h3><p>Cela dépend de la voiture et du protocole. De nombreux véhicules récents offrent le V2L. Pour le V2H/V2G, c'est plus limité (Nissan Leaf, Renault 5/Mégane via Mobilize, BMW Neue Klasse, Kia EV9). Vérifiez toujours les conditions exactes auprès du constructeur.</p></div>
+                <div class="faq-item"><h3>Ai-je besoin de panneaux solaires ?</h3><p>Ce n'est pas obligatoire, mais le V2H prend surtout tout son sens avec des panneaux solaires : vous stockez le surplus dans la voiture et l'utilisez le soir. Sans PV, le V2H reste possible, mais l'avantage est généralement moindre.</p></div>
+                <div class="faq-item"><h3>Dois-je déjà installer une borne bidirectionnelle ?</h3><p>Pour la plupart des ménages, l'étape la plus intelligente aujourd'hui est une installation "bidi-ready", tournée vers l'avenir. Qui a déjà un véhicule compatible, des panneaux solaires et du triphasé peut envisager un projet concret.</p></div>
+              </div>
+
+              <div class="sources">
+                <h2>Sources &amp; références</h2>
+                <ul>
+                  <li><a href="https://www.synergrid.be/" rel="nofollow" target="_blank">Synergrid</a> — prescriptions C10/11 (production décentralisée) et C10/26 (liste d'homologation).</li>
+                  <li><a href="https://www.fluvius.be/" rel="nofollow" target="_blank">Fluvius</a> — déclaration des unités de production/stockage (Flandre).</li>
+                  <li><a href="https://www.sibelga.be/" rel="nofollow" target="_blank">Sibelga</a> — gestionnaire de réseau à Bruxelles.</li>
+                  <li><a href="https://www.elia.be/" rel="nofollow" target="_blank">Elia</a> — flexibilité et équilibrage du réseau, pilotes V2G.</li>
+                  <li><a href="https://www.creg.be/" rel="nofollow" target="_blank">CREG</a> — régulateur fédéral de l'énergie.</li>
+                  <li>Règlement européen AFIR (norme de communication bidirectionnelle à partir de 2027).</li>
+                </ul>
+                <div class="verify-note">Informations vérifiées en septembre 2026. Les conditions liées à la recharge bidirectionnelle peuvent évoluer. Une étude de compatibilité est recommandée avant toute installation.</div>
+              </div>
+
+            </article>
+
+          </div>
+          <aside class="post-sidebar">
+            <div class="sticky-card">
+              <h3 id="sidebar-title">Uw woning bidi-ready?</h3>
+              <p id="sidebar-p">Gratis plaatsbezoek en toekomstgericht advies op maat binnen 24 uur.</p>
+              <a href="devis" class="btn btn-primary" data-key="navQuote">Offerte aanvragen</a>
+              <a href="tel:+32489247760" class="btn btn-outline">&#128222; +32 489 24 77 60</a>
+              <div class="related-links">
+                <h4>Links</h4>
+                <a href="blog-bmw-wallbox-professional-v2h">BMW Wallbox Professional &amp; V2H</a>
+                <a href="slim-energiebeheer">Slim energiebeheer</a>
+                <a href="smappee">Smappee Infinity</a>
+                <a href="zonnepanelen-optimaliseren">Zonnepanelen optimaliseren</a>
+                <a href="blog-zonne-autoconsumptie">Zonne-autoconsumptie</a>
+                <a href="blog-recharge-solaire-load-balancing">Solar laden &amp; load balancing</a>
+                <a href="energie-audit">Energie-audit</a>
+                <a href="comparateur">Laadpalen vergelijken</a>
+                <a href="faq">FAQ</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2 id="cta-h">Klaar voor slim en toekomstgericht energiebeheer?</h2>
+          <p id="cta-p">BORNEXA komt gratis ter plaatse en bekijkt hoe u uw installatie nu al voorbereidt op bidirectioneel laden.</p>
+        </div>
+        <div class="cta-banner-actions"><a href="devis" class="btn btn-dark" data-key="navQuote">Offerte aanvragen</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <img src="images/logo-bornexa.svg" alt="BORNEXA" width="213" height="48" loading="lazy">
+          <p class="footer-tagline" data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
+          <div class="footer-certs" aria-label="Officiële certificaties">
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Certified</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Partner</span>
+            <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> Installer</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-key="footerContact">Contact</h4>
+          <ul class="footer-contact">
+            <li><span>+32 489 24 77 60</span></li>
+            <li><span>info@bornexa.be</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom"><p data-key="footerRights">&copy; 2026 BORNEXA. Alle rechten voorbehouden.</p></div>
+    </div>
+  </footer>
+
+  <script defer src="js/translations.js?v=2026-08-22"></script>
+  <script defer src="js/lang.js?v=2026-08-22"></script>
+  <script src="js/main.js?v=2026-08-22"></script>
+  <script>
+    (function() {
+      function applyArticleLang() {
+        var lang = document.documentElement.lang || 'nl';
+        var isFr = lang === 'fr';
+        document.getElementById('content-nl').style.display = isFr ? 'none' : '';
+        document.getElementById('content-fr').style.display = isFr ? '' : 'none';
+        document.getElementById('hero-nl').style.display = isFr ? 'none' : '';
+        document.getElementById('hero-fr').style.display = isFr ? '' : 'none';
+        document.getElementById('cta-h').textContent = isFr ? 'Prêt pour une gestion énergétique intelligente et tournée vers l\'avenir ?' : 'Klaar voor slim en toekomstgericht energiebeheer?';
+        document.getElementById('cta-p').textContent = isFr ? 'BORNEXA se déplace gratuitement et étudie comment préparer dès maintenant votre installation à la recharge bidirectionnelle.' : 'BORNEXA komt gratis ter plaatse en bekijkt hoe u uw installatie nu al voorbereidt op bidirectioneel laden.';
+        document.getElementById('sidebar-title').textContent = isFr ? 'Votre maison bidi-ready ?' : 'Uw woning bidi-ready?';
+        document.getElementById('sidebar-p').textContent = isFr ? 'Visite gratuite et conseil sur mesure, tourné vers l\'avenir, sous 24h.' : 'Gratis plaatsbezoek en toekomstgericht advies op maat binnen 24 uur.';
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        applyArticleLang();
+        new MutationObserver(function() { applyArticleLang(); })
+          .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+      });
+    })();
+  </script>
+</body>
+</html>

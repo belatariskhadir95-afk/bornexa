@@ -300,6 +300,30 @@
       <image:caption>Kostprijs laadpaal 2026</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-recharge-bidirectionnelle-belgique"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-smappee.jpg</image:loc>
+      <image:caption>Bidirectioneel laden in België - V2H V2G</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/blog-bmw-wallbox-professional-v2h</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/blog-bmw-wallbox-professional-v2h"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/blog-bmw-wallbox-professional-v2h"/>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+      <image:image>
+      <image:loc>https://www.bornexa.be/images/og-smappee.jpg</image:loc>
+      <image:caption>BMW Wallbox Professional bidirectioneel & SolarWatt Manager V2H</image:caption>
+    </image:image>
+  </url>
 
   <!-- Local pages NL - Vlaams-Brabant + omgeving -->
   <url>
