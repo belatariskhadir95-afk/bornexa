@@ -16,7 +16,7 @@ const DIST = 'dist';
 // Éléments racine à NE PAS publier (build, vcs, sources lourdes, docs internes)
 const SKIP = new Set([
   'node_modules', 'dist', '.git', '.github', '.claude',
-  'photos-gbp', 'print-qr', 'vetements',
+  'photos-gbp', 'print-qr', 'vetements', 'scripts', 'tmp',
   'build.mjs', 'package.json', 'package-lock.json',
   'CLAUDE.md', 'PROJECT_CONTEXT.md', 'VALIDATION-TECHNIQUE.md',
   'MARKETING-PRELANCEMENT.md', 'GUIDE-SEARCH-CONSOLE.md', 'annuaires-bornexa.md',
@@ -34,14 +34,17 @@ for (const entry of readdirSync('.')) {
   cpSync(entry, join(DIST, entry), { recursive: true });
 }
 
-// 3) minifier le CSS
-await esbuild.build({
-  entryPoints: ['dist/css/style.css'],
-  outfile: 'dist/css/style.css',
-  minify: true,
-  allowOverwrite: true,
-  loader: { '.css': 'css' }
-});
+// 3) minifier le CSS (style.css + feuilles dédiées, ex. energy-journey.css)
+for (const f of readdirSync('dist/css')) {
+  if (!f.endsWith('.css')) continue;
+  await esbuild.build({
+    entryPoints: [`dist/css/${f}`],
+    outfile: `dist/css/${f}`,
+    minify: true,
+    allowOverwrite: true,
+    loader: { '.css': 'css' }
+  });
+}
 
 // 4) minifier chaque fichier JS
 for (const f of readdirSync('dist/js')) {
@@ -53,6 +56,23 @@ for (const f of readdirSync('dist/js')) {
       allowOverwrite: true
     });
   }
+}
+
+// 4b) Energy Journey (homepage) : les modules ES de js/energy-journey/ sont regroupés en UN
+//     fichier minifié, au même chemin que le point d'entrée (index.html ne change pas).
+//     En local, les modules restent séparés (lisibles) ; en production, une seule requête.
+const EJ = 'dist/js/energy-journey';
+if (existsSync(`${EJ}/index.js`)) {
+  await esbuild.build({
+    entryPoints: ['js/energy-journey/index.js'],
+    outfile: `${EJ}/index.js`,
+    bundle: true,
+    format: 'esm',
+    minify: true,
+    target: ['es2019'],
+    allowOverwrite: true
+  });
+  for (const f of readdirSync(EJ)) if (f !== 'index.js') rmSync(join(EJ, f));
 }
 
 // 5) convertir les images JPG/PNG en WebP

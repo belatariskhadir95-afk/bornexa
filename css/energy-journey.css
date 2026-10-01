@@ -1,0 +1,223 @@
+/* ══════════════════════════════════════════════════════════════
+   BORNEXA — Energy Journey (homepage)
+   Récit au scroll : soleil → recharge → route → soir → V2H.
+   · html.ej-anim  → scène épinglée (sticky) pilotée par js/energy-journey/
+   · sans JS / mouvement réduit → image fixe + étapes en cartes (contenu identique)
+   ══════════════════════════════════════════════════════════════ */
+
+.ej{position:relative;background:#05140E;color:#fff}
+
+/* ── Scène ── */
+.ej-stage{
+  --minw:1200; --lift:0px; --narrow:0;
+  /* cadrage initial (identique au JS) : boîte monde --cx centrée à --at de l'écran */
+  --cx:500; --at:66.5vw; --sh:100vh;
+  --u:max(min(calc((100vh - var(--lift)) / 900), calc(100vw / var(--minw))), calc(100vw / 2600));
+  --hz:72%; --tint-a:40%; --tint-b:56%;
+  position:relative;overflow:hidden;contain:layout paint;background:#0B2A36;
+  -webkit-user-select:none;user-select:none;pointer-events:none;
+}
+@media (max-width:1099px){ .ej-stage{--minw:900} }
+@media (max-width:999px){ .ej-stage{--narrow:1; --cx:650; --at:50vw} }
+@media (max-width:640px){ .ej-stage{--minw:760} }
+.ej-anim .ej-stage{--cx:370; --at:73vw}
+@media (max-width:999px){ .ej-anim .ej-stage{--cx:410; --at:50vw} }
+
+.ej-sky,.ej-sky-l,.ej-stars,.ej-tint{position:absolute;inset:0}
+/* calques composités : opacité seule pour le ciel, translation seule pour la scène */
+.ej-sky-l,.ej-stars,.ej-tint{will-change:opacity}
+.ej-sun,.ej-moon,.ej-layer,.ej-car,.ej-chip{will-change:transform}
+.ej-sky-dawn{background:linear-gradient(180deg,#051520 0,#0A2733 calc(var(--hz) * .5),#1F4655 calc(var(--hz) * .82),#C9805F calc(var(--hz) * .96),#F0AE78 var(--hz),#F0AE78 100%)}
+.ej-sky-day{background:linear-gradient(180deg,#78B4DC 0,#AFD7EC calc(var(--hz) * .5),#DDEFF3 calc(var(--hz) * .85),#F4F2E8 var(--hz),#F4F2E8 100%)}
+.ej-sky-sunset{background:linear-gradient(180deg,#22305B 0,#55467A calc(var(--hz) * .42),#C2647A calc(var(--hz) * .72),#EE8A5A calc(var(--hz) * .9),#F8C47C var(--hz),#F8C47C 100%)}
+.ej-sky-night{background:linear-gradient(180deg,#020910 0,#05161F calc(var(--hz) * .55),#0A2830 calc(var(--hz) * .88),#114048 var(--hz),#114048 100%)}
+.ej-anim .ej-sky-day,.ej-anim .ej-sky-sunset,.ej-anim .ej-sky-night{opacity:0}
+.ej-sky-sunset,.ej-sky-night{opacity:0}
+.ej-stars{
+  bottom:42%;opacity:0;
+  background:
+    radial-gradient(1.4px 1.4px at 12% 18%,#fff 98%,transparent),radial-gradient(1px 1px at 27% 42%,#fff 98%,transparent),
+    radial-gradient(1.6px 1.6px at 41% 12%,#fff 98%,transparent),radial-gradient(1px 1px at 55% 33%,#fff 98%,transparent),
+    radial-gradient(1.3px 1.3px at 68% 8%,#fff 98%,transparent),radial-gradient(1px 1px at 81% 27%,#fff 98%,transparent),
+    radial-gradient(1.5px 1.5px at 91% 15%,#fff 98%,transparent),radial-gradient(1px 1px at 6% 61%,#fff 98%,transparent),
+    radial-gradient(1px 1px at 35% 70%,#fff 98%,transparent),radial-gradient(1.2px 1.2px at 74% 58%,#fff 98%,transparent);
+  background-size:520px 360px;
+  -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent);
+}
+.ej-anim .ej-stars{opacity:.7}
+
+.ej-sun,.ej-moon{position:absolute;left:0;top:0}
+.ej-sun{width:max(calc(110 * var(--u)),64px);aspect-ratio:1;transform:translate3d(calc(76vw - 50%),calc(var(--sh) - var(--lift) - 690 * var(--u) - 50%),0)}
+.ej-anim .ej-sun{transform:translate3d(calc(70vw - 50%),calc(var(--sh) - var(--lift) - 300 * var(--u) - 50%),0)}
+.ej-sun i{position:absolute;inset:0;border-radius:50%}
+.ej-sun-halo{inset:-120% !important;background:radial-gradient(circle,rgba(255,232,170,.5) 0,rgba(255,214,140,.18) 38%,rgba(255,214,140,0) 68%)}
+.ej-sun-core{background:radial-gradient(circle,#FFFDF2 0 46%,#FFE7A8 54%,rgba(255,220,140,.5) 62%,rgba(255,220,140,0) 72%)}
+.ej-sun-core--set{opacity:0;background:radial-gradient(circle,#FFE3B8 0 44%,#FFAD66 54%,rgba(255,150,90,.5) 62%,rgba(255,150,90,0) 72%)}
+.ej-moon{
+  width:max(calc(54 * var(--u)),34px);aspect-ratio:1;border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 36% 34%,#F7FBFC 0,#E1EBEE 52%,#C9D6DA 100%);
+  box-shadow:0 0 0 calc(10 * var(--u)) rgba(225,240,244,.06),0 0 calc(70 * var(--u)) rgba(210,235,240,.35);
+}
+
+.ej-scene{position:absolute;left:0;right:0;top:0;bottom:var(--lift)}
+.ej-layer{
+  position:absolute;left:0;bottom:0;
+  width:calc(var(--lw) * var(--u));height:calc(900 * var(--u));
+  transform:translate3d(calc(var(--m) * var(--u) - var(--d) * (var(--cx) * var(--u) - var(--at))),0,0);
+}
+.ej-layer>svg{display:block;width:100%;height:100%;overflow:visible}
+.ej-ground{position:absolute;left:0;right:0;bottom:0;height:var(--lift);background:#4B7767}
+
+.ej-tint--sunset{opacity:0;background:linear-gradient(180deg,rgba(196,96,122,0) 0,rgba(196,96,122,0) var(--tint-a),rgba(196,96,122,1) var(--tint-b))}
+.ej-tint--night{opacity:0;background:linear-gradient(180deg,rgba(3,12,18,0) 0,rgba(3,12,18,0) var(--tint-a),rgba(3,12,18,1) var(--tint-b))}
+.ej-anim .ej-tint--night{opacity:.58}
+
+/* voiture : 640 × 120 unités, origine = contact roue arrière/avant au centre (190, 113) */
+.ej-car{
+  position:absolute;left:0;bottom:calc(85 * var(--u));
+  width:calc(640 * var(--u));height:calc(120 * var(--u));
+  transform-origin:calc(190 * var(--u)) calc(113 * var(--u));
+  transform:translate3d(calc((615 - var(--cx)) * var(--u) + var(--at)),0,0);
+}
+.ej-car>svg{display:block;width:100%;height:100%;overflow:visible}
+
+/* éléments du calque lumineux */
+.ej-hide-init,.ej-win,.ej-lamp,.ej-led,.ej-flow--v2h{opacity:0}
+.ej-anim #ej-win-dawn,html:not(.ej-anim) #ej-led-1,html:not(.ej-anim) #ej-boxled-1{opacity:1}
+.ej-flow{visibility:visible}
+.ej-anim .ej-flow{visibility:hidden}
+.ej-f-halo,.ej-f-core,.ej-f-dots{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ej-f-halo{stroke-width:11;opacity:.24}
+.ej-f-core{stroke-width:2.8}
+.ej-f-dots{stroke-width:4.4;stroke-dasharray:.1 15;animation:ej-dots 1s linear infinite}
+.ej-flow--thin .ej-f-halo{stroke-width:7}
+.ej-flow--thin .ej-f-core{stroke-width:1.8}
+.ej-flow--thin .ej-f-dots{stroke-width:3.4}
+.ej-flow--sun .ej-f-halo{stroke:#12E3A6}
+.ej-flow--sun .ej-f-core{stroke:#00B386}
+.ej-flow--sun .ej-f-dots{stroke:#F2FFFA}
+.ej-flow--v2h .ej-f-halo{stroke:#FFB547}
+.ej-flow--v2h .ej-f-core{stroke:#FFC062}
+.ej-flow--v2h .ej-f-dots{stroke:#FFF6E2}
+@keyframes ej-dots{to{stroke-dashoffset:-15.1}}
+
+.ej-ray{stroke:url(#ej-g-ray);stroke-width:13;stroke-linecap:round;opacity:.55}
+.ej-ray-core{stroke:#FFF6D8;stroke-width:2;stroke-linecap:round;stroke-dasharray:6 22;animation:ej-ray 1.6s linear infinite;opacity:.9}
+@keyframes ej-ray{to{stroke-dashoffset:-28}}
+
+.ej-led--mint circle:last-child{stroke:#3DF5C2}
+.ej-led--amber circle:last-child{stroke:#FFB547}
+.ej-led.is-pulsing{animation:ej-pulse 1.8s ease-in-out infinite}
+@keyframes ej-pulse{50%{filter:brightness(1.5)}}
+
+.ej-cable{fill:none;stroke:#2A3239;stroke-width:4.5;stroke-linecap:round}
+#ej-cable-2{visibility:hidden}
+
+.ej-rotor{animation:ej-spin 9s linear infinite}
+.ej-fan.is-on{animation:ej-spin .9s linear infinite}
+@keyframes ej-spin{to{transform:rotate(360deg)}}
+.is-paused .ej-f-dots,.is-paused .ej-ray-core,.is-paused .ej-rotor,.is-paused .ej-fan,.is-paused .ej-led,.is-paused .ej-cue i{animation-play-state:paused}
+
+/* pastille batterie */
+.ej-chip{
+  position:absolute;left:0;bottom:calc(var(--lift) + 214 * var(--u));opacity:0;
+  display:flex;align-items:center;gap:8px;white-space:nowrap;
+  padding:7px 12px 7px 9px;border-radius:999px;
+  background:rgba(4,17,12,.86);border:1px solid rgba(61,245,194,.35);
+  box-shadow:0 10px 30px -12px rgba(0,0,0,.6);
+  font:600 .74rem/1 var(--font-body);letter-spacing:.02em;color:rgba(255,255,255,.78);
+}
+.ej-chip-bat{position:relative;width:22px;height:11px;border:1.5px solid rgba(255,255,255,.75);border-radius:3px;padding:1.5px}
+.ej-chip-bat::after{content:'';position:absolute;right:-4px;top:2.5px;width:2px;height:4px;border-radius:0 1px 1px 0;background:rgba(255,255,255,.75)}
+.ej-chip-bat i{display:block;height:100%;border-radius:1px;background:linear-gradient(90deg,#00C896,#5CF3C8);transform-origin:0 50%;transform:scaleX(.22)}
+.ej-chip-val{font-weight:800;font-size:.86rem;color:#fff;font-variant-numeric:tabular-nums;min-width:2.7em}
+.ej-chip-lbl--v2h{display:none;color:#FFC062}
+.ej-chip.is-v2h{border-color:rgba(255,181,71,.45)}
+.ej-chip.is-v2h .ej-chip-lbl--sun{display:none}
+.ej-chip.is-v2h .ej-chip-lbl--v2h{display:inline}
+
+/* ── Hero (premier plan de l'histoire) ── */
+.ej-hero .hero-inner{max-width:640px}
+.ej-cue{display:none}
+.ej-skip{
+  position:absolute;left:16px;top:84px;z-index:5;transform:translateY(-300%);
+  background:#fff;color:#05140E;font-weight:700;font-size:.9rem;padding:10px 16px;border-radius:999px;
+}
+.ej-skip:focus,.ej-skip:focus-visible{transform:none}
+
+/* ── Récit ── */
+.ej-story{position:relative;z-index:2}
+.ej-steps{list-style:none;margin:0;padding:0}
+.ej-card{
+  max-width:420px;padding:22px 24px 20px;border-radius:20px;
+  background:rgba(4,17,12,.84);border:1px solid rgba(26,219,168,.22);
+  box-shadow:0 28px 60px -28px rgba(0,0,0,.65);color:#fff;
+}
+.ej-card:focus-within{opacity:1 !important;transform:none !important}
+.ej-kicker{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#1ADBA8;margin-bottom:10px}
+.ej-card h2{font-size:clamp(1.55rem,2.6vw,2.1rem);color:#fff;margin:0 0 10px;line-height:1.15}
+.ej-num{display:block;font-size:.72rem;font-weight:800;letter-spacing:.16em;color:#1ADBA8}
+.ej-card h3{font-size:clamp(1.25rem,2vw,1.55rem);color:#fff;margin:8px 0 8px;line-height:1.2}
+.ej-card p{color:rgba(255,255,255,.78);font-size:.97rem;line-height:1.6}
+.ej-link{display:inline-flex;align-items:center;gap:6px;margin-top:12px;color:#5CF3C8;font-weight:700;font-size:.9rem}
+.ej-link:hover{color:#fff}
+.ej-note{font-size:.8rem !important;color:rgba(255,255,255,.6) !important;margin-top:12px}
+.ej-flowline{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:14px 0 0;padding:0;list-style:none}
+.ej-node{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-size:.78rem;font-weight:600;color:#fff}
+.ej-node svg{width:15px;height:15px;flex-shrink:0;fill:none;stroke:#5CF3C8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ej-arrow{color:#1ADBA8;font-weight:800}
+.ej-flowline--v2h .ej-node svg{stroke:#FFC062}
+.ej-flowline--v2h .ej-arrow{color:#FFB547}
+.ej-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.ej-actions .btn{padding:12px 20px;font-size:.9rem}
+
+/* ── Mode statique (sans JS ou mouvement réduit) ── */
+html:not(.ej-anim) .ej{display:flex;flex-direction:column}
+html:not(.ej-anim) .ej-hero{order:0}
+html:not(.ej-anim) .ej-stage{order:1;--sh:clamp(300px,50vw,600px);height:var(--sh);--u:max(min(calc(var(--sh) / 900), calc(100vw / var(--minw))), calc(100vw / 2600))}
+html:not(.ej-anim) .ej-story{order:2;padding:56px 0 64px}
+html:not(.ej-anim) .ej-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;max-width:var(--container);margin:0 auto;padding:0 24px}
+html:not(.ej-anim) .ej-step .container{padding:0}
+html:not(.ej-anim) .ej-card{max-width:none;height:100%}
+html:not(.ej-anim) .ej-step--intro,html:not(.ej-anim) .ej-step--outro{grid-column:1/-1}
+@media (max-width:640px){ html:not(.ej-anim) .ej-steps{padding:0 16px} }
+html:not(.ej-anim) .ej-step--intro .ej-card{background:none;border:0;box-shadow:none;padding:0 0 8px;max-width:720px}
+
+/* ── Mode animé : scène épinglée, textes qui défilent au-dessus ── */
+.ej-anim .ej-stage{position:sticky;top:0;height:100vh;height:100lvh;z-index:0}
+.ej-anim .ej-hero{
+  position:relative;z-index:2;margin-top:-100vh;margin-top:-100lvh;min-height:100vh;min-height:100svh;
+  background:linear-gradient(90deg,rgba(4,15,11,.8) 0,rgba(4,15,11,.5) 40%,rgba(4,15,11,0) 66%);
+}
+.ej-anim .ej-hero::before{display:none}
+.ej-anim .ej-cue{
+  display:flex;position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  flex-direction:column;align-items:center;gap:10px;
+  font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.72);
+}
+.ej-cue i{display:block;width:1px;height:38px;background:linear-gradient(180deg,#5CF3C8,rgba(92,243,200,0));animation:ej-cue 2.4s ease-in-out infinite;transform-origin:top}
+@keyframes ej-cue{0%{transform:scaleY(0);opacity:1}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+.ej-anim .ej-steps{padding-top:18vh}
+.ej-anim .ej-step{height:calc(var(--len) * 1vh)}
+.ej-anim .ej-step>.container{height:100%}
+.ej-anim .ej-card{position:sticky;top:calc(72px + 4vh)}
+.ej-anim .ej-step--intro .ej-card{max-width:440px}
+.ej-step--outro .ej-card{max-width:470px}
+
+/* tablette portrait & mobile : texte en haut (dans le ciel), scène en bas */
+@media (max-width:999px){
+  .ej-anim .ej-hero{align-items:flex-start;
+    background:linear-gradient(180deg,rgba(4,15,11,.9) 0,rgba(4,15,11,.78) 62%,rgba(4,15,11,.4) 88%,rgba(4,15,11,0) 100%)}
+  .ej-anim .ej-cue{display:none}
+  .ej-sm-hide,#ej-win-dawn{display:none}
+  .ej-chip{bottom:calc(var(--lift) + 330 * var(--u))}
+}
+@media (max-width:768px){
+  .ej-anim .ej-stage{--lift:calc(76px + env(safe-area-inset-bottom))}
+  .ej-anim .ej-card{top:calc(72px + 10px);max-width:none;padding:18px 18px 16px}
+  .ej-card p{font-size:.92rem}
+  .ej-node{font-size:.72rem;padding:4px 8px;gap:5px}
+  .ej-node svg{width:13px;height:13px}
+  .ej-flowline{gap:4px}
+  .ej-chip{font-size:.68rem;padding:6px 10px 6px 8px}
+}
