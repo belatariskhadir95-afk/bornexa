@@ -48,172 +48,8 @@
   <link rel="alternate" type="application/rss+xml" title="BORNEXA Blog" href="/feed.xml">
   <link rel="preload" href="css/style.css?v=2026-08-22" as="style">
   <link rel="stylesheet" href="css/style.css?v=2026-08-22">
-  <style>
-    /* ── Devis page ── */
-    .devis-hero {
-      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
-      padding: 100px 0 60px; text-align: center; color: var(--light);
-      position: relative; overflow: hidden;
-    }
-    .devis-hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(125,193,20,.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .devis-hero-inner { position: relative; z-index: 1; }
-    .devis-badge {
-      display: inline-flex; align-items: center;
-      background: rgba(125,193,20,.15); border: 1px solid rgba(125,193,20,.3);
-      color: var(--primary); padding: 7px 20px; border-radius: var(--r-full);
-      font-size: .78rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
-      margin-bottom: 22px;
-    }
-    .devis-hero h1 { color: var(--light); margin-bottom: 14px; font-size: clamp(1.8rem, 4vw, 2.8rem); }
-    .devis-hero-sub { color: rgba(255,255,255,.58); font-size: 1rem; max-width: 460px; margin: 0 auto; }
-
-    /* ── Form section ── */
-    .devis-section { background: var(--dark); padding: 52px 0 96px; }
-    .form-wrapper { max-width: 660px; margin: 0 auto; }
-
-    /* ── Progress ── */
-    .step-dots { display: flex; justify-content: center; gap: 6px; margin-bottom: 18px; }
-    .step-dot { width: 8px; height: 8px; border-radius: 4px; background: rgba(255,255,255,.15); transition: all .35s ease; }
-    .step-dot.active { width: 30px; background: var(--primary); }
-    .step-dot.done { background: var(--primary); opacity: .55; }
-
-    .progress-info { display: flex; align-items: center; gap: 14px; margin-bottom: 44px; }
-    .progress-track { flex: 1; height: 3px; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--primary); border-radius: 2px; transition: width .5s cubic-bezier(.4,0,.2,1); }
-    .progress-count { color: rgba(255,255,255,.32); font-size: .8rem; white-space: nowrap; }
-
-    /* ── Steps ── */
-    .step-panel { display: none; }
-    .step-panel.active { display: block; animation: stepIn .35s cubic-bezier(.4,0,.2,1); }
-    @keyframes stepIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
-
-    .step-label { color: var(--primary); font-size: .75rem; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 10px; }
-    .step-panel h2 { color: var(--light); font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom: 8px; }
-    .step-sub { color: rgba(255,255,255,.45); font-size: .9rem; margin-bottom: 32px; line-height: 1.6; }
-
-    /* ── Option cards ── */
-    .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 28px; }
-    .options-grid.g3 { grid-template-columns: repeat(3, 1fr); }
-    .options-grid.g4 { grid-template-columns: repeat(4, 1fr); }
-
-    .option-card {
-      background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.1);
-      border-radius: 14px; padding: 22px 14px 18px; text-align: center;
-      cursor: pointer; transition: all .2s ease;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      position: relative; user-select: none;
-    }
-    .option-card:hover { background: rgba(255,255,255,.08); border-color: rgba(125,193,20,.5); transform: translateY(-2px); }
-    .option-card.selected { background: rgba(125,193,20,.1); border-color: var(--primary); transform: translateY(-2px); }
-    .option-card.selected::after { content: '✓'; position: absolute; top: 9px; right: 11px; color: var(--primary); font-size: .75rem; font-weight: 800; }
-    .opt-icon { font-size: 1.9rem; line-height: 1; display: flex; align-items: center; justify-content: center; min-height: 38px; color: rgba(255,255,255,0.88); }
-    .opt-icon svg { display: block; overflow: visible; }
-    .option-card.selected .opt-icon { color: var(--primary); }
-    .opt-title { color: var(--light); font-size: .9rem; font-weight: 700; line-height: 1.3; }
-    .opt-sub { color: rgba(255,255,255,.38); font-size: .72rem; line-height: 1.3; }
-
-    /* ── Upload zones ── */
-    .upload-zones { display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
-    .upload-zone {
-      border: 2px dashed rgba(255,255,255,.16); border-radius: 13px;
-      padding: 20px 18px; display: flex; align-items: center; gap: 16px;
-      cursor: pointer; transition: all .2s ease; position: relative; overflow: hidden;
-    }
-    .upload-zone:hover { border-color: rgba(125,193,20,.6); background: rgba(125,193,20,.04); }
-    .upload-zone.filled { border-color: var(--primary); background: rgba(125,193,20,.06); border-style: solid; }
-    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-    .uz-icon { font-size: 1.55rem; flex-shrink: 0; }
-    .uz-text { flex: 1; min-width: 0; }
-    .uz-label { color: var(--light); font-size: .88rem; font-weight: 600; }
-    .uz-sub { color: rgba(255,255,255,.36); font-size: .73rem; margin-top: 2px; }
-    .uz-status { color: var(--primary); font-size: .75rem; font-weight: 700; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .uz-badge { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.4); font-size: .7rem; font-weight: 700; padding: 4px 11px; border-radius: var(--r-full); flex-shrink: 0; transition: all .2s; }
-    .upload-zone.filled .uz-badge { background: rgba(125,193,20,.15); border-color: rgba(125,193,20,.4); color: var(--primary); }
-
-    /* ── Floating labels ── */
-    .cg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-    .cg2 .float-g.full { grid-column: 1 / -1; }
-    .float-g { position: relative; }
-    .float-g input, .float-g textarea {
-      width: 100%; padding: 22px 16px 9px;
-      background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.12);
-      border-radius: 11px; color: var(--light); font-size: 16px; font-family: inherit;
-      transition: border-color .2s, box-shadow .2s; outline: none; display: block;
-    }
-    .float-g input:focus, .float-g textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(125,193,20,.12); }
-    .float-g label {
-      position: absolute; left: 16px; top: 15px;
-      color: rgba(255,255,255,.36); font-size: .92rem; transition: all .2s ease; pointer-events: none;
-    }
-    .float-g input:focus + label,
-    .float-g input:not(:placeholder-shown) + label,
-    .float-g textarea:focus + label,
-    .float-g textarea:not(:placeholder-shown) + label { top: 7px; font-size: .68rem; color: var(--primary); font-weight: 700; letter-spacing: .4px; }
-    .float-g textarea { min-height: 88px; resize: vertical; }
-    .privacy-note { color: rgba(255,255,255,.26); font-size: .74rem; margin-top: 10px; line-height: 1.5; }
-    .privacy-note a { color: rgba(125,193,20,.65); text-decoration: underline; }
-
-    /* ── Navigation buttons ── */
-    .step-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 32px; }
-    .btn-prev {
-      background: transparent; border: 1.5px solid rgba(255,255,255,.16); color: rgba(255,255,255,.55);
-      padding: 13px 22px; border-radius: var(--r-full); font-size: .88rem; font-weight: 600;
-      cursor: pointer; transition: all .2s; font-family: inherit;
-    }
-    .btn-prev:hover { border-color: rgba(255,255,255,.4); color: var(--light); }
-    .btn-next, .btn-submit {
-      background: var(--primary); color:var(--text); padding: 14px 32px; border-radius: var(--r-full);
-      font-size: .95rem; font-weight: 800; cursor: pointer; transition: all .2s ease;
-      border: none; font-family: inherit; flex: 1; max-width: 240px; text-align: center;
-    }
-    .btn-next:hover, .btn-submit:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(125,193,20,.28); }
-    .btn-next:disabled { opacity: .35; cursor: default; transform: none !important; box-shadow: none !important; }
-    .btn-spacer { flex: 1; max-width: 240px; }
-
-    /* ── Trust bar ── */
-    .devis-trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 52px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.07); }
-    .trust-item { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,.38); font-size: .78rem; }
-    .trust-item svg { color: var(--primary); flex-shrink: 0; }
-
-    /* ── Success ── */
-    .success-screen { display: none; text-align: center; padding: 56px 24px; }
-    .success-screen.show { display: block; animation: stepIn .5s ease; }
-    .success-icon {
-      width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 28px;
-      background: rgba(125,193,20,.14); border: 2px solid var(--primary);
-      display: flex; align-items: center; justify-content: center; font-size: 2rem;
-      animation: popIn .5s cubic-bezier(.175,.885,.32,1.275);
-    }
-    @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .success-screen h2 { color: var(--light); margin-bottom: 12px; }
-    .success-screen p { color: rgba(255,255,255,.5); max-width: 400px; margin: 0 auto 32px; font-size: .93rem; line-height: 1.7; }
-
-    /* ── Lang toggle ── */
-    .btn-lang {
-      background: rgba(125,193,20,.18); border: 1px solid rgba(125,193,20,.55); color: var(--primary);
-      padding: 5px 14px; border-radius: var(--r-full); font-size: .78rem; font-weight: 700;
-      cursor: pointer; font-family: inherit; transition: all .2s; margin-left: 8px;
-    }
-    .btn-lang:hover { background: rgba(125,193,20,.32); }
-
-    /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .options-grid.g4 { grid-template-columns: repeat(2, 1fr); }
-      .options-grid.g3 { grid-template-columns: repeat(3, 1fr); }
-      .cg2 { grid-template-columns: 1fr; }
-      .btn-next, .btn-submit { max-width: 100%; }
-      .btn-spacer { display: none; }
-    }
-    @media (max-width: 480px) {
-      .options-grid.g3 { grid-template-columns: repeat(2, 1fr); }
-      .opt-icon { font-size: 1.55rem; }
-      .opt-title { font-size: .83rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/configurator.css?v=2026-10-02">
+  <script>(function(d){var r=d.documentElement;try{if(!('noModule' in d.createElement('script')))return;r.classList.add('cfg-js');addEventListener('load',function(){setTimeout(function(){if(!r.classList.contains('cfg-ready'))r.classList.remove('cfg-js')},3000)})}catch(e){}})(document)</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":["LocalBusiness","ElectricalContractor"],"@id":"https://www.bornexa.be/#business","name":"BORNEXA","url":"https://www.bornexa.be/","image":"https://www.bornexa.be/images/og-smappee.jpg","logo":{"@type":"ImageObject","url":"https://www.bornexa.be/images/logo-bornexa.svg"},"telephone":"+32489247760","email":"info@bornexa.be","priceRange":"€€","address":{"@type":"PostalAddress","addressLocality":"Boortmeerbeek","postalCode":"3190","addressRegion":"Vlaams-Brabant","addressCountry":"BE"},"areaServed":{"@type":"State","name":"Vlaams-Brabant"}}</script>
 </head>
 <body>
@@ -258,27 +94,398 @@
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section class="devis-hero">
-    <div class="container">
-      <div class="devis-hero-inner">
-        <div class="devis-badge" id="h-badge">&#9889; 100% Gratis &nbsp;·&nbsp; Reactie binnen 24u</div>
-        <h1 id="h-title">Offerte aanvragen</h1>
-        <p class="devis-hero-sub" id="h-sub">Beantwoord enkele korte vragen. Het duurt amper 3 minuten.</p>
-        <p class="devis-hero-price" style="margin-top:16px; color:rgba(255,255,255,.92); font-size:1rem;">
+  <!-- ── Configurateur de projet (demande de devis) ──────────────────────────────
+       Scène : scripts/configurator-scene.mjs · logique : js/configurator/ · style : css/configurator.css
+       Le formulaire Netlify « devis » et ses noms de champs sont inchangés (Make → Notion, EmailJS). -->
+  <main class="cfg" data-cfg>
+    <div class="cfg-visual">
+<!-- CF:STAGE:START -->
+<div class="cf-stage" aria-hidden="true"><div class="cf-sky"><div class="cf-sky-l cf-sky-day"></div><div class="cf-sky-l cf-sky-dusk"></div><div class="cf-sky-l cf-sky-night"></div><div class="cf-stars"></div><div class="cf-sun"><i class="cf-sun-halo"></i><i class="cf-sun-core"></i></div><div class="cf-moon"></div></div><div class="cf-scene"><div class="cf-layer cf-layer--far" style="--lw:1800;--d:.45"><svg viewBox="0 0 1800 900" focusable="false"><g class="cf-o" id="cf-o-far"><g class="cf-solid"><path d="M-200,760 L-200,616.7 C15.9,616.7 15.9,602.6 231.8,602.6 C433.5,602.6 433.5,598.6 635.2,598.6 C834,598.6 834,617.6 1032.7,617.6 C1218.8,617.6 1218.8,623.2 1404.8,623.2 C1569.1,623.2 1569.1,619.4 1733.4,619.4 C1946.3,619.4 1946.3,615.8 2159.1,615.8 L2159.1,760 Z" fill="#B8CDD4"/><path d="M-200,900 L-200,683.9 C-73.1,683.9 -73.1,676.6 53.9,676.6 C178.8,676.6 178.8,654.4 303.7,654.4 C473.3,654.4 473.3,664.1 642.8,664.1 C796.3,664.1 796.3,662.8 949.8,662.8 C1113.6,662.8 1113.6,689.8 1277.3,689.8 C1412.7,689.8 1412.7,661.8 1548.1,661.8 C1675.5,661.8 1675.5,681.5 1802.8,681.5 C1970.8,681.5 1970.8,664.7 2138.7,664.7 L2138.7,900 Z" fill="#93B6A8"/><g fill="#82A898"><circle cx="53.9" cy="668.6" r="14"/><circle cx="69.9" cy="674.6" r="10"/><circle cx="949.8" cy="654.8" r="14"/><circle cx="965.8" cy="660.8" r="10"/><circle cx="1802.8" cy="673.5" r="14"/><circle cx="1818.8" cy="679.5" r="10"/></g></g></g></svg></div><div class="cf-layer cf-layer--main" style="--lw:1800;--d:1"><svg viewBox="0 0 1800 900" focusable="false"><defs><linearGradient id="cf-g-pv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27406A"/><stop offset="1" stop-color="#101B2E"/></linearGradient><linearGradient id="cf-g-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCEAF1"/><stop offset=".5" stop-color="#A9C3D2"/><stop offset="1" stop-color="#7F9FB3"/></linearGradient><linearGradient id="cf-g-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5F7F5"/><stop offset="1" stop-color="#E2E7E4"/></linearGradient></defs><g class="cf-o" id="cf-o-lawn"><g class="cf-solid"><path d="M0,900 L0,782 L1800,782 L1800,900 Z" fill="#76A391"/></g></g><g class="cf-o" id="cf-o-trees"><g class="cf-solid"><g transform="translate(40 784) scale(1.05)"><rect x="-5" y="-62" width="10" height="62" rx="3" fill="#6B5A49"/><circle cx="0" cy="-102" r="44" fill="#5B9381"/><circle cx="-30" cy="-78" r="30" fill="#538A78"/><circle cx="31" cy="-76" r="32" fill="#57907D"/><circle cx="-12" cy="-118" r="20" fill="#72AA96" opacity=".85"/></g><g transform="translate(-26 784) scale(1)"><rect x="-4" y="-44" width="8" height="44" rx="3" fill="#6B5A49"/><ellipse cx="0" cy="-122" rx="27" ry="88" fill="#4F8B78"/><ellipse cx="-9" cy="-136" rx="11" ry="56" fill="#6CA591" opacity=".85"/></g><g transform="translate(1290 760) scale(0.8)"><rect x="-5" y="-62" width="10" height="62" rx="3" fill="#6B5A49"/><circle cx="0" cy="-102" r="44" fill="#5B9381"/><circle cx="-30" cy="-78" r="30" fill="#538A78"/><circle cx="31" cy="-76" r="32" fill="#57907D"/><circle cx="-12" cy="-118" r="20" fill="#72AA96" opacity=".85"/></g><g transform="translate(1380 742) scale(0.7)"><rect x="-4" y="-44" width="8" height="44" rx="3" fill="#6B5A49"/><ellipse cx="0" cy="-122" rx="27" ry="88" fill="#4F8B78"/><ellipse cx="-9" cy="-136" rx="11" ry="56" fill="#6CA591" opacity=".85"/></g><g transform="translate(1560 700) scale(0.55)"><rect x="-5" y="-62" width="10" height="62" rx="3" fill="#6B5A49"/><circle cx="0" cy="-102" r="44" fill="#5B9381"/><circle cx="-30" cy="-78" r="30" fill="#538A78"/><circle cx="31" cy="-76" r="32" fill="#57907D"/><circle cx="-12" cy="-118" r="20" fill="#72AA96" opacity=".85"/></g></g></g><g class="cf-o" id="cf-o-road"><g class="cf-solid"><path d="M1760,661.1 L1745.2,661.1 L1730.8,661.2 L1716.8,661.4 L1703.1,661.7 L1689.7,662 L1676.6,662.5 L1663.7,663 L1651.1,663.6 L1638.7,664.3 L1626.5,665.1 L1614.4,665.9 L1602.5,666.9 L1590.7,667.9 L1578.9,669 L1567.2,670.3 L1555.6,671.6 L1543.9,673 L1532.2,674.4 L1520.4,676 L1508.6,677.7 L1496.7,679.5 L1484.6,681.3 L1472.4,683.3 L1460,685.3 L1447.7,687.5 L1435.8,689.8 L1424.2,692.3 L1413,694.9 L1402.1,697.6 L1391.4,700.4 L1381,703.3 L1370.7,706.3 L1360.7,709.4 L1350.8,712.6 L1341,715.8 L1331.3,719.1 L1321.6,722.5 L1311.9,725.9 L1302.3,729.3 L1292.6,732.7 L1282.8,736.2 L1273,739.6 L1263,743.1 L1252.8,746.5 L1242.5,749.9 L1231.9,753.3 L1221.1,756.7 L1210,759.9 L1198.7,763.1 L1187.5,766.1 L1176.2,769 L1165,771.6 L1153.7,774.2 L1142.3,776.5 L1131,778.7 L1119.6,780.7 L1108.2,782.6 L1096.8,784.4 L1085.3,786 L1073.8,787.5 L1062.2,788.8 L1050.5,790 L1038.8,791.1 L1027,792 L1015.2,792.8 L1003.3,793.5 L991.3,794.1 L979.2,794.6 L967.1,794.9 L954.8,795.2 L942.4,795.4 L930,795.4 L845,795.4 L760,795.4 L760,825.4 L845,825.4 L930,825.4 L942.4,825.3 L954.8,825.2 L967.1,824.9 L979.2,824.4 L991.3,823.9 L1003.3,823.2 L1015.2,822.4 L1027,821.4 L1038.8,820.3 L1050.5,819.1 L1062.2,817.7 L1073.8,816.1 L1085.3,814.4 L1096.8,812.5 L1108.2,810.5 L1119.6,808.2 L1131,805.8 L1142.3,803.3 L1153.7,800.5 L1165,797.6 L1176.2,794.4 L1187.5,791.1 L1198.7,787.6 L1210,783.9 L1221.1,780 L1231.9,776.1 L1242.5,772.1 L1252.8,768.1 L1263,764.1 L1273,760.1 L1282.8,756 L1292.6,752 L1302.3,748 L1311.9,744 L1321.6,740 L1331.3,736.1 L1341,732.2 L1350.8,728.4 L1360.7,724.7 L1370.7,721.1 L1381,717.5 L1391.4,714.1 L1402.1,710.8 L1413,707.6 L1424.2,704.6 L1435.8,701.7 L1447.7,699 L1460,696.5 L1472.4,694.1 L1484.6,691.8 L1496.7,689.6 L1508.6,687.5 L1520.4,685.6 L1532.2,683.7 L1543.9,682 L1555.6,680.4 L1567.2,678.8 L1578.9,677.4 L1590.7,676.1 L1602.5,674.9 L1614.4,673.8 L1626.5,672.8 L1638.7,671.9 L1651.1,671.1 L1663.7,670.3 L1676.6,669.7 L1689.7,669.2 L1703.1,668.8 L1716.8,668.5 L1730.8,668.2 L1745.2,668.1 L1760,668.1 Z" fill="#3A4550"/><path d="M1760,665.1 L1745.2,665.2 L1730.8,665.3 L1716.8,665.5 L1703.1,665.8 L1689.7,666.2 L1676.6,666.7 L1663.7,667.3 L1651.1,667.9 L1638.7,668.7 L1626.5,669.5 L1614.4,670.5 L1602.5,671.5 L1590.7,672.7 L1578.9,673.9 L1567.2,675.2 L1555.6,676.7 L1543.9,678.2 L1532.2,679.8 L1520.4,681.6 L1508.6,683.4 L1496.7,685.3 L1484.6,687.4 L1472.4,689.5 L1460,691.8 L1447.7,694.2 L1435.8,696.7 L1424.2,699.4 L1413,702.3 L1402.1,705.3 L1391.4,708.4 L1381,711.6 L1370.7,714.9 L1360.7,718.3 L1350.8,721.8 L1341,725.3 L1331.3,729 L1321.6,732.6 L1311.9,736.4 L1302.3,740.1 L1292.6,743.9 L1282.8,747.7 L1273,751.5 L1263,755.3 L1252.8,759.1 L1242.5,762.8 L1231.9,766.5 L1221.1,770.2 L1210,773.8 L1198.7,777.3 L1187.5,780.6 L1176.2,783.7 L1165,786.7 L1153.7,789.4 L1142.3,792 L1131,794.4 L1119.6,796.7 L1108.2,798.8 L1096.8,800.7 L1085.3,802.5 L1073.8,804.1 L1062.2,805.5 L1050.5,806.9 L1038.8,808 L1027,809.1 L1015.2,810 L1003.3,810.7 L991.3,811.4 L979.2,811.9 L967.1,812.3 L954.8,812.6 L942.4,812.7 L930,812.8" fill="none" stroke="#E6ECEF" stroke-opacity=".45" stroke-width="2" stroke-dasharray="18 16"/></g></g><g class="cf-o" id="cf-o-drive"><g class="cf-solid"><rect x="616" y="796" width="452" height="17" fill="#C3CAC6"/></g></g><g class="cf-o" id="cf-o-ground"><g class="cf-solid"><path d="M0,900 L0,846 L1800,846 L1800,900 Z" fill="#4B7767"/></g></g><g class="cf-o" id="cf-o-bld-woning" data-variant="woning"><g class="cf-solid"><g transform="translate(160 0)"><path d="M-206,796 C-206,770 -190,764 -170,766 C-150,756 -120,760 -106,770 C-92,766 -78,774 -78,796 Z" fill="#4E7F6D"/><rect x="-68" y="748" width="54" height="48" rx="5" fill="#D3DADD"/><rect x="-68" y="748" width="54" height="8" rx="4" fill="#BEC7CB"/><circle cx="-41" cy="774" r="15" fill="#A9B4BA"/><circle cx="-41" cy="774" r="11.5" fill="#8C989F"/><rect x="0" y="560" width="300" height="236" fill="url(#cf-g-wall)"/><rect x="0" y="783" width="300" height="13" fill="#CBD2CE"/><path d="M-18,562 L40,452 L260,452 L318,562 Z" fill="#2B3640"/><rect x="36" y="447" width="228" height="7" rx="3.5" fill="#202A32"/><rect x="-24" y="558" width="348" height="10" rx="2" fill="#1E272E"/><rect x="300" y="644" width="152" height="152" fill="#E1E6E3"/><rect x="296" y="636" width="160" height="10" rx="2" fill="#26313A"/><rect x="300" y="783" width="152" height="13" fill="#C6CEC9"/><g fill="url(#cf-g-glass)" stroke="#27323B" stroke-width="4"><rect x="26" y="664" width="156" height="108" rx="2"/><rect x="34" y="588" width="96" height="52" rx="2"/><rect x="168" y="588" width="96" height="52" rx="2"/><rect x="318" y="678" width="80" height="62" rx="2"/><rect x="252" y="690" width="12" height="106" stroke-width="2.5"/></g><path d="M104,664 V772 M82,588 V640 M216,588 V640" stroke="#27323B" stroke-width="3"/><rect x="206" y="690" width="40" height="106" rx="2" fill="#36424C"/><rect x="238" y="738" width="3" height="16" rx="1.5" fill="#C8D1D6"/><rect x="428" y="686" width="16" height="28" rx="3" fill="#F7F9F8" stroke="#99A5AB" stroke-width="1.5"/></g></g></g><g class="cf-o" id="cf-o-bld-bedrijf" data-variant="bedrijf"><g class="cf-solid"><g transform="translate(160 0)"><rect x="-10" y="540" width="380" height="12" rx="2" fill="#26313A"/><rect x="0" y="552" width="360" height="244" fill="url(#cf-g-wall)"/><rect x="0" y="783" width="360" height="13" fill="#CBD2CE"/><rect x="22" y="572" width="316" height="196" rx="2" fill="url(#cf-g-glass)" stroke="#27323B" stroke-width="4"/><path d="M74,572 V768 M126,572 V768 M178,572 V768 M230,572 V768 M282,572 V768 M22,637 H338 M22,703 H338" stroke="#27323B" stroke-width="2.5"/><rect x="136" y="704" width="88" height="8" rx="2" fill="#26313A"/><rect x="150" y="712" width="60" height="84" fill="#36424C"/><rect x="360" y="640" width="92" height="156" fill="#DDE3E1"/><rect x="356" y="632" width="100" height="10" rx="2" fill="#26313A"/><rect x="360" y="783" width="92" height="13" fill="#C6CEC9"/><rect x="374" y="664" width="40" height="56" rx="2" fill="url(#cf-g-glass)" stroke="#27323B" stroke-width="3"/><rect x="428" y="686" width="16" height="28" rx="3" fill="#F7F9F8" stroke="#99A5AB" stroke-width="1.5"/></g></g></g><g class="cf-o" id="cf-o-bld-appartement" data-variant="appartement"><g class="cf-solid"><g transform="translate(160 0)"><rect x="-8" y="460" width="396" height="12" rx="2" fill="#26313A"/><rect x="0" y="472" width="380" height="324" fill="url(#cf-g-wall)"/><rect x="0" y="783" width="380" height="13" fill="#CBD2CE"/><g fill="url(#cf-g-glass)" stroke="#27323B" stroke-width="3"><rect x="24" y="490" width="66" height="50" rx="2"/><rect x="108" y="490" width="66" height="50" rx="2"/><rect x="192" y="490" width="66" height="50" rx="2"/><rect x="276" y="490" width="66" height="50" rx="2"/><rect x="24" y="566" width="66" height="50" rx="2"/><rect x="108" y="566" width="66" height="50" rx="2"/><rect x="192" y="566" width="66" height="50" rx="2"/><rect x="276" y="566" width="66" height="50" rx="2"/><rect x="24" y="642" width="66" height="50" rx="2"/><rect x="108" y="642" width="66" height="50" rx="2"/><rect x="192" y="642" width="66" height="50" rx="2"/><rect x="276" y="642" width="66" height="50" rx="2"/><rect x="24" y="722" width="66" height="50" rx="2"/><rect x="276" y="722" width="66" height="50" rx="2"/></g><rect x="14" y="542" width="164" height="6" rx="2" fill="#26313A"/><rect x="14" y="520" width="164" height="22" fill="#A9C3D2" fill-opacity=".35" stroke="#27323B" stroke-width="1.5"/><rect x="14" y="618" width="164" height="6" rx="2" fill="#26313A"/><rect x="14" y="596" width="164" height="22" fill="#A9C3D2" fill-opacity=".35" stroke="#27323B" stroke-width="1.5"/><rect x="14" y="694" width="164" height="6" rx="2" fill="#26313A"/><rect x="14" y="672" width="164" height="22" fill="#A9C3D2" fill-opacity=".35" stroke="#27323B" stroke-width="1.5"/><rect x="160" y="718" width="48" height="78" fill="#36424C"/><rect x="380" y="690" width="72" height="106" fill="#DDE3E1"/><rect x="376" y="682" width="80" height="10" rx="2" fill="#26313A"/><rect x="390" y="732" width="34" height="64" fill="#5A6770"/><rect x="428" y="686" width="16" height="28" rx="3" fill="#F7F9F8" stroke="#99A5AB" stroke-width="1.5"/></g></g></g><g class="cf-o" id="cf-o-bld-parking" data-variant="parking"><g class="cf-solid"><g transform="translate(160 0)"><rect x="-40" y="796" width="500" height="17" fill="#4A5560"/><path d="M-20,800 V812 M140,800 V812 M300,800 V812 M450,800 V812" stroke="#E6ECEF" stroke-width="2.5"/><g transform="translate(4 735) scale(.5)"><path d="M20,96 L16,76 C16,66 22,60 32,57 L60,42 C68,37 76,35 86,35 L168,34 C184,34 194,38 204,45 L234,63 C256,65 274,68 283,73 C290,77 292,85 290,92 L287,96 L257,96 A25,25 0 0 0 207,96 L95,96 A25,25 0 0 0 45,96 Z" fill="#8E9AA2"/><path d="M66,46 L88,40 L166,39 C178,39 187,42 195,47 L220,62 L66,62 Z" fill="#2E3A44"/><circle cx="70" cy="92" r="21" fill="#1B2228"/><circle cx="232" cy="92" r="21" fill="#1B2228"/></g><g transform="translate(168 735) scale(.5)"><path d="M20,96 L16,76 C16,66 22,60 32,57 L60,42 C68,37 76,35 86,35 L168,34 C184,34 194,38 204,45 L234,63 C256,65 274,68 283,73 C290,77 292,85 290,92 L287,96 L257,96 A25,25 0 0 0 207,96 L95,96 A25,25 0 0 0 45,96 Z" fill="#8E9AA2"/><path d="M66,46 L88,40 L166,39 C178,39 187,42 195,47 L220,62 L66,62 Z" fill="#2E3A44"/><circle cx="70" cy="92" r="21" fill="#1B2228"/><circle cx="232" cy="92" r="21" fill="#1B2228"/></g><rect x="-14" y="662" width="9" height="134" fill="#3A4650"/><rect x="150" y="662" width="9" height="134" fill="#3A4650"/><rect x="314" y="662" width="9" height="134" fill="#3A4650"/><rect x="436" y="662" width="9" height="134" fill="#3A4650"/><rect x="-30" y="650" width="490" height="12" rx="3" fill="#2C3640"/><rect x="428" y="686" width="16" height="28" rx="3" fill="#F7F9F8" stroke="#99A5AB" stroke-width="1.5"/></g></g></g><g class="cf-o" id="cf-o-pv-woning" data-variant="woning"><g class="cf-solid"><g transform="translate(160 0)"><path d="M48.5,466 L251.5,466 L295.6,548 L4.4,548 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M26.5,507 L273.5,507 M82.3,466 L52.9,548 M116.2,466 L101.5,548 M150,466 L150,548 M183.8,466 L198.5,548 M217.7,466 L247.1,548" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1" fill="none"/></g></g></g><g class="cf-o" id="cf-o-pv-bedrijf" data-variant="bedrijf"><g class="cf-solid"><g transform="translate(160 0)"><path d="M24,540 L116,540 L128,516 L36,516 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M70,540 L82,516" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/><path d="M134,540 L226,540 L238,516 L146,516 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M180,540 L192,516" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/><path d="M244,540 L336,540 L348,516 L256,516 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M290,540 L302,516" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/></g></g></g><g class="cf-o" id="cf-o-pv-appartement" data-variant="appartement"><g class="cf-solid"><g transform="translate(160 0)"><path d="M20,460 L104,460 L116,438 L32,438 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M62,460 L74,438" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/><path d="M120,460 L204,460 L216,438 L132,438 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M162,460 L174,438" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/><path d="M220,460 L304,460 L316,438 L232,438 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M262,460 L274,438" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/></g></g></g><g class="cf-o" id="cf-o-pv-parking" data-variant="parking"><g class="cf-solid"><g transform="translate(160 0)"><path d="M-20,650 L88,650 L100,628 L-8,628 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M34,650 L46,628" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/><path d="M100,650 L208,650 L220,628 L112,628 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M154,650 L166,628" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/><path d="M220,650 L328,650 L340,628 L232,628 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M274,650 L286,628" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/><path d="M340,650 L448,650 L460,628 L352,628 Z" fill="url(#cf-g-pv)" stroke="#9DB0C2" stroke-opacity=".7" stroke-width="1.4"/><path d="M394,650 L406,628" stroke="#9DB0C2" stroke-opacity=".5" stroke-width="1.1"/></g></g></g><g class="cf-o" id="cf-o-net-mono" data-variant="mono"><g class="cf-solid"><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(0 0)" fill="none" stroke="#A0663A" stroke-width="2.6" stroke-linecap="round"/><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(-4 -4)" fill="none" stroke="#3B82F6" stroke-width="2.6" stroke-linecap="round"/></g></g><g class="cf-o" id="cf-o-net-tri400" data-variant="tri400"><g class="cf-solid"><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(0 0)" fill="none" stroke="#A0663A" stroke-width="2.6" stroke-linecap="round"/><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(-4 -4)" fill="none" stroke="#3B4248" stroke-width="2.6" stroke-linecap="round"/><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(-8 -8)" fill="none" stroke="#A3A9AE" stroke-width="2.6" stroke-linecap="round"/><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(-12 -12)" fill="none" stroke="#3B82F6" stroke-width="2.6" stroke-linecap="round"/></g></g><g class="cf-o" id="cf-o-net-tri230" data-variant="tri230"><g class="cf-solid"><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(0 0)" fill="none" stroke="#A0663A" stroke-width="2.6" stroke-linecap="round"/><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(-4 -4)" fill="none" stroke="#3B4248" stroke-width="2.6" stroke-linecap="round"/><path d="M720,852 H616 Q604,852 604,840 V714" transform="translate(-8 -8)" fill="none" stroke="#A3A9AE" stroke-width="2.6" stroke-linecap="round"/></g></g><g class="cf-o" id="cf-o-net-unknown" data-variant="unknown"><g class="cf-solid"><path d="M720,852 H616 Q604,852 604,840 V714" fill="none" stroke="#7E8A91" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round"/></g></g><g class="cf-o" id="cf-o-chg-wallbox" data-variant="wallbox"><g class="cf-solid"><g transform="translate(160 0)"><rect x="495" y="716" width="10" height="82" fill="#2C363E"/><rect x="484" y="690" width="32" height="58" rx="9" fill="#F3F5F4" stroke="#C3CBCF" stroke-width="1.5"/><rect x="489" y="696" width="22" height="46" rx="6" fill="#1C252C"/><circle cx="500" cy="712" r="6" fill="none" stroke="#3B4A52" stroke-width="2"/><rect x="486" y="795" width="28" height="6" rx="2" fill="#29323A"/></g></g></g><g class="cf-o" id="cf-o-chg-bidi" data-variant="bidi"><g class="cf-solid"><g transform="translate(160 0)"><rect x="495" y="716" width="10" height="82" fill="#2C363E"/><rect x="480" y="680" width="40" height="68" rx="6" fill="#1F262C" stroke="#3A464F" stroke-width="1.5"/><rect x="486" y="690" width="28" height="3" rx="1.5" fill="#55636D"/><circle cx="500" cy="716" r="7" fill="none" stroke="#3B4A52" stroke-width="2"/><rect x="486" y="795" width="28" height="6" rx="2" fill="#29323A"/></g></g></g><g class="cf-o" id="cf-o-chg-socket" data-variant="socket"><g class="cf-solid"><g transform="translate(160 0)"><rect x="430" y="728" width="16" height="20" rx="3" fill="#F3F5F4" stroke="#C3CBCF" stroke-width="1.5"/><circle cx="438" cy="738" r="4.5" fill="none" stroke="#5A6770" stroke-width="1.5"/><rect x="452" y="770" width="20" height="12" rx="3" fill="#2C363E"/></g></g></g><g class="cf-o" id="cf-o-chg-old" data-variant="old"><g class="cf-solid"><g transform="translate(160 0)"><rect x="495" y="716" width="10" height="82" fill="#5E676D"/><rect x="482" y="694" width="36" height="46" rx="3" fill="#9AA3A8" stroke="#6E777C" stroke-width="1.5"/><rect x="488" y="702" width="24" height="10" rx="1" fill="#55606A"/><rect x="486" y="795" width="28" height="6" rx="2" fill="#4A5258"/></g></g></g><g class="cf-o" id="cf-o-chg-parcel" data-variant="parcel"><g class="cf-solid"><g transform="translate(160 0)"><rect x="456" y="774" width="28" height="22" rx="2" fill="#C9A26B" stroke="#9C7A4A" stroke-width="1.2"/><path d="M456,783 H484 M470,774 V796" stroke="#9C7A4A" stroke-width="1.2"/></g></g></g><path class="cf-cable" id="cf-cable" d="M660,748 C672,800 740,806 753,762"/><path class="cf-cable" id="cf-cable-socket" d="M598,748 C604,808 740,808 753,762"/><path id="cf-car-path" d="M1760,664 C1640,664 1560,672 1460,690 C1360,708 1300,742 1210,770 C1120,798 1030,808 930,808 L845,808" fill="none" stroke="none"/></svg></div><div class="cf-car cf-car--bp" id="cf-car-bp"><svg viewBox="-40 0 640 120" focusable="false"><defs><linearGradient id="cfb-g-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8FAFB"/><stop offset=".55" stop-color="#E3E9EC"/><stop offset="1" stop-color="#C3CDD3"/></linearGradient><linearGradient id="cfb-g-cabin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2C3A47"/><stop offset=".62" stop-color="#1A252F"/><stop offset="1" stop-color="#36495C"/></linearGradient><clipPath id="cfb-clip-body"><path d="M20,96 L16,76 C16,66 22,60 32,57 L60,42 C68,37 76,35 86,35 L168,34 C184,34 194,38 204,45 L234,63 C256,65 274,68 283,73 C290,77 292,85 290,92 L287,96 L257,96 A25,25 0 0 0 207,96 L95,96 A25,25 0 0 0 45,96 Z"/></clipPath></defs><ellipse cx="150" cy="114" rx="134" ry="5.5" fill="#000" opacity=".2"/><path d="M20,96 L16,76 C16,66 22,60 32,57 L60,42 C68,37 76,35 86,35 L168,34 C184,34 194,38 204,45 L234,63 C256,65 274,68 283,73 C290,77 292,85 290,92 L287,96 L257,96 A25,25 0 0 0 207,96 L95,96 A25,25 0 0 0 45,96 Z" fill="url(#cfb-g-body)"/><rect x="0" y="80" width="300" height="20" fill="#B5C1C8" opacity=".55" clip-path="url(#cfb-clip-body)"/><path d="M66,46 L88,40 L166,39 C178,39 187,42 195,47 L220,62 L66,62 Z" fill="url(#cfb-g-cabin)"/><path d="M128,38 L131,62" stroke="#EDF1F3" stroke-width="5"/><path d="M131,62 L133,94 M200,52 L202,92" stroke="#C2CCD1" stroke-width="1.3" fill="none"/><rect x="100" y="66" width="16" height="3.5" rx="1.75" fill="#8F9CA4"/><rect x="164" y="66" width="16" height="3.5" rx="1.75" fill="#8F9CA4"/><path d="M200,50 L214,48 L214,56 L204,57 Z" fill="#1E2A33"/><rect x="236" y="60" width="12" height="8" rx="2" fill="#D3DCE0" stroke="#A9B5BB" stroke-width="1"/><path d="M262,69 L286,75" stroke="#AEBBC2" stroke-width="4" stroke-linecap="round"/><path d="M17,70 L31,64" stroke="#7D3B3B" stroke-width="4" stroke-linecap="round"/><circle cx="70" cy="92" r="21" fill="#1B2228"/><g id="cfb-wheel-r"><circle cx="70" cy="92" r="13.5" fill="#A6B2B9"/><path d="M70,92 L70,79.5 M70,92 L81.9,88.1 M70,92 L77.3,102.1 M70,92 L62.7,102.1 M70,92 L58.1,88.1" stroke="#6E7C85" stroke-width="2.6" stroke-linecap="round"/><circle cx="70" cy="92" r="4" fill="#4B5860"/></g><circle cx="232" cy="92" r="21" fill="#1B2228"/><g id="cfb-wheel-f"><circle cx="232" cy="92" r="13.5" fill="#A6B2B9"/><path d="M232,92 L232,79.5 M232,92 L243.9,88.1 M232,92 L239.3,102.1 M232,92 L224.7,102.1 M232,92 L220.1,88.1" stroke="#6E7C85" stroke-width="2.6" stroke-linecap="round"/><circle cx="232" cy="92" r="4" fill="#4B5860"/></g></svg></div><div class="cf-car" id="cf-car"><svg viewBox="-40 0 640 120" focusable="false"><defs><linearGradient id="cf-g-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8FAFB"/><stop offset=".55" stop-color="#E3E9EC"/><stop offset="1" stop-color="#C3CDD3"/></linearGradient><linearGradient id="cf-g-cabin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2C3A47"/><stop offset=".62" stop-color="#1A252F"/><stop offset="1" stop-color="#36495C"/></linearGradient><clipPath id="cf-clip-body"><path d="M20,96 L16,76 C16,66 22,60 32,57 L60,42 C68,37 76,35 86,35 L168,34 C184,34 194,38 204,45 L234,63 C256,65 274,68 283,73 C290,77 292,85 290,92 L287,96 L257,96 A25,25 0 0 0 207,96 L95,96 A25,25 0 0 0 45,96 Z"/></clipPath></defs><ellipse cx="150" cy="114" rx="134" ry="5.5" fill="#000" opacity=".2"/><path d="M20,96 L16,76 C16,66 22,60 32,57 L60,42 C68,37 76,35 86,35 L168,34 C184,34 194,38 204,45 L234,63 C256,65 274,68 283,73 C290,77 292,85 290,92 L287,96 L257,96 A25,25 0 0 0 207,96 L95,96 A25,25 0 0 0 45,96 Z" fill="url(#cf-g-body)"/><rect x="0" y="80" width="300" height="20" fill="#B5C1C8" opacity=".55" clip-path="url(#cf-clip-body)"/><path d="M66,46 L88,40 L166,39 C178,39 187,42 195,47 L220,62 L66,62 Z" fill="url(#cf-g-cabin)"/><path d="M128,38 L131,62" stroke="#EDF1F3" stroke-width="5"/><path d="M131,62 L133,94 M200,52 L202,92" stroke="#C2CCD1" stroke-width="1.3" fill="none"/><rect x="100" y="66" width="16" height="3.5" rx="1.75" fill="#8F9CA4"/><rect x="164" y="66" width="16" height="3.5" rx="1.75" fill="#8F9CA4"/><path d="M200,50 L214,48 L214,56 L204,57 Z" fill="#1E2A33"/><rect x="236" y="60" width="12" height="8" rx="2" fill="#D3DCE0" stroke="#A9B5BB" stroke-width="1"/><path d="M262,69 L286,75" stroke="#AEBBC2" stroke-width="4" stroke-linecap="round"/><path d="M17,70 L31,64" stroke="#7D3B3B" stroke-width="4" stroke-linecap="round"/><circle cx="70" cy="92" r="21" fill="#1B2228"/><g id="cf-wheel-r"><circle cx="70" cy="92" r="13.5" fill="#A6B2B9"/><path d="M70,92 L70,79.5 M70,92 L81.9,88.1 M70,92 L77.3,102.1 M70,92 L62.7,102.1 M70,92 L58.1,88.1" stroke="#6E7C85" stroke-width="2.6" stroke-linecap="round"/><circle cx="70" cy="92" r="4" fill="#4B5860"/></g><circle cx="232" cy="92" r="21" fill="#1B2228"/><g id="cf-wheel-f"><circle cx="232" cy="92" r="13.5" fill="#A6B2B9"/><path d="M232,92 L232,79.5 M232,92 L243.9,88.1 M232,92 L239.3,102.1 M232,92 L224.7,102.1 M232,92 L220.1,88.1" stroke="#6E7C85" stroke-width="2.6" stroke-linecap="round"/><circle cx="232" cy="92" r="4" fill="#4B5860"/></g></svg></div></div><div class="cf-tint"></div><div class="cf-scene cf-scene--glow"><div class="cf-layer cf-layer--glow" style="--lw:1800;--d:1"><svg viewBox="0 0 1800 900" focusable="false"><defs><radialGradient id="cf-g-halo-mint"><stop offset="0" stop-color="#3DF5C2" stop-opacity=".75"/><stop offset="1" stop-color="#3DF5C2" stop-opacity="0"/></radialGradient><radialGradient id="cf-g-halo-amber"><stop offset="0" stop-color="#FFB547" stop-opacity=".8"/><stop offset="1" stop-color="#FFB547" stop-opacity="0"/></radialGradient><radialGradient id="cf-g-halo-warm"><stop offset="0" stop-color="#FFD98F" stop-opacity=".55"/><stop offset="1" stop-color="#FFD98F" stop-opacity="0"/></radialGradient><linearGradient id="cf-g-win" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE6B0"/><stop offset="1" stop-color="#F2B45C"/></linearGradient><radialGradient id="cf-g-halo-win"><stop offset="0" stop-color="#FFC870" stop-opacity=".42"/><stop offset=".55" stop-color="#FFC870" stop-opacity=".14"/><stop offset="1" stop-color="#FFC870" stop-opacity="0"/></radialGradient></defs><g class="cf-wins" data-variant="woning"><g class="cf-win" id="cf-win-woning-0"><rect x="432" y="638" width="172" height="142" fill="url(#cf-g-halo-win)"/><rect x="478" y="678" width="80" height="62" rx="2" fill="url(#cf-g-win)"/></g><g class="cf-win" id="cf-win-woning-1"><rect x="140" y="624" width="248" height="188" fill="url(#cf-g-halo-win)"/><rect x="186" y="664" width="156" height="108" rx="2" fill="url(#cf-g-win)"/><path d="M264,664 V772" stroke="#3A3326" stroke-opacity=".55" stroke-width="3"/></g><g class="cf-win" id="cf-win-woning-2"><rect x="282" y="548" width="188" height="132" fill="url(#cf-g-halo-win)"/><rect x="328" y="588" width="96" height="52" rx="2" fill="url(#cf-g-win)"/><path d="M376,588 V640" stroke="#3A3326" stroke-opacity=".55" stroke-width="3"/></g><g class="cf-win" id="cf-win-woning-3"><rect x="148" y="548" width="188" height="132" fill="url(#cf-g-halo-win)"/><rect x="194" y="588" width="96" height="52" rx="2" fill="url(#cf-g-win)"/><path d="M242,588 V640" stroke="#3A3326" stroke-opacity=".55" stroke-width="3"/></g></g><g class="cf-wins" data-variant="bedrijf"><g class="cf-win" id="cf-win-bedrijf-0"><rect x="136" y="666" width="408" height="142" fill="url(#cf-g-halo-win)"/><rect x="182" y="706" width="316" height="62" rx="2" fill="url(#cf-g-win)"/><path d="M234,706 V768 M286,706 V768 M338,706 V768 M390,706 V768 M442,706 V768" stroke="#3A3326" stroke-opacity=".55" stroke-width="3"/></g><g class="cf-win" id="cf-win-bedrijf-1"><rect x="136" y="599" width="408" height="143" fill="url(#cf-g-halo-win)"/><rect x="182" y="639" width="316" height="63" rx="2" fill="url(#cf-g-win)"/><path d="M234,639 V702 M286,639 V702 M338,639 V702 M390,639 V702 M442,639 V702" stroke="#3A3326" stroke-opacity=".55" stroke-width="3"/></g><g class="cf-win" id="cf-win-bedrijf-2"><rect x="136" y="532" width="408" height="144" fill="url(#cf-g-halo-win)"/><rect x="182" y="572" width="316" height="64" rx="2" fill="url(#cf-g-win)"/><path d="M234,572 V636 M286,572 V636 M338,572 V636 M390,572 V636 M442,572 V636" stroke="#3A3326" stroke-opacity=".55" stroke-width="3"/></g></g><g class="cf-wins" data-variant="appartement"><g class="cf-win" id="cf-win-appartement-0"><rect x="390" y="682" width="158" height="130" fill="url(#cf-g-halo-win)"/><rect x="436" y="722" width="66" height="50" rx="2" fill="url(#cf-g-win)"/></g><g class="cf-win" id="cf-win-appartement-1"><rect x="138" y="602" width="158" height="130" fill="url(#cf-g-halo-win)"/><rect x="184" y="642" width="66" height="50" rx="2" fill="url(#cf-g-win)"/></g><g class="cf-win" id="cf-win-appartement-2"><rect x="306" y="526" width="158" height="130" fill="url(#cf-g-halo-win)"/><rect x="352" y="566" width="66" height="50" rx="2" fill="url(#cf-g-win)"/></g><g class="cf-win" id="cf-win-appartement-3"><rect x="222" y="450" width="158" height="130" fill="url(#cf-g-halo-win)"/><rect x="268" y="490" width="66" height="50" rx="2" fill="url(#cf-g-win)"/></g><g class="cf-win" id="cf-win-appartement-4"><rect x="390" y="602" width="158" height="130" fill="url(#cf-g-halo-win)"/><rect x="436" y="642" width="66" height="50" rx="2" fill="url(#cf-g-win)"/></g></g><g class="cf-wins" data-variant="parking"></g><g class="cf-canopy-lights" id="cf-canopy-lights"><ellipse cx="230" cy="668" rx="26" ry="5" fill="#FFE9B5"/><ellipse cx="410" cy="668" rx="26" ry="5" fill="#FFE9B5"/></g><g class="cf-flow cf-flow--sun" id="cf-flow-grid"><path class="cf-f-halo" d="M720,852 H616 Q604,852 604,840 V714"/><path class="cf-f-core" d="M720,852 H616 Q604,852 604,840 V714"/><path class="cf-f-dots" d="M720,852 H616 Q604,852 604,840 V714"/></g><g class="cf-flow cf-flow--sun cf-flow--solar" data-variant="woning" id="cf-flow-solar-woning"><path class="cf-f-halo" d="M420,528 L466,556 Q474,561 474,570 L474,624 Q474,636 486,636 L584,636 Q596,636 596,648 L596,686"/><path class="cf-f-core" d="M420,528 L466,556 Q474,561 474,570 L474,624 Q474,636 486,636 L584,636 Q596,636 596,648 L596,686"/><path class="cf-f-dots" d="M420,528 L466,556 Q474,561 474,570 L474,624 Q474,636 486,636 L584,636 Q596,636 596,648 L596,686"/></g><g class="cf-flow cf-flow--sun cf-flow--solar" data-variant="bedrijf" id="cf-flow-solar-bedrijf"><path class="cf-f-halo" d="M420,526 L520,526 Q532,526 532,538 L532,620 Q532,632 544,632 L584,632 Q596,632 596,644 L596,686"/><path class="cf-f-core" d="M420,526 L520,526 Q532,526 532,538 L532,620 Q532,632 544,632 L584,632 Q596,632 596,644 L596,686"/><path class="cf-f-dots" d="M420,526 L520,526 Q532,526 532,538 L532,620 Q532,632 544,632 L584,632 Q596,632 596,644 L596,686"/></g><g class="cf-flow cf-flow--sun cf-flow--solar" data-variant="appartement" id="cf-flow-solar-appartement"><path class="cf-f-halo" d="M420,446 L548,446 Q560,446 560,458 L560,664 Q560,676 572,676 L584,676 Q596,676 596,686"/><path class="cf-f-core" d="M420,446 L548,446 Q560,446 560,458 L560,664 Q560,676 572,676 L584,676 Q596,676 596,686"/><path class="cf-f-dots" d="M420,446 L548,446 Q560,446 560,458 L560,664 Q560,676 572,676 L584,676 Q596,676 596,686"/></g><g class="cf-flow cf-flow--sun cf-flow--solar" data-variant="parking" id="cf-flow-solar-parking"><path class="cf-f-halo" d="M420,636 L584,636 Q596,636 596,648 L596,686"/><path class="cf-f-core" d="M420,636 L584,636 Q596,636 596,648 L596,686"/><path class="cf-f-dots" d="M420,636 L584,636 Q596,636 596,648 L596,686"/></g><g class="cf-flow cf-flow--sun" id="cf-flow-box"><path class="cf-f-halo" d="M604,700 H614 Q624,700 624,710 V776 Q624,786 634,786 H648 Q660,786 660,774 V748"/><path class="cf-f-core" d="M604,700 H614 Q624,700 624,710 V776 Q624,786 634,786 H648 Q660,786 660,774 V748"/><path class="cf-f-dots" d="M604,700 H614 Q624,700 624,710 V776 Q624,786 634,786 H648 Q660,786 660,774 V748"/></g><g class="cf-flow cf-flow--sun" id="cf-flow-box-socket"><path class="cf-f-halo" d="M604,708 Q610,708 610,716 V738 Q610,744 604,744 H598"/><path class="cf-f-core" d="M604,708 Q610,708 610,716 V738 Q610,744 604,744 H598"/><path class="cf-f-dots" d="M604,708 Q610,708 610,716 V738 Q610,744 604,744 H598"/></g><g class="cf-flow cf-flow--sun" id="cf-flow-charge"><path class="cf-f-halo" d="M660,748 C672,800 740,806 753,762"/><path class="cf-f-core" d="M660,748 C672,800 740,806 753,762"/><path class="cf-f-dots" d="M660,748 C672,800 740,806 753,762"/></g><g class="cf-flow cf-flow--sun" id="cf-flow-charge-socket"><path class="cf-f-halo" d="M598,748 C604,808 740,808 753,762"/><path class="cf-f-core" d="M598,748 C604,808 740,808 753,762"/><path class="cf-f-dots" d="M598,748 C604,808 740,808 753,762"/></g><g class="cf-flow cf-flow--v2h" id="cf-flow-v2h"><path class="cf-f-halo" d="M753,762 C740,806 672,800 660,748 L660,780 Q660,792 650,792 L634,792 Q624,792 624,782 L624,716 Q624,706 614,706 H604"/><path class="cf-f-core" d="M753,762 C740,806 672,800 660,748 L660,780 Q660,792 650,792 L634,792 Q624,792 624,782 L624,716 Q624,706 614,706 H604"/><path class="cf-f-dots" d="M753,762 C740,806 672,800 660,748 L660,780 Q660,792 650,792 L634,792 Q624,792 624,782 L624,716 Q624,706 614,706 H604"/></g><g class="cf-flow cf-flow--v2h cf-flow--thin" id="cf-flow-b1"><path class="cf-f-halo" d="M588,702 C576,702 568,708 560,709"/><path class="cf-f-core" d="M588,702 C576,702 568,708 560,709"/><path class="cf-f-dots" d="M588,702 C576,702 568,708 560,709"/></g><g class="cf-flow cf-flow--v2h cf-flow--thin" id="cf-flow-b2"><path class="cf-f-halo" d="M588,708 C540,770 400,778 344,752"/><path class="cf-f-core" d="M588,708 C540,770 400,778 344,752"/><path class="cf-f-dots" d="M588,708 C540,770 400,778 344,752"/></g><g class="cf-flow cf-flow--v2h cf-flow--thin" id="cf-flow-b3"><path class="cf-f-halo" d="M590,694 C560,640 480,612 426,614"/><path class="cf-f-core" d="M590,694 C560,640 480,612 426,614"/><path class="cf-f-dots" d="M590,694 C560,640 480,612 426,614"/></g><g class="cf-flow cf-flow--v2h cf-flow--thin" id="cf-flow-b4"><path class="cf-f-halo" d="M590,712 C500,812 260,812 148,776"/><path class="cf-f-core" d="M590,712 C500,812 260,812 148,776"/><path class="cf-f-dots" d="M590,712 C500,812 260,812 148,776"/></g><g class="cf-led cf-led--mint" id="cf-led-box"><circle cx="596" cy="694" r="8.399999999999999" fill="url(#cf-g-halo-mint)"/><circle cx="596" cy="694" r="2.8" fill="none" stroke-width="1.3"/></g><g class="cf-led cf-led--mint" id="cf-led-chg"><circle cx="660" cy="712" r="18" fill="url(#cf-g-halo-mint)"/><circle cx="660" cy="712" r="6" fill="none" stroke-width="2.7"/></g><g class="cf-led cf-led--amber" id="cf-led-v2h"><circle cx="660" cy="716" r="18" fill="url(#cf-g-halo-amber)"/><circle cx="660" cy="716" r="6" fill="none" stroke-width="2.7"/></g><g class="cf-net" id="cf-callout-mono"><path d="M600,686 V622" stroke="#5CF3C8" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="522" y="586" width="156" height="34" rx="9" fill="#04110C" fill-opacity=".9" stroke="#3DF5C2" stroke-opacity=".45" stroke-width="1.2"/><circle cx="538" cy="603" r="4.5" fill="#A0663A" stroke="#0B1A14" stroke-width="1"/><circle cx="551" cy="603" r="4.5" fill="#3B82F6" stroke="#0B1A14" stroke-width="1"/><text x="568" y="608" font-size="14" font-weight="700" fill="#F2FFFA">1×230 V</text></g><g class="cf-net" id="cf-callout-tri400"><path d="M600,686 V622" stroke="#5CF3C8" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="522" y="586" width="156" height="34" rx="9" fill="#04110C" fill-opacity=".9" stroke="#3DF5C2" stroke-opacity=".45" stroke-width="1.2"/><circle cx="538" cy="603" r="4.5" fill="#A0663A" stroke="#0B1A14" stroke-width="1"/><circle cx="551" cy="603" r="4.5" fill="#3B4248" stroke="#0B1A14" stroke-width="1"/><circle cx="564" cy="603" r="4.5" fill="#A3A9AE" stroke="#0B1A14" stroke-width="1"/><circle cx="577" cy="603" r="4.5" fill="#3B82F6" stroke="#0B1A14" stroke-width="1"/><text x="594" y="608" font-size="14" font-weight="700" fill="#F2FFFA">3×400 V + N</text></g><g class="cf-net" id="cf-callout-tri230"><path d="M600,686 V622" stroke="#5CF3C8" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="522" y="586" width="156" height="34" rx="9" fill="#04110C" fill-opacity=".9" stroke="#3DF5C2" stroke-opacity=".45" stroke-width="1.2"/><circle cx="538" cy="603" r="4.5" fill="#A0663A" stroke="#0B1A14" stroke-width="1"/><circle cx="551" cy="603" r="4.5" fill="#3B4248" stroke="#0B1A14" stroke-width="1"/><circle cx="564" cy="603" r="4.5" fill="#A3A9AE" stroke="#0B1A14" stroke-width="1"/><text x="581" y="608" font-size="14" font-weight="700" fill="#F2FFFA">3×230 V</text></g><g class="cf-net" id="cf-callout-unknown"><path d="M600,686 V622" stroke="#5CF3C8" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="3 3"/><rect x="522" y="586" width="64" height="34" rx="9" fill="#04110C" fill-opacity=".9" stroke="#3DF5C2" stroke-opacity=".45" stroke-width="1.2"/><text x="538" y="608" font-size="14" font-weight="700" fill="#F2FFFA">?</text></g><g class="cf-tag" id="cf-tag"><rect x="620" y="752" width="80" height="16" rx="5" fill="#04110C" fill-opacity=".88" stroke="#3DF5C2" stroke-opacity=".4"/><text id="cf-tag-text" x="660" y="764" font-size="10.5" font-weight="700" text-anchor="middle" fill="#F2FFFA"></text></g><g class="cf-badge" id="cf-badge-repair"><circle cx="660" cy="660" r="15" fill="#FFB547"/><path d="M660,651 V662 M660,667 V668" stroke="#1B1306" stroke-width="3.2" stroke-linecap="round"/></g><g class="cf-badge" id="cf-badge-fixed"><circle cx="660" cy="660" r="15" fill="#12E3A6"/><path d="M653,660 L658,665 L667,655" fill="none" stroke="#04140E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g><g class="cf-badge" id="cf-badge-energy"><rect x="514" y="586" width="68" height="40" rx="10" fill="#04110C" fill-opacity=".9" stroke="#3DF5C2" stroke-opacity=".45"/><rect class="cf-bar" x="528" y="596" width="8" height="22" rx="2" fill="#3DF5C2"/><rect class="cf-bar" x="544" y="596" width="8" height="22" rx="2" fill="#3DF5C2"/><rect class="cf-bar" x="560" y="596" width="8" height="22" rx="2" fill="#3DF5C2"/></g><g class="cf-badge" id="cf-badge-advice"><path d="M302,374 h92 a12,12 0 0 1 12,12 v34 a12,12 0 0 1 -12,12 h-56 l-14,14 v-14 h-22 a12,12 0 0 1 -12,-12 v-34 a12,12 0 0 1 12,-12 z" fill="#04110C" fill-opacity=".9" stroke="#3DF5C2" stroke-opacity=".5"/><text x="348" y="412" font-size="22" font-weight="800" text-anchor="middle" fill="#5CF3C8">?</text></g></svg></div><div class="cf-car cf-carglow" id="cf-carglow"><svg viewBox="-40 0 640 120" focusable="false"><defs><linearGradient id="cf-g-beam" gradientUnits="userSpaceOnUse" x1="288" y1="0" x2="600" y2="0"><stop offset="0" stop-color="#FFF6DC" stop-opacity=".55"/><stop offset="1" stop-color="#FFF6DC" stop-opacity="0"/></linearGradient><linearGradient id="cf-g-bat" gradientUnits="userSpaceOnUse" x1="100" y1="0" x2="206" y2="0"><stop offset="0" stop-color="#00C896"/><stop offset="1" stop-color="#5CF3C8"/></linearGradient><radialGradient id="cf-g-tail"><stop offset="0" stop-color="#FF4D4D" stop-opacity=".7"/><stop offset="1" stop-color="#FF4D4D" stop-opacity="0"/></radialGradient><radialGradient id="cf-g-head"><stop offset="0" stop-color="#F2FAFF" stop-opacity=".8"/><stop offset="1" stop-color="#F2FAFF" stop-opacity="0"/></radialGradient></defs><path id="cf-beam" d="M288,72 L600,46 L600,106 L288,82 Z" fill="url(#cf-g-beam)" opacity="0"/><circle id="cf-headhalo" cx="284" cy="74" r="12" fill="url(#cf-g-head)" opacity="0"/><path d="M263,69.5 L285,75" stroke="#F4FBFF" stroke-width="3" stroke-linecap="round"/><g id="cf-tail" opacity=".3"><circle cx="24" cy="67" r="16" fill="url(#cf-g-tail)"/><path d="M18,69.5 L30,64.5" stroke="#FF5A5A" stroke-width="3" stroke-linecap="round"/></g><path d="M100,91 L206,91" stroke="#0E1A20" stroke-opacity=".35" stroke-width="4" stroke-linecap="round"/><path id="cf-bat" d="M100,91 L206,91" stroke="url(#cf-g-bat)" stroke-width="3.6" stroke-linecap="round" stroke-dasharray="106 106" stroke-dashoffset="83"/><circle id="cf-port-sun" cx="242" cy="64" r="2.6" fill="#3DF5C2" opacity="0"/><circle id="cf-port-v2h" cx="242" cy="64" r="2.6" fill="#FFB547" opacity="0"/></svg></div></div><div class="cf-chip" id="cf-chip"><span class="cf-chip-bat"><i></i></span><b class="cf-chip-val">22 %</b><span class="cf-chip-lbl cf-chip-lbl--sun" data-nl="laden" data-fr="recharge">laden</span><span class="cf-chip-lbl cf-chip-lbl--v2h" data-nl="V2H → woning" data-fr="V2H → maison">V2H → woning</span></div></div>
+<!-- CF:STAGE:END -->
+      <aside class="cfg-summary" id="cfg-summary" aria-label="Uw project" hidden>
+        <p class="cfg-summary-title" data-nl="Uw project" data-fr="Votre projet">Uw project</p>
+        <ul class="cfg-summary-list" id="cfg-summary-list"></ul>
+      </aside>
+    </div>
+
+    <div class="cfg-panel">
+      <header class="cfg-intro" id="cfg-intro">
+        <div class="devis-badge" data-nl="&#9889; 100% Gratis · Reactie binnen 24u" data-fr="&#9889; 100% Gratuit · Réponse sous 24h">&#9889; 100% Gratis · Reactie binnen 24u</div>
+        <h1 id="h-title" data-nl="Offerte aanvragen" data-fr="Demandez votre devis">Offerte aanvragen</h1>
+        <p class="cfg-lead" data-nl="Laten we uw project bouwen." data-fr="Construisons votre projet.">Laten we uw project bouwen.</p>
+        <p class="cfg-intro-sub" data-nl="Beantwoord enkele korte vragen — het duurt amper 3 minuten. Uw installatie krijgt live vorm in beeld." data-fr="Répondez à quelques courtes questions — cela prend à peine 3 minutes. Votre installation prend forme en direct.">Beantwoord enkele korte vragen — het duurt amper 3 minuten. Uw installatie krijgt live vorm in beeld.</p>
+        <p class="cfg-price" style="margin-top:16px; color:rgba(255,255,255,.92); font-size:1rem;">
           <span data-nl="Volledige installatie" data-fr="Installation compl&egrave;te">Volledige installatie</span>
           <strong style="color:var(--primary); font-size:1.2rem; font-weight:800; margin:0 6px;" data-nl="vanaf &euro;&nbsp;1.490" data-fr="d&egrave;s 1.490&nbsp;&euro;">vanaf &euro;&nbsp;1.490</strong>
           <span style="display:block; margin-top:5px; color:rgba(255,255,255,.55); font-size:.82rem;" data-nl="incl. 6% btw (woning ouder dan 10 jaar) &middot; eigen laadpaal plaatsen vanaf &euro;&nbsp;690" data-fr="TVA 6% comprise (habitation de plus de 10 ans) &middot; pose de votre propre borne d&egrave;s 690&nbsp;&euro;">incl. 6% btw (woning ouder dan 10 jaar) &middot; eigen laadpaal plaatsen vanaf &euro;&nbsp;690</span>
         </p>
-        <p class="devis-hero-call" style="margin-top:18px; font-size:.92rem; color:rgba(255,255,255,.62);">
+        <button type="button" class="cfg-start" id="cfg-start" data-nl="Start mijn project &#8594;" data-fr="Commencer mon projet &#8594;">Start mijn project &#8594;</button>
+        <p class="cfg-call" style="margin-top:18px; font-size:.92rem; color:rgba(255,255,255,.62);">
           <span data-nl="Liever bellen?" data-fr="Préférez appeler ?">Liever bellen?</span>
           <a href="tel:+32489247760" style="color:var(--primary); font-weight:700; text-decoration:none; margin-left:6px;">+32 489 24 77 60</a>
           <span style="margin:0 10px; opacity:.4;">·</span>
           <a href="mailto:info@bornexa.be" style="color:var(--primary); font-weight:700; text-decoration:none;">info@bornexa.be</a>
         </p>
+      </header>
+
+      <div class="cfg-progress" id="cfg-progress" hidden>
+        <ol class="cfg-rail" id="cfg-rail"></ol>
+        <div class="cfg-count"><span id="cfg-count"></span><span class="cfg-bar"><i id="cfg-bar"></i></span></div>
+        <ul class="cfg-chips" id="cfg-chips" aria-hidden="true"></ul>
+      </div>
+      <p class="sr-only" aria-live="polite" id="cfg-live"></p>
+
+      <form id="devis-form" name="devis" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" action="/">
+        <input type="hidden" name="form-name" value="devis">
+        <p hidden><label>Ne pas remplir : <input name="bot-field"></label></p>
+        <input type="hidden" name="lang" id="f-lang" value="nl">
+
+          <fieldset class="cfg-step" id="step-intent" data-step="intent" data-chapter="project">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Wat zoekt u?" data-fr="Que recherchez-vous ?">Wat zoekt u?</h2></legend>
+            <p class="cfg-sub" data-nl="Kies wat het best past — we passen de vragen daarop aan." data-fr="Choisissez ce qui correspond le mieux — on adapte les questions.">Kies wat het best past — we passen de vragen daarop aan.</p>
+            <div class="cfg-options">
+              <label class="option-card"><input type="radio" name="Type_Aanvraag" value="Laadpaal"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-bolt"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Laadpaal" data-fr="Borne de recharge">Laadpaal</span><span class="opt-sub" data-nl="Borne voor uw wagen" data-fr="Recharge de votre voiture">Borne voor uw wagen</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Aanvraag" value="Energiebeheer"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-chart"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Slim energiebeheer" data-fr="Gestion d&#39;énergie">Slim energiebeheer</span><span class="opt-sub" data-nl="Smappee Infinity · besparen" data-fr="Smappee Infinity · économies">Smappee Infinity · besparen</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Aanvraag" value="Herstelling / depannage"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-wrench"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Herstelling" data-fr="Réparation">Herstelling</span><span class="opt-sub" data-nl="Defect of storing" data-fr="Panne ou défaut">Defect of storing</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Aanvraag" value="Advies"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-chat"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Advies" data-fr="Conseil">Advies</span><span class="opt-sub" data-nl="Niet zeker? Wij helpen" data-fr="Pas sûr ? On vous aide">Niet zeker? Wij helpen</span></span></span></label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-project" data-step="project" data-chapter="project">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Voor welk type project?" data-fr="Pour quel type de projet ?">Voor welk type project?</h2></legend>
+            <p class="cfg-sub" data-nl="Voor welk type pand?" data-fr="Pour quel type de bien ?">Voor welk type pand?</p>
+            <div class="cfg-options">
+              <label class="option-card"><input type="radio" name="Type_Project" value="Woning"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-house"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Woning" data-fr="Maison">Woning</span><span class="opt-sub" data-nl="Thuis laden" data-fr="Recharge à domicile">Thuis laden</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Project" value="Bedrijf"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-office"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Bedrijf" data-fr="Entreprise">Bedrijf</span><span class="opt-sub" data-nl="Laadinfrastructuur" data-fr="Infrastructure de recharge">Laadinfrastructuur</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Project" value="Appartement"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-apartment"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Appartement" data-fr="Appartement">Appartement</span><span class="opt-sub" data-nl="Parking / VME" data-fr="Parking / ACP">Parking / VME</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Project" value="Parking"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-parking"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Parking" data-fr="Parking">Parking</span><span class="opt-sub" data-nl="Publiek of privaat" data-fr="Public ou privé">Publiek of privaat</span></span></span></label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-network" data-step="network" data-chapter="network">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Wat is uw elektrisch net?" data-fr="Quel est votre réseau électrique ?">Wat is uw elektrisch net?</h2></legend>
+            <p class="cfg-sub" data-nl="Niet zeker? Kies &lsquo;Weet ik niet&rsquo; — wij controleren het voor u." data-fr="Pas sûr ? Choisissez « Je ne sais pas » — nous vérifions pour vous.">Niet zeker? Kies &lsquo;Weet ik niet&rsquo; — wij controleren het voor u.</p>
+            <div class="cfg-options cfg-options--list">
+              <label class="option-card"><input type="radio" name="Type_Installatie" value="Eenfasig (1x230V)"><span class="opt"><span class="opt-icon"><span class="net-wires"><i class="w-l1"></i><i class="w-n"></i></span></span><span class="opt-text"><span class="opt-title" data-nl="Eenfasig" data-fr="Monophasé">Eenfasig</span><span class="opt-sub" data-nl="1 × 230 V" data-fr="1 × 230 V">1 × 230 V</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Installatie" value="Driefasig (3x400V)"><span class="opt"><span class="opt-icon"><span class="net-wires"><i class="w-l1"></i><i class="w-l2"></i><i class="w-l3"></i><i class="w-n"></i></span></span><span class="opt-text"><span class="opt-title" data-nl="Driefasig 3×400 V + N" data-fr="Triphasé 3×400 V + N">Driefasig 3×400 V + N</span><span class="opt-sub" data-nl="3 fasen + nulgeleider" data-fr="3 phases + neutre">3 fasen + nulgeleider</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Installatie" value="Driefasig zonder N (3x230V)"><span class="opt"><span class="opt-icon"><span class="net-wires"><i class="w-l1"></i><i class="w-l2"></i><i class="w-l3"></i></span></span><span class="opt-text"><span class="opt-title" data-nl="Driefasig 3×230 V zonder N" data-fr="Triphasé 3×230 V sans N">Driefasig 3×230 V zonder N</span><span class="opt-sub" data-nl="Driefasig 230 V-net zonder nulgeleider." data-fr="Réseau triphasé 230 V sans conducteur neutre.">Driefasig 230 V-net zonder nulgeleider.</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Installatie" value="Onbekend"><span class="opt"><span class="opt-icon"><span class="net-wires net-wires--unknown"><i></i></span></span><span class="opt-text"><span class="opt-title" data-nl="Weet ik niet" data-fr="Je ne sais pas">Weet ik niet</span><span class="opt-sub" data-nl="BORNEXA checkt dit" data-fr="BORNEXA vérifie pour vous">BORNEXA checkt dit</span></span></span></label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-service" data-step="service" data-chapter="charger">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Wat heeft u nodig?" data-fr="De quoi avez-vous besoin ?">Wat heeft u nodig?</h2></legend>
+            <p class="cfg-sub" data-nl="Welke dienst zoekt u?" data-fr="Quel service recherchez-vous ?">Welke dienst zoekt u?</p>
+            <div class="cfg-options">
+              <label class="option-card"><input type="radio" name="Type_Service" value="Nieuwe laadpaal"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-charger"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Nieuwe laadpaal" data-fr="Nouvelle borne">Nieuwe laadpaal</span><span class="opt-sub" data-nl="Levering &amp; plaatsing" data-fr="Fourniture &amp; pose">Levering &amp; plaatsing</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Service" value="BMW bidirectionele laadpaal (V2H) - BMW Wallbox Professional 7,4 kW"><span class="opt"><span class="opt-badge" data-nl="Nieuw" data-fr="Nouveau">Nieuw</span><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-v2h"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="BMW bidirectioneel" data-fr="BMW bidirectionnel">BMW bidirectioneel</span><span class="opt-sub" data-nl="V2H · BMW Wallbox Professional 7,4 kW" data-fr="V2H · BMW Wallbox Professional 7,4 kW">V2H · BMW Wallbox Professional 7,4 kW</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Service" value="Prise renforcee Green'Up"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-socket"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Green&#39;Up stopcontact" data-fr="Prise renforcée Green&#39;Up">Green&#39;Up stopcontact</span><span class="opt-sub" data-nl="Instapoplossing" data-fr="Solution d&#39;entrée">Instapoplossing</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Service" value="Eigen borne plaatsen"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-box"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Eigen borne plaatsen" data-fr="Poser ma propre borne">Eigen borne plaatsen</span><span class="opt-sub" data-nl="Ik heb al een laadpaal" data-fr="J&#39;ai déjà ma borne">Ik heb al een laadpaal</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Type_Service" value="Vervanging bestaande borne"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-swap"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Borne vervangen" data-fr="Remplacer ma borne">Borne vervangen</span><span class="opt-sub" data-nl="Oude &#8594; nieuwe" data-fr="Ancienne &#8594; nouvelle">Oude &#8594; nieuwe</span></span></span></label>
+            </div>
+            <p class="cfg-more"><a href="blog-bmw-wallbox-professional-v2h" target="_blank" rel="noopener" data-nl="Wat is bidirectioneel laden met BMW? &#8594;" data-fr="La recharge bidirectionnelle BMW, c&#39;est quoi ? &#8594;">Wat is bidirectioneel laden met BMW? &#8594;</a></p>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-vehicle" data-step="vehicle" data-chapter="charger">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Welke wagen rijdt u?" data-fr="Quelle voiture conduisez-vous ?">Welke wagen rijdt u?</h2></legend>
+            <p class="cfg-sub" data-nl="Optioneel — u mag deze stap overslaan." data-fr="Optionnel — vous pouvez passer cette étape.">Optioneel — u mag deze stap overslaan.</p>
+            <div class="cfg-options cfg-options--brands">
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Tesla"><span class="opt"><span class="opt-icon"><svg width="26" height="34" viewBox="0 0 52 68" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="0" y1="6" x2="52" y2="6"/>
+                    <path d="M0 6 C10 6 20 13 26 15"/>
+                    <path d="M52 6 C42 6 32 13 26 15"/>
+                    <line x1="26" y1="15" x2="26" y2="62"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Tesla" data-fr="Tesla">Tesla</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="BMW"><span class="opt"><span class="opt-icon"><svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8"/>
+                    <path d="M50 5 A45 45 0 0 1 95 50 L76 50 A26 26 0 0 0 50 24 Z" fill="currentColor"/>
+                    <path d="M50 95 A45 45 0 0 1 5 50 L24 50 A26 26 0 0 0 50 76 Z" fill="currentColor"/>
+                    <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="5"/>
+                    <line x1="50" y1="24" x2="50" y2="76" stroke="currentColor" stroke-width="5"/>
+                    <line x1="24" y1="50" x2="76" y2="50" stroke="currentColor" stroke-width="5"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="BMW" data-fr="BMW">BMW</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Audi"><span class="opt"><span class="opt-icon"><svg width="52" height="20" viewBox="0 0 148 42" fill="none" stroke="currentColor" stroke-width="5" aria-hidden="true">
+                    <circle cx="21" cy="21" r="19"/>
+                    <circle cx="54" cy="21" r="19"/>
+                    <circle cx="87" cy="21" r="19"/>
+                    <circle cx="120" cy="21" r="19"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Audi" data-fr="Audi">Audi</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Mercedes"><span class="opt"><span class="opt-icon"><svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="7"/>
+                    <path d="M50 5 L56 47 L50 52 L44 47 Z" fill="currentColor"/>
+                    <path d="M50 5 L56 47 L50 52 L44 47 Z" fill="currentColor" transform="rotate(120 50 50)"/>
+                    <path d="M50 5 L56 47 L50 52 L44 47 Z" fill="currentColor" transform="rotate(240 50 50)"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Mercedes" data-fr="Mercedes">Mercedes</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Volkswagen"><span class="opt"><span class="opt-icon"><svg width="34" height="34" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="50" cy="50" r="45"/>
+                    <path d="M28 18 L50 54 L72 18"/>
+                    <path d="M16 56 L31 78 L50 57 L69 78 L84 56"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="VW" data-fr="VW">VW</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Volvo"><span class="opt"><span class="opt-icon"><svg width="34" height="34" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="42" cy="60" r="30"/>
+                    <line x1="64" y1="38" x2="90" y2="10"/>
+                    <polyline points="74,8 92,8 92,26"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Volvo" data-fr="Volvo">Volvo</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Polestar"><span class="opt"><span class="opt-icon"><svg width="30" height="30" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
+                    <path d="M50 0 L57 44 L50 50 L43 44 Z"/>
+                    <path d="M100 50 L56 57 L50 50 L56 43 Z"/>
+                    <path d="M50 100 L43 56 L50 50 L57 56 Z"/>
+                    <path d="M0 50 L44 43 L50 50 L44 57 Z"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Polestar" data-fr="Polestar">Polestar</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Renault"><span class="opt"><span class="opt-icon"><svg width="28" height="36" viewBox="0 0 60 76" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" aria-hidden="true">
+                    <polygon points="30,2 58,38 30,74 2,38"/>
+                    <polygon points="30,18 44,38 30,58 16,38"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Renault" data-fr="Renault">Renault</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Porsche"><span class="opt"><span class="opt-icon"><svg width="28" height="34" viewBox="0 0 72 88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 6 L66 6 L66 54 L36 82 L6 54 Z" stroke-width="5.5"/>
+                    <line x1="6" y1="32" x2="66" y2="32" stroke-width="5.5"/>
+                    <line x1="36" y1="6" x2="36" y2="82" stroke-width="5.5"/>
+                    <path d="M10 10 L10 28 M19 10 L19 28 M28 10 L28 28" stroke-width="3.5"/>
+                    <path d="M44 10 L44 28 M53 10 L53 28 M62 10 L62 28" stroke-width="3.5"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Porsche" data-fr="Porsche">Porsche</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Peugeot"><span class="opt"><span class="opt-icon"><svg width="28" height="34" viewBox="0 0 60 72" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M8 4 L52 4 L52 44 L30 68 L8 44 Z"/>
+                    <line x1="20" y1="18" x2="20" y2="52"/>
+                    <path d="M20 18 C20 18 42 16 42 30 C42 44 20 42 20 42"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Peugeot" data-fr="Peugeot">Peugeot</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Hyundai/Kia"><span class="opt"><span class="opt-icon"><svg width="36" height="26" viewBox="0 0 100 72" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" aria-hidden="true">
+                    <ellipse cx="50" cy="36" rx="46" ry="32"/>
+                    <path d="M26 18 C30 28 42 32 50 36 M74 18 C70 28 58 32 50 36 M26 54 C30 44 42 40 50 36 M74 54 C70 44 58 40 50 36"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Hyundai / Kia" data-fr="Hyundai / Kia">Hyundai / Kia</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Merk_Voertuig" value="Autre"><span class="opt"><span class="opt-icon"><svg width="30" height="36" viewBox="0 0 60 72" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" aria-hidden="true">
+                    <path d="M18 22 C18 8 42 8 42 24 C42 36 30 36 30 46"/>
+                    <circle cx="30" cy="60" r="5" fill="currentColor" stroke="none"/>
+                  </svg></span><span class="opt-text"><span class="opt-title" data-nl="Andere" data-fr="Autre">Andere</span></span></span></label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-optional data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-merk" data-step="merk" data-chapter="charger">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Welk merk laadpaal wenst u?" data-fr="Quelle marque de borne souhaitez-vous ?">Welk merk laadpaal wenst u?</h2></legend>
+            <p class="cfg-sub" data-nl="Kies uw voorkeur — het model bepalen we later samen. Geen idee? Kies gerust &lsquo;Geen voorkeur&rsquo;." data-fr="Choisissez votre préférence — le modèle, on le voit ensemble plus tard. Aucune idée ? Choisissez « Sans préférence ».">Kies uw voorkeur — het model bepalen we later samen. Geen idee? Kies gerust &lsquo;Geen voorkeur&rsquo;.</p>
+            <div class="cfg-options cfg-options--3">
+              <label class="option-card"><input type="radio" name="Gewenst_Merk_Borne" value="Smappee"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-bolt"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Smappee" data-fr="Smappee">Smappee</span><span class="opt-sub" data-nl="Slim energiebeheer" data-fr="Gestion d&#39;énergie">Slim energiebeheer</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Gewenst_Merk_Borne" value="Tesla"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-bolt"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Tesla" data-fr="Tesla">Tesla</span><span class="opt-sub" data-nl="Wall Connector" data-fr="Wall Connector">Wall Connector</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Gewenst_Merk_Borne" value="Wallbox"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-bolt"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Wallbox" data-fr="Wallbox">Wallbox</span><span class="opt-sub" data-nl="Pulsar / Commander" data-fr="Pulsar / Commander">Pulsar / Commander</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Gewenst_Merk_Borne" value="Alfen"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-bolt"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Alfen" data-fr="Alfen">Alfen</span><span class="opt-sub" data-nl="Pro &amp; appartement" data-fr="Pro &amp; copropriété">Pro &amp; appartement</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Gewenst_Merk_Borne" value="Easee"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-bolt"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Easee" data-fr="Easee">Easee</span><span class="opt-sub" data-nl="Compact &amp; slim" data-fr="Compact &amp; intelligent">Compact &amp; slim</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Gewenst_Merk_Borne" value="Zaptec"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-bolt"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Zaptec" data-fr="Zaptec">Zaptec</span><span class="opt-sub" data-nl="Appartement &amp; parking" data-fr="Copropriété &amp; parking">Appartement &amp; parking</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Gewenst_Merk_Borne" value="Geen voorkeur"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-chat"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Geen voorkeur" data-fr="Sans préférence">Geen voorkeur</span><span class="opt-sub" data-nl="Advies van BORNEXA" data-fr="Conseil de BORNEXA">Advies van BORNEXA</span></span></span></label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-solar" data-step="solar" data-chapter="solar">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Heeft u zonnepanelen?" data-fr="Avez-vous des panneaux solaires ?">Heeft u zonnepanelen?</h2></legend>
+            <p class="cfg-sub" data-nl="Zo stemmen we de installatie af op uw zonne-energie." data-fr="Nous adaptons ainsi l&#39;installation à votre énergie solaire.">Zo stemmen we de installatie af op uw zonne-energie.</p>
+            <div class="cfg-options cfg-options--3">
+              <label class="option-card"><input type="radio" name="zonnepanelen" value="Ja"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-sun"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Ja" data-fr="Oui">Ja</span></span></span></label>
+              <label class="option-card"><input type="radio" name="zonnepanelen" value="Nee"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-sun-off"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Nee" data-fr="Non">Nee</span></span></span></label>
+              <label class="option-card"><input type="radio" name="zonnepanelen" value="Gepland"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-calendar"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Gepland" data-fr="Prévu">Gepland</span></span></span></label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-goal" data-step="goal" data-chapter="goal">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Wat wilt u bereiken?" data-fr="Quel est votre objectif ?">Wat wilt u bereiken?</h2></legend>
+            <p class="cfg-sub" data-nl="Met Smappee Infinity — kies uw hoofddoel." data-fr="Avec Smappee Infinity — choisissez votre objectif principal.">Met Smappee Infinity — kies uw hoofddoel.</p>
+            <div class="cfg-options">
+              <label class="option-card"><input type="radio" name="Energie_Doel" value="Capaciteitstarief verlagen"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-euro"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Capaciteitstarief verlagen" data-fr="Réduire le tarif capacitaire">Capaciteitstarief verlagen</span><span class="opt-sub" data-nl="Maandpiek omlaag" data-fr="Baisser le pic mensuel">Maandpiek omlaag</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Energie_Doel" value="Energieverbruik monitoren"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-chart"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Verbruik monitoren" data-fr="Monitorer la consommation">Verbruik monitoren</span><span class="opt-sub" data-nl="Inzicht per toestel" data-fr="Visibilité par appareil">Inzicht per toestel</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Energie_Doel" value="Zonnepanelen optimaliseren"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-sun"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Zon optimaliseren" data-fr="Optimiser le solaire">Zon optimaliseren</span><span class="opt-sub" data-nl="Meer autoconsumptie" data-fr="Plus d&#39;autoconsommation">Meer autoconsumptie</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Energie_Doel" value="Energie-audit"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-search"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Energie-audit" data-fr="Audit énergétique">Energie-audit</span><span class="opt-sub" data-nl="Op echte meetdata" data-fr="Sur données réelles">Op echte meetdata</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Energie_Doel" value="Bedrijf / meerdere sites"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-office"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Bedrijf / multi-site" data-fr="Entreprise / multi-sites">Bedrijf / multi-site</span><span class="opt-sub" data-nl="Submetering &amp; peak shaving" data-fr="Submetering &amp; peak shaving">Submetering &amp; peak shaving</span></span></span></label>
+              <label class="option-card"><input type="radio" name="Energie_Doel" value="Niet zeker / advies"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-chat"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Niet zeker" data-fr="Pas sûr">Niet zeker</span><span class="opt-sub" data-nl="Wij adviseren u" data-fr="On vous conseille">Wij adviseren u</span></span></span></label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-details" data-step="details" data-chapter="goal">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Enkele details" data-fr="Quelques détails">Enkele details</h2></legend>
+            <p class="cfg-sub" data-nl="Zo kunnen we u beter adviseren (optioneel)." data-fr="Pour mieux vous conseiller (optionnel).">Zo kunnen we u beter adviseren (optioneel).</p>
+            <div class="cfg-field">
+              <label for="inp-meter" data-nl="Heeft u een digitale meter?" data-fr="Avez-vous un compteur digital ?">Heeft u een digitale meter?</label>
+              <select name="digitale_meter" id="inp-meter">
+                <option value="" data-nl="Kies…" data-fr="Choisir…">Kies…</option>
+                <option value="Ja" data-nl="Ja" data-fr="Oui">Ja</option>
+                <option value="Nee" data-nl="Nee" data-fr="Non">Nee</option>
+                <option value="Weet ik niet" data-nl="Weet ik niet" data-fr="Je ne sais pas">Weet ik niet</option>
+              </select>
+            </div>
+            <div class="cfg-field">
+              <label for="inp-factuur" data-nl="Geschatte maandfactuur elektriciteit (optioneel)" data-fr="Facture mensuelle d&#39;électricité estimée (optionnel)">Geschatte maandfactuur elektriciteit (optioneel)</label>
+              <select name="maandfactuur" id="inp-factuur">
+                <option value="" data-nl="Kies…" data-fr="Choisir…">Kies…</option>
+                <option value="&lt; 100 €" data-nl="minder dan 100 €" data-fr="moins de 100 €">minder dan 100 €</option>
+                <option value="100-200 €">100–200 €</option>
+                <option value="200-400 €">200–400 €</option>
+                <option value="&gt; 400 €" data-nl="meer dan 400 €" data-fr="plus de 400 €">meer dan 400 €</option>
+              </select>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-optional data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-repair" data-step="repair" data-chapter="repair">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Wat is er aan de hand?" data-fr="Quel est le problème ?">Wat is er aan de hand?</h2></legend>
+            <p class="cfg-sub" data-nl="Ook voor laadpalen die niet door ons geplaatst zijn." data-fr="Aussi pour les bornes que nous n&#39;avons pas installées.">Ook voor laadpalen die niet door ons geplaatst zijn.</p>
+            <div class="cfg-field">
+              <label for="inp-merkborne" data-nl="Merk van de laadpaal" data-fr="Marque de la borne">Merk van de laadpaal</label>
+              <select name="merk_borne" id="inp-merkborne">
+                <option value="" data-nl="Kies…" data-fr="Choisir…">Kies…</option>
+                <option value="Tesla">Tesla</option><option value="Wallbox">Wallbox</option><option value="Smappee">Smappee</option>
+                <option value="Alfen">Alfen</option><option value="Easee">Easee</option><option value="Zaptec">Zaptec</option>
+                <option value="Andere" data-nl="Ander merk" data-fr="Autre marque">Ander merk</option>
+                <option value="Onbekend" data-nl="Weet ik niet" data-fr="Je ne sais pas">Weet ik niet</option>
+              </select>
+            </div>
+            <div class="float-g full">
+              <textarea name="probleem" id="inp-probleem" maxlength="2000" placeholder=" "></textarea>
+              <label for="inp-probleem" data-nl="Beschrijf kort het probleem" data-fr="Décrivez brièvement le problème">Beschrijf kort het probleem</label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-optional data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-advice" data-step="advice" data-chapter="advice">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Waarover wenst u advies?" data-fr="Sur quoi souhaitez-vous un conseil ?">Waarover wenst u advies?</h2></legend>
+            <p class="cfg-sub" data-nl="Vertel ons kort wat u zoekt — wij denken met u mee." data-fr="Dites-nous brièvement ce que vous cherchez — on réfléchit avec vous.">Vertel ons kort wat u zoekt — wij denken met u mee.</p>
+            <div class="float-g full">
+              <textarea name="advies_vraag" id="inp-advies" maxlength="2000" placeholder=" "></textarea>
+              <label for="inp-advies" data-nl="Uw vraag (optioneel)" data-fr="Votre question (optionnel)">Uw vraag (optioneel)</label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-optional data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <fieldset class="cfg-step" id="step-photos" data-step="photos" data-chapter="photos">
+            <legend class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Foto&#39;s <span class="cfg-opt">(optioneel)</span>" data-fr="Photos <span class="cfg-opt">(optionnel)</span>">Foto&#39;s <span class="cfg-opt">(optioneel)</span></h2></legend>
+            <p class="cfg-sub" data-nl="Foto&#39;s helpen ons een nauwkeurigere offerte te bezorgen. U kunt dit overslaan." data-fr="Les photos nous aident à fournir un devis précis. Vous pouvez ignorer cette étape.">Foto&#39;s helpen ons een nauwkeurigere offerte te bezorgen. U kunt dit overslaan.</p>
+            <div class="upload-zones">
+              <label class="upload-zone" id="zone-1">
+                <input type="file" name="foto_bord" accept="image/*,.pdf">
+                <span class="uz-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-board"/></svg></span>
+                <span class="uz-text"><span class="uz-label" id="uz-l1" data-nl="Elektrisch bord / Zekeringskast" data-fr="Tableau électrique">Elektrisch bord / Zekeringskast</span><span class="uz-sub" id="uz-s1" data-nl="Foto van uw verdeelkast" data-fr="Photo de votre tableau de bord">Foto van uw verdeelkast</span><span class="uz-status"></span></span>
+                <span class="uz-badge" data-nl="Optioneel" data-fr="Optionnel">Optioneel</span>
+              </label>
+              <label class="upload-zone" id="zone-2">
+                <input type="file" name="foto_teller" accept="image/*,.pdf">
+                <span class="uz-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-meter"/></svg></span>
+                <span class="uz-text"><span class="uz-label" id="uz-l2" data-nl="Elektriciteitsteller" data-fr="Compteur électrique">Elektriciteitsteller</span><span class="uz-sub" id="uz-s2" data-nl="Digitale of analoge teller" data-fr="Compteur digital ou analogique">Digitale of analoge teller</span><span class="uz-status"></span></span>
+                <span class="uz-badge" data-nl="Optioneel" data-fr="Optionnel">Optioneel</span>
+              </label>
+              <label class="upload-zone" id="zone-3">
+                <input type="file" name="foto_locatie" accept="image/*,.pdf">
+                <span class="uz-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-pin"/></svg></span>
+                <span class="uz-text"><span class="uz-label" id="uz-l3" data-nl="Locatie laadpaal" data-fr="Emplacement de la borne">Locatie laadpaal</span><span class="uz-sub" id="uz-s3" data-nl="Garage, oprit of gevel" data-fr="Garage, allée ou façade">Garage, oprit of gevel</span><span class="uz-status"></span></span>
+                <span class="uz-badge" data-nl="Optioneel" data-fr="Optionnel">Optioneel</span>
+              </label>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-optional data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>
+          </fieldset>
+
+          <section class="cfg-step" id="step-ready" data-step="ready" data-chapter="contact">
+            <div class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Uw project is klaar." data-fr="Votre projet est prêt.">Uw project is klaar.</h2></div>
+            <p class="cfg-sub" data-nl="Hier is wat BORNEXA voor u kan doen." data-fr="Voici ce que BORNEXA peut vous proposer.">Hier is wat BORNEXA voor u kan doen.</p>
+            <ul class="cfg-recap" id="cfg-recap"></ul>
+            <ul class="cfg-offer" id="cfg-offer"></ul>
+            <div class="next-steps">
+              <div class="next-step"><span class="n">1</span><strong data-nl="We bellen u" data-fr="On vous appelle">We bellen u</strong><span data-nl="binnen 24u" data-fr="sous 24h">binnen 24u</span></div>
+              <div class="next-step"><span class="n">2</span><strong data-nl="Gratis plaatsbezoek" data-fr="Visite gratuite">Gratis plaatsbezoek</strong><span data-nl="of audit op maat" data-fr="ou audit sur mesure">of audit op maat</span></div>
+              <div class="next-step"><span class="n">3</span><strong data-nl="Heldere offerte" data-fr="Devis clair">Heldere offerte</strong><span data-nl="vrijblijvend, geen verkoper" data-fr="sans engagement">vrijblijvend, geen verkoper</span></div>
+            </div>
+            <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Mijn offerte ontvangen &#8594;" data-fr="Recevoir mon devis &#8594;">Mijn offerte ontvangen &#8594;</button></div>
+          </section>
+
+          <section class="cfg-step" id="step-contact" data-step="contact" data-chapter="contact">
+            <div class="cfg-q"><span class="cfg-kicker" data-cfg-num></span><h2 tabindex="-1" data-nl="Hoe kunnen we u bereiken?" data-fr="Comment pouvons-nous vous contacter ?">Hoe kunnen we u bereiken?</h2></div>
+            <p class="cfg-sub" data-nl="Wij nemen contact met u op binnen 24u met een gepersonaliseerde offerte." data-fr="Nous vous contacterons sous 24h avec un devis personnalisé.">Wij nemen contact met u op binnen 24u met een gepersonaliseerde offerte.</p>
+            <div id="copro-extra" class="cg2" hidden>
+              <div class="float-g">
+                <input type="text" inputmode="numeric" pattern="[0-9]*" name="aantal_laadpunten" id="inp-points" placeholder=" ">
+                <label for="inp-points" data-nl="Aantal plaatsen / laadpunten" data-fr="Nombre de places / points de charge">Aantal plaatsen / laadpunten</label>
+              </div>
+              <div class="float-g">
+                <input type="text" name="rol_aanvrager" id="inp-role" placeholder=" ">
+                <label for="inp-role" data-nl="Uw rol (eigenaar, syndicus/VME, beheerder…)" data-fr="Votre rôle (propriétaire, syndic/ACP, gestionnaire…)">Uw rol (eigenaar, syndicus/VME, beheerder…)</label>
+              </div>
+            </div>
+            <div class="cg2">
+              <div class="float-g">
+                <input type="text" name="naam" id="inp-naam" placeholder=" " required autocomplete="name" aria-describedby="err-naam">
+                <label for="inp-naam" data-nl="Naam &amp; voornaam *" data-fr="Nom &amp; Prénom *">Naam &amp; voornaam *</label>
+                <span class="cfg-err" id="err-naam" data-nl="Vul uw naam in." data-fr="Indiquez votre nom.">Vul uw naam in.</span>
+              </div>
+              <div class="float-g">
+                <input type="tel" name="telefoon" id="inp-tel" placeholder=" " required autocomplete="tel" aria-describedby="err-tel">
+                <label for="inp-tel" data-nl="Telefoonnummer *" data-fr="Numéro de téléphone *">Telefoonnummer *</label>
+                <span class="cfg-err" id="err-tel" data-nl="Vul uw telefoonnummer in." data-fr="Indiquez votre numéro de téléphone.">Vul uw telefoonnummer in.</span>
+              </div>
+              <div class="float-g">
+                <input type="email" name="email" id="inp-email" placeholder=" " required autocomplete="email" aria-describedby="err-email">
+                <label for="inp-email" data-nl="E-mailadres *" data-fr="Adresse e-mail *">E-mailadres *</label>
+                <span class="cfg-err" id="err-email" data-nl="Vul een geldig e-mailadres in." data-fr="Indiquez une adresse e-mail valide.">Vul een geldig e-mailadres in.</span>
+              </div>
+              <div class="float-g">
+                <input type="text" name="gemeente" id="inp-city" placeholder=" " autocomplete="address-level2">
+                <label for="inp-city" data-nl="Gemeente / Stad" data-fr="Commune / Ville">Gemeente / Stad</label>
+              </div>
+              <div class="float-g full">
+                <textarea name="bericht" id="inp-msg" maxlength="2000" placeholder=" "></textarea>
+                <label for="inp-msg" data-nl="Extra informatie (optioneel)" data-fr="Informations supplémentaires (optionnel)">Extra informatie (optioneel)</label>
+              </div>
+            </div>
+            <p class="privacy-note"><span data-nl="Door dit formulier in te sturen gaat u akkoord met ons" data-fr="En soumettant ce formulaire, vous acceptez notre">Door dit formulier in te sturen gaat u akkoord met ons</span> <a href="privacy" data-nl="privacybeleid" data-fr="politique de confidentialité">privacybeleid</a>.</p>
+            <div class="cfg-nav">
+              <button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button>
+              <button type="submit" class="cfg-submit" id="btn-submit" data-nl="Offerte aanvragen &#10003;" data-fr="Demander mon devis &#10003;">Offerte aanvragen &#10003;</button>
+            </div>
+            <p class="cfg-reassure" data-nl="Gratis &amp; vrijblijvend &middot; geen callcenter &middot; antwoord binnen 24u" data-fr="Gratuit &amp; sans engagement &middot; pas de call-center &middot; réponse sous 24h">Gratis &amp; vrijblijvend &middot; geen callcenter &middot; antwoord binnen 24u</p>
+            
+          </section>
+      </form>
+
+      <div class="success-screen" id="success-screen" hidden>
+        <div class="success-icon">&#10003;</div>
+        <h2 id="succ-title" tabindex="-1" data-nl="Aanvraag verzonden!" data-fr="Demande envoyée !">Aanvraag verzonden!</h2>
+        <p id="succ-msg" data-nl="Bedankt voor uw aanvraag. Ons team neemt binnen 24u contact met u op met een gepersonaliseerde, gratis offerte." data-fr="Merci pour votre demande. Notre équipe vous contactera sous 24h avec un devis personnalisé et gratuit.">Bedankt voor uw aanvraag. Ons team neemt binnen 24u contact met u op met een gepersonaliseerde, gratis offerte.</p>
+        <a href="/" class="cfg-next cfg-home" id="succ-btn" data-nl="&#8592; Terug naar de website" data-fr="&#8592; Retour au site">&#8592; Terug naar de website</a>
       </div>
     </div>
-  </section>
+  </main>
+
+  <!-- Trust bar -->
+  <div class="devis-trust" id="trust-bar">
+    <div class="trust-item"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-nl="100% Gratis &amp; vrijblijvend" data-fr="100% Gratuit &amp; sans engagement">100% Gratis &amp; vrijblijvend</span></div>
+    <div class="trust-item"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-nl="Reactie binnen 24u" data-fr="Réponse sous 24h">Reactie binnen 24u</span></div>
+    <div class="trust-item"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-nl="Erkend installateur" data-fr="Installateur agréé">Erkend installateur</span></div>
+    <div class="trust-item"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-nl="AREI-conform" data-fr="Conforme RGIE">AREI-conform</span></div>
+  </div>
+
+  <svg class="cfg-icons" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <symbol id="cfg-i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></symbol>
+    <symbol id="cfg-i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="cfg-i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></symbol>
+    <symbol id="cfg-i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></symbol>
+    <symbol id="cfg-i-house" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+    <symbol id="cfg-i-office" viewBox="0 0 24 24"><rect x="4" y="3" width="11" height="18" rx="1"/><path d="M15 9h5v12h-5M8 7h3M8 11h3M8 15h3"/></symbol>
+    <symbol id="cfg-i-apartment" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/></symbol>
+    <symbol id="cfg-i-parking" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></symbol>
+    <symbol id="cfg-i-charger" viewBox="0 0 24 24"><rect x="5" y="3" width="10" height="15" rx="2"/><path d="M11 6.5 8.5 10.5h3L9 14.5"/><path d="M15 11h2.5a1.5 1.5 0 0 1 1.5 1.5V19M7 21h6"/></symbol>
+    <symbol id="cfg-i-v2h" viewBox="0 0 24 24"><path d="M4 9h13l-3-3M20 15H7l3 3"/></symbol>
+    <symbol id="cfg-i-socket" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="12" r="1.2"/><circle cx="15" cy="12" r="1.2"/></symbol>
+    <symbol id="cfg-i-box" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></symbol>
+    <symbol id="cfg-i-swap" viewBox="0 0 24 24"><path d="M4 8h14l-3-3M20 16H6l3 3"/></symbol>
+    <symbol id="cfg-i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="cfg-i-sun-off" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M3 3l18 18"/></symbol>
+    <symbol id="cfg-i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="cfg-i-euro" viewBox="0 0 24 24"><path d="M17 6.5A7 7 0 1 0 17 17.5M4 10h9M4 14h9"/></symbol>
+    <symbol id="cfg-i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="cfg-i-board" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+    <symbol id="cfg-i-meter" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h6M7 14h3M16 9v6"/></symbol>
+    <symbol id="cfg-i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.3 7-12a7 7 0 0 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+  </svg>
 
   <!-- Sticky contact bar (mobile + desktop) - persistent during form -->
   <div class="devis-sticky-call" role="complementary" aria-label="Direct contact">
@@ -320,655 +527,6 @@
       .devis-sticky-call .dsc-btn { padding: 9px 14px; font-size: .85rem; }
     }
   </style>
-
-  <!-- Form section -->
-  <section class="devis-section">
-    <div class="container">
-      <div class="form-wrapper">
-
-        <!-- Progress dots (dynamisch gegenereerd) -->
-        <div class="step-dots" id="dots-wrap"></div>
-
-        <!-- Progress bar -->
-        <div class="progress-info" id="prog-wrap">
-          <div class="progress-track">
-            <div class="progress-fill" id="prog-fill" style="width:16.67%"></div>
-          </div>
-          <div class="progress-count"><span id="step-n">1</span> / <span id="step-total">6</span></div>
-        </div>
-
-        <style>
-          .qrow{margin-bottom:14px}
-          .qrow > label{display:block;font-weight:600;margin-bottom:6px;font-size:.92rem;color:rgba(255,255,255,.92)}
-          .qrow select{width:100%;padding:12px 13px;border:1.5px solid var(--border,#e2e8f0);border-radius:10px;font-size:16px;background:var(--surface);color:var(--text)}
-          .qrow select:focus{outline:none;border-color:var(--primary,#00C896)}
-          .next-steps{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 4px}
-          .next-step{flex:1;min-width:150px;background:rgba(0,200,150,.10);border:1px solid rgba(0,200,150,.25);border-radius:12px;padding:12px 14px;text-align:left}
-          .next-step .n{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--primary,#00C896);color:var(--text);font-weight:800;align-items:center;justify-content:center;font-size:.8rem;margin-bottom:6px}
-          .next-step strong{display:block;font-size:.9rem;color:#fff}
-          .next-step span{font-size:.82rem;color:rgba(255,255,255,.65)}
-        </style>
-
-        <!-- ════════ FORM ════════ -->
-        <form id="devis-form" name="devis" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data" action="/">
-          <input type="hidden" name="form-name" value="devis">
-          <p style="display:none"><label>Ne pas remplir : <input name="bot-field"></label></p>
-          <!-- Hidden choice fields -->
-          <input type="hidden" name="Type_Aanvraag"    id="f-path">
-          <input type="hidden" name="Type_Project"     id="f-project">
-          <input type="hidden" name="Merk_Voertuig"    id="f-vehicle">
-          <input type="hidden" name="Gewenst_Merk_Borne" id="f-merkwens">
-          <input type="hidden" name="Type_Service"     id="f-service">
-          <input type="hidden" name="Energie_Doel"     id="f-energiedoel">
-          <input type="hidden" name="Type_Installatie" id="f-install">
-          <input type="hidden" name="lang" id="f-lang" value="nl">
-
-          <!-- ── Étape : Intentie (4 wegen) ── -->
-          <div class="step-panel active" id="step-intent">
-            <div class="step-label">Stap 01</div>
-            <h2 data-nl="Wat zoekt u?" data-fr="Que recherchez-vous ?">Wat zoekt u?</h2>
-            <p class="step-sub" data-nl="Kies wat het best past — we passen de vragen daarop aan." data-fr="Choisissez ce qui correspond le mieux — on adapte les questions.">Kies wat het best past — we passen de vragen daarop aan.</p>
-            <div class="options-grid g4">
-              <div class="option-card" data-field="f-path" data-value="Laadpaal">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title" data-nl="Laadpaal" data-fr="Borne de recharge">Laadpaal</span>
-                <span class="opt-sub" data-nl="Borne voor uw wagen" data-fr="Recharge de votre voiture">Borne voor uw wagen</span>
-              </div>
-              <div class="option-card" data-field="f-path" data-value="Energiebeheer">
-                <span class="opt-icon">&#128202;</span>
-                <span class="opt-title" data-nl="Slim energiebeheer" data-fr="Gestion d'énergie">Slim energiebeheer</span>
-                <span class="opt-sub" data-nl="Smappee Infinity · besparen" data-fr="Smappee Infinity · économies">Smappee Infinity · besparen</span>
-              </div>
-              <div class="option-card" data-field="f-path" data-value="Herstelling / depannage">
-                <span class="opt-icon">&#128295;</span>
-                <span class="opt-title" data-nl="Herstelling" data-fr="Réparation">Herstelling</span>
-                <span class="opt-sub" data-nl="Defect of storing" data-fr="Panne ou défaut">Defect of storing</span>
-              </div>
-              <div class="option-card" data-field="f-path" data-value="Advies">
-                <span class="opt-icon">&#128172;</span>
-                <span class="opt-title" data-nl="Advies" data-fr="Conseil">Advies</span>
-                <span class="opt-sub" data-nl="Niet zeker? Wij helpen" data-fr="Pas sûr ? On vous aide">Niet zeker? Wij helpen</span>
-              </div>
-            </div>
-            <div class="step-nav">
-              <div class="btn-spacer"></div>
-              <button type="button" class="btn-next" disabled onclick="nextStep()" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape : Type de projet ── -->
-          <div class="step-panel" id="step-1">
-            <div class="step-label" id="s1-lbl">Stap 02</div>
-            <h2 id="s1-title">Type project</h2>
-            <p class="step-sub" id="s1-sub">Voor welk type pand?</p>
-            <div class="options-grid">
-              <div class="option-card" data-field="f-project" data-value="Woning">
-                <span class="opt-icon">&#127968;</span>
-                <span class="opt-title" id="s1o1">Woning</span>
-                <span class="opt-sub" id="s1o1s">Thuis laden</span>
-              </div>
-              <div class="option-card" data-field="f-project" data-value="Bedrijf">
-                <span class="opt-icon">&#127970;</span>
-                <span class="opt-title" id="s1o2">Bedrijf</span>
-                <span class="opt-sub" id="s1o2s">Laadinfrastructuur</span>
-              </div>
-              <div class="option-card" data-field="f-project" data-value="Appartement">
-                <span class="opt-icon">&#127963;</span>
-                <span class="opt-title" id="s1o3">Appartement</span>
-                <span class="opt-sub" id="s1o3s">Parking / VME</span>
-              </div>
-              <div class="option-card" data-field="f-project" data-value="Parking">
-                <span class="opt-icon">&#127359;</span>
-                <span class="opt-title" id="s1o4">Parking</span>
-                <span class="opt-sub" id="s1o4s">Publiek of privaat</span>
-              </div>
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" id="next-1" disabled onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape 2 : Merk voertuig ── -->
-          <div class="step-panel" id="step-2">
-            <div class="step-label" id="s2-lbl">Stap 02</div>
-            <h2 id="s2-title">Merk voertuig</h2>
-            <p class="step-sub" id="s2-sub">Welk merk rijdt u (of bestelt u)?</p>
-            <div class="options-grid g4">
-
-              <!-- Tesla -->
-              <div class="option-card" data-field="f-vehicle" data-value="Tesla">
-                <span class="opt-icon">
-                  <svg width="26" height="34" viewBox="0 0 52 68" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <line x1="0" y1="6" x2="52" y2="6"/>
-                    <path d="M0 6 C10 6 20 13 26 15"/>
-                    <path d="M52 6 C42 6 32 13 26 15"/>
-                    <line x1="26" y1="15" x2="26" y2="62"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Tesla</span>
-              </div>
-
-              <!-- BMW -->
-              <div class="option-card" data-field="f-vehicle" data-value="BMW">
-                <span class="opt-icon">
-                  <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="8"/>
-                    <path d="M50 5 A45 45 0 0 1 95 50 L76 50 A26 26 0 0 0 50 24 Z" fill="currentColor"/>
-                    <path d="M50 95 A45 45 0 0 1 5 50 L24 50 A26 26 0 0 0 50 76 Z" fill="currentColor"/>
-                    <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="5"/>
-                    <line x1="50" y1="24" x2="50" y2="76" stroke="currentColor" stroke-width="5"/>
-                    <line x1="24" y1="50" x2="76" y2="50" stroke="currentColor" stroke-width="5"/>
-                  </svg>
-                </span>
-                <span class="opt-title">BMW</span>
-              </div>
-
-              <!-- Audi -->
-              <div class="option-card" data-field="f-vehicle" data-value="Audi">
-                <span class="opt-icon">
-                  <svg width="52" height="20" viewBox="0 0 148 42" fill="none" stroke="currentColor" stroke-width="5" aria-hidden="true">
-                    <circle cx="21" cy="21" r="19"/>
-                    <circle cx="54" cy="21" r="19"/>
-                    <circle cx="87" cy="21" r="19"/>
-                    <circle cx="120" cy="21" r="19"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Audi</span>
-              </div>
-
-              <!-- Mercedes -->
-              <div class="option-card" data-field="f-vehicle" data-value="Mercedes">
-                <span class="opt-icon">
-                  <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="7"/>
-                    <path d="M50 5 L56 47 L50 52 L44 47 Z" fill="currentColor"/>
-                    <path d="M50 5 L56 47 L50 52 L44 47 Z" fill="currentColor" transform="rotate(120 50 50)"/>
-                    <path d="M50 5 L56 47 L50 52 L44 47 Z" fill="currentColor" transform="rotate(240 50 50)"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Mercedes</span>
-              </div>
-
-              <!-- Volkswagen -->
-              <div class="option-card" data-field="f-vehicle" data-value="Volkswagen">
-                <span class="opt-icon">
-                  <svg width="34" height="34" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="50" cy="50" r="45"/>
-                    <path d="M28 18 L50 54 L72 18"/>
-                    <path d="M16 56 L31 78 L50 57 L69 78 L84 56"/>
-                  </svg>
-                </span>
-                <span class="opt-title">VW</span>
-              </div>
-
-              <!-- Volvo -->
-              <div class="option-card" data-field="f-vehicle" data-value="Volvo">
-                <span class="opt-icon">
-                  <svg width="34" height="34" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="42" cy="60" r="30"/>
-                    <line x1="64" y1="38" x2="90" y2="10"/>
-                    <polyline points="74,8 92,8 92,26"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Volvo</span>
-              </div>
-
-              <!-- Polestar -->
-              <div class="option-card" data-field="f-vehicle" data-value="Polestar">
-                <span class="opt-icon">
-                  <svg width="30" height="30" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true">
-                    <path d="M50 0 L57 44 L50 50 L43 44 Z"/>
-                    <path d="M100 50 L56 57 L50 50 L56 43 Z"/>
-                    <path d="M50 100 L43 56 L50 50 L57 56 Z"/>
-                    <path d="M0 50 L44 43 L50 50 L44 57 Z"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Polestar</span>
-              </div>
-
-              <!-- Renault -->
-              <div class="option-card" data-field="f-vehicle" data-value="Renault">
-                <span class="opt-icon">
-                  <svg width="28" height="36" viewBox="0 0 60 76" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" aria-hidden="true">
-                    <polygon points="30,2 58,38 30,74 2,38"/>
-                    <polygon points="30,18 44,38 30,58 16,38"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Renault</span>
-              </div>
-
-              <!-- Porsche -->
-              <div class="option-card" data-field="f-vehicle" data-value="Porsche">
-                <span class="opt-icon">
-                  <svg width="28" height="34" viewBox="0 0 72 88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 6 L66 6 L66 54 L36 82 L6 54 Z" stroke-width="5.5"/>
-                    <line x1="6" y1="32" x2="66" y2="32" stroke-width="5.5"/>
-                    <line x1="36" y1="6" x2="36" y2="82" stroke-width="5.5"/>
-                    <path d="M10 10 L10 28 M19 10 L19 28 M28 10 L28 28" stroke-width="3.5"/>
-                    <path d="M44 10 L44 28 M53 10 L53 28 M62 10 L62 28" stroke-width="3.5"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Porsche</span>
-              </div>
-
-              <!-- Peugeot -->
-              <div class="option-card" data-field="f-vehicle" data-value="Peugeot">
-                <span class="opt-icon">
-                  <svg width="28" height="34" viewBox="0 0 60 72" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M8 4 L52 4 L52 44 L30 68 L8 44 Z"/>
-                    <line x1="20" y1="18" x2="20" y2="52"/>
-                    <path d="M20 18 C20 18 42 16 42 30 C42 44 20 42 20 42"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Peugeot</span>
-              </div>
-
-              <!-- Hyundai / Kia -->
-              <div class="option-card" data-field="f-vehicle" data-value="Hyundai/Kia">
-                <span class="opt-icon">
-                  <svg width="36" height="26" viewBox="0 0 100 72" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" aria-hidden="true">
-                    <ellipse cx="50" cy="36" rx="46" ry="32"/>
-                    <path d="M26 18 C30 28 42 32 50 36 M74 18 C70 28 58 32 50 36 M26 54 C30 44 42 40 50 36 M74 54 C70 44 58 40 50 36"/>
-                  </svg>
-                </span>
-                <span class="opt-title">Hyundai / Kia</span>
-              </div>
-
-              <!-- Andere -->
-              <div class="option-card" data-field="f-vehicle" data-value="Autre">
-                <span class="opt-icon">
-                  <svg width="30" height="36" viewBox="0 0 60 72" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" aria-hidden="true">
-                    <path d="M18 22 C18 8 42 8 42 24 C42 36 30 36 30 46"/>
-                    <circle cx="30" cy="60" r="5" fill="currentColor" stroke="none"/>
-                  </svg>
-                </span>
-                <span class="opt-title" id="s2other">Andere</span>
-              </div>
-
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" id="s2-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" id="next-2" onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape : Gewenst merk laadpaal ── -->
-          <div class="step-panel" id="step-merk">
-            <div class="step-label">Stap</div>
-            <h2 data-nl="Welk merk laadpaal wenst u?" data-fr="Quelle marque de borne souhaitez-vous ?">Welk merk laadpaal wenst u?</h2>
-            <p class="step-sub" data-nl="Kies uw voorkeur — het model bepalen we later samen. Geen idee? Kies gerust &lsquo;Geen voorkeur&rsquo;." data-fr="Choisissez votre pr&eacute;f&eacute;rence — le mod&egrave;le, on le voit ensemble plus tard. Aucune id&eacute;e ? Choisissez &laquo;&nbsp;Sans pr&eacute;f&eacute;rence&nbsp;&raquo;.">Kies uw voorkeur — het model bepalen we later samen. Geen idee? Kies gerust &lsquo;Geen voorkeur&rsquo;.</p>
-            <div class="options-grid g3">
-              <div class="option-card" data-field="f-merkwens" data-value="Smappee">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title">Smappee</span>
-                <span class="opt-sub" data-nl="Slim energiebeheer" data-fr="Gestion d'&eacute;nergie">Slim energiebeheer</span>
-              </div>
-              <div class="option-card" data-field="f-merkwens" data-value="Tesla">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title">Tesla</span>
-                <span class="opt-sub">Wall Connector</span>
-              </div>
-              <div class="option-card" data-field="f-merkwens" data-value="Wallbox">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title">Wallbox</span>
-                <span class="opt-sub">Pulsar / Commander</span>
-              </div>
-              <div class="option-card" data-field="f-merkwens" data-value="Alfen">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title">Alfen</span>
-                <span class="opt-sub" data-nl="Pro &amp; appartement" data-fr="Pro &amp; copropri&eacute;t&eacute;">Pro &amp; appartement</span>
-              </div>
-              <div class="option-card" data-field="f-merkwens" data-value="Easee">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title">Easee</span>
-                <span class="opt-sub" data-nl="Compact &amp; slim" data-fr="Compact &amp; intelligent">Compact &amp; slim</span>
-              </div>
-              <div class="option-card" data-field="f-merkwens" data-value="Zaptec">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title">Zaptec</span>
-                <span class="opt-sub" data-nl="Appartement &amp; parking" data-fr="Copropri&eacute;t&eacute; &amp; parking">Appartement &amp; parking</span>
-              </div>
-              <div class="option-card" data-field="f-merkwens" data-value="Geen voorkeur">
-                <span class="opt-icon">&#128172;</span>
-                <span class="opt-title" data-nl="Geen voorkeur" data-fr="Sans pr&eacute;f&eacute;rence">Geen voorkeur</span>
-                <span class="opt-sub" data-nl="Advies van BORNEXA" data-fr="Conseil de BORNEXA">Advies van BORNEXA</span>
-              </div>
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" disabled onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape 3 : Merk laadpaal ── -->
-          <div class="step-panel" id="step-3">
-            <div class="step-label" id="s3-lbl">Stap 03</div>
-            <h2 id="s3-title">Wat heeft u nodig?</h2>
-            <p class="step-sub" id="s3-sub">Welke dienst zoekt u?</p>
-            <div class="options-grid g3">
-              <div class="option-card" data-field="f-service" data-value="BMW bidirectionele laadpaal (V2H) - BMW Wallbox Professional 7,4 kW" style="position:relative">
-                <span style="position:absolute;top:8px;right:8px;background:var(--primary);color:#fff;font-size:.6rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:.14rem .5rem;border-radius:999px" data-nl="Nieuw" data-fr="Nouveau">Nieuw</span>
-                <span class="opt-icon">&#128267;</span>
-                <span class="opt-title" data-nl="BMW bidirectioneel" data-fr="BMW bidirectionnel">BMW bidirectioneel</span>
-                <span class="opt-sub" data-nl="V2H &middot; BMW Wallbox Professional 7,4 kW" data-fr="V2H &middot; BMW Wallbox Professional 7,4 kW">V2H &middot; BMW Wallbox Professional 7,4 kW</span>
-              </div>
-              <div class="option-card" data-field="f-service" data-value="Nieuwe laadpaal">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title" id="s3svc1">Nieuwe laadpaal</span>
-                <span class="opt-sub" id="s3svc1s">Levering &amp; plaatsing</span>
-              </div>
-              <div class="option-card" data-field="f-service" data-value="Prise renforcee Green'Up">
-                <span class="opt-icon">&#128268;</span>
-                <span class="opt-title" id="s3svc2">Green'Up stopcontact</span>
-                <span class="opt-sub" id="s3svc2s">Instapoplossing</span>
-              </div>
-              <div class="option-card" data-field="f-service" data-value="Eigen borne plaatsen">
-                <span class="opt-icon">&#128736;</span>
-                <span class="opt-title" id="s3svc3">Eigen borne plaatsen</span>
-                <span class="opt-sub" id="s3svc3s">Ik heb al een laadpaal</span>
-              </div>
-              <div class="option-card" data-field="f-service" data-value="Vervanging bestaande borne">
-                <span class="opt-icon">&#128257;</span>
-                <span class="opt-title" id="s3svc4">Borne vervangen</span>
-                <span class="opt-sub" id="s3svc4s">Oude &#8594; nieuwe</span>
-              </div>
-            </div>
-            <p style="text-align:center;margin-top:1rem;margin-bottom:0">
-              <a href="blog-bmw-wallbox-professional-v2h" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--primary);font-weight:700;text-decoration:none" data-nl="Wat is bidirectioneel laden met BMW? &#8594;" data-fr="La recharge bidirectionnelle BMW, c'est quoi ? &#8594;">Wat is bidirectioneel laden met BMW? &#8594;</a>
-            </p>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" id="s3-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" id="next-3" disabled onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape 4 : Type aansluiting ── -->
-          <div class="step-panel" id="step-4">
-            <div class="step-label" id="s4-lbl">Stap 04</div>
-            <h2 id="s4-title">Type aansluiting</h2>
-            <p class="step-sub" id="s4-sub">Wat is het type van uw elektriciteitsaansluiting?</p>
-            <div class="options-grid g3">
-              <div class="option-card" data-field="f-install" data-value="Eenfasig (1x230V)">
-                <span class="opt-icon">&#128267;</span>
-                <span class="opt-title" id="s4o1">Eenfasig</span>
-                <span class="opt-sub">1 &times; 230 V</span>
-              </div>
-              <div class="option-card" data-field="f-install" data-value="Driefasig (3x400V)">
-                <span class="opt-icon">&#9889;</span>
-                <span class="opt-title" id="s4o2">Driefasig</span>
-                <span class="opt-sub">3 &times; 400 V</span>
-              </div>
-              <div class="option-card" data-field="f-install" data-value="Onbekend">
-                <span class="opt-icon">&#10067;</span>
-                <span class="opt-title" id="s4o3">Weet ik niet</span>
-                <span class="opt-sub" id="s4o3s">BORNEXA checkt dit</span>
-              </div>
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" id="s4-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" id="next-4" disabled onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape : Energie-doel (voie Energiebeheer) ── -->
-          <div class="step-panel" id="step-energiedoel">
-            <div class="step-label">Stap</div>
-            <h2 data-nl="Wat wilt u bereiken?" data-fr="Quel est votre objectif ?">Wat wilt u bereiken?</h2>
-            <p class="step-sub" data-nl="Met Smappee Infinity — kies uw hoofddoel." data-fr="Avec Smappee Infinity — choisissez votre objectif principal.">Met Smappee Infinity — kies uw hoofddoel.</p>
-            <div class="options-grid g3">
-              <div class="option-card" data-field="f-energiedoel" data-value="Capaciteitstarief verlagen">
-                <span class="opt-icon">&#128181;</span>
-                <span class="opt-title" data-nl="Capaciteitstarief verlagen" data-fr="Réduire le tarif capacitaire">Capaciteitstarief verlagen</span>
-                <span class="opt-sub" data-nl="Maandpiek omlaag" data-fr="Baisser le pic mensuel">Maandpiek omlaag</span>
-              </div>
-              <div class="option-card" data-field="f-energiedoel" data-value="Energieverbruik monitoren">
-                <span class="opt-icon">&#128202;</span>
-                <span class="opt-title" data-nl="Verbruik monitoren" data-fr="Monitorer la consommation">Verbruik monitoren</span>
-                <span class="opt-sub" data-nl="Inzicht per toestel" data-fr="Visibilité par appareil">Inzicht per toestel</span>
-              </div>
-              <div class="option-card" data-field="f-energiedoel" data-value="Zonnepanelen optimaliseren">
-                <span class="opt-icon">&#9728;</span>
-                <span class="opt-title" data-nl="Zon optimaliseren" data-fr="Optimiser le solaire">Zon optimaliseren</span>
-                <span class="opt-sub" data-nl="Meer autoconsumptie" data-fr="Plus d'autoconsommation">Meer autoconsumptie</span>
-              </div>
-              <div class="option-card" data-field="f-energiedoel" data-value="Energie-audit">
-                <span class="opt-icon">&#128269;</span>
-                <span class="opt-title" data-nl="Energie-audit" data-fr="Audit énergétique">Energie-audit</span>
-                <span class="opt-sub" data-nl="Op echte meetdata" data-fr="Sur données réelles">Op echte meetdata</span>
-              </div>
-              <div class="option-card" data-field="f-energiedoel" data-value="Bedrijf / meerdere sites">
-                <span class="opt-icon">&#127970;</span>
-                <span class="opt-title" data-nl="Bedrijf / multi-site" data-fr="Entreprise / multi-sites">Bedrijf / multi-site</span>
-                <span class="opt-sub" data-nl="Submetering &amp; peak shaving" data-fr="Submetering &amp; peak shaving">Submetering &amp; peak shaving</span>
-              </div>
-              <div class="option-card" data-field="f-energiedoel" data-value="Niet zeker / advies">
-                <span class="opt-icon">&#128172;</span>
-                <span class="opt-title" data-nl="Niet zeker" data-fr="Pas sûr">Niet zeker</span>
-                <span class="opt-sub" data-nl="Wij adviseren u" data-fr="On vous conseille">Wij adviseren u</span>
-              </div>
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" disabled onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape : Energie-kwalificatie ── -->
-          <div class="step-panel" id="step-energieq">
-            <div class="step-label">Stap</div>
-            <h2 data-nl="Enkele details" data-fr="Quelques détails">Enkele details</h2>
-            <p class="step-sub" data-nl="Zo kunnen we u beter adviseren (optioneel)." data-fr="Pour mieux vous conseiller (optionnel).">Zo kunnen we u beter adviseren (optioneel).</p>
-            <div class="qrow">
-              <label data-nl="Heeft u zonnepanelen?" data-fr="Avez-vous des panneaux solaires ?">Heeft u zonnepanelen?</label>
-              <select name="zonnepanelen" id="inp-zon">
-                <option value="" data-nl="Kies…" data-fr="Choisir…">Kies…</option>
-                <option value="Ja" data-nl="Ja" data-fr="Oui">Ja</option>
-                <option value="Nee" data-nl="Nee" data-fr="Non">Nee</option>
-                <option value="Gepland" data-nl="Gepland" data-fr="Prévu">Gepland</option>
-              </select>
-            </div>
-            <div class="qrow">
-              <label data-nl="Heeft u een digitale meter?" data-fr="Avez-vous un compteur digital ?">Heeft u een digitale meter?</label>
-              <select name="digitale_meter" id="inp-meter">
-                <option value="" data-nl="Kies…" data-fr="Choisir…">Kies…</option>
-                <option value="Ja" data-nl="Ja" data-fr="Oui">Ja</option>
-                <option value="Nee" data-nl="Nee" data-fr="Non">Nee</option>
-                <option value="Weet ik niet" data-nl="Weet ik niet" data-fr="Je ne sais pas">Weet ik niet</option>
-              </select>
-            </div>
-            <div class="qrow">
-              <label data-nl="Geschatte maandfactuur elektriciteit (optioneel)" data-fr="Facture mensuelle d'électricité estimée (optionnel)">Geschatte maandfactuur elektriciteit (optioneel)</label>
-              <select name="maandfactuur" id="inp-factuur">
-                <option value="" data-nl="Kies…" data-fr="Choisir…">Kies…</option>
-                <option value="< 100 €" data-nl="minder dan 100 €" data-fr="moins de 100 €">&lt; 100 €</option>
-                <option value="100-200 €">100–200 €</option>
-                <option value="200-400 €">200–400 €</option>
-                <option value="> 400 €" data-nl="meer dan 400 €" data-fr="plus de 400 €">&gt; 400 €</option>
-              </select>
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape : Herstelling ── -->
-          <div class="step-panel" id="step-herstel">
-            <div class="step-label">Stap</div>
-            <h2 data-nl="Wat is er aan de hand?" data-fr="Quel est le problème ?">Wat is er aan de hand?</h2>
-            <p class="step-sub" data-nl="Ook voor laadpalen die niet door ons geplaatst zijn." data-fr="Aussi pour les bornes que nous n'avons pas installées.">Ook voor laadpalen die niet door ons geplaatst zijn.</p>
-            <div class="qrow">
-              <label data-nl="Merk van de laadpaal" data-fr="Marque de la borne">Merk van de laadpaal</label>
-              <select name="merk_borne" id="inp-merkborne">
-                <option value="" data-nl="Kies…" data-fr="Choisir…">Kies…</option>
-                <option value="Tesla">Tesla</option>
-                <option value="Wallbox">Wallbox</option>
-                <option value="Smappee">Smappee</option>
-                <option value="Alfen">Alfen</option>
-                <option value="Easee">Easee</option>
-                <option value="Zaptec">Zaptec</option>
-                <option value="Andere" data-nl="Ander merk" data-fr="Autre marque">Ander merk</option>
-                <option value="Onbekend" data-nl="Weet ik niet" data-fr="Je ne sais pas">Weet ik niet</option>
-              </select>
-            </div>
-            <div class="float-g full">
-              <textarea name="probleem" id="inp-probleem" maxlength="2000" placeholder=" "></textarea>
-              <label for="inp-probleem" data-nl="Beschrijf kort het probleem" data-fr="Décrivez brièvement le problème">Beschrijf kort het probleem</label>
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape : Advies ── -->
-          <div class="step-panel" id="step-advies">
-            <div class="step-label">Stap</div>
-            <h2 data-nl="Waarover wenst u advies?" data-fr="Sur quoi souhaitez-vous un conseil ?">Waarover wenst u advies?</h2>
-            <p class="step-sub" data-nl="Vertel ons kort wat u zoekt — wij denken met u mee." data-fr="Dites-nous brièvement ce que vous cherchez — on réfléchit avec vous.">Vertel ons kort wat u zoekt — wij denken met u mee.</p>
-            <div class="float-g full">
-              <textarea name="advies_vraag" id="inp-advies" maxlength="2000" placeholder=" "></textarea>
-              <label for="inp-advies" data-nl="Uw vraag (optioneel)" data-fr="Votre question (optionnel)">Uw vraag (optioneel)</label>
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape 5 : Foto's ── -->
-          <div class="step-panel" id="step-5">
-            <div class="step-label" id="s5-lbl">Stap 05</div>
-            <h2 id="s5-title">Foto's <span style="opacity:.45;font-weight:400;font-size:.75em">(optioneel)</span></h2>
-            <p class="step-sub" id="s5-sub">Foto's helpen ons een nauwkeurigere offerte te bezorgen. U kunt dit overslaan.</p>
-            <div class="upload-zones">
-
-              <div class="upload-zone" id="zone-1">
-                <input type="file" name="foto_bord" accept="image/*,.pdf" onchange="onFile(this,'zone-1','st-1','bg-1')">
-                <div class="uz-icon">&#128203;</div>
-                <div class="uz-text">
-                  <div class="uz-label" id="s5z1">Elektrisch bord / Zekeringskast</div>
-                  <div class="uz-sub" id="s5z1s">Foto van uw verdeelkast</div>
-                  <div class="uz-status" id="st-1"></div>
-                </div>
-                <div class="uz-badge" id="bg-1" id="s5opt1">Optioneel</div>
-              </div>
-
-              <div class="upload-zone" id="zone-2">
-                <input type="file" name="foto_teller" accept="image/*,.pdf" onchange="onFile(this,'zone-2','st-2','bg-2')">
-                <div class="uz-icon">&#128290;</div>
-                <div class="uz-text">
-                  <div class="uz-label" id="s5z2">Elektriciteitsteller</div>
-                  <div class="uz-sub" id="s5z2s">Digitale of analoge teller</div>
-                  <div class="uz-status" id="st-2"></div>
-                </div>
-                <div class="uz-badge" id="bg-2">Optioneel</div>
-              </div>
-
-              <div class="upload-zone" id="zone-3">
-                <input type="file" name="foto_locatie" accept="image/*,.pdf" onchange="onFile(this,'zone-3','st-3','bg-3')">
-                <div class="uz-icon">&#128205;</div>
-                <div class="uz-text">
-                  <div class="uz-label" id="s5z3">Locatie laadpaal</div>
-                  <div class="uz-sub" id="s5z3s">Garage, oprit of gevel</div>
-                  <div class="uz-status" id="st-3"></div>
-                </div>
-                <div class="uz-badge" id="bg-3">Optioneel</div>
-              </div>
-
-            </div>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" id="s5-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="button" class="btn-next" id="s5-next" onclick="nextStep()">Volgende &#8594;</button>
-            </div>
-          </div>
-
-          <!-- ── Étape 6 : Contactgegevens ── -->
-          <div class="step-panel" id="step-6">
-            <div class="step-label" id="s6-lbl">Stap 06</div>
-            <h2 id="s6-title">Uw contactgegevens</h2>
-            <p class="step-sub" id="s6-sub">Wij nemen contact met u op binnen 24u met een gepersonaliseerde offerte.</p>
-            <div class="next-steps">
-              <div class="next-step"><span class="n">1</span><strong data-nl="We bellen u" data-fr="On vous appelle">We bellen u</strong><span data-nl="binnen 24u" data-fr="sous 24h">binnen 24u</span></div>
-              <div class="next-step"><span class="n">2</span><strong data-nl="Gratis plaatsbezoek" data-fr="Visite gratuite">Gratis plaatsbezoek</strong><span data-nl="of audit op maat" data-fr="ou audit sur mesure">of audit op maat</span></div>
-              <div class="next-step"><span class="n">3</span><strong data-nl="Heldere offerte" data-fr="Devis clair">Heldere offerte</strong><span data-nl="vrijblijvend, geen verkoper" data-fr="sans engagement">vrijblijvend, geen verkoper</span></div>
-            </div>
-            <div id="copro-extra" style="display:none;margin-bottom:13px">
-              <div class="cg2">
-                <div class="float-g">
-                  <input type="text" inputmode="numeric" pattern="[0-9]*" name="aantal_laadpunten" id="inp-points" placeholder=" ">
-                  <label for="inp-points" id="lbl-points">Aantal plaatsen / laadpunten</label>
-                </div>
-                <div class="float-g">
-                  <input type="text" name="rol_aanvrager" id="inp-role" placeholder=" ">
-                  <label for="inp-role" id="lbl-role">Uw rol (eigenaar, syndicus/VME, beheerder…)</label>
-                </div>
-              </div>
-            </div>
-            <div class="cg2">
-              <div class="float-g">
-                <input type="text" name="naam" id="inp-naam" placeholder=" " required autocomplete="name">
-                <label for="inp-naam" id="lbl-naam">Naam &amp; voornaam *</label>
-              </div>
-              <div class="float-g">
-                <input type="tel" name="telefoon" id="inp-tel" placeholder=" " required autocomplete="tel">
-                <label for="inp-tel" id="lbl-tel">Telefoonnummer *</label>
-              </div>
-              <div class="float-g">
-                <input type="email" name="email" id="inp-email" placeholder=" " required autocomplete="email">
-                <label for="inp-email" id="lbl-email">E-mailadres *</label>
-              </div>
-              <div class="float-g">
-                <input type="text" name="gemeente" id="inp-city" placeholder=" " autocomplete="address-level2">
-                <label for="inp-city" id="lbl-city">Gemeente / Stad</label>
-              </div>
-              <div class="float-g full">
-                <textarea name="bericht" id="inp-msg" maxlength="2000" placeholder=" "></textarea>
-                <label for="inp-msg" id="lbl-msg">Extra informatie (optioneel)</label>
-              </div>
-            </div>
-            <p class="privacy-note" id="lbl-privacy">Door dit formulier in te sturen gaat u akkoord met ons privacybeleid.</p>
-            <div class="step-nav">
-              <button type="button" class="btn-prev" id="s6-prev" onclick="prevStep()">&#8592; Terug</button>
-              <button type="submit" class="btn-submit" id="btn-submit">Offerte aanvragen &#10003;</button>
-              <p style="text-align:center;font-size:.8rem;color:rgba(255,255,255,.6);margin:12px 0 0;line-height:1.5" data-nl="Gratis &amp; vrijblijvend &middot; geen callcenter &middot; antwoord binnen 24u" data-fr="Gratuit &amp; sans engagement &middot; pas de call-center &middot; r&eacute;ponse sous 24h">Gratis &amp; vrijblijvend &middot; geen callcenter &middot; antwoord binnen 24u</p>
-            </div>
-          </div>
-
-        </form><!-- /form -->
-
-        <!-- Success screen -->
-        <div class="success-screen" id="success-screen">
-          <div class="success-icon">&#10003;</div>
-          <h2 id="succ-title">Aanvraag verzonden!</h2>
-          <p id="succ-msg">Bedankt voor uw aanvraag. Ons team neemt binnen 24u contact met u op met een gepersonaliseerde, gratis offerte.</p>
-          <a href="/" class="btn-next" style="display:inline-block;text-align:center;text-decoration:none;max-width:280px" id="succ-btn">&#8592; Terug naar de website</a>
-        </div>
-
-        <!-- Trust bar -->
-        <div class="devis-trust" id="trust-bar">
-          <div class="trust-item">
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span id="tr1">100% Gratis &amp; vrijblijvend</span>
-          </div>
-          <div class="trust-item">
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span id="tr2">Reactie binnen 24u</span>
-          </div>
-          <div class="trust-item">
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span id="tr3">Erkend installateur</span>
-          </div>
-          <div class="trust-item">
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span id="tr4">AREI-conform</span>
-          </div>
-        </div>
-
-      </div><!-- /form-wrapper -->
-    </div>
-  </section>
 
   <footer class="footer">
     <div class="container">
@@ -1022,355 +580,11 @@
     </div>
   </footer>
 
-  <script>
-  (function () {
-    'use strict';
-
-    /* ── Translations ── */
-    var T = {
-      nl: {
-        hBadge: '&#9889; 100% Gratis · Reactie binnen 24u',
-        hTitle: 'Offerte aanvragen',
-        hSub: 'Beantwoord enkele korte vragen. Het duurt amper 3 minuten.',
-        s1l:'Stap 01', s1t:'Type project', s1s:'Voor welk type pand?',
-        s1o1:'Woning', s1o1s:'Thuis laden', s1o2:'Bedrijf', s1o2s:'Laadinfrastructuur',
-        s1o3:'Appartement', s1o3s:'Parking / VME', s1o4:'Parking', s1o4s:'Publiek of privaat',
-        s2l:'Stap 02', s2t:'Merk voertuig', s2s:'Optioneel — u mag deze stap overslaan.', s2other:'Andere',
-        s3l:'Stap 03', s3t:'Wat heeft u nodig?', s3s:'Welke dienst zoekt u?',
-        s3svc1:'Nieuwe laadpaal', s3svc1s:'Levering & plaatsing',
-        s3svc2:"Green'Up stopcontact", s3svc2s:'Instapoplossing',
-        s3svc3:'Eigen borne plaatsen', s3svc3s:'Ik heb al een laadpaal',
-        s3svc4:'Borne vervangen', s3svc4s:'Oude → nieuwe',
-        s3svc5:'Herstelling / depannage', s3svc5s:'Defect of storing',
-        s3svc6:'Advies gewenst', s3svc6s:'Wij helpen u kiezen',
-        s4l:'Stap 04', s4t:'Type aansluiting', s4s:'Wat is het type van uw elektriciteitsaansluiting?',
-        s4o1:'Eenfasig', s4o2:'Driefasig', s4o3:'Weet ik niet', s4o3s:'BORNEXA checkt dit',
-        s5l:'Stap 05', s5s:'Foto’s helpen ons een nauwkeurigere offerte te bezorgen. U kunt dit overslaan.',
-        s5z1:'Elektrisch bord / Zekeringskast', s5z1s:'Foto van uw verdeelkast',
-        s5z2:'Elektriciteitsteller', s5z2s:'Digitale of analoge teller',
-        s5z3:'Locatie laadpaal', s5z3s:'Garage, oprit of gevel',
-        s6l:'Stap 06', s6t:'Uw contactgegevens', s6s:'Wij nemen contact met u op binnen 24u met een gepersonaliseerde offerte.',
-        lNaam:'Naam & voornaam *', lTel:'Telefoonnummer *', lEmail:'E-mailadres *', lCity:'Gemeente / Stad', lMsg:'Extra informatie (optioneel)',
-        lPoints:'Aantal plaatsen / laadpunten', lRole:'Uw rol (eigenaar, syndicus/VME, beheerder…)',
-        lPriv:'Door dit formulier in te sturen gaat u akkoord met ons privacybeleid.',
-        bPrev:'← Terug', bNext:'Volgende →', bSubmit:'Offerte aanvragen ✓',
-        sTitle:'Aanvraag verzonden!', sMsg:'Bedankt voor uw aanvraag. Ons team neemt binnen 24u contact met u op met een gepersonaliseerde, gratis offerte.', sBtn:'← Terug naar de website',
-        tr1:'100% Gratis & vrijblijvend', tr2:'Reactie binnen 24u', tr3:'Erkend installateur', tr4:'AREI-conform',
-        uOpt:'Optioneel', uDone:'Toegevoegd ✓', lang:'FR',
-        navHome:'Home', navServices:'Diensten', navBlog:'Blog', navContact:'Contact'
-      },
-      fr: {
-        hBadge: '&#9889; 100% Gratuit · Réponse sous 24h',
-        hTitle: 'Demandez votre devis',
-        hSub: 'Répondez à quelques courtes questions. Cela prend à peine 3 minutes.',
-        s1l:'Étape 01', s1t:'Type de projet', s1s:'Pour quel type de bien ?',
-        s1o1:'Maison', s1o1s:'Recharge à domicile', s1o2:'Entreprise', s1o2s:'Infrastructure de recharge',
-        s1o3:'Appartement', s1o3s:'Parking / VME', s1o4:'Parking', s1o4s:'Public ou privé',
-        s2l:'Étape 02', s2t:'Marque du véhicule', s2s:'Optionnel — vous pouvez passer cette étape.', s2other:'Autre',
-        s3l:'Étape 03', s3t:'De quoi avez-vous besoin ?', s3s:'Quel service recherchez-vous ?',
-        s3svc1:'Nouvelle borne', s3svc1s:'Fourniture & pose',
-        s3svc2:"Prise renforcée Green'Up", s3svc2s:"Solution d'entrée",
-        s3svc3:'Poser ma propre borne', s3svc3s:"J'ai déjà ma borne",
-        s3svc4:'Remplacer ma borne', s3svc4s:'Ancienne → nouvelle',
-        s3svc5:'Réparation / dépannage', s3svc5s:'Panne ou défaut',
-        s3svc6:'Conseil souhaité', s3svc6s:'Nous vous aidons à choisir',
-        s4l:'Étape 04', s4t:'Type de raccordement', s4s:'Quel est le type de votre raccordement électrique ?',
-        s4o1:'Monophasé', s4o2:'Triphasé', s4o3:'Je ne sais pas', s4o3s:'BORNEXA vérifie pour vous',
-        s5l:'Étape 05', s5s:'Les photos nous aident à fournir un devis précis. Vous pouvez ignorer cette étape.',
-        s5z1:'Tableau électrique', s5z1s:'Photo de votre tableau de bord',
-        s5z2:'Compteur électrique', s5z2s:'Compteur digital ou analogique',
-        s5z3:'Emplacement de la borne', s5z3s:'Garage, allée ou façade',
-        s6l:'Étape 06', s6t:'Vos coordonnées', s6s:'Nous vous contacterons sous 24h avec un devis personnalisé.',
-        lNaam:'Nom & Prénom *', lTel:'Numéro de téléphone *', lEmail:'Adresse e-mail *', lCity:'Commune / Ville', lMsg:'Informations supplémentaires (optionnel)',
-        lPoints:'Nombre de places / points de charge', lRole:'Votre rôle (propriétaire, syndic/ACP, gestionnaire…)',
-        lPriv:'En soumettant ce formulaire, vous acceptez notre politique de confidentialité.',
-        bPrev:'← Retour', bNext:'Suivant →', bSubmit:'Demander mon devis ✓',
-        sTitle:'Demande envoyée !', sMsg:'Merci pour votre demande. Notre équipe vous contactera sous 24h avec un devis personnalisé et gratuit.', sBtn:'← Retour au site',
-        tr1:'100% Gratuit & sans engagement', tr2:'Réponse sous 24h', tr3:'Installateur agréé', tr4:'Conforme RGIE',
-        uOpt:'Optionnel', uDone:'Ajouté ✓', lang:'NL',
-        navHome:'Accueil', navServices:'Services', navBlog:'Blog', navContact:'Contact'
-      }
-    };
-
-    /* ── State ── */
-    var lang = 'nl';
-    // Elke voie heeft haar eigen reeks panelen (id's). De engine navigeert door deze array.
-    var FLOWS = {
-      'Laadpaal':                ['step-intent','step-1','step-3','step-2','step-merk','step-4','step-5','step-6'],
-      'Energiebeheer':           ['step-intent','step-1','step-energiedoel','step-energieq','step-5','step-6'],
-      'Herstelling / depannage': ['step-intent','step-herstel','step-5','step-6'],
-      'Advies':                  ['step-intent','step-advies','step-6']
-    };
-    var flow = FLOWS['Laadpaal'].slice();
-    var idx = 0;
-
-    /* ── Map element id → translation key ── */
-    var MAP = {
-      'h-badge':'hBadge','h-title':'hTitle','h-sub':'hSub',
-      's1-lbl':'s1l','s1-title':'s1t','s1-sub':'s1s',
-      's1o1':'s1o1','s1o1s':'s1o1s','s1o2':'s1o2','s1o2s':'s1o2s',
-      's1o3':'s1o3','s1o3s':'s1o3s','s1o4':'s1o4','s1o4s':'s1o4s',
-      's2-lbl':'s2l','s2-title':'s2t','s2-sub':'s2s','s2other':'s2other',
-      's3-lbl':'s3l','s3-title':'s3t','s3-sub':'s3s',
-      's3svc1':'s3svc1','s3svc1s':'s3svc1s','s3svc2':'s3svc2','s3svc2s':'s3svc2s','s3svc3':'s3svc3','s3svc3s':'s3svc3s',
-      's3svc4':'s3svc4','s3svc4s':'s3svc4s','s3svc5':'s3svc5','s3svc5s':'s3svc5s','s3svc6':'s3svc6','s3svc6s':'s3svc6s',
-      's4-lbl':'s4l','s4-title':'s4t','s4-sub':'s4s',
-      's4o1':'s4o1','s4o2':'s4o2','s4o3':'s4o3','s4o3s':'s4o3s',
-      's5-lbl':'s5l','s5-sub':'s5s',
-      's5z1':'s5z1','s5z1s':'s5z1s','s5z2':'s5z2','s5z2s':'s5z2s','s5z3':'s5z3','s5z3s':'s5z3s',
-      's6-lbl':'s6l','s6-title':'s6t','s6-sub':'s6s',
-      'lbl-naam':'lNaam','lbl-tel':'lTel','lbl-email':'lEmail','lbl-city':'lCity','lbl-msg':'lMsg',
-      'lbl-points':'lPoints','lbl-role':'lRole',
-      'lbl-privacy':'lPriv',
-      'succ-title':'sTitle','succ-msg':'sMsg','succ-btn':'sBtn',
-      'tr1':'tr1','tr2':'tr2','tr3':'tr3','tr4':'tr4',
-      'lang-btn':'lang',
-      'nl-home':'navHome','nl-services':'navServices','nl-blog':'navBlog',
-      'nm-home':'navHome','nm-services':'navServices','nm-blog':'navBlog','nm-contact':'navContact',
-      'lang-btn-mobile':'lang'
-    };
-
-    function setText(id, val) {
-      var el = document.getElementById(id);
-      if (el) el.innerHTML = val;
-    }
-
-    function applyLang() {
-      var d = T[lang];
-      Object.keys(MAP).forEach(function(id) { setText(id, d[MAP[id]] || ''); });
-      /* Bilinguale inhoud via data-nl / data-fr (nieuwe panelen, nav, opties) */
-      document.querySelectorAll('[data-fr]').forEach(function(el) {
-        if (el.tagName === 'TITLE' || el.tagName === 'META') return;
-        var v = el.getAttribute('data-' + lang);
-        if (v !== null && v !== '') el.innerHTML = v;
-      });
-      /* Step 5 heading keeps the "optioneel" span */
-      setText('s5-title', d.s5l.replace(/\d+/,'05') + ' – Foto\'s <span style="opacity:.45;font-weight:400;font-size:.75em">' + (lang==='nl'?'(optioneel)':'(optionnel)') + '</span>');
-      /* Buttons text */
-      document.querySelectorAll('.btn-prev').forEach(function(b){ b.innerHTML = d.bPrev; });
-      document.querySelectorAll('.btn-next').forEach(function(b){ b.innerHTML = d.bNext; });
-      var sb = document.getElementById('btn-submit');
-      if (sb) sb.innerHTML = d.bSubmit;
-      /* Upload badges */
-      ['bg-1','bg-2','bg-3'].forEach(function(id){
-        var el = document.getElementById(id);
-        if (el && !el.dataset.filled) el.textContent = d.uOpt;
-      });
-      setStepLabel();
-      relabelPhotos();
-      document.documentElement.lang = lang;
-    }
-
-    window.toggleLang = function() {
-      lang = lang === 'nl' ? 'fr' : 'nl';
-      var fl = document.getElementById('f-lang');
-      if (fl) fl.value = lang;
-      applyLang();
-    };
-
-    /* ── Progress (dynamisch op basis van de gekozen flow) ── */
-    function refreshProgress() {
-      var total = flow.length;
-      var pf = document.getElementById('prog-fill');
-      if (pf) pf.style.width = (((idx + 1) / total) * 100) + '%';
-      var sn = document.getElementById('step-n');   if (sn) sn.textContent = (idx + 1);
-      var st = document.getElementById('step-total'); if (st) st.textContent = total;
-      var dw = document.getElementById('dots-wrap');
-      if (dw) {
-        var h = '';
-        for (var i = 0; i < total; i++) {
-          h += '<div class="step-dot' + (i < idx ? ' done' : i === idx ? ' active' : '') + '"></div>';
-        }
-        dw.innerHTML = h;
-      }
-    }
-
-    function setStepLabel() {
-      var ap = document.getElementById(flow[idx]);
-      if (!ap) return;
-      var sl = ap.querySelector('.step-label');
-      if (sl) sl.textContent = (lang === 'nl' ? 'Stap ' : 'Étape ') + ('0' + (idx + 1)).slice(-2);
-    }
-
-    /* ── Foto-stap aanpassen aan de voie ── */
-    function relabelPhotos() {
-      var path = document.getElementById('f-path').value;
-      var z3 = document.getElementById('s5z3'), z3s = document.getElementById('s5z3s');
-      if (path === 'Energiebeheer') {
-        if (z3)  z3.textContent  = lang === 'nl' ? 'Omvormer / zonnepanelen' : 'Onduleur / panneaux';
-        if (z3s) z3s.textContent = lang === 'nl' ? 'Indien aanwezig (optioneel)' : 'Si présent (optionnel)';
-      } else {
-        if (z3)  z3.textContent  = T[lang].s5z3;
-        if (z3s) z3s.textContent = T[lang].s5z3s;
-      }
-    }
-
-    /* ── Toon een paneel op positie i in de flow ── */
-    function show(i) {
-      if (i < 0 || i >= flow.length) return;
-      var cur = document.getElementById(flow[idx]);
-      var tgt = document.getElementById(flow[i]);
-      if (!tgt) return;
-      if (cur) cur.classList.remove('active');
-      tgt.classList.add('active');
-      idx = i;
-      setStepLabel();
-      if (flow[i] === 'step-5') relabelPhotos();
-      refreshProgress();
-      var fw = document.querySelector('.form-wrapper');
-      if (fw) { setTimeout(function(){ fw.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 10); }
-    }
-
-    window.nextStep = function() { if (idx < flow.length - 1) show(idx + 1); };
-    window.prevStep = function() { if (idx > 0) show(idx - 1); };
-
-    /* ── Option cards ── */
-    document.querySelectorAll('.option-card').forEach(function(card) {
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      card.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
-      });
-      card.addEventListener('click', function() {
-        var grid = card.closest('.options-grid');
-        if (grid) grid.querySelectorAll('.option-card').forEach(function(c){ c.classList.remove('selected'); c.setAttribute('aria-pressed', 'false'); });
-        card.classList.add('selected');
-        card.setAttribute('aria-pressed', 'true');
-        var fld = document.getElementById(card.dataset.field);
-        if (fld) fld.value = card.dataset.value;
-
-        // Voie gekozen → bouw de flow opnieuw op
-        if (card.dataset.field === 'f-path') {
-          flow = (FLOWS[card.dataset.value] || FLOWS['Advies']).slice();
-          idx = 0; // we staan op step-intent (= flow[0])
-        }
-        // Copro-extra tonen bij collectief project
-        if (card.dataset.field === 'f-project') {
-          var isCopro = /Bedrijf|Appartement|Parking/.test(card.dataset.value);
-          var ce = document.getElementById('copro-extra');
-          if (ce) ce.style.display = isCopro ? 'block' : 'none';
-        }
-        // Enable de "Volgende"-knop van het ACTIEVE paneel
-        var panel = card.closest('.step-panel');
-        var nb = panel ? panel.querySelector('.btn-next') : null;
-        if (nb) nb.disabled = false;
-
-        setTimeout(window.nextStep, 550);
-      });
-    });
-
-    /* ── File upload ── */
-    window.onFile = function(input, zoneId, statusId, badgeId) {
-      var zone = document.getElementById(zoneId);
-      var status = document.getElementById(statusId);
-      var badge = document.getElementById(badgeId);
-      if (input.files && input.files[0]) {
-        zone.classList.add('filled');
-        var name = input.files[0].name;
-        status.textContent = '✓ ' + (name.length > 28 ? name.slice(0,26) + '…' : name);
-        if (badge) { badge.textContent = T[lang].uDone; badge.dataset.filled = '1'; }
-      }
-    };
-
-    /* ── Form submit ── */
-    var form = document.getElementById('devis-form');
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var btn = document.getElementById('btn-submit');
-      btn.disabled = true;
-      btn.textContent = lang === 'nl' ? 'Bezig…' : 'Envoi…';
-
-      var val = function(id){ return (document.getElementById(id) || {}).value || '-'; };
-      var emailParams = {
-        client_name:  document.getElementById('inp-naam').value,
-        client_email: document.getElementById('inp-email').value,
-        client_phone: document.getElementById('inp-tel').value,
-        client_city:  document.getElementById('inp-city').value || (lang === 'nl' ? 'Niet opgegeven' : 'Non précisé'),
-        request_type: val('f-path'),
-        project_type: val('f-project'),
-        vehicle:      val('f-vehicle'),
-        charger_brand_wish: val('f-merkwens'),
-        service:      val('f-service'),
-        energy_goal:  val('f-energiedoel'),
-        solar:        val('inp-zon'),
-        digital_meter: val('inp-meter'),
-        monthly_bill: val('inp-factuur'),
-        charger_brand: val('inp-merkborne'),
-        problem:      val('inp-probleem'),
-        advice:       val('inp-advies'),
-        install_type: val('f-install'),
-        points:       val('inp-points'),
-        role:         val('inp-role'),
-        extra_info:   document.getElementById('inp-msg').value     || (lang === 'nl' ? 'Geen' : 'Aucune')
-      };
-
-      // La confirmation ne doit JAMAIS rester bloquée sur « Envoi… » → showOK() garanti.
-      var done = false;
-      function finish() { if (done) return; done = true; showOK(); }
-      function showFallback() {
-        if (done) return; done = true;
-        try { localStorage.setItem('bornexa-devis-retry', JSON.stringify(emailParams)); } catch (e) {}
-        var wrap = document.querySelector('.form-wrapper') || form.parentElement;
-        form.style.display = 'none';
-        var d = document.createElement('div');
-        d.style.cssText = 'text-align:center;padding:34px 20px';
-        d.innerHTML = (lang === 'fr'
-          ? '<h3 style="margin:0 0 10px;font-size:1.25rem">Envoi incertain</h3><p style="opacity:.75;margin:0 0 20px">La connexion a échoué. Contactez-nous directement — nous traitons votre demande tout de suite :</p>'
-          : '<h3 style="margin:0 0 10px;font-size:1.25rem">Verzending onzeker</h3><p style="opacity:.75;margin:0 0 20px">De verbinding is mislukt. Neem even rechtstreeks contact op — we behandelen uw aanvraag meteen:</p>')
-          + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
-          + '<a href="tel:+32489247760" style="background:#00C896;color:var(--text);padding:13px 22px;border-radius:12px;font-weight:800;text-decoration:none">☎ +32 489 24 77 60</a>'
-          + '<a href="https://wa.me/32489247760" target="_blank" rel="noopener noreferrer" style="background:#25D366;color:#fff;padding:13px 22px;border-radius:12px;font-weight:800;text-decoration:none">WhatsApp</a>'
-          + '</div>';
-        (wrap || document.body).appendChild(d);
-        d.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-      var safety = setTimeout(showFallback, 10000); // si rien ne répond → contact direct (jamais de faux succès)
-
-      // Notification e-mail (EmailJS) — best effort, ne bloque jamais l'envoi
-      try {
-        if (window.emailjs && typeof emailjs.send === 'function') {
-          emailjs.send(
-            'service_jnr5z6q',
-            lang === 'fr' ? 'template_8dpqasa' : 'template_trlr0zo',
-            emailParams,
-            { publicKey: 'PIcG3UIV6sB7i2kl2' }
-          ).catch(function() {});
-        }
-      } catch (err) {}
-
-      // Enregistrement du lead (Netlify Forms) + confirmation
-      fetch('/', { method: 'POST', body: new FormData(form) })
-        .then(function(r) { clearTimeout(safety); (r && r.ok) ? finish() : showFallback(); })
-        .catch(function() { clearTimeout(safety); showFallback(); });
-    });
-
-    var leadTracked = false;
-    function showOK() {
-      document.getElementById('devis-form').style.display = 'none';
-      document.getElementById('dots-wrap').style.display = 'none';
-      document.getElementById('prog-wrap').style.display = 'none';
-      document.getElementById('success-screen').classList.add('show');
-      // Conversion : devis envoyé → événements GA4 importés dans Google Ads.
-      // On envoie les deux noms pour matcher la conversion Ads (manual_event_SUBMIT_LEAD_FORM) ET le standard GA4.
-      if (!leadTracked && typeof window.gtag === 'function') {
-        leadTracked = true;
-        window.gtag('event', 'generate_lead', { currency: 'EUR', value: 1 });
-        window.gtag('event', 'SUBMIT_LEAD_FORM', { currency: 'EUR', value: 1 });
-      }
-      applyLang();
-    }
-
-    /* ── Init ── */
-    applyLang();
-    refreshProgress();
-
-  }());
-  </script>
-
   <script defer src="js/translations.js?v=2026-08-22"></script>
   <script defer src="js/lang.js?v=2026-08-22"></script>
   <script defer src="js/main.js?v=2026-08-22"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="module" src="js/configurator/index.js?v=2026-10-02"></script>
 </body>
 </html>
 

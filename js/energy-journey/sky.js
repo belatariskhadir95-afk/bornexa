@@ -1,6 +1,9 @@
 /* BORNEXA — Energy Journey · ciel (aube → jour → coucher de soleil → nuit)
    Uniquement des fondus d'opacité et des translations : rien n'est repeint au scroll. */
 import { KEY, SKY, clamp, lerp, ease, span, range } from './timeline.js';
+import { setter } from '../shared/scene-utils.js';
+
+export { setter };
 
 export function createSky(stage) {
   const $ = (s) => stage.querySelector(s);
@@ -53,18 +56,4 @@ export function createSky(stage) {
   }
 
   return { measure, update };
-}
-
-/* n'écrit dans le style que si la valeur a changé (évite les recalculs inutiles) */
-export function setter() {
-  const cache = new WeakMap();
-  return (el, prop, val) => {
-    if (!el) return;
-    if (typeof val === 'number') val = Math.round(val * 1000) / 1000;
-    let c = cache.get(el);
-    if (!c) cache.set(el, (c = {}));
-    if (c[prop] === val) return;
-    c[prop] = val;
-    el.style[prop] = val;
-  };
 }

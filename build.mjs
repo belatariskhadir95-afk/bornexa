@@ -58,22 +58,25 @@ for (const f of readdirSync('dist/js')) {
   }
 }
 
-// 4b) Energy Journey (homepage) : les modules ES de js/energy-journey/ sont regroupés en UN
-//     fichier minifié, au même chemin que le point d'entrée (index.html ne change pas).
-//     En local, les modules restent séparés (lisibles) ; en production, une seule requête.
-const EJ = 'dist/js/energy-journey';
-if (existsSync(`${EJ}/index.js`)) {
+// 4b) Expériences animées (homepage « Energy Journey », configurateur de devis) : les modules ES
+//     de chaque dossier sont regroupés en UN fichier minifié, au même chemin que le point d'entrée
+//     (les pages ne changent pas). En local, les modules restent séparés (lisibles).
+for (const app of ['energy-journey', 'configurator']) {
+  const dir = `dist/js/${app}`;
+  if (!existsSync(`${dir}/index.js`)) continue;
   await esbuild.build({
-    entryPoints: ['js/energy-journey/index.js'],
-    outfile: `${EJ}/index.js`,
+    entryPoints: [`js/${app}/index.js`],
+    outfile: `${dir}/index.js`,
     bundle: true,
     format: 'esm',
     minify: true,
     target: ['es2019'],
     allowOverwrite: true
   });
-  for (const f of readdirSync(EJ)) if (f !== 'index.js') rmSync(join(EJ, f));
+  for (const f of readdirSync(dir)) if (f !== 'index.js') rmSync(join(dir, f));
 }
+// modules partagés : déjà inclus dans chaque bundle
+if (existsSync('dist/js/shared')) rmSync('dist/js/shared', { recursive: true, force: true });
 
 // 5) convertir les images JPG/PNG en WebP
 const imgDir = join(DIST, 'images');
