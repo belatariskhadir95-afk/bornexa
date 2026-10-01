@@ -25,7 +25,7 @@
       {"@type":["LocalBusiness","ElectricalContractor"],"@id":"https://www.bornexa.be/#business","name":"BORNEXA","url":"https://www.bornexa.be/","image":"https://www.bornexa.be/images/og-smappee.jpg","logo":{"@type":"ImageObject","url":"https://www.bornexa.be/images/logo-bornexa.svg"},"telephone":"+32489247760","email":"info@bornexa.be","priceRange":"€€","address":{"@type":"PostalAddress","addressLocality":"Boortmeerbeek","postalCode":"3190","addressRegion":"Vlaams-Brabant","addressCountry":"BE"},"areaServed":{"@type":"State","name":"Vlaams-Brabant"}},
       {"@type":"Service","@id":"https://www.bornexa.be/borne-bidirectionnelle#service","name":"Bidirectioneel laden – V2H installatie","serviceType":"Installatie bidirectionele laadpaal (V2H/V2G)","provider":{"@id":"https://www.bornexa.be/#business"},"areaServed":{"@type":"State","name":"Vlaams-Brabant"},"description":"Voorbereiding en installatie van bidirectionele laadoplossingen (V2H/V2G): dimensionering, zonne-integratie, aanmelding netbeheerder en keuring."},
       {"@type":"FAQPage","mainEntity":[
-        {"@type":"Question","name":"Kan ik mijn elektrische wagen als thuisbatterij gebruiken in België?","acceptedAnswer":{"@type":"Answer","text":"Ja, onder voorwaarden. U hebt een compatibele wagen, een bidirectionele laadpaal, een geschikte installatie en de aanmelding bij de netbeheerder nodig. In 2026 is V2H opstartend binnen een gehomologeerd kader; BORNEXA bereidt uw installatie hierop voor."}},
+        {"@type":"Question","name":"Kan ik mijn elektrische wagen als thuisbatterij gebruiken in België?","acceptedAnswer":{"@type":"Answer","text":"Ja, onder voorwaarden. U hebt een compatibele wagen, een bidirectionele laadpaal, een geschikte installatie en de aanmelding bij de netbeheerder nodig. Bidirectioneel laden is beschikbaar in België. De sleutelvraag is of uw net geschikt is: monofasig 230 V + nulleider of 3×400 V + nulleider. BORNEXA kijkt dat gratis na."}},
         {"@type":"Question","name":"Wat kost een bidirectionele installatie?","acceptedAnswer":{"@type":"Answer","text":"De prijs hangt af van de gekozen oplossing (de bidirectionele laadpaal zelf is een premiumproduct), uw installatie en de nodige voorbereidingen. BORNEXA maakt een transparante studie op maat na een gratis plaatsbezoek."}},
         {"@type":"Question","name":"Heb ik zonnepanelen nodig?","acceptedAnswer":{"@type":"Answer","text":"Niet verplicht, maar bidirectioneel laden komt vooral tot zijn recht met zonnepanelen: u slaat het zonne-overschot op in uw wagen en gebruikt het 's avonds."}}
       ]},
@@ -189,6 +189,38 @@
       </div>
     </section>
 
+    <!-- NET / RÉSEAU -->
+    <section class="lp-section">
+      <div class="container" id="net-nl">
+        <h2>Eerst dit: is uw net geschikt?</h2>
+        <p class="sub">Dit is het punt waarop de meeste projecten stranden. Laat het nakijken <strong>vóór</strong> u een laadpaal of wagen bestelt.</p>
+        <div style="border:2px solid #E11D48;background:#FEF2F2;border-radius:14px;padding:1.1rem 1.25rem;margin:1.4rem 0">
+          <p style="margin:0;font-weight:800;color:#9F1239">&#9888; Zonder echte nulleider werkt bidirectioneel laden niet</p>
+          <p style="margin:.55rem 0 0">Een bidirectionele installatie meet permanent de energiestroom met uw net. Bij BMW gebeurt dat met de verplichte <strong>Janitza B21</strong>-netmeter (RS-485 Modbus), het enige door BMW gehomologeerde model voor België. Die meter is <strong>monofasig (bipolair)</strong>: op een net van <strong>3&times;230 V zonder nulleider</strong> moet hij tussen twee fasen worden aangesloten, waardoor zijn vectorberekening niet meer klopt door de faseverschuiving van 120°. <strong>De laadpaal laadt dan wel, maar de bidirectionele functie wordt door de software geblokkeerd.</strong></p>
+        </div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="ic">&#9989;</div><h3>Monofasig 230 V + N</h3><p>Geschikt.</p></div>
+          <div class="feat-card"><div class="ic">&#9989;</div><h3>Driefasig 3&times;400 V + N</h3><p>Geschikt — de standaardconfiguratie.</p></div>
+          <div class="feat-card"><div class="ic">&#10060;</div><h3>3&times;230 V zonder N</h3><p>Niet geschikt in rechtstreekse aansluiting.</p></div>
+        </div>
+        <p class="sub" style="margin-top:1.5rem"><strong>Zit u op 3&times;230 V?</strong> Dan vragen wij voor u de omvorming aan bij uw netbeheerder (Fluvius, ORES, RESA) naar <strong>monofasig</strong> (bv. 63 A) of <strong>3&times;400 V + N</strong>. Een driefasige autotransformator die stroomafwaarts een stabiele nulleider creëert, is een alternatief.</p>
+      </div>
+      <div class="container" id="net-fr" style="display:none">
+        <h2>D'abord ceci : votre réseau est-il éligible ?</h2>
+        <p class="sub">C'est le point sur lequel la plupart des projets échouent. Faites-le vérifier <strong>avant</strong> de commander une borne ou un véhicule.</p>
+        <div style="border:2px solid #E11D48;background:#FEF2F2;border-radius:14px;padding:1.1rem 1.25rem;margin:1.4rem 0">
+          <p style="margin:0;font-weight:800;color:#9F1239">&#9888; Sans vrai neutre, la recharge bidirectionnelle ne fonctionne pas</p>
+          <p style="margin:.55rem 0 0">Une installation bidirectionnelle mesure en permanence les échanges d'énergie avec votre réseau. Chez BMW, cela passe par le compteur <strong>Janitza B21</strong> (RS-485 Modbus), obligatoire et seul modèle homologué par BMW pour la Belgique. Or ce compteur est <strong>monophasé (bipolaire)</strong> : sur un réseau <strong>3&times;230 V sans neutre</strong>, il doit être branché entre deux phases, ce qui fausse son calcul vectoriel à cause du déphasage de 120°. <strong>La borne rechargera, mais le logiciel bloquera la fonction bidirectionnelle.</strong></p>
+        </div>
+        <div class="feat-grid">
+          <div class="feat-card"><div class="ic">&#9989;</div><h3>Monophasé 230 V + N</h3><p>Éligible.</p></div>
+          <div class="feat-card"><div class="ic">&#9989;</div><h3>Triphasé 3&times;400 V + N</h3><p>Éligible — la configuration standard.</p></div>
+          <div class="feat-card"><div class="ic">&#10060;</div><h3>3&times;230 V sans N</h3><p>Non éligible en raccordement direct.</p></div>
+        </div>
+        <p class="sub" style="margin-top:1.5rem"><strong>Vous êtes en 3&times;230 V ?</strong> Nous introduisons pour vous la demande de conversion auprès de votre gestionnaire de réseau (Fluvius, ORES, RESA) vers du <strong>monophasé</strong> (ex. 63 A) ou du <strong>3&times;400 V + N</strong>. Un autotransformateur triphasé recréant un neutre stable en aval est une alternative.</p>
+      </div>
+    </section>
+
     <!-- CHECKER TOOL -->
     <section class="lp-section" id="checker">
       <div class="container">
@@ -268,14 +300,14 @@
           "Ik heb (of bestel) een elektrische wagen die bidirectioneel laden ondersteunt",
           "Ik heb zonnepanelen",
           "Ik heb een digitale meter",
-          "Mijn woning is driefasig aangesloten (3×400V)",
+          "Mijn installatie is monofasig (230V + nulleider) of driefasig 3×400V + nulleider — dus niet 3×230V zonder nulleider",
           "De wagen staat 's avonds/'s nachts meestal thuis"
         ],
         fr: [
           "J'ai (ou je commande) une voiture électrique qui supporte la recharge bidirectionnelle",
           "J'ai des panneaux solaires",
           "J'ai un compteur digital",
-          "Mon habitation est raccordée en triphasé (3×400V)",
+          "Mon installation est en monophasé (230V + neutre) ou en triphasé 3×400V + neutre — et non en 3×230V sans neutre",
           "La voiture est généralement à la maison le soir/la nuit"
         ]
       };
@@ -312,6 +344,7 @@
         document.getElementById('hero-nl').style.display=fr?'none':''; document.getElementById('hero-fr').style.display=fr?'':'none';
         document.getElementById('ben-nl').style.display=fr?'none':''; document.getElementById('ben-fr').style.display=fr?'':'none';
         document.getElementById('how-nl').style.display=fr?'none':''; document.getElementById('how-fr').style.display=fr?'':'none';
+        document.getElementById('net-nl').style.display=fr?'none':''; document.getElementById('net-fr').style.display=fr?'':'none';
         document.getElementById('honest-nl').style.display=fr?'none':''; document.getElementById('honest-fr').style.display=fr?'':'none';
         document.getElementById('cta-title').textContent=fr?"Prêt à préparer votre maison ?":"Klaar om uw woning voor te bereiden?";
         document.getElementById('cta-p').textContent=fr?"Visite gratuite et conseil sur mesure, tourné vers l'avenir, sous 24h.":"Gratis plaatsbezoek en toekomstgericht advies op maat binnen 24 uur.";

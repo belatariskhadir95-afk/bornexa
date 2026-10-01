@@ -8,12 +8,20 @@
     <loc>https://www.bornexa.be/</loc>
     <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/"/>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
       <image:image>
       <image:loc>https://www.bornexa.be/images/og-cover-wallbox-tesla.jpg</image:loc>
       <image:caption>BORNEXA Wallbox en Tesla Wall Connector op oprit</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.bornexa.be/images/bornexa-bmw-wallbox-professional-bidirectioneel-haacht.jpg</image:loc>
+      <image:caption>Bidirectionele BMW Wallbox Professional 7,4 kW (V2H) geplaatst door BORNEXA in Haacht</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.bornexa.be/images/bornexa-smappee-ev-wall-evw4-zwart-keerbergen.jpg</image:loc>
+      <image:caption>Smappee EV Wall EVW4 zwart met vaste laadkabel geplaatst door BORNEXA in Keerbergen</image:caption>
     </image:image>
   </url>
   <url>
@@ -336,9 +344,13 @@
     <loc>https://www.bornexa.be/borne-bmw-v2h</loc>
     <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-bmw-v2h"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-bmw-v2h"/>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://www.bornexa.be/images/bornexa-bmw-wallbox-professional-bidirectioneel-haacht.jpg</image:loc>
+      <image:caption>Bidirectionele BMW Wallbox Professional 7,4 kW (V2H) geplaatst door BORNEXA in Haacht</image:caption>
+    </image:image>
   </url>
 
   <!-- Bidirectioneel laden (V2H) - lokale pagina's (2026-09-12) -->

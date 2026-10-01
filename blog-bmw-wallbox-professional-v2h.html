@@ -242,7 +242,7 @@
               <p>Wat vandaag realistisch is: de bidirectionele hardware (wagen + BMW Wallbox Professional) en de Synergrid-goedkeuring zijn er voor België. Wat u goed moet weten:</p>
               <ul>
                 <li>De <strong>V2H-thuisintegratie via de SolarWatt Manager</strong> wordt eind 2026 gelanceerd, met Duitsland, Oostenrijk en Nederland als eerste markten. De exacte activatiedatum in België kan iets later vallen — bevestig dit bij BMW.</li>
-                <li>De BMW Wallbox Professional wordt in <strong>België rond Q4 2026</strong> verwacht.</li>
+                <li>De BMW Wallbox Professional is in <strong>België beschikbaar</strong>.</li>
                 <li>Standaard V2H = slim eigen verbruik. Een échte <strong>back-up</strong> bij stroomuitval is een uitgebreidere functie (bijkomende hardware).</li>
               </ul>
 
@@ -260,6 +260,13 @@
                 </tbody>
               </table>
               <div class="warn-box"><strong>Belangrijk misverstand:</strong> "een BMW i3 bestellen voor bidirectioneel laden" verwijst naar de <strong>nieuwe i3 (Neue Klasse)</strong>. De vorige i3 (2013-2022) ondersteunt dit modern bidirectioneel laden niet. Compatibiliteit kan bovendien afhangen van softwareversie en markt — controleer altijd bij BMW.</div>
+
+              <div style="border:2px solid #E11D48;background:#FEF2F2;border-radius:14px;padding:1.1rem 1.25rem;margin:1.6rem 0">
+                <p style="margin:0;font-weight:800;color:#9F1239">&#9888; Eerst dit: is uw elektriciteitsnet wel geschikt?</p>
+                <p style="margin:.55rem 0 0">De BMW Wallbox Professional werkt verplicht met de <strong>Janitza B21</strong>-netmeter (RS-485 Modbus) in uw zekeringkast — het enige door BMW gehomologeerde model voor België. Die meter is <strong>monofasig (bipolair)</strong>. Op een net van <strong>3&times;230 V zonder nulleider</strong> moet hij tussen twee fasen worden aangesloten, waardoor zijn vectorberekening niet meer klopt door de faseverschuiving van 120&deg;. Gevolg: <strong>de laadpaal laadt uw wagen wel, maar de software blokkeert de bidirectionele functie definitief.</strong></p>
+                <p style="margin:.55rem 0 0">&#9989; Geschikt: <strong>monofasig 230 V + nulleider</strong> of <strong>driefasig 3&times;400 V + nulleider</strong>. &#10060; Niet geschikt in rechtstreekse aansluiting: 3&times;230 V zonder nulleider (nog courant in Wallonië, Brussel en delen van Vlaanderen).</p>
+                <p style="margin:.55rem 0 0">Zit u op 3&times;230 V? Wij vragen voor u de omvorming aan bij Fluvius (naar monofasig, bv. 63 A, of 3&times;400 V + N), of plaatsen een autotransformator die stroomafwaarts een stabiele nulleider creëert. <a href="borne-bmw-v2h">Meer over de voorwaarden &#8594;</a></p>
+              </div>
 
               <h2>8. Compatibel met een woning met zonnepanelen?</h2>
               <p>Voor een BMW-eigenaar met zonnepanelen is dit net het ideale scenario. Om het goed te laten werken, kijken we onder meer naar:</p>
@@ -295,7 +302,7 @@
               <h2>11. Grenzen en aandachtspunten</h2>
               <ul>
                 <li><strong>Compatibiliteit</strong> — enkel BMW Neue Klasse + BMW Wallbox Professional (gesloten ecosysteem).</li>
-                <li><strong>Beschikbaarheid</strong> — laadpaal in BE rond Q4 2026; V2H-activatie in BE mogelijk iets later.</li>
+                <li><strong>Geschiktheid van het net</strong> — monofasig 230 V + nulleider of 3×400 V + nulleider vereist; 3×230 V zonder nulleider blokkeert de bidirectionele functie.</li>
                 <li><strong>Kostprijs</strong> — de bidirectionele laadpaal is een premiumproduct (via BMW), plus de installatie.</li>
                 <li><strong>Installatie</strong> — het is quasi een productie-/opslage-installatie: aanmelding netbeheerder, netontkoppeling, keuring.</li>
                 <li><strong>Regelgeving</strong> — V2G blijft afhankelijk van het (evoluerende) kader.</li>
@@ -338,7 +345,7 @@
                 <h2>Veelgestelde vragen</h2>
                 <div class="faq-item"><h3>Wat is de BMW Wallbox Professional?</h3><p>De eigen bidirectionele DC-laadpaal van BMW voor de Neue Klasse, tot 11 kW, die naast laden ook energie kan terugleveren aan de woning (V2H) en — afhankelijk van markt/regelgeving — aan het net (V2G). Ze werkt met de SolarWatt Manager. "Wallbox" = muurlaadpaal, niet het merk Wallbox.</p></div>
                 <div class="faq-item"><h3>Welke BMW's zijn compatibel?</h3><p>De ontlaadfunctie is voorzien voor de BMW Neue Klasse: nieuwe iX3, nieuwe i3 en iX5. Let op: de nieuwe i3 (Neue Klasse), niet de oude i3 (2013-2022). Controleer de voorwaarden bij BMW.</p></div>
-                <div class="faq-item"><h3>Is de BMW Wallbox Professional al beschikbaar in België?</h3><p>BMW is de eerste met een Synergrid-goedkeuring in België. De laadpaal wordt in BE rond Q4 2026 verwacht (NL/DE vanaf maart 2026). De exacte V2H-activatiedatum in BE kan verschillen; bevestig bij BMW.</p></div>
+                <div class="faq-item"><h3>Is de BMW Wallbox Professional al beschikbaar in België?</h3><p>BMW is de eerste met een Synergrid-goedkeuring in België. De laadpaal is in BE beschikbaar en het bidirectioneel laden is operationeel. Het echte aandachtspunt is de geschiktheid van uw net; bevestig bij BMW.</p></div>
                 <div class="faq-item"><h3>Kan ik mijn BMW als thuisbatterij gebruiken?</h3><p>Ja, mits een compatibele BMW, de BMW Wallbox Professional, de SolarWatt Manager, een geschikte installatie en de aanmelding bij de netbeheerder — en de wagen die thuis staat op het moment van teruglevering.</p></div>
                 <div class="faq-item"><h3>Levert BORNEXA de laadpaal?</h3><p>Nee, die bestelt u bij BMW. BORNEXA verzorgt de installatie: plaatsing, aansluiting, dynamisch laadbeheer, integratie met zonnepanelen, aanmelding bij de netbeheerder en keuring.</p></div>
               </div>
@@ -410,7 +417,7 @@
               <p>Ce qui est réaliste aujourd'hui : le matériel bidirectionnel (voiture + BMW Wallbox Professional) et l'approbation Synergrid existent pour la Belgique. Ce qu'il faut bien savoir :</p>
               <ul>
                 <li>L'<strong>intégration domestique V2H via le SolarWatt Manager</strong> est lancée fin 2026, avec l'Allemagne, l'Autriche et les Pays-Bas comme premiers marchés. La date exacte d'activation en Belgique peut être un peu plus tardive — à confirmer auprès de BMW.</li>
-                <li>La BMW Wallbox Professional est attendue en <strong>Belgique vers le Q4 2026</strong>.</li>
+                <li>La BMW Wallbox Professional est <strong>disponible en Belgique</strong>.</li>
                 <li>Le V2H standard = autoconsommation intelligente. Un véritable <strong>back-up</strong> en cas de coupure est une fonction plus poussée (matériel supplémentaire).</li>
               </ul>
 
@@ -428,6 +435,13 @@
                 </tbody>
               </table>
               <div class="warn-box"><strong>Malentendu fréquent :</strong> « commander une BMW i3 pour la recharge bidirectionnelle » désigne la <strong>nouvelle i3 (Neue Klasse)</strong>. L'ancienne i3 (2013-2022) ne prend pas en charge cette recharge bidirectionnelle moderne. La compatibilité peut en outre dépendre de la version logicielle et du marché — vérifiez toujours auprès de BMW.</div>
+
+              <div style="border:2px solid #E11D48;background:#FEF2F2;border-radius:14px;padding:1.1rem 1.25rem;margin:1.6rem 0">
+                <p style="margin:0;font-weight:800;color:#9F1239">&#9888; D'abord ceci : votre réseau électrique est-il éligible ?</p>
+                <p style="margin:.55rem 0 0">La BMW Wallbox Professional impose le compteur réseau <strong>Janitza B21</strong> (liaison RS-485 Modbus) dans votre tableau électrique — le seul modèle homologué par BMW pour la Belgique. Or ce compteur est <strong>monophasé (bipolaire)</strong>. Sur un réseau <strong>3&times;230 V sans neutre</strong>, il doit être branché entre deux phases, ce qui fausse son calcul vectoriel à cause du déphasage de 120&deg;. Résultat : <strong>la borne rechargera bien votre voiture, mais le logiciel bloquera définitivement la fonction bidirectionnelle.</strong></p>
+                <p style="margin:.55rem 0 0">&#9989; Éligible : <strong>monophasé 230 V + neutre</strong> ou <strong>triphasé 3&times;400 V + neutre</strong>. &#10060; Non éligible en raccordement direct : 3&times;230 V sans neutre (encore fréquent en Wallonie, à Bruxelles et dans certaines zones de Flandre).</p>
+                <p style="margin:.55rem 0 0">Vous êtes en 3&times;230 V ? Nous introduisons pour vous la demande de conversion auprès de Fluvius (vers du monophasé, ex. 63 A, ou du 3&times;400 V + N), ou nous plaçons un autotransformateur recréant un neutre stable en aval. <a href="borne-bmw-v2h">En savoir plus sur les conditions &#8594;</a></p>
+              </div>
 
               <h2>8. Compatible avec une maison équipée de panneaux solaires ?</h2>
               <p>Pour un propriétaire BMW avec panneaux solaires, c'est justement le scénario idéal. Pour que cela fonctionne bien, nous examinons notamment :</p>
@@ -463,7 +477,7 @@
               <h2>11. Les limites et points d'attention</h2>
               <ul>
                 <li><strong>Compatibilité</strong> — uniquement BMW Neue Klasse + BMW Wallbox Professional (écosystème fermé).</li>
-                <li><strong>Disponibilité</strong> — borne en BE vers Q4 2026 ; activation V2H en BE possiblement un peu plus tard.</li>
+                <li><strong>Éligibilité du réseau</strong> — monophasé 230 V + neutre ou 3×400 V + neutre requis ; le 3×230 V sans neutre bloque la fonction bidirectionnelle.</li>
                 <li><strong>Coût</strong> — la borne bidirectionnelle est un produit premium (via BMW), plus l'installation.</li>
                 <li><strong>Installation</strong> — c'est quasiment une installation de production/stockage : déclaration réseau, découplage, keuring.</li>
                 <li><strong>Réglementation</strong> — le V2G reste dépendant du cadre (en évolution).</li>
@@ -506,7 +520,7 @@
                 <h2>Questions fréquentes</h2>
                 <div class="faq-item"><h3>Qu'est-ce que la BMW Wallbox Professional ?</h3><p>La borne bidirectionnelle DC propre à BMW pour la Neue Klasse, jusqu'à 11 kW, qui peut aussi restituer de l'énergie à la maison (V2H) et — selon le marché/la réglementation — au réseau (V2G). Elle fonctionne avec le SolarWatt Manager. « Wallbox » = borne murale, pas la marque Wallbox.</p></div>
                 <div class="faq-item"><h3>Quelles BMW sont compatibles ?</h3><p>La fonction de décharge est prévue pour la BMW Neue Klasse : nouveau iX3, nouveau i3 et iX5. Attention : le nouveau i3 (Neue Klasse), pas l'ancien i3 (2013-2022). Vérifiez les conditions auprès de BMW.</p></div>
-                <div class="faq-item"><h3>La BMW Wallbox Professional est-elle déjà disponible en Belgique ?</h3><p>BMW est le premier avec une approbation Synergrid en Belgique. La borne est attendue en BE vers le Q4 2026 (NL/DE dès mars 2026). La date exacte d'activation V2H en BE peut différer ; à confirmer auprès de BMW.</p></div>
+                <div class="faq-item"><h3>La BMW Wallbox Professional est-elle déjà disponible en Belgique ?</h3><p>BMW est le premier avec une approbation Synergrid en Belgique. La borne est disponible en BE et la recharge bidirectionnelle est opérationnelle. Le vrai point d’attention est l’éligibilité de votre réseau ; à confirmer auprès de BMW.</p></div>
                 <div class="faq-item"><h3>Puis-je utiliser ma BMW comme batterie domestique ?</h3><p>Oui, moyennant une BMW compatible, la BMW Wallbox Professional, le SolarWatt Manager, une installation adaptée et la déclaration au gestionnaire de réseau — et la voiture présente au moment de la restitution.</p></div>
                 <div class="faq-item"><h3>BORNEXA fournit-il la borne ?</h3><p>Non, vous la commandez chez BMW. BORNEXA se charge de l'installation : pose, raccordement, délestage dynamique, intégration solaire, déclaration au gestionnaire de réseau et keuring.</p></div>
               </div>
