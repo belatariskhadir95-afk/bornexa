@@ -117,6 +117,22 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.bornexa.be/laadpaal-grimbergen</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-grimbergen"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-grimbergen"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.bornexa.be/laadpaal-bertem</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-bertem"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-bertem"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.bornexa.be/regios</loc>
     <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/regios"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/regios"/>
