@@ -9,6 +9,7 @@ import { createProgress } from './progress.js';
 import { createSummary } from './summary.js';
 import { wireSubmit, fallbackScreen } from './submit.js';
 import * as store from './store.js';
+import { createAnalytics } from './analytics.js';
 
 const root = document.querySelector('[data-cfg]');
 if (root) boot(root);
@@ -33,6 +34,7 @@ function boot(root) {
   const scene = createScene(root.querySelector('.cf-stage'), { reduced });
   const progress = createProgress(root);
   const summary = createSummary(root, form);
+  const ga = createAnalytics();
 
   /* ── rendu d'une étape ── */
   function render({ instant = false } = {}) {
@@ -52,6 +54,7 @@ function boot(root) {
     current = key;
     render({ instant });
     if (key !== 'intro' && key !== 'success') store.save(form, key);
+    ga.step(key, flow.indexOf(key), flow.length, value(form, 'Type_Aanvraag') || DEFAULT_PATH);
     if (instant) return;
     reveal();
     const h = key === 'intro' ? null : stepEls[key] && stepEls[key].querySelector('h2');
@@ -93,6 +96,7 @@ function boot(root) {
   /* ── réponses ── */
   function onAnswer(input) {
     if (input.name === 'Type_Aanvraag') flow = flowFor(input.value);
+    ga.answer(input.name, input.value);
     render();
     store.save(form, current);
   }
@@ -160,6 +164,7 @@ function boot(root) {
     lang: () => lang,
     flow: () => flow,
     onSuccess() {
+      ga.submitted();
       store.clear();
       form.hidden = true;
       root.querySelector('#cfg-progress').hidden = true;

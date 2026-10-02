@@ -147,6 +147,17 @@
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   })();
 
+  /* ── Mesure des contacts directs : appel, WhatsApp, e-mail (même mode consentement que GA4) ── */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || typeof window.gtag !== 'function') return;
+    var href = a.getAttribute('href') || '';
+    var name = /^tel:/i.test(href) ? 'click_call' : /wa\.me|whatsapp/i.test(href) ? 'click_whatsapp' : /^mailto:/i.test(href) ? 'click_email' : null;
+    if (!name) return;
+    var zone = a.closest('[id]') || a.closest('[class]');
+    window.gtag('event', name, { link_location: zone ? (zone.id || String(zone.className).split(' ')[0]) : 'page', transport_type: 'beacon' });
+  });
+
   /* ── Google Analytics 4 + Google Consent Mode v2 + bannière RGPD ──
      ⚠️ ÉTAPE REQUISE : remplacer 'G-XXXXXXXXXX' par le vrai ID GA4 (Admin → Flux de données).
      gtag se charge toujours, mais le consentement est REFUSÉ par défaut : tant que l'utilisateur n'a

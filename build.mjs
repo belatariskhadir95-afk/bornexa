@@ -10,8 +10,30 @@ import sharp from 'sharp';
 import { cpSync, rmSync, existsSync, readdirSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
+import vm from 'node:vm';
+import { createHash } from 'node:crypto';
+import { prerenderLang } from './scripts/prerender-lang.mjs';
 
 const DIST = 'dist';
+
+// dictionnaire de traduction (le même que celui du navigateur) pour pré-rendre les pages FR
+function loadTranslations() {
+  const ctx = {};
+  vm.createContext(ctx);
+  vm.runInContext(readFileSync('js/translations.js', 'utf8') + ';this.__T = translations;', ctx);
+  return ctx.__T;
+}
+const TRANSLATIONS = loadTranslations();
+// pages redirigées en 301 dans _redirects : pas de jumeau FR (sinon /fr/<ancienne-url> servirait un doublon)
+const REDIRECTED = new Set(
+  readFileSync('_redirects', 'utf8').split('\n')
+    .map((l) => l.trim()).filter((l) => l && !l.startsWith('#'))
+    .map((l) => l.split(/\s+/)).filter((p) => p.length >= 3 && /^30[12]/.test(p[2]))
+    .map((p) => [p[0], p[1]].map((u) => u.replace(/^\//, '').replace(/\.html$/, '').replace(/\/$/, '') || 'index'))
+    // « /page.html → /page » n'est qu'une URL propre : seule une redirection vers une AUTRE page compte
+    .filter(([from, to]) => from && from !== to && !from.includes('*'))
+    .map(([from]) => from)
+);
 
 // Éléments racine à NE PAS publier (build, vcs, sources lourdes, docs internes)
 const SKIP = new Set([
@@ -119,10 +141,31 @@ function frUrlFor(slug) { return `${SITE}/fr/${slug === 'index' ? '' : slug}`; }
 const frSlugs = new Set();
 for (const f of readdirSync(DIST).filter(f => f.endsWith('.html'))) {
   if (FR_SKIP.has(f)) continue;
+  if (REDIRECTED.has(f.replace(/\.html$/, ''))) continue;
   const h = readFileSync(join(DIST, f), 'utf8');
   if (!/<html[^>]*\blang=["']nl["']/i.test(h)) continue;
   if (isNoindex(h)) continue;
   frSlugs.add(f.replace(/\.html$/, ''));
+}
+
+// titre / description / og en FR à partir des attributs data-fr (jumeaux /fr/ et pages FR natives)
+function applyFrHead(html) {
+  const frTitle = (html.match(/<title[^>]*\sdata-fr="([^"]*)"/i) || [])[1];
+  const frDesc = (html.match(/<meta name="description"[^>]*\sdata-fr="([^"]*)"/i) || [])[1];
+  if (frTitle) html = html.replace(/(<title[^>]*>)[^<]*(<\/title>)/i, `$1${frTitle}$2`);
+  if (frDesc) html = html.replace(/(<meta name="description"[^>]*\bcontent=")[^"]*(")/i, `$1${frDesc}$2`);
+  if (frTitle) html = html.replace(/(<meta property="og:title"[^>]*content=")[^"]*(")/i, `$1${frTitle}$2`);
+  if (frDesc) html = html.replace(/(<meta property="og:description"[^>]*content=")[^"]*(")/i, `$1${frDesc}$2`);
+  if (frTitle) html = html.replace(/(<meta name="twitter:title"[^>]*content=")[^"]*(")/i, `$1${frTitle}$2`);
+  if (frDesc) html = html.replace(/(<meta name="twitter:description"[^>]*content=")[^"]*(")/i, `$1${frDesc}$2`);
+  return html;
+}
+const prStats = { pages: 0, replaced: 0, removedBlocks: 0, emptiedBlocks: 0, scriptTexts: 0 };
+function prerenderFr(html) {
+  const { html: out, stats } = prerenderLang(html, TRANSLATIONS.fr, 'fr');
+  prStats.pages++;
+  for (const k of ['replaced', 'removedBlocks', 'emptiedBlocks', 'scriptTexts']) prStats[k] += stats[k];
+  return out;
 }
 
 // pose un jeu d'alternates réciproque complet (nl racine / fr sous-dossier / x-default racine)
@@ -142,16 +185,13 @@ let frCount = 0;
 for (const slug of frSlugs) {
   const rootUrl = rootUrlFor(slug), frUrl = frUrlFor(slug);
   const src = readFileSync(join(DIST, `${slug}.html`), 'utf8');
-  const frTitle = (src.match(/<title[^>]*\sdata-fr="([^"]*)"/i) || [])[1];
-  const frDesc = (src.match(/<meta name="description"[^>]*\sdata-fr="([^"]*)"/i) || [])[1];
   let fr = src;
   fr = fr.replace(/(<html[^>]*)\blang=["']nl["']/i, '$1lang="fr"');
-  if (frTitle) fr = fr.replace(/(<title[^>]*>)[^<]*(<\/title>)/i, `$1${frTitle}$2`);
-  if (frDesc) fr = fr.replace(/(<meta name="description"[^>]*\bcontent=")[^"]*(")/i, `$1${frDesc}$2`);
-  if (frTitle) fr = fr.replace(/(<meta property="og:title"[^>]*content=")[^"]*(")/i, `$1${frTitle}$2`);
-  if (frDesc) fr = fr.replace(/(<meta property="og:description"[^>]*content=")[^"]*(")/i, `$1${frDesc}$2`);
+  fr = applyFrHead(fr);
   fr = fr.replace(/(<meta property="og:url"[^>]*content=")[^"]*(")/i, `$1${frUrl}$2`);
   fr = wireAlternates(fr, rootUrl, frUrl, frUrl, 'fr_BE');
+  // corps de page en FR dans le HTML lui-même (avant la réécriture des liens : lang.js cible href="services"…)
+  fr = prerenderFr(fr);
   // liens internes (slugs nus) → /fr/… uniquement s'ils ont un jumeau FR
   fr = fr.replace(/href="([a-z0-9][a-z0-9-]*)(#[^"]*)?"/gi, (m, s, anchor) =>
     frSlugs.has(s) ? `href="/fr/${s === 'index' ? '' : s}${anchor || ''}"` : m);
@@ -160,6 +200,16 @@ for (const slug of frSlugs) {
   fr = fr.replace(/\b(href|src)="(css\/|js\/|images\/)/gi, '$1="/$2');
   writeFileSync(join(DIST, 'fr', `${slug}.html`), fr);
   frCount++;
+}
+
+// 7b) pages FR « natives » à la racine (<html lang="fr">, ex. borne-recharge-uccle) : même pré-rendu FR
+for (const f of readdirSync(DIST).filter((x) => x.endsWith('.html'))) {
+  if (FR_SKIP.has(f)) continue;
+  const p = join(DIST, f);
+  const h = readFileSync(p, 'utf8');
+  if (!/<html[^>]*\blang=["']fr["']/i.test(h)) continue;
+  if (isNoindex(h)) continue; // outils internes et pages légales : on n'y touche pas
+  writeFileSync(p, prerenderFr(applyFrHead(h)));
 }
 
 // 8) sur chaque page NL racine : ajouter l'alternate fr réciproque
@@ -183,6 +233,7 @@ function gitLastMod(file) {
 }
 const sitemapPath = join(DIST, 'sitemap.xml');
 let sitemapUpdated = 0;
+let sitemapDropped = 0;
 const frEntries = [];
 if (existsSync(sitemapPath)) {
   let xml = readFileSync(sitemapPath, 'utf8');
@@ -191,6 +242,9 @@ if (existsSync(sitemapPath)) {
     if (!loc) return block;
     const file = sourceFileForLoc(loc);
     const slug = file.replace(/\.html$/, '');
+    // une URL en noindex ou redirigée n'a rien à faire dans le sitemap (contradiction signalée par Search Console)
+    if (REDIRECTED.has(slug)) { sitemapDropped++; return ''; }
+    if (existsSync(file) && isNoindex(readFileSync(file, 'utf8'))) { sitemapDropped++; return ''; }
     const date = existsSync(file) ? gitLastMod(file) : null;
     if (date && /<lastmod>[^<]*<\/lastmod>/.test(block)) {
       block = block.replace(/<lastmod>[^<]*<\/lastmod>/, `<lastmod>${date}</lastmod>`);
@@ -216,4 +270,78 @@ if (existsSync(sitemapPath)) {
   writeFileSync(sitemapPath, xml);
 }
 
-console.log(`✅ Build terminé → dist/ (CSS + JS minifiés, ${webpCount} images en WebP, ${frCount} pages FR /fr/, ${sitemapUpdated} lastmod sitemap)`);
+// 9b) cache : /css/* et /js/* sont servis « immutable » 1 an → chaque référence porte l'empreinte du fichier
+//     (?v=<hash>). Un fichier modifié change d'URL : plus jamais d'ancienne version servie depuis le cache.
+const assetHash = new Map();
+const hashOf = (rel) => {
+  if (!assetHash.has(rel)) {
+    const p = join(DIST, rel);
+    assetHash.set(rel, existsSync(p) ? createHash('sha1').update(readFileSync(p)).digest('hex').slice(0, 10) : null);
+  }
+  return assetHash.get(rel);
+};
+let versioned = 0;
+(function stamp(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) { stamp(p); continue; }
+    if (!e.name.endsWith('.html')) continue;
+    const html = readFileSync(p, 'utf8');
+    const out = html.replace(/\b(src|href)="(\/?)((?:js|css)\/[^"?#]+\.(?:js|css))(?:\?v=[^"]*)?"/g, (m, a, slash, rel) => {
+      const h = hashOf(rel);
+      if (!h) return m;
+      versioned++;
+      return `${a}="${slash}${rel}?v=${h}"`;
+    });
+    if (out !== html) writeFileSync(p, out);
+  }
+})(DIST);
+
+// 10) flux RSS régénéré à chaque build à partir des articles (JSON-LD BlogPosting / Article) : jamais périmé
+const xmlEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const htmlDecode = (s) => String(s).replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ');
+const feedItems = [];
+for (const f of readdirSync(DIST).filter((x) => x.endsWith('.html'))) {
+  const slug = f.replace(/\.html$/, '');
+  if (REDIRECTED.has(slug)) continue;
+  const h = readFileSync(join(DIST, f), 'utf8');
+  if (isNoindex(h) || !/<html[^>]*\blang=["']nl["']/i.test(h)) continue;
+  for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    let data; try { data = JSON.parse(m[1]); } catch { continue; }
+    const post = (data['@graph'] || [data]).find((n) => [].concat(n['@type'] || []).some((t) => t === 'BlogPosting' || t === 'Article'));
+    if (!post || !post.datePublished) continue;
+    const title = post.headline || (h.match(/<title[^>]*>([^<]*)<\/title>/) || [])[1] || slug;
+    const desc = post.description || (h.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+    feedItems.push({ slug, title: htmlDecode(title), desc: htmlDecode(desc), date: post.datePublished });
+    break;
+  }
+}
+feedItems.sort((a, b) => b.date.localeCompare(a.date));
+if (feedItems.length) {
+  const rfc = (d) => new Date(`${d}T09:00:00+02:00`).toUTCString();
+  const feed = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>BORNEXA – Laadpaal &amp; Wallbox Blog</title>
+    <link>${SITE}/blog</link>
+    <atom:link href="${SITE}/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Laadpaal- en wallbox-installateur in Vlaams-Brabant en Brussel. Artikels over installatie, kostprijs, normen, laden op zon en smart charging.</description>
+    <language>nl-BE</language>
+    <lastBuildDate>${rfc(feedItems[0].date)}</lastBuildDate>
+    <generator>BORNEXA build</generator>
+${feedItems.map((it) => `    <item>
+      <title>${xmlEsc(it.title)}</title>
+      <link>${SITE}/${it.slug}</link>
+      <guid isPermaLink="true">${SITE}/${it.slug}</guid>
+      <pubDate>${rfc(it.date)}</pubDate>
+      <dc:creator>BORNEXA</dc:creator>
+      <description>${xmlEsc(it.desc)}</description>
+    </item>`).join('\n')}
+  </channel>
+</rss>
+`;
+  writeFileSync(join(DIST, 'feed.xml'), feed);
+}
+
+console.log(`✅ Build terminé → dist/ (CSS + JS minifiés, ${webpCount} images en WebP, ${frCount} pages FR /fr/, ${sitemapUpdated} lastmod sitemap, ${sitemapDropped} URL retirées du sitemap)`);
+console.log(`   Empreintes cache : ${versioned} références · Flux RSS : ${feedItems.length} articles · Pré-rendu FR : ${prStats.pages} pages, ${prStats.replaced} textes traduits, ${prStats.removedBlocks + prStats.emptiedBlocks} blocs NL retirés, ${prStats.scriptTexts} textes de script`);
