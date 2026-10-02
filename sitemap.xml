@@ -109,6 +109,14 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.bornexa.be/laadpaal-3x230v</loc>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/laadpaal-3x230v"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/laadpaal-3x230v"/>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.bornexa.be/regios</loc>
     <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/regios"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/regios"/>
@@ -224,7 +232,6 @@
   <url>
     <loc>https://www.bornexa.be/prime-borne-recharge-bruxelles</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/prime-borne-recharge-bruxelles"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/prime-borne-recharge-bruxelles?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/prime-borne-recharge-bruxelles"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -615,7 +622,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-uccle</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-uccle"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-uccle?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-uccle"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -628,7 +634,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-auderghem</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-auderghem"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-auderghem?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-auderghem"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -637,7 +642,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-woluwe-saint-pierre</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-woluwe-saint-pierre"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-woluwe-saint-pierre?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-woluwe-saint-pierre"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -646,7 +650,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-woluwe-saint-lambert</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-woluwe-saint-lambert"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-woluwe-saint-lambert?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-woluwe-saint-lambert"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -655,7 +658,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-ixelles</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-ixelles"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-ixelles?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-ixelles"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -664,7 +666,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-etterbeek</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-etterbeek"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-etterbeek?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-etterbeek"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -673,7 +674,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-watermael-boitsfort</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-watermael-boitsfort"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-watermael-boitsfort?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-watermael-boitsfort"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -682,7 +682,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-wezembeek-oppem</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-wezembeek-oppem"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-wezembeek-oppem?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-wezembeek-oppem"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -691,7 +690,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-kraainem</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-kraainem"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-kraainem?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-kraainem"/>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -700,7 +698,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-saint-gilles</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-saint-gilles"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-saint-gilles?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-saint-gilles"/>
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -709,7 +706,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-schaerbeek</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-schaerbeek"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-schaerbeek?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-schaerbeek"/>
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -718,7 +714,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-forest</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-forest"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-forest?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-forest"/>
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -727,7 +722,6 @@
   <url>
     <loc>https://www.bornexa.be/borne-recharge-jette</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.bornexa.be/borne-recharge-jette"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://www.bornexa.be/borne-recharge-jette?lang=nl"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/borne-recharge-jette"/>
     <lastmod>2026-06-03</lastmod>
     <changefreq>monthly</changefreq>

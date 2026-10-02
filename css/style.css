@@ -1174,3 +1174,10 @@ h2{font-weight:800;letter-spacing:-.02em}
 .local-proof-card .local-proof-tech { color: var(--text); }
 .local-proof-link { font-weight: 600; font-size: .9rem; color: var(--primary-dark); }
 @media (max-width: 520px) { .local-proof-card { flex-direction: column; } .local-proof-card img { width: 100%; max-width: 260px; flex-basis: auto; } }
+
+/* Liens vers les pages communes (hub Bruxelles) */
+.commune-links { max-width: 980px; margin: 2rem auto 0; text-align: center; }
+.commune-links h3 { font-size: 1.05rem; margin: 0 0 .9rem; color: var(--text); }
+.commune-links ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; }
+.commune-links a { display: inline-block; padding: .45rem .9rem; border: 1px solid var(--border); border-radius: var(--r-full); background: var(--surface); color: var(--text); font-size: .88rem; font-weight: 600; }
+.commune-links a:hover { border-color: var(--primary); color: var(--primary-dark); }

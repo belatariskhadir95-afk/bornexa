@@ -180,6 +180,9 @@ function wireAlternates(html, rootUrl, frUrl, canonical, locale) {
   return html;
 }
 
+// données structurées par langue : <script type="application/ld+json" data-lang="nl|fr"> — chaque version ne garde que la sienne
+const keepLdLang = (html, lang) => html.replace(/\s*<script type="application\/ld\+json" data-lang="(nl|fr)">[\s\S]*?<\/script>/g, (m, l) => (l === lang ? m : ''));
+
 mkdirSync(join(DIST, 'fr'), { recursive: true });
 let frCount = 0;
 for (const slug of frSlugs) {
@@ -192,6 +195,7 @@ for (const slug of frSlugs) {
   fr = wireAlternates(fr, rootUrl, frUrl, frUrl, 'fr_BE');
   // corps de page en FR dans le HTML lui-même (avant la réécriture des liens : lang.js cible href="services"…)
   fr = prerenderFr(fr);
+  fr = keepLdLang(fr, 'fr');
   // liens internes (slugs nus) → /fr/… s'ils ont un jumeau FR, sinon vers la racine
   // (sous /fr/, un lien relatif « privacy » se résoudrait en /fr/privacy, qui n'existe pas)
   fr = fr.replace(/href="([a-z0-9][a-z0-9-]*)(#[^"]*)?"/gi, (m, s, anchor) =>
@@ -211,7 +215,7 @@ for (const f of readdirSync(DIST).filter((x) => x.endsWith('.html'))) {
   const h = readFileSync(p, 'utf8');
   if (!/<html[^>]*\blang=["']fr["']/i.test(h)) continue;
   if (isNoindex(h)) continue; // outils internes et pages légales : on n'y touche pas
-  let out = prerenderFr(applyFrHead(h));
+  let out = keepLdLang(prerenderFr(applyFrHead(h)), 'fr');
   // liens internes → jumeau /fr/ quand il existe (sinon un visiteur FR retombait sur la page NL)
   out = out.replace(/href="([a-z0-9][a-z0-9-]*)(#[^"]*)?"/gi, (m, s, anchor) =>
     frSlugs.has(s) ? `href="/fr/${s === 'index' ? '' : s}${anchor || ''}"` : m);
@@ -224,7 +228,7 @@ for (const f of readdirSync(DIST).filter((x) => x.endsWith('.html'))) {
 for (const slug of frSlugs) {
   const p = join(DIST, `${slug}.html`);
   const html = readFileSync(p, 'utf8');
-  writeFileSync(p, wireAlternates(html, rootUrlFor(slug), frUrlFor(slug), rootUrlFor(slug), 'nl_BE'));
+  writeFileSync(p, keepLdLang(wireAlternates(html, rootUrlFor(slug), frUrlFor(slug), rootUrlFor(slug), 'nl_BE'), 'nl'));
 }
 
 // 9) sitemap.xml : lastmod = date du dernier commit git + alternates fr + entrées /fr/
@@ -314,9 +318,9 @@ for (const f of readdirSync(DIST).filter((x) => x.endsWith('.html'))) {
   if (REDIRECTED.has(slug)) continue;
   const h = readFileSync(join(DIST, f), 'utf8');
   if (isNoindex(h) || !/<html[^>]*\blang=["']nl["']/i.test(h)) continue;
-  for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+  for (const m of h.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
     let data; try { data = JSON.parse(m[1]); } catch { continue; }
-    const post = (data['@graph'] || [data]).find((n) => [].concat(n['@type'] || []).some((t) => t === 'BlogPosting' || t === 'Article'));
+    const post = (data['@graph'] || [data]).find((n) => [].concat(n['@type'] || []).some((t) => t === 'BlogPosting' || t === 'Article' || t === 'TechArticle'));
     if (!post || !post.datePublished) continue;
     const title = post.headline || (h.match(/<title[^>]*>([^<]*)<\/title>/) || [])[1] || slug;
     const desc = post.description || (h.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
