@@ -93,6 +93,41 @@ export function prerenderLang(html, dict, lang = 'fr') {
   const stats = { replaced: 0, placeholders: 0, removedBlocks: 0, emptiedBlocks: 0, shownBlocks: 0, scriptTexts: 0, skippedNoEndTag: 0 };
 
   const innerRange = (loc) => (loc && loc.startTag && loc.endTag ? [loc.startTag.endOffset, loc.endTag.startOffset] : null);
+
+  // ancres : le bloc de l'autre langue disparaît avec ses id (ex. id="rol") ; le bloc conservé porte
+  // souvent la variante suffixée (id="rol-fr"). On lui rend l'id de base pour que les sommaires (#rol) marchent.
+  {
+    const isOtherBlock = (n) => attr(n, 'data-lang-block') === other || (() => { const b = pairBase(attr(n, 'id'), other); return !!b && ids.has(`${b}-${lang}`); })();
+    const removedIds = new Set();
+    for (const { n, anc } of els) {
+      const id = attr(n, 'id');
+      if (!id) continue;
+      if (attr(n, 'data-lang-block') === other || anc.some(isOtherBlock)) removedIds.add(id);
+    }
+    const keptIds = new Set([...ids].filter((x) => !removedIds.has(x)));
+    const renamed = new Map();
+    for (const { n, anc } of els) {
+      const id = attr(n, 'id');
+      const base = pairBase(id, lang);
+      if (!base || !removedIds.has(base) || keptIds.has(base)) continue;
+      if (anc.some((x) => attr(x, `data-${lang}`) || attr(x, 'data-key'))) continue; // contenu réécrit par un ancêtre
+      const al = n.sourceCodeLocation && n.sourceCodeLocation.attrs && n.sourceCodeLocation.attrs.id;
+      if (!al) continue;
+      edits.push({ s: al.startOffset, e: al.endOffset, t: `id="${escAttr(base)}"` });
+      renamed.set(id, base);
+    }
+    if (renamed.size) {
+      for (const { n, anc } of els) {
+        if (n.tagName !== 'a') continue;
+        const href = attr(n, 'href');
+        if (!href || !href.startsWith('#') || !renamed.has(href.slice(1))) continue;
+        if (anc.some((x) => attr(x, `data-${lang}`) || attr(x, 'data-key'))) continue;
+        const hl = n.sourceCodeLocation && n.sourceCodeLocation.attrs && n.sourceCodeLocation.attrs.href;
+        if (hl) edits.push({ s: hl.startOffset, e: hl.endOffset, t: `href="#${escAttr(renamed.get(href.slice(1)))}"` });
+      }
+      stats.renamedIds = renamed.size;
+    }
+  }
   function setStyleAttr(n, loc, transform) {
     const a = loc.attrs && loc.attrs.style;
     const cur = attr(n, 'style');
@@ -146,6 +181,14 @@ export function prerenderLang(html, dict, lang = 'fr') {
           stats.promotedH1 = (stats.promotedH1 || 0) + 1;
         }
       }
+    }
+
+    // texte alternatif traduit d'une image (data-alt-fr / data-alt-nl), comme lang.js
+    if (tag === 'img') {
+      const altLang = attr(n, `data-alt-${lang}`);
+      const al = loc.attrs && loc.attrs.alt;
+      if (altLang && al) { edits.push({ s: al.startOffset, e: al.endOffset, t: `alt="${escAttr(altLang)}"` }); stats.alts = (stats.alts || 0) + 1; }
+      continue;
     }
 
     // 2) valeur traduite : data-<lang> > data-key > cas nav > script de page

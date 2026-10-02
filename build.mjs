@@ -192,9 +192,10 @@ for (const slug of frSlugs) {
   fr = wireAlternates(fr, rootUrl, frUrl, frUrl, 'fr_BE');
   // corps de page en FR dans le HTML lui-même (avant la réécriture des liens : lang.js cible href="services"…)
   fr = prerenderFr(fr);
-  // liens internes (slugs nus) → /fr/… uniquement s'ils ont un jumeau FR
+  // liens internes (slugs nus) → /fr/… s'ils ont un jumeau FR, sinon vers la racine
+  // (sous /fr/, un lien relatif « privacy » se résoudrait en /fr/privacy, qui n'existe pas)
   fr = fr.replace(/href="([a-z0-9][a-z0-9-]*)(#[^"]*)?"/gi, (m, s, anchor) =>
-    frSlugs.has(s) ? `href="/fr/${s === 'index' ? '' : s}${anchor || ''}"` : m);
+    frSlugs.has(s) ? `href="/fr/${s === 'index' ? '' : s}${anchor || ''}"` : `href="/${s}${anchor || ''}"`);
   fr = fr.replace(/href="\/"/g, 'href="/fr/"');
   // assets relatifs → absolus (sinon 404 sous /fr/…)
   fr = fr.replace(/\b(href|src)="(css\/|js\/|images\/)/gi, '$1="/$2');
@@ -203,13 +204,20 @@ for (const slug of frSlugs) {
 }
 
 // 7b) pages FR « natives » à la racine (<html lang="fr">, ex. borne-recharge-uccle) : même pré-rendu FR
+let frNativeCount = 0;
 for (const f of readdirSync(DIST).filter((x) => x.endsWith('.html'))) {
   if (FR_SKIP.has(f)) continue;
   const p = join(DIST, f);
   const h = readFileSync(p, 'utf8');
   if (!/<html[^>]*\blang=["']fr["']/i.test(h)) continue;
   if (isNoindex(h)) continue; // outils internes et pages légales : on n'y touche pas
-  writeFileSync(p, prerenderFr(applyFrHead(h)));
+  let out = prerenderFr(applyFrHead(h));
+  // liens internes → jumeau /fr/ quand il existe (sinon un visiteur FR retombait sur la page NL)
+  out = out.replace(/href="([a-z0-9][a-z0-9-]*)(#[^"]*)?"/gi, (m, s, anchor) =>
+    frSlugs.has(s) ? `href="/fr/${s === 'index' ? '' : s}${anchor || ''}"` : m);
+  out = out.replace(/href="\/"/g, 'href="/fr/"');
+  writeFileSync(p, out);
+  frNativeCount++;
 }
 
 // 8) sur chaque page NL racine : ajouter l'alternate fr réciproque
@@ -344,4 +352,4 @@ ${feedItems.map((it) => `    <item>
 }
 
 console.log(`✅ Build terminé → dist/ (CSS + JS minifiés, ${webpCount} images en WebP, ${frCount} pages FR /fr/, ${sitemapUpdated} lastmod sitemap, ${sitemapDropped} URL retirées du sitemap)`);
-console.log(`   Empreintes cache : ${versioned} références · Flux RSS : ${feedItems.length} articles · Pré-rendu FR : ${prStats.pages} pages, ${prStats.replaced} textes traduits, ${prStats.removedBlocks + prStats.emptiedBlocks} blocs NL retirés, ${prStats.scriptTexts} textes de script`);
+console.log(`   Empreintes cache : ${versioned} références · Flux RSS : ${feedItems.length} articles · Pré-rendu FR : ${prStats.pages} pages, ${prStats.replaced} textes traduits, ${prStats.removedBlocks + prStats.emptiedBlocks} blocs NL retirés, ${prStats.scriptTexts} textes de script · Pages FR natives reliées aux jumeaux /fr/ : ${frNativeCount}`);

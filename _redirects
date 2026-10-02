@@ -238,3 +238,26 @@
 /diagnostic-interne.html     /diagnostic-interne      301!
 /diagnostic                  /diagnostic-interne      301!
 /diagnose                    /diagnostic-interne      301!
+
+# Consolidation V2H × ville (2026-10-02) : 7 pages quasi identiques (74 % de contenu commun, ±350 mots) → hub V2H
+/bidirectioneel-laden-aarschot               /borne-bidirectionnelle        301!
+/bidirectioneel-laden-aarschot.html          /borne-bidirectionnelle        301!
+/fr/bidirectioneel-laden-aarschot            /fr/borne-bidirectionnelle     301!
+/bidirectioneel-laden-boortmeerbeek          /borne-bidirectionnelle        301!
+/bidirectioneel-laden-boortmeerbeek.html     /borne-bidirectionnelle        301!
+/fr/bidirectioneel-laden-boortmeerbeek       /fr/borne-bidirectionnelle     301!
+/bidirectioneel-laden-haacht                 /borne-bidirectionnelle        301!
+/bidirectioneel-laden-haacht.html            /borne-bidirectionnelle        301!
+/fr/bidirectioneel-laden-haacht              /fr/borne-bidirectionnelle     301!
+/bidirectioneel-laden-leuven                 /borne-bidirectionnelle        301!
+/bidirectioneel-laden-leuven.html            /borne-bidirectionnelle        301!
+/fr/bidirectioneel-laden-leuven              /fr/borne-bidirectionnelle     301!
+/bidirectioneel-laden-mechelen               /borne-bidirectionnelle        301!
+/bidirectioneel-laden-mechelen.html          /borne-bidirectionnelle        301!
+/fr/bidirectioneel-laden-mechelen            /fr/borne-bidirectionnelle     301!
+/bidirectioneel-laden-tervuren               /borne-bidirectionnelle        301!
+/bidirectioneel-laden-tervuren.html          /borne-bidirectionnelle        301!
+/fr/bidirectioneel-laden-tervuren            /fr/borne-bidirectionnelle     301!
+/bidirectioneel-laden-vilvoorde              /borne-bidirectionnelle        301!
+/bidirectioneel-laden-vilvoorde.html         /borne-bidirectionnelle        301!
+/fr/bidirectioneel-laden-vilvoorde           /fr/borne-bidirectionnelle     301!

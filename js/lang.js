@@ -103,6 +103,13 @@
       var val = el.getAttribute('data-' + lang);
       if (val !== null && val !== '') setEl(el, val);
     });
+
+    // Textes alternatifs des images (data-alt-nl / data-alt-fr)
+    document.querySelectorAll('img[data-alt-fr]').forEach(function (img) {
+      if (!img.hasAttribute('data-alt-nl')) img.setAttribute('data-alt-nl', img.getAttribute('alt') || '');
+      var a = img.getAttribute('data-alt-' + lang);
+      if (a) img.setAttribute('alt', a);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', function () {
