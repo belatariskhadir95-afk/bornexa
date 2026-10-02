@@ -41,3 +41,9 @@ test devis.pdf
 
 # Prive - jamais publier ni committer
 vetements/
+
+# Réglages Claude Code du poste (contiennent des chemins de dossiers clients) — jamais dans le dépôt public
+.claude/settings.json
+
+# Stratégie SEO / plans internes (concurrence, régions, actions) — locaux tant que le dépôt est public
+docs/

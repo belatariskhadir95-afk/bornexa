@@ -15,7 +15,7 @@ const DIST = 'dist';
 
 // Éléments racine à NE PAS publier (build, vcs, sources lourdes, docs internes)
 const SKIP = new Set([
-  'node_modules', 'dist', '.git', '.github', '.claude',
+  'node_modules', 'dist', '.git', '.github', '.claude', 'docs',
   'photos-gbp', 'print-qr', 'vetements', 'scripts', 'tmp',
   'build.mjs', 'package.json', 'package-lock.json',
   'CLAUDE.md', 'PROJECT_CONTEXT.md', 'VALIDATION-TECHNIQUE.md',

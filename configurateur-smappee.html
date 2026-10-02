@@ -787,7 +787,7 @@ function presetCopro(){
   _applyPresetUI();
   if(window.BX && BX.toast) BX.toast('Préréglage copro parking appliqué — ajustez le nombre de P1/locataires et de bornes','ok');
 }
-/* Appartement, borne à la place de parking (type Spiessens) : mono 40 A → délestage + Ethernet vers le sous-sol */
+/* Appartement, borne à la place de parking (cas type) : mono 40 A → délestage + Ethernet vers le sous-sol */
 function presetAppart(){
   S.building='Woning'; S.phase='Monofasig'; S.meter='digital'; S.conn='Ethernet';
   S.mainA=40; S.p1Count=0; S.ev=0; S.evu=0; S.sw=0; S.evw=1; S.evwVar='Câble 8 m';
