@@ -33,7 +33,7 @@ const DICT = {
     added: 'Toegevoegd ✓',
     sending: 'Bezig…',
     offer: {
-      base: 'Een conforme installatie volgens het AREI, met keuring en aanmelding.',
+      base: 'Een conforme installatie volgens het AREI, met keuring en de nodige stappen bij de netbeheerder.',
       charger: 'Plaatsing van uw laadpaal met de juiste beveiliging.',
       socket: 'Plaatsing van een versterkt Green&#39;Up-stopcontact.',
       own: 'Plaatsing en aansluiting van uw eigen laadpaal.',
@@ -43,6 +43,7 @@ const DICT = {
       solar: 'Laden op uw zonne-energie: we stemmen de laadpaal af op uw panelen.',
       solarPlanned: 'Klaar voor uw toekomstige zonnepanelen.',
       netCheck: 'We controleren uw elektrisch net bij het gratis plaatsbezoek.',
+      net230: 'Op 3×230 V zonder N laadt een laadpaal monofasig: tot 7,4 kW op een kring van 32 A. <a href="laadpaal-3x230v" target="_blank" rel="noopener">Waarom?</a>',
       collective: 'Een oplossing voor meerdere laadpunten, met verdeling van het vermogen.',
       energy: 'Advies en installatie van Smappee Infinity voor uw doel.',
       repair: 'Diagnose ter plaatse, ook voor laadpalen die wij niet plaatsten.',
@@ -69,7 +70,7 @@ const DICT = {
     added: 'Ajouté ✓',
     sending: 'Envoi…',
     offer: {
-      base: 'Une installation conforme au RGIE, avec contrôle et déclaration.',
+      base: 'Une installation conforme au RGIE, avec le contrôle et les démarches auprès du gestionnaire de réseau.',
       charger: 'Pose de votre borne avec les protections adaptées.',
       socket: 'Pose d&#39;une prise renforcée Green&#39;Up.',
       own: 'Pose et raccordement de votre propre borne.',
@@ -79,6 +80,7 @@ const DICT = {
       solar: 'Recharge sur votre énergie solaire : nous accordons la borne à vos panneaux.',
       solarPlanned: 'Prête pour vos futurs panneaux solaires.',
       netCheck: 'Nous vérifions votre réseau électrique lors de la visite gratuite.',
+      net230: 'En 3×230 V sans N, une borne charge en monophasé : jusqu&#39;à 7,4 kW sur un circuit de 32 A. <a href="laadpaal-3x230v" target="_blank" rel="noopener">Pourquoi ?</a>',
       collective: 'Une solution pour plusieurs points de charge, avec répartition de la puissance.',
       energy: 'Conseil et installation de Smappee Infinity pour votre objectif.',
       repair: 'Diagnostic sur place, y compris pour les bornes que nous n&#39;avons pas installées.',

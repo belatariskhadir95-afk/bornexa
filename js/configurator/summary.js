@@ -43,7 +43,8 @@ export function createSummary(root, form) {
       const s = a.Type_Service;
       out.push(s === V2H_SERVICE ? o.v2h : s === "Prise renforcee Green'Up" ? o.socket : s === 'Eigen borne plaatsen' ? o.own : s === 'Vervanging bestaande borne' ? o.replace : o.charger);
       if (s === V2H_SERVICE && a.Type_Installatie !== 'Eenfasig (1x230V)' && a.Type_Installatie !== 'Driefasig (3x400V)') out.push(o.v2hNet);
-      else if (a.Type_Installatie === 'Onbekend' || a.Type_Installatie === 'Driefasig zonder N (3x230V)') out.push(o.netCheck);
+      else if (a.Type_Installatie === 'Driefasig zonder N (3x230V)') out.push(o.net230, o.netCheck);
+      else if (a.Type_Installatie === 'Onbekend') out.push(o.netCheck);
       if (a.zonnepanelen === 'Ja') out.push(o.solar);
       else if (a.zonnepanelen === 'Gepland') out.push(o.solarPlanned);
       if (COLLECTIVE.test(a.Type_Project)) out.push(o.collective);
