@@ -1182,3 +1182,10 @@ h2{font-weight:800;letter-spacing:-.02em}
 .commune-links a { display: inline-block; padding: .45rem .9rem; border: 1px solid var(--border); border-radius: var(--r-full); background: var(--surface); color: var(--text); font-size: .88rem; font-weight: 600; }
 .commune-links a:hover { border-color: var(--primary); color: var(--primary-dark); }
 .commune-links h2 { font-size: clamp(1.2rem, 2.4vw, 1.45rem); margin: 0 0 .9rem; color: var(--text); }
+
+/* Mobile : rien ne doit élargir la page (tableaux défilants dans leur cadre, grilles et boutons qui se plient) */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; margin: 1.25rem 0; }
+.table-scroll > table { margin: 0; }
+.table-scroll:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.post-layout > *, .comp-grid > * { min-width: 0; }
+@media (max-width: 480px) { .btn { white-space: normal; max-width: 100%; text-align: center; justify-content: center; } }
