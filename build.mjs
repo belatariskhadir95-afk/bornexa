@@ -103,18 +103,28 @@ if (existsSync('dist/js/shared')) rmSync('dist/js/shared', { recursive: true, fo
 // 5) convertir les images JPG/PNG en WebP
 const imgDir = join(DIST, 'images');
 let webpCount = 0;
+const responsive = new Map(); // base → { full, widths } pour les srcset
 if (existsSync(imgDir)) {
   for (const f of readdirSync(imgDir)) {
     if (/\.(jpe?g|png)$/i.test(f)) {
       const out = f.replace(/\.(jpe?g|png)$/i, '.webp');
       await sharp(join(imgDir, f)).webp({ quality: 80 }).toFile(join(imgDir, out));
       webpCount++;
+      // photos de chantiers (bornexa-*) : variantes réduites pour srcset (affichées à ±140–340 px de large)
+      if (/^bornexa-/i.test(f)) {
+        const meta = await sharp(join(imgDir, f)).metadata();
+        const base = out.replace(/\.webp$/, '');
+        const widths = [480, 960].filter((w) => w < (meta.width || 0));
+        for (const w of widths) await sharp(join(imgDir, f)).resize({ width: w }).webp({ quality: 78 }).toFile(join(imgDir, `${base}-${w}.webp`));
+        responsive.set(base, { full: meta.width, widths });
+      }
     }
   }
 }
 
 // 6) réécrire les <img src="images/X.jpg|png"> en .webp dans tout le HTML de dist
 //    (ne touche PAS aux <meta og:image> / twitter:image qui restent en JPG)
+//    + srcset/sizes sur les photos de chantiers (sizes du source conservé, sinon valeur par défaut)
 function rewriteHtml(dir) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, e.name);
@@ -122,6 +132,13 @@ function rewriteHtml(dir) {
     if (!e.name.endsWith('.html')) continue;
     let html = readFileSync(p, 'utf8');
     html = html.replace(/(<img\b[^>]*\bsrc=")images\/([^"]+)\.(jpe?g|png)(")/gi, '$1images/$2.webp$4');
+    html = html.replace(/<img\b[^>]*\bsrc="images\/([^"]+)\.webp"[^>]*>/gi, (tag, base) => {
+      const r = responsive.get(base);
+      if (!r || !r.widths.length || /\bsrcset=/i.test(tag)) return tag;
+      const set = [...r.widths.map((w) => `images/${base}-${w}.webp ${w}w`), `images/${base}.webp ${r.full}w`].join(', ');
+      const sizes = /\bsizes=/i.test(tag) ? '' : ' sizes="(max-width: 600px) 90vw, 400px"';
+      return tag.replace(/<img\b/i, `<img srcset="${set}"${sizes}`);
+    });
     writeFileSync(p, html);
   }
 }
@@ -203,6 +220,7 @@ for (const slug of frSlugs) {
   fr = fr.replace(/href="\/"/g, 'href="/fr/"');
   // assets relatifs → absolus (sinon 404 sous /fr/…)
   fr = fr.replace(/\b(href|src)="(css\/|js\/|images\/)/gi, '$1="/$2');
+  fr = fr.replace(/\bsrcset="([^"]*)"/gi, (m, v) => `srcset="${v.replace(/(^|,\s*)images\//g, '$1/images/')}"`);
   writeFileSync(join(DIST, 'fr', `${slug}.html`), fr);
   frCount++;
 }
