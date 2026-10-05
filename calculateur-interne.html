@@ -954,16 +954,16 @@
   const DEFAULT_TARIFS = {
     bornes: [
       // ── WALLBOX — prix Cebeo réels 2026-07 (catalogue Wallbox 79 réf.) ──
-      {ref:"WB-PM-1.2",  nameFR:"Wallbox Pulsar Max 7,4 kW mono (prise T2)",  nameNL:"Wallbox Pulsar Max 7,4 kW eenfase (T2-stopcontact)",  price:526.83, margin:1.12},
-      {ref:"WB-PM-3",    nameFR:"Wallbox Pulsar Max 11 kW (câble 5 m)",       nameNL:"Wallbox Pulsar Max 11 kW (kabel 5 m)",               price:610.28, margin:1.12},
-      {ref:"WB-PM-22",   nameFR:"Wallbox Pulsar Max 22 kW (câble 5 m)",       nameNL:"Wallbox Pulsar Max 22 kW (kabel 5 m)",               price:547.90, margin:1.12},
-      {ref:"WB-CM2",     nameFR:"Wallbox Pulsar Pro 22 kW (4G · RFID · MID)", nameNL:"Wallbox Pulsar Pro 22 kW (4G · RFID · MID)",          price:687.54, margin:1.12},
-      {ref:"WB-EM4-1E",  nameFR:"Wallbox eM4 Single 22 kW — Extender (satellite)",    nameNL:"Wallbox eM4 Single 22 kW — Extender (satelliet)",     price:1154.90, margin:1.12},
-      {ref:"WB-EM4-1C",  nameFR:"Wallbox eM4 Single 22 kW — Controller (load mgmt)",  nameNL:"Wallbox eM4 Single 22 kW — Controller (loadbeheer)",  price:1355.64, margin:1.12},
-      {ref:"WB-EM4-2E",  nameFR:"Wallbox eM4 Twin 22 kW · 2 connecteurs — Extender",   nameNL:"Wallbox eM4 Twin 22 kW · 2 connectoren — Extender",   price:2302.85, margin:1.12},
-      {ref:"WB-EM4-2C",  nameFR:"Wallbox eM4 Twin 22 kW · 2 connecteurs — Controller", nameNL:"Wallbox eM4 Twin 22 kW · 2 connectoren — Controller", price:2761.68, margin:1.12},
-      {ref:"TS-WC3-11",  nameFR:"Tesla Wall Connector Gen 3 (11 kW)",        nameNL:"Tesla Wall Connector Gen 3 (11 kW)",        price:442.15, margin:1.08},
-      {ref:"TS-WC3-22",  nameFR:"Tesla Wall Connector Gen 3 (22 kW)",        nameNL:"Tesla Wall Connector Gen 3 (22 kW)",        price:442.15, margin:1.08},
+      {ref:"WB-PM-1.2",  nameFR:"Wallbox Pulsar Max 7,4 kW mono (prise T2)",  nameNL:"Wallbox Pulsar Max 7,4 kW eenfase (T2-stopcontact)",  price:526.83, margin:1.15},
+      {ref:"WB-PM-3",    nameFR:"Wallbox Pulsar Max 11 kW (câble 5 m)",       nameNL:"Wallbox Pulsar Max 11 kW (kabel 5 m)",               price:610.28, margin:1.15},
+      {ref:"WB-PM-22",   nameFR:"Wallbox Pulsar Max 22 kW (câble 5 m)",       nameNL:"Wallbox Pulsar Max 22 kW (kabel 5 m)",               price:547.90, margin:1.15},
+      {ref:"WB-CM2",     nameFR:"Wallbox Pulsar Pro 22 kW (4G · RFID · MID)", nameNL:"Wallbox Pulsar Pro 22 kW (4G · RFID · MID)",          price:687.54, margin:1.15},
+      {ref:"WB-EM4-1E",  nameFR:"Wallbox eM4 Single 22 kW — Extender (satellite)",    nameNL:"Wallbox eM4 Single 22 kW — Extender (satelliet)",     price:1154.90, margin:1.15},
+      {ref:"WB-EM4-1C",  nameFR:"Wallbox eM4 Single 22 kW — Controller (load mgmt)",  nameNL:"Wallbox eM4 Single 22 kW — Controller (loadbeheer)",  price:1355.64, margin:1.15},
+      {ref:"WB-EM4-2E",  nameFR:"Wallbox eM4 Twin 22 kW · 2 connecteurs — Extender",   nameNL:"Wallbox eM4 Twin 22 kW · 2 connectoren — Extender",   price:2302.85, margin:1.15},
+      {ref:"WB-EM4-2C",  nameFR:"Wallbox eM4 Twin 22 kW · 2 connecteurs — Controller", nameNL:"Wallbox eM4 Twin 22 kW · 2 connectoren — Controller", price:2761.68, margin:1.15},
+      {ref:"TS-WC3-11",  nameFR:"Tesla Wall Connector Gen 3 (11 kW)",        nameNL:"Tesla Wall Connector Gen 3 (11 kW)",        price:442.15, margin:1.21},
+      {ref:"TS-WC3-22",  nameFR:"Tesla Wall Connector Gen 3 (22 kW)",        nameNL:"Tesla Wall Connector Gen 3 (22 kW)",        price:442.15, margin:1.21},
       {ref:"SM-EVB-11",  nameFR:"Smappee EV Base (11 kW)",                   nameNL:"Smappee EV Base (11 kW)",                   price:898.60, margin:1.15},
       {ref:"SM-EVW-11",  nameFR:"Smappee EV Wall (11 kW)",                   nameNL:"Smappee EV Wall (11 kW)",                   price:887.52, margin:1.15},
       {ref:"SM-EVB-22",  nameFR:"Smappee EV Base (22 kW)",                   nameNL:"Smappee EV Base (22 kW)",                   price:898.60, margin:1.15},
@@ -973,7 +973,7 @@
     cables: [
       {ref:"3G6",   descFR:"XGB 3G6 · mono ≤ 20 m",                            descNL:"XGB 3G6 · eenfase ≤ 20 m",                              pricePerM:5.52},
       {ref:"3G10",  descFR:"XGB 3G10 · mono > 20 m",                           descNL:"XGB 3G10 · eenfase > 20 m",                              pricePerM:8.98},
-      {ref:"5G6",   descFR:"XGB 5G6 · tri 11 kW ≤ 20 m",                       descNL:"XGB 5G6 · driefase 11 kW ≤ 20 m",                        pricePerM:8.54},
+      {ref:"5G6",   descFR:"H07RN-F 5G6 souple · tri 11 kW ≤ 20 m",           descNL:"H07RN-F 5G6 soepel · driefase 11 kW ≤ 20 m",           pricePerM:13.05},
       {ref:"5G10",  descFR:"XGB 5G10 · tri 11 kW > 20 m / 22 kW ≤ 20 m",       descNL:"XGB 5G10 · driefase 11 kW > 20 m / 22 kW ≤ 20 m",        pricePerM:14.12},
       {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:23.45},
       {ref:"GOULOTTE", descFR:"Goulotte PVC (pose apparente) · €/m", descNL:"PVC kabelgoot (opbouwmontage) · €/m", pricePerM:3.00}
@@ -984,7 +984,7 @@
       {ref:"DIF-A-40", descFR:"Différentiel Type A 30 mA 40 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:42.72},
       {ref:"DIF-A-63", descFR:"Différentiel Type A 30 mA 63 A bipolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A tweepolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:57.52},
       // — TRI : différentiels TÉTRAPOLAIRES (4P) —
-      {ref:"DIF-A-40-4P", descFR:"Différentiel Type A 30 mA 40 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:45.11},
+      {ref:"DIF-A-40-4P", descFR:"Différentiel Type A 30 mA 40 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 40 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:45.56},
       {ref:"DIF-A-63-4P", descFR:"Différentiel Type A 30 mA 63 A tétrapolaire (combiné RDC-DD borne — IEC 62955)", descNL:"Differentieel Type A 30 mA 63 A vierpolig (gecombineerd met RDC-DD laadpaal — IEC 62955)", price:74.73},
       // ── OPTION PREMIUM : Type B sur demande explicite client uniquement ──
       {ref:"DIF-B-40", descFR:"Différentiel Type B 30 mA 40 A bipolaire (sur demande client — sur-protection)", descNL:"Differentieel Type B 30 mA 40 A tweepolig (op klantenvraag — extra beveiliging)", price:185},
@@ -997,7 +997,7 @@
       {ref:"DIS-C32",  descFR:"Disjoncteur courbe C32 1P+N", descNL:"Automaat curve C32 1P+N", price:34.47},
       // Disjoncteurs courbe C — TRI (3P+N · ABB S200 6 kA)
       {ref:"DIS-C16-3P", descFR:"Disjoncteur courbe C16 3P+N (tétrapolaire)", descNL:"Automaat curve C16 3P+N (vierpolig)", price:80.48},
-      {ref:"DIS-C20-3P", descFR:"Disjoncteur courbe C20 3P+N (tétrapolaire)", descNL:"Automaat curve C20 3P+N (vierpolig)", price:80.48},
+      {ref:"DIS-C20-3P", descFR:"Disjoncteur courbe C20 3P+N (tétrapolaire)", descNL:"Automaat curve C20 3P+N (vierpolig)", price:82.25},
       {ref:"DIS-C32-3P", descFR:"Disjoncteur courbe C32 3P+N (tétrapolaire)", descNL:"Automaat curve C32 3P+N (vierpolig)", price:80.48},
       {ref:"DIS-C40-3P", descFR:"Disjoncteur courbe C40 3P+N (tétrapolaire)", descNL:"Automaat curve C40 3P+N (vierpolig)", price:82.71},
       // Accessoires
@@ -1118,6 +1118,14 @@
             if (!savedRefs.has(defItem.ref)) t[group].push(JSON.parse(JSON.stringify(defItem)));
           });
         });
+        // Migration 05/10/2026 — panier Cebeo réel + marges décidées : seulement si la valeur enregistrée = ancien défaut
+        const upd = (g, ref, key, from, to, extra) => { const it = (t[g] || []).find(x => x.ref === ref); if (it && it[key] === from) { it[key] = to; if (extra) Object.assign(it, extra); } };
+        upd('cables', '5G6', 'pricePerM', 8.54, 13.05, { descFR: 'H07RN-F 5G6 souple · tri 11 kW ≤ 20 m', descNL: 'H07RN-F 5G6 soepel · driefase 11 kW ≤ 20 m' });
+        upd('prots', 'DIF-A-40-4P', 'price', 45.11, 45.56);
+        upd('prots', 'DIS-C20-3P', 'price', 80.48, 82.25);
+        upd('bornes', 'TS-WC3-11', 'margin', 1.08, 1.21);
+        upd('bornes', 'TS-WC3-22', 'margin', 1.08, 1.21);
+        (t.bornes || []).forEach(b => { if (/^WB-/.test(b.ref) && b.margin === 1.12) b.margin = 1.15; });
         // Migration : labor + margins (+ fusion des nouvelles clés, ex. swapHours)
         if (!t.labor)   t.labor   = JSON.parse(JSON.stringify(DEFAULT_TARIFS.labor));
         else Object.keys(DEFAULT_TARIFS.labor).forEach(k => { if (t.labor[k] === undefined) t.labor[k] = JSON.parse(JSON.stringify(DEFAULT_TARIFS.labor[k])); });
