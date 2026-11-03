@@ -7,7 +7,7 @@ const send = (name, params) => {
 };
 
 // choix utiles au suivi commercial (valeurs des boutons radio, jamais du texte libre)
-const TRACKED = { Type_Aanvraag: 'path', Type_Project: 'project', Type_Installatie: 'network', zonnepanelen: 'solar', Type_Service: 'service', Gewenst_Merk_Borne: 'brand' };
+const TRACKED = { Type_Aanvraag: 'path', Type_Project: 'project', Type_Installatie: 'network', zonnepanelen: 'solar', thuisbatterij: 'battery', Type_Service: 'service', Gewenst_Merk_Borne: 'brand' };
 
 export function createAnalytics() {
   let started = false, submitted = false, last = 'intro';

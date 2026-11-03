@@ -1,7 +1,7 @@
 /* BORNEXA — configurateur · envoi de la demande
    Identique à l'ancien formulaire : Netlify Forms (→ Make → Notion), notification EmailJS,
    conversions GA4, et repli « contact direct » si rien ne répond en 10 s (jamais de faux succès). */
-import { clearOutside, emailParams, invalidContact } from './steps.js';
+import { clearOutside, clearHidden, emailParams, invalidContact } from './steps.js';
 import { dict } from './i18n.js';
 
 export function wireSubmit(form, ctx) {
@@ -28,6 +28,7 @@ export function wireSubmit(form, ctx) {
     const label = btn.innerHTML;
     btn.textContent = d.sending;
     clearOutside(form, ctx.flow());
+    clearHidden(form);
     form.elements.lang.value = lang;
     const params = emailParams(form, lang, d);
 

@@ -372,3 +372,9 @@ html:not(.cfg-js) .cfg-progress,html:not(.cfg-js) .cfg-start,html:not(.cfg-js) .
   .cf-sun-halo,.cf-f-dots,.cf-bar,.cf-o.is-planned .cf-bp,#cf-badge-repair.is-on{animation:none !important}
   .cfg-js .cfg-step.is-active{animation:none}
 }
+/* questions complémentaires (batterie, modèle, distance) */
+.cfg-more{margin-top:22px}
+.cfg-q2{display:block;font-weight:600;font-size:1rem;color:rgba(255,255,255,.92);margin:0 0 12px}
+.cfg-field input[type="text"]{width:100%;padding:13px 14px;border:1.5px solid rgba(255,255,255,.14);border-radius:12px;font-size:16px;background:rgba(255,255,255,.05);color:#fff}
+.cfg-field input[type="text"]:focus{outline:none;border-color:#1ADBA8;box-shadow:0 0 0 3px rgba(18,227,166,.14)}
+.cfg-note{margin:16px 0 0;padding:12px 14px;border-radius:12px;background:rgba(255,181,71,.08);border:1px solid rgba(255,181,71,.3);color:rgba(255,255,255,.86);font-size:.9rem;line-height:1.55}

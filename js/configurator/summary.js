@@ -26,6 +26,9 @@ export function createSummary(root, form) {
     for (const step of flow) {
       const name = CHOICE[step];
       if (name && a[name]) out.push({ step, k: d.labels[name], v: label(name) });
+      if (step === 'vehicle' && a.model_voertuig) out.push({ step, k: d.labels.model_voertuig, v: a.model_voertuig });
+      if (step === 'solar' && a.thuisbatterij) out.push({ step, k: d.labels.thuisbatterij, v: label('thuisbatterij') });
+      if (step === 'photos' && a.afstand_bord) out.push({ step, k: d.labels.afstand_bord, v: form.elements.afstand_bord.selectedOptions[0].textContent.trim() });
       if (step === 'repair' && a.merk_borne) out.push({ step, k: d.labels.merk_borne, v: form.elements.merk_borne.selectedOptions[0].textContent.trim() });
       if (step === 'photos' && a.photos) out.push({ step, k: d.labels.photos, v: fmt(d.photos, { n: a.photos }) });
     }
@@ -42,11 +45,12 @@ export function createSummary(root, form) {
     else {
       const s = a.Type_Service;
       out.push(s === V2H_SERVICE ? o.v2h : s === "Prise renforcee Green'Up" ? o.socket : s === 'Eigen borne plaatsen' ? o.own : s === 'Vervanging bestaande borne' ? o.replace : o.charger);
-      if (s === V2H_SERVICE && a.Type_Installatie !== 'Eenfasig (1x230V)' && a.Type_Installatie !== 'Driefasig (3x400V)') out.push(o.v2hNet);
+      if (s === V2H_SERVICE && a.Type_Installatie !== 'Driefasig (3x400V)') out.push(o.v2hNet);
       else if (a.Type_Installatie === 'Driefasig zonder N (3x230V)') out.push(o.net230, o.netCheck);
       else if (a.Type_Installatie === 'Onbekend') out.push(o.netCheck);
       if (a.zonnepanelen === 'Ja') out.push(o.solar);
       else if (a.zonnepanelen === 'Gepland') out.push(o.solarPlanned);
+      if (/Ja|Gepland/.test(a.thuisbatterij || '') && a.zonnepanelen !== 'Nee') out.push(o.battery);
       if (COLLECTIVE.test(a.Type_Project)) out.push(o.collective);
       out.push(o.base);
     }
