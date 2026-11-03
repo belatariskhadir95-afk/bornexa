@@ -65,7 +65,19 @@ export function wireSubmit(form, ctx) {
   function track() {
     if (leadTracked || typeof window.gtag !== 'function') return;
     leadTracked = true;
-    window.gtag('event', 'generate_lead', { currency: 'EUR', value: 1 });
+    // paramètres non personnels pour savoir quelles régions / prestations / marques convertissent
+    // (à enregistrer comme dimensions personnalisées dans GA4 ; la province seulement, jamais le code postal)
+    const v = (n) => { const el = form.elements[n]; return el ? String(el.value || '').slice(0, 100) : ''; };
+    const pc = v('postcode').trim();
+    const region = /^1[0-2][0-9]{2}$/.test(pc) ? 'brussel' : /^1[3-4][0-9]{2}$/.test(pc) ? 'brabant-wallon'
+      : /^(1[5-9]|3[0-4])[0-9]{2}$/.test(pc) ? 'vlaams-brabant' : /^2[0-9]{3}$/.test(pc) ? 'antwerpen'
+      : /^3[5-9][0-9]{2}$/.test(pc) ? 'limburg' : /^[4-7][0-9]{3}$/.test(pc) ? 'wallonie'
+      : /^[89][0-9]{3}$/.test(pc) ? 'west-oost-vlaanderen' : 'onbekend';
+    window.gtag('event', 'generate_lead', {
+      currency: 'EUR', value: 1,
+      lead_path: v('Type_Aanvraag'), lead_project: v('Type_Project'), lead_service: v('Type_Service'),
+      lead_brand: v('Gewenst_Merk_Borne'), lead_network: v('Type_Installatie'), lead_battery: v('thuisbatterij'), lead_region: region
+    });
     window.gtag('event', 'SUBMIT_LEAD_FORM', { currency: 'EUR', value: 1 });
   }
 }
