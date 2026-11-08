@@ -1839,7 +1839,7 @@
     const qY = today.getFullYear();
     const qSeq = String(getQuoteSeq()).padStart(4, '0');
     const devisRef = `BX-${qY}-${qSeq}`;
-    const dueDate = new Date(today); dueDate.setDate(dueDate.getDate() + 14);
+    const dueDate = new Date(today); dueDate.setDate(dueDate.getDate() + 7); // échéance = facture + 1 semaine (règle 08/11/2026)
     document.getElementById('quote-doc').className = 'quote-doc qd-mode-' + docMode;
     const setMeta = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     setMeta('qd-date', fmtDate(today));
