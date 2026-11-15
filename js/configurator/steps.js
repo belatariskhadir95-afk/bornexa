@@ -25,7 +25,7 @@ export const CHOICE = {
 /* étape → autres champs (facultatifs) */
 export const FIELDS = {
   vehicle: ['model_voertuig'],
-  solar: ['thuisbatterij'],
+  solar: ['thuisbatterij', 'omvormer_type'],
   details: ['digitale_meter', 'maandfactuur'],
   repair: ['merk_borne', 'probleem'],
   advice: ['advies_vraag'],
@@ -120,6 +120,7 @@ export function emailParams(form, lang, d) {
     extra_info: value(form, 'bericht') || d.none,
     vehicle_model: v('model_voertuig'),
     battery: v('thuisbatterij'),
+    inverter_type: v('omvormer_type'),
     distance: v('afstand_bord'),
     postcode: v('postcode')
   };

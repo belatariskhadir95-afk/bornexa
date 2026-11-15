@@ -27,7 +27,12 @@ export function createSummary(root, form) {
       const name = CHOICE[step];
       if (name && a[name]) out.push({ step, k: d.labels[name], v: label(name) });
       if (step === 'vehicle' && a.model_voertuig) out.push({ step, k: d.labels.model_voertuig, v: a.model_voertuig });
-      if (step === 'solar' && a.thuisbatterij) out.push({ step, k: d.labels.thuisbatterij, v: label('thuisbatterij') });
+      if (step === 'solar' && a.thuisbatterij) {
+        // batterie + type d'onduleur sur une seule ligne quand la 2e question est affichée et a une réponse
+        const asked = /^(Ja|Gepland)$/.test(a.thuisbatterij) && /^(Ja|Gepland)$/.test(a.zonnepanelen || '');
+        const inv = asked && a.omvormer_type && d.inverter[a.omvormer_type];
+        out.push(inv ? { step, k: d.labels.batteryInverter, v: `${label('thuisbatterij')} · ${inv}` } : { step, k: d.labels.thuisbatterij, v: label('thuisbatterij') });
+      }
       if (step === 'photos' && a.afstand_bord) out.push({ step, k: d.labels.afstand_bord, v: form.elements.afstand_bord.selectedOptions[0].textContent.trim() });
       if (step === 'repair' && a.merk_borne) out.push({ step, k: d.labels.merk_borne, v: form.elements.merk_borne.selectedOptions[0].textContent.trim() });
       if (step === 'photos' && a.photos) out.push({ step, k: d.labels.photos, v: fmt(d.photos, { n: a.photos }) });

@@ -292,13 +292,22 @@
               <label class="option-card"><input type="radio" name="zonnepanelen" value="Nee"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-sun-off"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Nee" data-fr="Non">Nee</span></span></span></label>
               <label class="option-card"><input type="radio" name="zonnepanelen" value="Gepland"><span class="opt"><span class="opt-icon"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#cfg-i-calendar"/></svg></span><span class="opt-text"><span class="opt-title" data-nl="Gepland" data-fr="Prévu">Gepland</span></span></span></label>
             </div>
-            <div class="cfg-more" data-show-if="zonnepanelen=Ja|Gepland" hidden>
-              <p class="cfg-q2" id="q-batterij" data-nl="Heeft u ook een thuisbatterij (of komt er een)?" data-fr="Avez-vous aussi une batterie domestique (ou est-elle prévue) ?">Heeft u ook een thuisbatterij (of komt er een)?</p>
+            <div class="cfg-more">
+              <p class="cfg-q2" id="q-batterij" data-nl="Heeft u een thuisbatterij (of komt er een)?" data-fr="Avez-vous une batterie domestique (ou est-elle prévue) ?">Heeft u een thuisbatterij (of komt er een)?</p>
               <div class="cfg-options" role="radiogroup" aria-labelledby="q-batterij">
                 <label class="option-card"><input type="radio" name="thuisbatterij" value="Ja"><span class="opt"><span class="opt-text"><span class="opt-title" data-nl="Ja" data-fr="Oui">Ja</span></span></span></label>
                 <label class="option-card"><input type="radio" name="thuisbatterij" value="Gepland"><span class="opt"><span class="opt-text"><span class="opt-title" data-nl="Gepland" data-fr="Prévue">Gepland</span></span></span></label>
                 <label class="option-card"><input type="radio" name="thuisbatterij" value="Nee"><span class="opt"><span class="opt-text"><span class="opt-title" data-nl="Nee" data-fr="Non">Nee</span></span></span></label>
                 <label class="option-card"><input type="radio" name="thuisbatterij" value="Weet niet"><span class="opt"><span class="opt-text"><span class="opt-title" data-nl="Weet ik niet" data-fr="Je ne sais pas">Weet ik niet</span></span></span></label>
+              </div>
+            </div>
+            <div class="cfg-more" data-show-if="zonnepanelen=Ja|Gepland&amp;thuisbatterij=Ja|Gepland" hidden>
+              <p class="cfg-q2" id="q-omvormer" data-nl="Hoe is (of wordt) uw batterij aangesloten?" data-fr="Comment votre batterie est-elle (ou sera-t-elle) raccordée ?">Hoe is (of wordt) uw batterij aangesloten?</p>
+              <p class="cfg-hint" id="q-omvormer-hint" data-nl="Staat er één toestel voor panelen én batterij? Dan is het een hybride omvormer." data-fr="Un seul appareil pour les panneaux et la batterie ? C&#39;est un onduleur hybride.">Staat er één toestel voor panelen én batterij? Dan is het een hybride omvormer.</p>
+              <div class="cfg-options cfg-options--list" role="radiogroup" aria-labelledby="q-omvormer" aria-describedby="q-omvormer-hint">
+                <label class="option-card"><input type="radio" name="omvormer_type" value="Hybride omvormer"><span class="opt"><span class="opt-text"><span class="opt-title" data-nl="Op dezelfde omvormer als de zonnepanelen" data-fr="Sur le même onduleur que les panneaux">Op dezelfde omvormer als de zonnepanelen</span><span class="opt-sub" data-nl="Hybride omvormer" data-fr="Onduleur hybride">Hybride omvormer</span></span></span></label>
+                <label class="option-card"><input type="radio" name="omvormer_type" value="Aparte omvormer"><span class="opt"><span class="opt-text"><span class="opt-title" data-nl="Met een eigen omvormer" data-fr="Avec son propre onduleur">Met een eigen omvormer</span><span class="opt-sub" data-nl="Aparte batterij-omvormer" data-fr="Onduleur de batterie séparé">Aparte batterij-omvormer</span></span></span></label>
+                <label class="option-card"><input type="radio" name="omvormer_type" value="Weet niet"><span class="opt"><span class="opt-text"><span class="opt-title" data-nl="Weet ik niet" data-fr="Je ne sais pas">Weet ik niet</span><span class="opt-sub" data-nl="We bekijken het samen" data-fr="Nous regardons ensemble">We bekijken het samen</span></span></span></label>
               </div>
             </div>
             <div class="cfg-nav"><button type="button" class="cfg-back" data-nl="&#8592; Terug" data-fr="&#8592; Retour">&#8592; Terug</button><button type="button" class="cfg-next" data-nl="Volgende &#8594;" data-fr="Suivant &#8594;">Volgende &#8594;</button></div>

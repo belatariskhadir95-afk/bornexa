@@ -76,7 +76,7 @@ export function wireSubmit(form, ctx) {
     window.gtag('event', 'generate_lead', {
       currency: 'EUR', value: 1,
       lead_path: v('Type_Aanvraag'), lead_project: v('Type_Project'), lead_service: v('Type_Service'),
-      lead_brand: v('Gewenst_Merk_Borne'), lead_network: v('Type_Installatie'), lead_battery: v('thuisbatterij'), lead_region: region
+      lead_brand: v('Gewenst_Merk_Borne'), lead_network: v('Type_Installatie'), lead_battery: v('thuisbatterij'), lead_inverter: v('omvormer_type'), lead_region: region
     });
     window.gtag('event', 'SUBMIT_LEAD_FORM', { currency: 'EUR', value: 1 });
   }

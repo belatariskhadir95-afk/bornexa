@@ -36,14 +36,16 @@ function boot(root) {
   const summary = createSummary(root, form);
   const ga = createAnalytics();
 
-  /* questions complémentaires : data-show-if="champ=val1|val2", "champ=*" (une réponse), "champ~texte" */
-  const shown = (cond) => {
+  /* questions complémentaires : data-show-if="champ=val1|val2", "champ=*" (une réponse), "champ~texte" ;
+     plusieurs conditions qui doivent toutes être remplies : "champ=a|b&autre=c" */
+  const shownOne = (cond) => {
     const m = /^(\w+)(=|~)(.*)$/.exec(cond || '');
     if (!m) return true;
     const v = value(form, m[1]);
     if (m[2] === '~') return v.includes(m[3]);
     return m[3] === '*' ? !!v : m[3].split('|').includes(v);
   };
+  const shown = (cond) => String(cond || '').split('&').every(shownOne);
   function applyConditions() {
     for (const el of root.querySelectorAll('[data-show-if]')) el.hidden = !shown(el.dataset.showIf);
   }

@@ -25,8 +25,9 @@ const DICT = {
     labels: {
       Type_Aanvraag: 'Aanvraag', Type_Project: 'Project', Type_Installatie: 'Net', Type_Service: 'Dienst',
       Merk_Voertuig: 'Wagen', Gewenst_Merk_Borne: 'Laadpaal', zonnepanelen: 'Zonnepanelen', Energie_Doel: 'Doel',
-      merk_borne: 'Merk laadpaal', photos: "Foto's", model_voertuig: 'Model', thuisbatterij: 'Thuisbatterij', afstand_bord: 'Afstand'
+      merk_borne: 'Merk laadpaal', photos: "Foto's", model_voertuig: 'Model', thuisbatterij: 'Thuisbatterij', afstand_bord: 'Afstand', batteryInverter: 'Batterij / omvormer'
     },
+    inverter: { 'Hybride omvormer': 'hybride omvormer', 'Aparte omvormer': 'aparte omvormer', 'Weet niet': 'omvormer nog te bekijken' },
     photos: '{n} toegevoegd',
     edit: 'Wijzig',
     summaryEmpty: 'Uw keuzes verschijnen hier.',
@@ -63,8 +64,9 @@ const DICT = {
     labels: {
       Type_Aanvraag: 'Demande', Type_Project: 'Projet', Type_Installatie: 'Réseau', Type_Service: 'Service',
       Merk_Voertuig: 'Voiture', Gewenst_Merk_Borne: 'Borne', zonnepanelen: 'Panneaux solaires', Energie_Doel: 'Objectif',
-      merk_borne: 'Marque de la borne', photos: 'Photos', model_voertuig: 'Modèle', thuisbatterij: 'Batterie domestique', afstand_bord: 'Distance'
+      merk_borne: 'Marque de la borne', photos: 'Photos', model_voertuig: 'Modèle', thuisbatterij: 'Batterie domestique', afstand_bord: 'Distance', batteryInverter: 'Batterie / onduleur'
     },
+    inverter: { 'Hybride omvormer': 'onduleur hybride', 'Aparte omvormer': 'onduleur séparé', 'Weet niet': 'onduleur à vérifier' },
     photos: '{n} ajoutée(s)',
     edit: 'Modifier',
     summaryEmpty: 'Vos choix apparaissent ici.',
