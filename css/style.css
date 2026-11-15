@@ -1189,3 +1189,16 @@ h2{font-weight:800;letter-spacing:-.02em}
 .table-scroll:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .post-layout > *, .comp-grid > * { min-width: 0; }
 @media (max-width: 480px) { .btn { white-space: normal; max-width: 100%; text-align: center; justify-content: center; } }
+
+/* ── Bandeau « capaciteitstarief » (accueil, section Diensten — 11/2026) ── */
+.cap-band{max-width:1000px;margin:44px auto 0;display:grid;grid-template-columns:1.35fr 1fr;gap:20px 32px;align-items:center;padding:28px 30px;border-radius:20px;background:rgba(0,200,150,.08);border:1px solid rgba(0,200,150,.35);text-align:left}
+.cap-band .cap-kicker{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary);margin:0 0 .4rem}
+.cap-band h3{font-size:1.4rem;line-height:1.25;margin:0 0 .6rem;color:#fff}
+.cap-band .cap-text p:not(.cap-kicker){margin:0;color:rgba(255,255,255,.75);line-height:1.7}
+.cap-band ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.cap-band li{position:relative;padding-left:28px;color:#fff;font-weight:600;line-height:1.45}
+.cap-band li::before{content:"\2713";position:absolute;left:0;top:0;color:var(--primary);font-weight:800}
+.cap-band .cap-ctas{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px}
+.cap-band .btn-outline{color:#fff;border-color:rgba(255,255,255,.45)}
+.cap-band .btn-outline:hover{color:var(--primary);border-color:var(--primary)}
+@media (max-width:760px){.cap-band{grid-template-columns:1fr;padding:22px 18px;margin-top:32px}.cap-band h3{font-size:1.2rem}}
