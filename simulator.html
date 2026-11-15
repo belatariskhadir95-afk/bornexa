@@ -69,7 +69,7 @@
 <body data-page="simulator">
 
   <!-- ── Navigation ── -->
-  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie" data-aria-label-fr="Navigation principale">
     <div class="nav-inner">
       <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
       <div class="nav-links">
@@ -84,11 +84,11 @@
         <a href="devis" class="nav-cta">Offerte aanvragen</a>
         <button class="btn-lang" id="lang-btn">FR</button>
       </div>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" data-aria-label-fr="Ouvrir le menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu" data-aria-label-fr="Menu mobile">
       <a href="/" data-key="navHome">Home</a>
       <a href="services" data-key="navServices">Diensten</a>
       <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
@@ -153,13 +153,13 @@
                 <span data-key="simLabelKm">Kilometers per jaar</span>
                 <span class="sim-label-val" id="lbl-km">15.000 km</span>
               </div>
-              <input type="range" class="sim-range" id="sim-km" min="5000" max="60000" step="1000" value="15000" aria-label="Kilometers per jaar">
+              <input type="range" class="sim-range" id="sim-km" min="5000" max="60000" step="1000" value="15000" aria-label="Kilometers per jaar" data-aria-label-fr="Kilomètres par an">
             </div>
 
             <!-- Fuel type -->
             <div class="sim-group">
               <div class="sim-label"><span data-key="simLabelFuelType">Type brandstof</span></div>
-              <select class="sim-select" id="sim-fuel-type" aria-label="Type brandstof">
+              <select class="sim-select" id="sim-fuel-type" aria-label="Type brandstof" data-aria-label-fr="Type de carburant">
                 <option value="benzine" data-key="simOptBenzine">Benzine</option>
                 <option value="diesel" data-key="simOptDiesel">Diesel</option>
               </select>
@@ -171,7 +171,7 @@
                 <span data-key="simLabelFuelPrice">Brandstofprijs (€/L)</span>
                 <span class="sim-label-val" id="lbl-fuel-price">€1,75/L</span>
               </div>
-              <input type="range" class="sim-range" id="sim-fuel-price" min="1.00" max="2.60" step="0.05" value="1.75" aria-label="Brandstofprijs">
+              <input type="range" class="sim-range" id="sim-fuel-price" min="1.00" max="2.60" step="0.05" value="1.75" aria-label="Brandstofprijs" data-aria-label-fr="Prix du carburant">
             </div>
 
             <!-- Fuel consumption -->
@@ -180,7 +180,7 @@
                 <span data-key="simLabelFuelConsump">Verbruik (L/100 km)</span>
                 <span class="sim-label-val" id="lbl-fuel-consump">7,5 L/100km</span>
               </div>
-              <input type="range" class="sim-range" id="sim-fuel-consump" min="4" max="15" step="0.5" value="7.5" aria-label="Brandstofverbruik">
+              <input type="range" class="sim-range" id="sim-fuel-consump" min="4" max="15" step="0.5" value="7.5" aria-label="Brandstofverbruik" data-aria-label-fr="Consommation de carburant">
             </div>
 
             <div class="sim-sep"></div>
@@ -191,7 +191,7 @@
                 <span data-key="simLabelElPrice">Elektriciteitstarief (€/kWh)</span>
                 <span class="sim-label-val" id="lbl-el-price">€0,30/kWh</span>
               </div>
-              <input type="range" class="sim-range" id="sim-el-price" min="0.12" max="0.50" step="0.01" value="0.30" aria-label="Elektriciteitstarief">
+              <input type="range" class="sim-range" id="sim-el-price" min="0.12" max="0.50" step="0.01" value="0.30" aria-label="Elektriciteitstarief" data-aria-label-fr="Tarif de l'électricité">
             </div>
 
             <!-- EV consumption -->
@@ -200,7 +200,7 @@
                 <span data-key="simLabelEvConsump">EV-verbruik (kWh/100 km)</span>
                 <span class="sim-label-val" id="lbl-ev-consump">18 kWh/100km</span>
               </div>
-              <input type="range" class="sim-range" id="sim-ev-consump" min="12" max="28" step="1" value="18" aria-label="EV-verbruik">
+              <input type="range" class="sim-range" id="sim-ev-consump" min="12" max="28" step="1" value="18" aria-label="EV-verbruik" data-aria-label-fr="Consommation du véhicule électrique">
             </div>
 
             <div class="sim-sep"></div>
@@ -211,7 +211,7 @@
                 <strong data-key="simLabelNight">Nachtladen (dal-tarief)</strong>
                 <small data-key="simNightDesc">Laad 's nachts op lager tarief (bespaar ~28%)</small>
               </div>
-              <label class="sim-switch" aria-label="Nachtladen inschakelen">
+              <label class="sim-switch" aria-label="Nachtladen inschakelen" data-aria-label-fr="Activer la recharge de nuit">
                 <input type="checkbox" id="sim-night">
                 <span class="sim-track"></span>
               </label>
@@ -223,7 +223,7 @@
                 <strong data-key="simLabelSolar">Zonnepanelen</strong>
                 <small data-key="simSolarDesc">50% van uw laadenergie gratis van uw eigen panelen</small>
               </div>
-              <label class="sim-switch" aria-label="Zonnepanelen inschakelen">
+              <label class="sim-switch" aria-label="Zonnepanelen inschakelen" data-aria-label-fr="Activer les panneaux solaires">
                 <input type="checkbox" id="sim-solar">
                 <span class="sim-track"></span>
               </label>
@@ -617,7 +617,7 @@
         <div class="footer-brand">
           <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="lazy"></a>
           <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
-          <div class="footer-certs" aria-label="Merken die we installeren">
+          <div class="footer-certs" aria-label="Merken die we installeren" data-aria-label-fr="Marques que nous installons">
             <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Wall Connector</span>
             <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Pulsar</span>
             <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> EV Wall</span>

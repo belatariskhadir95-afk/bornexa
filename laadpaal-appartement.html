@@ -34,7 +34,7 @@
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "Heb ik het recht om een laadpaal te plaatsen in mijn mede-eigendom?", "acceptedAnswer": { "@type": "Answer", "text": "In heel België mag elke mede-eigenaar de laadinfrastructuur voor zijn staanplaats via de gemeenschappelijke delen laten aanleggen (art. 577-2 §10 Burgerlijk Wetboek). Hij meldt de werken minstens twee maanden vooraf per aangetekende brief aan de syndicus; de VME kan binnen twee maanden bezwaar maken. In het Brussels Gewest moet bovendien sinds 1 januari 2025 elke residentiële staanplaats in een parking van 10 plaatsen of meer (met milieuvergunning) toegang krijgen tot een laadpunt zodra een bewoner meldt dat hij een elektrische wagen heeft. BORNEXA stelt het technische dossier op en begeleidt u doorheen de procedure." } },
-          { "@type": "Question", "name": "Individuele borne of collectieve infrastructuur?", "acceptedAnswer": { "@type": "Answer", "text": "Een individuele borne (vanaf uw eigen meter) is mogelijk maar zelden de slimste keuze: ze is vaak duur als de staanplaats ver van uw meter ligt en niet uitbreidbaar. Een collectieve infrastructuur (gedeelde voeding + kabelgoot + dynamische lastverdeling) gedimensioneerd voor àlle plaatsen is toekomstgericht: vandaag één laadpunt, morgen eenvoudig bijplaatsen. BORNEXA adviseert per gebouw." } },
+          { "@type": "Question", "name": "Individuele laadpaal of collectieve infrastructuur?", "acceptedAnswer": { "@type": "Answer", "text": "Een individuele borne (vanaf uw eigen meter) is mogelijk maar zelden de slimste keuze: ze is vaak duur als de staanplaats ver van uw meter ligt en niet uitbreidbaar. Een collectieve infrastructuur (gedeelde voeding + kabelgoot + dynamische lastverdeling) gedimensioneerd voor àlle plaatsen is toekomstgericht: vandaag één laadpunt, morgen eenvoudig bijplaatsen. BORNEXA adviseert per gebouw." } },
           { "@type": "Question", "name": "Hoe wordt het verbruik per bewoner gefactureerd?", "acceptedAnswer": { "@type": "Answer", "text": "Twee opties. Met een gecertificeerde MID-meter per laadpunt betaalt elke bewoner exact zijn eigen kWh (relevé via de syndicus, geen abonnement). Met een OCPP-platform verloopt de facturatie automatisch (maandelijks abonnement, reporting, support). BORNEXA helpt u de juiste keuze maken." } },
           { "@type": "Question", "name": "Moet de aansluiting van het gebouw verzwaard worden?", "acceptedAnswer": { "@type": "Answer", "text": "Niet noodzakelijk. Met dynamische lastverdeling meet het systeem in realtime de beschikbare vermogensreserve van het gebouw en verdeelt het die over de laadpunten — zo vermijdt u vaak een dure verzwaring bij Fluvius of Sibelga. BORNEXA meet eerst de werkelijke piekvraag (eventueel met een logger) vóór elke beslissing." } },
           { "@type": "Question", "name": "Is laden in een ondergrondse parking toegelaten?", "acceptedAnswer": { "@type": "Answer", "text": "Ja, mits de brandveiligheidsregels (o.a. NBN S 21-208-1) en de eisen van de verzekeraar gerespecteerd worden: correcte plaatsing, beveiligingen, eventuele noodstop en compartimentering. BORNEXA voert de installatie AREI-conform uit en levert het keuringsattest." } },
@@ -94,7 +94,7 @@
 </head>
 <body data-page="guide">
 
-  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie" data-aria-label-fr="Navigation principale">
     <div class="nav-inner">
       <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
       <div class="nav-links">
@@ -109,11 +109,11 @@
         <a href="devis" class="nav-cta">Offerte aanvragen</a>
         <button class="btn-lang" id="lang-btn">FR</button>
       </div>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" data-aria-label-fr="Ouvrir le menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu" data-aria-label-fr="Menu mobile">
       <a href="/" data-key="navHome">Home</a>
       <a href="services" data-key="navServices">Diensten</a>
       <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
@@ -137,7 +137,7 @@
   <header class="page-hero" role="banner">
     <div class="page-hero-bg" aria-hidden="true"></div>
     <div class="container">
-      <nav class="page-breadcrumb" aria-label="Breadcrumb"><a href="/" data-key="navHome">Home</a><span class="sep">›</span><a href="services" data-key="navServices">Diensten</a>
+      <nav class="page-breadcrumb" aria-label="Breadcrumb" data-aria-label-fr="Fil d'Ariane"><a href="/" data-key="navHome">Home</a><span class="sep">›</span><a href="services" data-key="navServices">Diensten</a>
         <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'énergie">Energiebeheer</a><span class="sep">›</span><span data-nl="Appartement &amp; mede-eigendom" data-fr="Appartement &amp; copropriété">Appartement &amp; mede-eigendom</span></nav>
       <div class="badge" data-nl="Expert in mede-eigendom &amp; parking" data-fr="Expert en copropriété &amp; parking">Expert in mede-eigendom &amp; parking</div>
       <h1 data-nl="Laadpaal in een appartement of mede-eigendom? Wij plaatsen de collectieve laadinfrastructuur" data-fr="Une borne de recharge en appartement ou copropriété ? Nous installons l'infrastructure collective">Laadpaal in een appartement of mede-eigendom? Wij plaatsen de collectieve laadinfrastructuur</h1>
@@ -154,13 +154,13 @@
           <h2 data-nl="Het 'recht op een laadpunt' in België: wat zegt de wet?" data-fr="Le « droit à la prise » en Belgique : ce que dit la loi">Het 'recht op een laadpunt' in België: wat zegt de wet?</h2>
           <p data-nl="In heel België mag elke mede-eigenaar de laadinfrastructuur voor zijn staanplaats via de gemeenschappelijke delen laten aanleggen (<strong>art. 577-2 §10 Burgerlijk Wetboek</strong>). Hij meldt de werken minstens <strong>twee maanden vooraf per aangetekende brief</strong> aan de syndicus; de VME kan binnen twee maanden bezwaar maken. In het Brussels Gewest moet bovendien sinds 1 januari 2025 elke residentiële staanplaats in een parking van <strong>10 plaatsen of meer</strong> (met milieuvergunning) toegang krijgen tot een laadpunt zodra een bewoner meldt dat hij een elektrische wagen heeft. BORNEXA stelt het technische dossier op en begeleidt u doorheen de procedure." data-fr="Partout en Belgique, chaque copropriétaire peut faire passer l'infrastructure de recharge de son emplacement par les parties communes (<strong>art. 577-2 §10 du Code civil</strong>). Il notifie les travaux au syndic au moins <strong>deux mois à l'avance, par envoi recommandé</strong> ; l'ACP peut s'y opposer dans les deux mois. En Région bruxelloise, depuis le 1er janvier 2025, chaque place résidentielle d'un parking de <strong>10 places ou plus</strong> (soumis à permis d'environnement) doit en outre avoir accès à une borne dès qu'un occupant signale qu'il possède une voiture électrique. BORNEXA prépare le dossier technique et vous accompagne dans la procédure.">In heel België mag elke mede-eigenaar de laadinfrastructuur voor zijn staanplaats via de gemeenschappelijke delen laten aanleggen (<strong>art. 577-2 §10 Burgerlijk Wetboek</strong>). Hij meldt de werken minstens <strong>twee maanden vooraf per aangetekende brief</strong> aan de syndicus; de VME kan binnen twee maanden bezwaar maken. In het Brussels Gewest moet bovendien sinds 1 januari 2025 elke residentiële staanplaats in een parking van <strong>10 plaatsen of meer</strong> (met milieuvergunning) toegang krijgen tot een laadpunt zodra een bewoner meldt dat hij een elektrische wagen heeft. BORNEXA stelt het technische dossier op en begeleidt u doorheen de procedure.</p>
 
-          <h2 data-nl="Individuele borne of collectieve infrastructuur?" data-fr="Borne individuelle ou infrastructure collective ?">Individuele borne of collectieve infrastructuur?</h2>
+          <h2 data-nl="Individuele laadpaal of collectieve infrastructuur?" data-fr="Borne individuelle ou infrastructure collective ?">Individuele laadpaal of collectieve infrastructuur?</h2>
           <p data-nl="Eén losse borne plaatsen kan, maar is zelden de slimste keuze in een gebouw. Een <strong>collectieve infrastructuur</strong> — gedimensioneerd voor àlle staanplaatsen — is toekomstgericht: vandaag plaatst u één laadpunt, morgen sluit een buur eenvoudig aan op dezelfde backbone." data-fr="Poser une borne isolée est possible, mais rarement le choix le plus malin dans un immeuble. Une <strong>infrastructure collective</strong> — dimensionnée pour toutes les places — est évolutive : aujourd'hui un point de charge, demain un voisin se raccorde simplement sur la même colonne.">Eén losse borne plaatsen kan, maar is zelden de slimste keuze in een gebouw. Een <strong>collectieve infrastructuur</strong> — gedimensioneerd voor àlle staanplaatsen — is toekomstgericht: vandaag plaatst u één laadpunt, morgen sluit een buur eenvoudig aan op dezelfde backbone.</p>
           <div class="table-scroll" tabindex="0"><table class="cmp">
             <thead>
               <tr>
                 <th data-nl="" data-fr=""></th>
-                <th data-nl="Individuele borne" data-fr="Borne individuelle">Individuele borne</th>
+                <th data-nl="Individuele laadpaal" data-fr="Borne individuelle">Individuele laadpaal</th>
                 <th class="hl" data-nl="Collectieve infrastructuur" data-fr="Infrastructure collective">Collectieve infrastructuur</th>
               </tr>
             </thead>
@@ -244,7 +244,7 @@
         <div class="footer-brand">
           <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
           <p data-key="footerTagline">Uw specialist voor laadpalen in Vlaams-Brabant en Brussel.</p>
-          <div class="footer-certs" aria-label="Merken die we installeren">
+          <div class="footer-certs" aria-label="Merken die we installeren" data-aria-label-fr="Marques que nous installons">
             <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Tesla</strong> Wall Connector</span>
             <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Wallbox</strong> Pulsar</span>
             <span class="footer-cert-pill"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><strong>Smappee</strong> EV Wall</span>

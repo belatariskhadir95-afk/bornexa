@@ -110,6 +110,13 @@
       var a = img.getAttribute('data-alt-' + lang);
       if (a) img.setAttribute('alt', a);
     });
+
+    // Libellés accessibles (data-aria-label-nl / data-aria-label-fr)
+    document.querySelectorAll('[data-aria-label-fr]').forEach(function (el) {
+      if (!el.hasAttribute('data-aria-label-nl')) el.setAttribute('data-aria-label-nl', el.getAttribute('aria-label') || '');
+      var a = el.getAttribute('data-aria-label-' + lang);
+      if (a) el.setAttribute('aria-label', a);
+    });
   }
 
   document.addEventListener('DOMContentLoaded', function () {

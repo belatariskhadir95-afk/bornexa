@@ -11,7 +11,7 @@
   <link rel="alternate" hreflang="nl" href="https://www.bornexa.be/simulateur-copropriete">
   <link rel="alternate" hreflang="x-default" href="https://www.bornexa.be/simulateur-copropriete">
   <meta property="og:title" content="Simulator laadpaal in mede-eigendom — budget &amp; dimensionering | BORNEXA">
-  <meta property="og:description" content="Bereken het budget en de dimensionering van een collectieve laadinfrastructuur in uw mede-eigendom. Foisonnement, pilotage, kabelsectie en richtprijs.">
+  <meta property="og:description" content="Bereken het budget en de dimensionering van een collectieve laadinfrastructuur in uw mede-eigendom. Gelijktijdigheid, sturing, kabelsectie en richtprijs.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.bornexa.be/simulateur-copropriete">
   <meta property="og:locale" content="nl_BE">
@@ -61,7 +61,7 @@
 </head>
 <body>
 
-  <nav id="nav" class="nav" aria-label="Hoofdnavigatie">
+  <nav id="nav" class="nav" aria-label="Hoofdnavigatie" data-aria-label-fr="Navigation principale">
     <div class="nav-inner">
       <a href="/" class="nav-logo"><img src="images/logo-bornexa.svg" alt="BORNEXA" width="196" height="44" loading="eager"></a>
       <div class="nav-links">
@@ -76,11 +76,11 @@
         <a href="devis" class="nav-cta">Offerte aanvragen</a>
         <button class="btn-lang" id="lang-btn">FR</button>
       </div>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" aria-expanded="false">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu openen" data-aria-label-fr="Ouvrir le menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu">
+    <div class="nav-mobile" id="nav-mobile" aria-label="Mobiel menu" data-aria-label-fr="Menu mobile">
       <a href="/" data-key="navHome">Home</a>
       <a href="services" data-key="navServices">Diensten</a>
       <a href="slim-energiebeheer" data-nl="Energiebeheer" data-fr="Gestion d'&eacute;nergie">Energiebeheer</a>
@@ -128,12 +128,12 @@
                 <span data-nl="Aantal laadpunten nu" data-fr="Nombre de points maintenant">Aantal laadpunten nu</span>
                 <span class="sim-label-val" id="lbl-points">6</span>
               </div>
-              <input type="range" class="sim-range" id="sim-points" min="1" max="40" step="1" value="6" aria-label="Aantal laadpunten">
+              <input type="range" class="sim-range" id="sim-points" min="1" max="40" step="1" value="6" aria-label="Aantal laadpunten" data-aria-label-fr="Nombre de points de charge">
             </div>
 
             <div class="sim-group">
               <div class="sim-label"><span data-nl="Vermogen per punt" data-fr="Puissance par point">Vermogen per punt</span></div>
-              <select class="sim-select" id="sim-power" aria-label="Vermogen per punt">
+              <select class="sim-select" id="sim-power" aria-label="Vermogen per punt" data-aria-label-fr="Puissance par point">
                 <option value="3.7" data-nl="3,7 kW (langzaam, mono)" data-fr="3,7 kW (lent, mono)">3,7 kW (langzaam, mono)</option>
                 <option value="7.4" data-nl="7,4 kW (mono)" data-fr="7,4 kW (mono)">7,4 kW (mono)</option>
                 <option value="11" selected data-nl="11 kW (driefasig)" data-fr="11 kW (triphasé)">11 kW (driefasig)</option>
@@ -143,10 +143,10 @@
 
             <div class="sim-group">
               <div class="sim-label">
-                <span data-nl="Afstand tableau → parking" data-fr="Distance tableau → parking">Afstand tableau → parking</span>
+                <span data-nl="Afstand verdeelbord → parking" data-fr="Distance tableau → parking">Afstand verdeelbord → parking</span>
                 <span class="sim-label-val" id="lbl-length">40 m</span>
               </div>
-              <input type="range" class="sim-range" id="sim-length" min="5" max="120" step="5" value="40" aria-label="Backbone lengte">
+              <input type="range" class="sim-range" id="sim-length" min="5" max="120" step="5" value="40" aria-label="Backbone lengte" data-aria-label-fr="Longueur du câble principal">
             </div>
 
             <div class="sim-sep"></div>
@@ -156,13 +156,13 @@
                 <span data-nl="Aansluitvermogen gebouw" data-fr="Puissance souscrite immeuble">Aansluitvermogen gebouw</span>
                 <span class="sim-label-val" id="lbl-sub">onbekend</span>
               </div>
-              <input type="range" class="sim-range" id="sim-sub" min="0" max="250" step="5" value="0" aria-label="Aansluitvermogen">
+              <input type="range" class="sim-range" id="sim-sub" min="0" max="250" step="5" value="0" aria-label="Aansluitvermogen" data-aria-label-fr="Puissance de raccordement">
               <small style="color:var(--text-muted);font-size:.8rem" data-nl="0 = onbekend (we schatten de piek). Staat op de factuur of de teller." data-fr="0 = inconnu (on estime la pointe). Indiqué sur la facture ou le compteur.">0 = onbekend (we schatten de piek). Staat op de factuur of de teller.</small>
             </div>
 
             <div class="sim-group">
               <div class="sim-label"><span data-nl="Type parking" data-fr="Type de parking">Type parking</span></div>
-              <select class="sim-select" id="sim-parking" aria-label="Type parking">
+              <select class="sim-select" id="sim-parking" aria-label="Type parking" data-aria-label-fr="Type de parking">
                 <option value="onder" data-nl="Ondergronds" data-fr="Souterrain">Ondergronds</option>
                 <option value="buiten" data-nl="Buiten / op niveau" data-fr="Extérieur / de plain-pied">Buiten / op niveau</option>
               </select>
@@ -175,7 +175,7 @@
                 <strong data-nl="Digitale meter" data-fr="Compteur numérique">Digitale meter</strong>
                 <small data-nl="Slimme meter aanwezig (P1-poort)" data-fr="Compteur intelligent présent (port P1)">Slimme meter aanwezig (P1-poort)</small>
               </div>
-              <label class="sim-switch" aria-label="Digitale meter"><input type="checkbox" id="sim-digital" checked><span class="sim-track"></span></label>
+              <label class="sim-switch" aria-label="Digitale meter" data-aria-label-fr="Compteur digital"><input type="checkbox" id="sim-digital" checked><span class="sim-track"></span></label>
             </div>
 
             <div class="sim-toggle-row">
@@ -183,7 +183,7 @@
                 <strong data-nl="Technisch lokaal toegankelijk" data-fr="Local technique accessible">Technisch lokaal toegankelijk</strong>
                 <small data-nl="Tellerlokaal vlot bereikbaar vanaf de parking" data-fr="Local compteurs facilement accessible depuis le parking">Tellerlokaal vlot bereikbaar vanaf de parking</small>
               </div>
-              <label class="sim-switch" aria-label="Technisch lokaal"><input type="checkbox" id="sim-techroom" checked><span class="sim-track"></span></label>
+              <label class="sim-switch" aria-label="Technisch lokaal" data-aria-label-fr="Local technique"><input type="checkbox" id="sim-techroom" checked><span class="sim-track"></span></label>
             </div>
           </div>
 
@@ -253,7 +253,7 @@
           <div class="sim-insight">
             <div class="sim-insight-icon" style="background:var(--tint-mint)">⚖️</div>
             <div>
-              <h4 data-nl="Foisonnement" data-fr="Foisonnement">Foisonnement</h4>
+              <h4 data-nl="Gelijktijdigheid" data-fr="Foisonnement">Gelijktijdigheid</h4>
               <p data-nl="Alle bornes laden nooit samen op vol vermogen. Het foisonnement (Ks) verlaagt het nodige vermogen — zo blijft de aansluiting realistisch en betaalbaar." data-fr="Toutes les bornes ne chargent jamais ensemble à pleine puissance. Le foisonnement (Ks) réduit la puissance nécessaire — le raccordement reste réaliste et abordable.">Alle bornes laden nooit samen op vol vermogen. Het foisonnement (Ks) verlaagt het nodige vermogen — zo blijft de aansluiting realistisch en betaalbaar.</p>
             </div>
           </div>

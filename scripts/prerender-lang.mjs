@@ -183,6 +183,11 @@ export function prerenderLang(html, dict, lang = 'fr') {
       }
     }
 
+    // libellé accessible traduit (data-aria-label-fr / data-aria-label-nl), comme lang.js
+    const ariaLang = attr(n, `data-aria-label-${lang}`);
+    const ariaLoc = loc.attrs && loc.attrs['aria-label'];
+    if (ariaLang && ariaLoc) { edits.push({ s: ariaLoc.startOffset, e: ariaLoc.endOffset, t: `aria-label="${escAttr(ariaLang)}"` }); stats.arias = (stats.arias || 0) + 1; }
+
     // texte alternatif traduit d'une image (data-alt-fr / data-alt-nl), comme lang.js
     if (tag === 'img') {
       const altLang = attr(n, `data-alt-${lang}`);
