@@ -24,18 +24,20 @@ export const CHOICE = {
 };
 /* étape → autres champs (facultatifs) */
 export const FIELDS = {
+  vehicle: ['model_voertuig'],
+  solar: ['thuisbatterij', 'omvormer_type'],
   details: ['digitale_meter', 'maandfactuur'],
   repair: ['merk_borne', 'probleem'],
   advice: ['advies_vraag'],
-  photos: ['foto_bord', 'foto_teller', 'foto_locatie'],
-  contact: ['aantal_laadpunten', 'rol_aanvrager', 'naam', 'telefoon', 'email', 'gemeente', 'bericht']
+  photos: ['foto_bord', 'foto_teller', 'foto_locatie', 'afstand_bord'],
+  contact: ['aantal_laadpunten', 'rol_aanvrager', 'naam', 'telefoon', 'email', 'postcode', 'gemeente', 'bericht']
 };
 /* étapes sans réponse obligatoire */
 export const OPTIONAL = new Set(['vehicle', 'details', 'repair', 'advice', 'photos', 'ready']);
 /* données personnelles : jamais mémorisées dans le navigateur */
-export const PERSONAL = new Set(['naam', 'telefoon', 'email', 'gemeente', 'bericht']);
+export const PERSONAL = new Set(['naam', 'telefoon', 'email', 'postcode', 'gemeente', 'bericht']);
 
-export const V2H_SERVICE = 'BMW bidirectionele laadpaal (V2H) - BMW Wallbox Professional 7,4 kW';
+export const V2H_SERVICE = 'BMW bidirectionele laadpaal (V2H) - BMW Wallbox Professional 11 kW';
 export const COLLECTIVE = /Bedrijf|Appartement|Parking/;
 
 export const flowFor = (path) => (FLOWS[path] || FLOWS[DEFAULT_PATH]).slice();
@@ -54,7 +56,7 @@ export function answers(form) {
   const a = {};
   for (const name of Object.values(CHOICE)) a[name] = value(form, name);
   for (const list of Object.values(FIELDS)) for (const name of list) a[name] = value(form, name);
-  a.photos = FIELDS.photos.filter((n) => value(form, n)).length;
+  a.photos = ['foto_bord', 'foto_teller', 'foto_locatie'].filter((n) => value(form, n)).length;
   return a;
 }
 
@@ -72,7 +74,7 @@ export function clearOutside(form, flow) {
     for (const name of names) {
       const el = form.elements[name];
       if (!el) continue;
-      if (el.type === 'file') el.value = '';
+      if (el instanceof RadioNodeList) for (const r of el) r.checked = false;
       else el.value = '';
     }
   }
@@ -82,7 +84,17 @@ export function clearOutside(form, flow) {
   }
 }
 
-/* Paramètres de la notification EmailJS : mêmes clés que l'ancien formulaire. */
+/* Questions complémentaires masquées (data-show-if) : leurs réponses ne partent pas. */
+export function clearHidden(form) {
+  for (const box of form.querySelectorAll('[data-show-if][hidden]')) {
+    for (const el of box.querySelectorAll('input, select, textarea')) {
+      if (el.type === 'radio' || el.type === 'checkbox') el.checked = false;
+      else el.value = '';
+    }
+  }
+}
+
+/* Paramètres de la notification EmailJS : mêmes clés que l'ancien formulaire (+ nouvelles en fin de liste). */
 export function emailParams(form, lang, d) {
   const v = (n) => value(form, n) || '-';
   return {
@@ -105,7 +117,12 @@ export function emailParams(form, lang, d) {
     install_type: v('Type_Installatie'),
     points: v('aantal_laadpunten'),
     role: v('rol_aanvrager'),
-    extra_info: value(form, 'bericht') || d.none
+    extra_info: value(form, 'bericht') || d.none,
+    vehicle_model: v('model_voertuig'),
+    battery: v('thuisbatterij'),
+    inverter_type: v('omvormer_type'),
+    distance: v('afstand_bord'),
+    postcode: v('postcode')
   };
 }
 

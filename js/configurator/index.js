@@ -36,8 +36,36 @@ function boot(root) {
   const summary = createSummary(root, form);
   const ga = createAnalytics();
 
+  /* questions complémentaires : data-show-if="champ=val1|val2", "champ=*" (une réponse), "champ~texte" ;
+     plusieurs conditions qui doivent toutes être remplies : "champ=a|b&autre=c" */
+  const shownOne = (cond) => {
+    const m = /^(\w+)(=|~)(.*)$/.exec(cond || '');
+    if (!m) return true;
+    const v = value(form, m[1]);
+    if (m[2] === '~') return v.includes(m[3]);
+    return m[3] === '*' ? !!v : m[3].split('|').includes(v);
+  };
+  const shown = (cond) => String(cond || '').split('&').every(shownOne);
+  function applyConditions() {
+    for (const el of root.querySelectorAll('[data-show-if]')) el.hidden = !shown(el.dataset.showIf);
+  }
+  /* on n'avance tout seul que si chaque question visible de l'étape a sa réponse et qu'aucun champ texte n'attend */
+  function pendingGroup() {
+    const el = stepEls[current];
+    if (!el) return null;
+    for (const r of el.querySelectorAll('input[type="radio"]')) {
+      if (!r.closest('[hidden]') && !value(form, r.name)) return r;
+    }
+    return null;
+  }
+  const textWaiting = () => {
+    const el = stepEls[current];
+    return !!el && [...el.querySelectorAll('input[type="text"]')].some((i) => !i.closest('[hidden]'));
+  };
+
   /* ── rendu d'une étape ── */
   function render({ instant = false } = {}) {
+    applyConditions();
     const a = answers(form);
     for (const [key, el] of Object.entries(stepEls)) el.classList.toggle('is-active', key === current);
     intro.hidden = current !== 'intro';
@@ -113,7 +141,7 @@ function boot(root) {
     const t = e.target;
     if (t.type !== 'radio' || performance.now() - pointerAt > 800) return;
     clearTimeout(advanceTimer);
-    advanceTimer = setTimeout(next, reduced ? 150 : 520);
+    advanceTimer = setTimeout(() => { if (!pendingGroup() && !textWaiting()) next(); }, reduced ? 150 : 520);
   });
   form.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter') return;
@@ -121,7 +149,11 @@ function boot(root) {
     if (t.type === 'radio') {
       e.preventDefault();
       if (!t.checked) { t.checked = true; onAnswer(t); }
-      next();
+      const pending = pendingGroup();
+      const txt = [...stepEls[current].querySelectorAll('input[type="text"]')].find((i) => !i.closest('[hidden]'));
+      if (pending && pending.name !== t.name) pending.focus();
+      else if (txt) txt.focus();
+      else next();
     } else if (t.tagName === 'INPUT' && t.type !== 'submit' && current !== 'contact') {
       e.preventDefault();
       next();
@@ -135,7 +167,7 @@ function boot(root) {
     else if (b.id === 'cfg-start') { e.preventDefault(); go(flow[0]); }
     else if (b.dataset.goto && stepEls[b.dataset.goto]) { e.preventDefault(); go(b.dataset.goto); }
   });
-  form.addEventListener('input', (e) => { if (e.target.tagName === 'TEXTAREA') store.save(form, current); });
+  form.addEventListener('input', (e) => { if (e.target.tagName === 'TEXTAREA' || e.target.name === 'model_voertuig') store.save(form, current); });
 
   /* ── photos ── */
   function onFile(input) {

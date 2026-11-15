@@ -1,7 +1,7 @@
 /* BORNEXA — configurateur · envoi de la demande
    Identique à l'ancien formulaire : Netlify Forms (→ Make → Notion), notification EmailJS,
    conversions GA4, et repli « contact direct » si rien ne répond en 10 s (jamais de faux succès). */
-import { clearOutside, emailParams, invalidContact } from './steps.js';
+import { clearOutside, clearHidden, emailParams, invalidContact } from './steps.js';
 import { dict } from './i18n.js';
 
 export function wireSubmit(form, ctx) {
@@ -28,6 +28,7 @@ export function wireSubmit(form, ctx) {
     const label = btn.innerHTML;
     btn.textContent = d.sending;
     clearOutside(form, ctx.flow());
+    clearHidden(form);
     form.elements.lang.value = lang;
     const params = emailParams(form, lang, d);
 
@@ -64,7 +65,19 @@ export function wireSubmit(form, ctx) {
   function track() {
     if (leadTracked || typeof window.gtag !== 'function') return;
     leadTracked = true;
-    window.gtag('event', 'generate_lead', { currency: 'EUR', value: 1 });
+    // paramètres non personnels pour savoir quelles régions / prestations / marques convertissent
+    // (à enregistrer comme dimensions personnalisées dans GA4 ; la province seulement, jamais le code postal)
+    const v = (n) => { const el = form.elements[n]; return el ? String(el.value || '').slice(0, 100) : ''; };
+    const pc = v('postcode').trim();
+    const region = /^1[0-2][0-9]{2}$/.test(pc) ? 'brussel' : /^1[3-4][0-9]{2}$/.test(pc) ? 'brabant-wallon'
+      : /^(1[5-9]|3[0-4])[0-9]{2}$/.test(pc) ? 'vlaams-brabant' : /^2[0-9]{3}$/.test(pc) ? 'antwerpen'
+      : /^3[5-9][0-9]{2}$/.test(pc) ? 'limburg' : /^[4-7][0-9]{3}$/.test(pc) ? 'wallonie'
+      : /^[89][0-9]{3}$/.test(pc) ? 'west-oost-vlaanderen' : 'onbekend';
+    window.gtag('event', 'generate_lead', {
+      currency: 'EUR', value: 1,
+      lead_path: v('Type_Aanvraag'), lead_project: v('Type_Project'), lead_service: v('Type_Service'),
+      lead_brand: v('Gewenst_Merk_Borne'), lead_network: v('Type_Installatie'), lead_battery: v('thuisbatterij'), lead_inverter: v('omvormer_type'), lead_region: region
+    });
     window.gtag('event', 'SUBMIT_LEAD_FORM', { currency: 'EUR', value: 1 });
   }
 }
