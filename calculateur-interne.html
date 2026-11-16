@@ -971,12 +971,13 @@
       {ref:"SM-EVD-BASE",nameFR:"Smappee EV Dual Base sur socle — 2 connecteurs (copro)", nameNL:"Smappee EV Dual Base op sokkel — 2 connectoren (mede-eigendom)", price:2378.05, margin:1.15}
     ],
     cables: [
-      // Câbles d'alimentation = XVB Cca s3d2a3 partout (règle user 16/11/2026, conformité RGIE) — prix d'achat Cebeo 16/11
-      {ref:"3G6",   descFR:"XVB 3G6 Cca · mono ≤ 20 m",                        descNL:"XVB 3G6 Cca · eenfase ≤ 20 m",                          pricePerM:5.07},
-      {ref:"3G10",  descFR:"XVB 3G10 Cca · mono > 20 m",                       descNL:"XVB 3G10 Cca · eenfase > 20 m",                          pricePerM:10.60},
-      {ref:"5G6",   descFR:"XVB 5G6 Cca · tri 11 kW ≤ 20 m",                   descNL:"XVB 5G6 Cca · driefase 11 kW ≤ 20 m",                   pricePerM:8.45},
-      {ref:"5G10",  descFR:"XVB 5G10 Cca · tri 11 kW > 20 m / 22 kW ≤ 20 m",   descNL:"XVB 5G10 Cca · driefase 11 kW > 20 m / 22 kW ≤ 20 m",    pricePerM:14.85},
-      {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:23.45},
+      // Câbles d'alimentation = XGB Cca s1d2a1 partout (règle user 16/11/2026 au soir). Prix d'achat Cebeo du 16/11 (paniers 1 m et 10 m) :
+      // ligne Cebeo = prix/m × longueur + 22,22 € fixe par coupe (cutFee). Le fixe est fondu dans le prix/m du devis (jamais de ligne « coupe »).
+      {ref:"3G6",   descFR:"XGB 3G6 · monophasé",  descNL:"XGB 3G6 · eenfasig",   pricePerM:3.60,  cutFee:22.22},
+      {ref:"3G10",  descFR:"XGB 3G10 · monophasé", descNL:"XGB 3G10 · eenfasig",  pricePerM:7.27,  cutFee:22.22},
+      {ref:"5G6",   descFR:"XGB 5G6 · triphasé",   descNL:"XGB 5G6 · driefasig",  pricePerM:6.81,  cutFee:22.22},
+      {ref:"5G10",  descFR:"XGB 5G10 · triphasé",  descNL:"XGB 5G10 · driefasig", pricePerM:12.73, cutFee:22.22},
+      {ref:"5G16",  descFR:"XGB 5G16 · triphasé",  descNL:"XGB 5G16 · driefasig", pricePerM:23.45, cutFee:22.22},   // prix à revérifier (relevé de juillet)
       {ref:"GOULOTTE", descFR:"Goulotte PVC (pose apparente) · €/m", descNL:"PVC kabelgoot (opbouwmontage) · €/m", pricePerM:3.00}
     ],
     prots: [
@@ -1127,6 +1128,13 @@
         upd('cables', '3G10', 'pricePerM', 8.98,  10.60, { descFR: 'XVB 3G10 Cca · mono > 20 m', descNL: 'XVB 3G10 Cca · eenfase > 20 m' });
         upd('cables', '5G6',  'pricePerM', 13.05, 8.45,  { descFR: 'XVB 5G6 Cca · tri 11 kW ≤ 20 m', descNL: 'XVB 5G6 Cca · driefase 11 kW ≤ 20 m' });
         upd('cables', '5G10', 'pricePerM', 14.12, 14.85, { descFR: 'XVB 5G10 Cca · tri 11 kW > 20 m / 22 kW ≤ 20 m', descNL: 'XVB 5G10 Cca · driefase 11 kW > 20 m / 22 kW ≤ 20 m' });
+        // Migration 16/11/2026 (soir) — XGB Cca s1d2a1 partout + frais de coupe 22,22 €/coupe ; enchaîne après les lignes XVB ci-dessus
+        upd('cables', '3G6',  'pricePerM', 5.07,  3.60,  { descFR: 'XGB 3G6 · monophasé',  descNL: 'XGB 3G6 · eenfasig' });
+        upd('cables', '3G10', 'pricePerM', 10.60, 7.27,  { descFR: 'XGB 3G10 · monophasé', descNL: 'XGB 3G10 · eenfasig' });
+        upd('cables', '5G6',  'pricePerM', 8.45,  6.81,  { descFR: 'XGB 5G6 · triphasé',   descNL: 'XGB 5G6 · driefasig' });
+        upd('cables', '5G10', 'pricePerM', 14.85, 12.73, { descFR: 'XGB 5G10 · triphasé',  descNL: 'XGB 5G10 · driefasig' });
+        upd('cables', '5G16', 'pricePerM', 23.45, 23.45, { descFR: 'XGB 5G16 · triphasé',  descNL: 'XGB 5G16 · driefasig' });
+        (t.cables || []).forEach(c => { if (['3G6','3G10','5G6','5G10','5G16'].includes(c.ref) && c.cutFee === undefined) c.cutFee = 22.22; });
         upd('prots', 'DIF-A-40-4P', 'price', 45.11, 45.56);
         upd('prots', 'DIS-C20-3P', 'price', 80.48, 82.25);
         upd('bornes', 'TS-WC3-11', 'margin', 1.08, 1.21);
@@ -1178,10 +1186,12 @@
     power = Math.round(power * 10) / 10;
 
     // Cable section
+    // Règle user 16/11/2026 : 6 mm² au maximum. Longueurs max (chute de tension < 3 %) :
+    // 6 mm² → mono 16 A ≤ 50 m · mono 32 A ≤ 25 m · tri 16 A ≤ 85 m · tri 32 A ≤ 42 m ; 10 mm² → 85 / 42 / 140 / 70 m ; au-delà 16 mm².
     let cableRef;
-    if (!isTri) cableRef = (length <= 20) ? '3G6' : '3G10';
-    else if (power >= 22) cableRef = (length <= 20) ? '5G10' : '5G16';
-    else cableRef = (length <= 20) ? '5G6' : '5G10';
+    if (!isTri) cableRef = (length <= (power <= 3.7 ? 50 : 25)) ? '3G6' : '3G10';
+    else if (power > 11) cableRef = (length <= 42) ? '5G6' : (length <= 70) ? '5G10' : '5G16';
+    else cableRef = (length <= 85) ? '5G6' : '5G10';
 
     // Disjoncteur — pôles selon mono (unipolaire) / tri (tripolaire)
     let disjCurve;
@@ -1529,7 +1539,7 @@
       const gu = find(tarifs.prots, 'GREENUP');
       if (gu) lines.push({ desc: tDesc(gu), qty: 1, puHT: gu.price }); // prix de vente direct
       const cabG = find(tarifs.cables, '3G6');
-      if (cabG) lines.push({ desc: T('lineCable', tDesc(cabG)), qty: form.length || 10, puHT: cabG.pricePerM * tarifs.margins.mat });
+      if (cabG) lines.push({ desc: T('lineCable', tDesc(cabG)), qty: form.length || 10, puHT: (cabG.pricePerM + (cabG.cutFee || 0) / (form.length || 10)) * tarifs.margins.mat }); // coupe fondue dans le prix/m
       const diffG = find(tarifs.prots, 'DIF-A-40');
       if (diffG) lines.push({ desc: tDesc(diffG), qty: 1, puHT: diffG.price * tarifs.margins.mat });
       const disjG = find(tarifs.prots, 'DIS-C16');
@@ -1563,7 +1573,7 @@
 
     // 2) Câble / Kabel
     const cab = find(tarifs.cables, dim.cableRef);
-    if (cab) lines.push({ desc: T('lineCable', tDesc(cab)), qty: form.length || 10, puHT: cab.pricePerM * tarifs.margins.mat });
+    if (cab) lines.push({ desc: T('lineCable', tDesc(cab)), qty: form.length || 10, puHT: (cab.pricePerM + (cab.cutFee || 0) / (form.length || 10)) * tarifs.margins.mat }); // coupe fondue dans le prix/m
 
     // 3) Différentiel / Differentieel
     const diff = find(tarifs.prots, dim.diffRef);
@@ -1700,8 +1710,13 @@
       risks.push({c:'warn', t:'2e EV anticipé : section câble sur-dimensionnée (5G10 mini) + 1h MO supplémentaire pour précâblage Power Sharing/multi-borne.'});
     }
 
-    if ((form.length||0) > 20) risks.push({c:'warn', t:'Câble > 20 m : section sur-dimensionnée. Perte de tension à vérifier.'});
-    else risks.push({c:'ok', t:'Distance câble dans les normes RGIE'});
+    // Longueurs max par section (règle user 16/11/2026 : 6 mm² au maximum)
+    const lenC = form.length || 0;
+    const lim6  = !dim.isTri ? (dim.power <= 3.7 ? 50 : 25) : (dim.power > 11 ? 42 : 85);
+    const lim10 = !dim.isTri ? (dim.power <= 3.7 ? 85 : 42) : (dim.power > 11 ? 70 : 140);
+    if (lenC > lim10) risks.push({c:'err', t:'Câble > ' + lim10 + ' m : au-delà de la limite du 10 mm². Vérifier la chute de tension (16 mm² ?).'});
+    else if (lenC > lim6) risks.push({c:'warn', t:'Câble > ' + lim6 + ' m : 10 mm² nécessaire (6 mm² jusqu\'à ' + lim6 + ' m pour cette puissance).'});
+    else risks.push({c:'ok', t:'6 mm² suffisant pour cette longueur (chute de tension < 3 %)'});
 
     if (form.route === 'Complex') risks.push({c:'warn', t:'Passage câble complexe : tranchée/sleuf possible. Devis complémentaire éventuel.'});
     else if (form.route === 'Gemiddeld') risks.push({c:'ok', t:'Passage câble moyen — boring/plafond inclus'});
