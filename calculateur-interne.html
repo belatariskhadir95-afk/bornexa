@@ -971,10 +971,11 @@
       {ref:"SM-EVD-BASE",nameFR:"Smappee EV Dual Base sur socle — 2 connecteurs (copro)", nameNL:"Smappee EV Dual Base op sokkel — 2 connectoren (mede-eigendom)", price:2378.05, margin:1.15}
     ],
     cables: [
-      {ref:"3G6",   descFR:"XGB 3G6 · mono ≤ 20 m",                            descNL:"XGB 3G6 · eenfase ≤ 20 m",                              pricePerM:5.52},
-      {ref:"3G10",  descFR:"XGB 3G10 · mono > 20 m",                           descNL:"XGB 3G10 · eenfase > 20 m",                              pricePerM:8.98},
-      {ref:"5G6",   descFR:"H07RN-F 5G6 souple · tri 11 kW ≤ 20 m",           descNL:"H07RN-F 5G6 soepel · driefase 11 kW ≤ 20 m",           pricePerM:13.05},
-      {ref:"5G10",  descFR:"XGB 5G10 · tri 11 kW > 20 m / 22 kW ≤ 20 m",       descNL:"XGB 5G10 · driefase 11 kW > 20 m / 22 kW ≤ 20 m",        pricePerM:14.12},
+      // Câbles d'alimentation = XVB Cca s3d2a3 partout (règle user 16/11/2026, conformité RGIE) — prix d'achat Cebeo 16/11
+      {ref:"3G6",   descFR:"XVB 3G6 Cca · mono ≤ 20 m",                        descNL:"XVB 3G6 Cca · eenfase ≤ 20 m",                          pricePerM:5.07},
+      {ref:"3G10",  descFR:"XVB 3G10 Cca · mono > 20 m",                       descNL:"XVB 3G10 Cca · eenfase > 20 m",                          pricePerM:10.60},
+      {ref:"5G6",   descFR:"XVB 5G6 Cca · tri 11 kW ≤ 20 m",                   descNL:"XVB 5G6 Cca · driefase 11 kW ≤ 20 m",                   pricePerM:8.45},
+      {ref:"5G10",  descFR:"XVB 5G10 Cca · tri 11 kW > 20 m / 22 kW ≤ 20 m",   descNL:"XVB 5G10 Cca · driefase 11 kW > 20 m / 22 kW ≤ 20 m",    pricePerM:14.85},
       {ref:"5G16",  descFR:"XGB 5G16 · tri 22 kW > 20 m",                      descNL:"XGB 5G16 · driefase 22 kW > 20 m",                       pricePerM:23.45},
       {ref:"GOULOTTE", descFR:"Goulotte PVC (pose apparente) · €/m", descNL:"PVC kabelgoot (opbouwmontage) · €/m", pricePerM:3.00}
     ],
@@ -1121,6 +1122,11 @@
         // Migration 05/10/2026 — panier Cebeo réel + marges décidées : seulement si la valeur enregistrée = ancien défaut
         const upd = (g, ref, key, from, to, extra) => { const it = (t[g] || []).find(x => x.ref === ref); if (it && it[key] === from) { it[key] = to; if (extra) Object.assign(it, extra); } };
         upd('cables', '5G6', 'pricePerM', 8.54, 13.05, { descFR: 'H07RN-F 5G6 souple · tri 11 kW ≤ 20 m', descNL: 'H07RN-F 5G6 soepel · driefase 11 kW ≤ 20 m' });
+        // Migration 16/11/2026 — câbles XVB Cca s3d2a3 partout (règle user, RGIE) ; après la ligne ci-dessus (8.54 → 13.05 → 8.45)
+        upd('cables', '3G6',  'pricePerM', 5.52,  5.07,  { descFR: 'XVB 3G6 Cca · mono ≤ 20 m', descNL: 'XVB 3G6 Cca · eenfase ≤ 20 m' });
+        upd('cables', '3G10', 'pricePerM', 8.98,  10.60, { descFR: 'XVB 3G10 Cca · mono > 20 m', descNL: 'XVB 3G10 Cca · eenfase > 20 m' });
+        upd('cables', '5G6',  'pricePerM', 13.05, 8.45,  { descFR: 'XVB 5G6 Cca · tri 11 kW ≤ 20 m', descNL: 'XVB 5G6 Cca · driefase 11 kW ≤ 20 m' });
+        upd('cables', '5G10', 'pricePerM', 14.12, 14.85, { descFR: 'XVB 5G10 Cca · tri 11 kW > 20 m / 22 kW ≤ 20 m', descNL: 'XVB 5G10 Cca · driefase 11 kW > 20 m / 22 kW ≤ 20 m' });
         upd('prots', 'DIF-A-40-4P', 'price', 45.11, 45.56);
         upd('prots', 'DIS-C20-3P', 'price', 80.48, 82.25);
         upd('bornes', 'TS-WC3-11', 'margin', 1.08, 1.21);
